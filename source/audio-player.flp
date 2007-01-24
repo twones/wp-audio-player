@@ -1,0 +1,5 @@
+﻿<flash_project name="audio-player" version="1">
+    <project_file path="./player.fla" filetype="fla" profile="" def_file="true" />
+    <project_file path="./control.as" filetype="as" />
+    <project_file path="./emff.as" filetype="as" />
+</flash_project>
