@@ -1,6 +1,11 @@
 import mx.utils.Delegate;
 
-class net.onepixelout.audio.Song
+/**
+* Track object. Apart from containing song information such as
+* title, artist etc, it contains the actual Sound object so we
+* don't load a track twice.
+*/
+class net.onepixelout.audio.Track
 {
 	private var _src:String; // URL to mp3 file
 	private var _soundObject:Sound; // Sound object used to load sound
@@ -11,7 +16,7 @@ class net.onepixelout.audio.Song
 	private var _id3Loaded:Boolean; // TRUE = ID3 tags already loaded
 	private var _id3Tags:Object; // All ID3 tag information (direct link to ID3 structure of sound object)
 
-	function Song(src:String, songName:String, artist:String)
+	function Track(src:String, songName:String, artist:String)
 	{
 		_soundObject = new Sound();
 		_src = src;

@@ -31,10 +31,10 @@ class net.onepixelout.audio.Player
 	static var _isBuffering:Boolean;
 	static var _isConnecting:Boolean;
 
-	public var duration:Number; // Current song duration (in ms)
-	public var position:Number; // Current song position (in ms)
-	public var loaded:Number; // Percentage of song loaded (0 to 1)
-	public var played:Number; // Percentage of song played (0 to 1)
+	public var duration:Number; // Current track duration (in ms)
+	public var position:Number; // Current track position (in ms)
+	public var loaded:Number; // Percentage of track loaded (0 to 1)
+	public var played:Number; // Percentage of track played (0 to 1)
 	
 	private var _recordedPosition:Number; // When paused, play head position is stored here
 	private var _startPlaying:Boolean;
@@ -123,9 +123,9 @@ class net.onepixelout.audio.Player
 		
 		_setBufferTime(_recordedPosition);
 		
-		// Load current song and get reference to the sound object
-		var currentSong:Song = this.getCurrentSong();
-		_playhead = currentSong.load();
+		// Load current track and get reference to the sound object
+		var currentTrack:Track = this.getCurrentTrack();
+		_playhead = currentTrack.load();
 		
 		// Setup onSoundComplete event
 		if(_playhead.onSoundComplete == undefined) _playhead.onSoundComplete = Delegate.create(this, next);
@@ -172,7 +172,7 @@ class net.onepixelout.audio.Player
 	public function stop():Void
 	{
 		_playhead.stop();
-		_playhead = this.getCurrentSong().unLoad();
+		_playhead = this.getCurrentTrack().unLoad();
 		this.state = STOPPED;
 		_reset();
 	}
@@ -265,7 +265,7 @@ class net.onepixelout.audio.Player
 	
 	/**
 	* Updates playhead statistics (loaded, played, duration and position)
-	* Also triggers song information update (when ID3 is available)
+	* Also triggers track information update (when ID3 is available)
 	*/
 	private function _updateStats():Void
 	{
@@ -274,11 +274,11 @@ class net.onepixelout.audio.Player
 			// Flash has started downloading the file
 			_isConnecting = false;
 			
-			// Get current song
-			var currentSong:Song = this.getCurrentSong();
+			// Get current track
+			var currentTrack:Track = this.getCurrentTrack();
 			
-			// If current song is fully loaded, no need to calculate loaded and duration
-			if(currentSong.isFullyLoaded()) {
+			// If current track is fully loaded, no need to calculate loaded and duration
+			if(currentTrack.isFullyLoaded()) {
 				this.loaded = 1;
 				this.duration = _playhead.duration;
 			}
@@ -301,18 +301,21 @@ class net.onepixelout.audio.Player
 				this.played = this.position / this.duration;
 			}
 			
-			// Update song info if ID3 tags are available
-			if(!currentSong.isID3Loaded() && _playhead.id3.songname.length > 0) currentSong.setInfo();
+			// Update track info if ID3 tags are available
+			if(!currentTrack.isID3Loaded() && _playhead.id3.songname.length > 0) currentTrack.setInfo();
 		}
 	}
 	
+	/**
+	* Watches player state. This method is run periodically (see constructor)
+	*/
 	private function _watch():Void
 	{
-		// Get current song
-		var currentSong:Song = this.getCurrentSong();
+		// Get current track
+		var currentTrack:Track = this.getCurrentTrack();
 		
 		// If the mp3 file doesn't exit
-		if(this.state > NOTFOUND && !_loadingPlaylist && !currentSong.exists())
+		if(this.state > NOTFOUND && !_loadingPlaylist && !currentTrack.exists())
 		{
 			// Reset player
 			_reset();
@@ -320,6 +323,7 @@ class net.onepixelout.audio.Player
 			return;
 		}
 		
+		// Update statistics
 		_updateStats();
 		
 		// Buffering detection
@@ -351,7 +355,7 @@ class net.onepixelout.audio.Player
 	private function _setBufferTime(newPosition:Number):Void
 	{
 		// No buffering needed if file is fully loaded
-		if(this.getCurrentSong().isFullyLoaded())
+		if(this.getCurrentTrack().isFullyLoaded())
 		{
 			_root._soundbuftime = 0;
 			return;
@@ -367,14 +371,23 @@ class net.onepixelout.audio.Player
 	
 	/**
 	* Loads a list of mp3 files onto a playlist
-	* @param	songFileList
+	* @param trackFileList
 	*/
-	public function loadPlaylist(songFileList:String):Void
+	public function loadPlaylist(trackFileList:String):Void
 	{
 		_playlist = new Playlist(_options.enableCycling);
-		_playlist.loadFromList(songFileList);
+		_playlist.loadFromList(trackFileList);
 	}
-	
+
+	/**
+	* Returns current track from the playlist
+	* @return the current track object
+	*/
+	public function getCurrentTrack():Track
+	{
+		return _playlist.getCurrent();
+	}
+
 	/*public function loadXMLPlaylist(xmlURL:String):Void
 	{
 		if(xmlURL == undefined) xmlURL = "playlist.xml";
@@ -403,15 +416,6 @@ class net.onepixelout.audio.Player
 		}
 	}*/
 	
-	/**
-	* Returns current song from the playlist
-	* @return the current song object
-	*/
-	public function getCurrentSong():Song
-	{
-		return _playlist.getCurrent();
-	}
-
 	/**
 	* Activates player when local connection broadcaster has initialised
 	*/

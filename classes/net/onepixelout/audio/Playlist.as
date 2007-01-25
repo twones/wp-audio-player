@@ -1,35 +1,33 @@
-import net.onepixelout.audio.Song;
-import mx.utils.Delegate;
-//import mx.xpath.XPathAPI;
+import net.onepixelout.audio.Track;
 
 class net.onepixelout.audio.Playlist
 {
-	private var _songs:Array;
-	private var _currentSongIndex:Number;
+	private var _tracks:Array;
+	private var _currentTrackIndex:Number;
 	public var length:Number;
 	static private var _cyclingEnabled:Boolean = true;
 	
 	public function Playlist(enableCycling:Boolean)
 	{
-		_songs = new Array();
-		_currentSongIndex = 0;
+		_tracks = new Array();
+		_currentTrackIndex = 0;
 		this.length = 0;
 		
 		if(enableCycling != undefined) _cyclingEnabled = enableCycling;
 	}
 	
-	public function loadFromList(songList:String):Void
+	public function loadFromList(trackList:String):Void
 	{
-		var songArray:Array = songList.split(",");
-		for(var i:Number = 0;i < songArray.length;i++) this.addSong(new Song(songArray[i]));
+		var trackArray:Array = trackList.split(",");
+		for(var i:Number = 0;i < trackArray.length;i++) this.addTrack(new Track(trackArray[i]));
 	}
 	
 	public function loadFromXML(listXML:XML):Void
 	{
-		var songs:Array = listXML.firstChild.childNodes;
-		for(var i:Number = 0;i < songs.length;i++)
+		var tracks:Array = listXML.firstChild.childNodes;
+		for(var i:Number = 0;i < tracks.length;i++)
 		{
-			addSong(new Song(_getNodeValue(songs[i], "src"), _getNodeValue(songs[i], "title"), _getNodeValue(songs[i], "artist")));
+			addTrack(new Track(_getNodeValue(tracks[i], "src"), _getNodeValue(tracks[i], "title"), _getNodeValue(tracks[i], "artist")));
 		}
 	}
 	
@@ -46,58 +44,58 @@ class net.onepixelout.audio.Playlist
 		return null;
 	}
 	
-	public function getCurrent():Song
+	public function getCurrent():Track
 	{
-		return _songs[_currentSongIndex];
+		return _tracks[_currentTrackIndex];
 	}
 	
 	public function hasNext():Boolean
 	{
-		return (_currentSongIndex < length-1);
+		return (_currentTrackIndex < length-1);
 	}
 	
-	public function next():Song
+	public function next():Track
 	{
-		if(this.hasNext()) return _songs[++_currentSongIndex];
+		if(this.hasNext()) return _tracks[++_currentTrackIndex];
 		else if(_cyclingEnabled)
 		{
-			_currentSongIndex = 0;
-			return _songs[0];
+			_currentTrackIndex = 0;
+			return _tracks[0];
 		}
 		else return null;
 	}
 
 	public function hasPrevious():Boolean
 	{
-		return (_currentSongIndex > 0);
+		return (_currentTrackIndex > 0);
 	}
 
-	public function previous():Song
+	public function previous():Track
 	{
-		if(this.hasPrevious()) return _songs[--_currentSongIndex];
+		if(this.hasPrevious()) return _tracks[--_currentTrackIndex];
 		else if(_cyclingEnabled)
 		{
-			_currentSongIndex = length-1;
-			return _songs[_currentSongIndex];
+			_currentTrackIndex = length-1;
+			return _tracks[_currentTrackIndex];
 		}
 		else return null;
 	}
 	
-	public function getAtPosition(position:Number):Song
+	public function getAtPosition(position:Number):Track
 	{
-		if(position >= 0 && position < length) return _songs[position];
+		if(position >= 0 && position < length) return _tracks[position];
 		else return null;
 	}
 	
-	public function addSong(song:Song):Void
+	public function addTrack(track:Track):Void
 	{
-		_songs.push(song);
-		length = _songs.length;
+		_tracks.push(track);
+		length = _tracks.length;
 	}
 	
 	public function removeAt(position:Number):Void
 	{
-		_songs.splice(position, 1);
-		length = _songs.length;
+		_tracks.splice(position, 1);
+		length = _tracks.length;
 	}
 }
