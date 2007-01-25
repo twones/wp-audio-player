@@ -29,7 +29,7 @@ class net.onepixelout.audio.Song
 		}
 	}
 	
-	public function load():Sound
+	public function load(start:Boolean):Sound
 	{
 		if(!_isLoaded)
 		{
@@ -38,7 +38,7 @@ class net.onepixelout.audio.Song
 				this._isFullyLoaded = success;
 			});
 			_soundObject.loadSound(_src, true);
-			_soundObject.stop();
+			if(!start) _soundObject.stop();
 			this._isLoaded = true;
 		}
 		return _soundObject;
@@ -55,9 +55,14 @@ class net.onepixelout.audio.Song
 		return _soundObject;
 	}
 	
-	public function isLoaded():Boolean
+	public function isFullyLoaded():Boolean
 	{
 		return _isFullyLoaded;
+	}
+	
+	public function isLoaded():Boolean
+	{
+		return _isLoaded;
 	}
 	
 	public function exists():Boolean
