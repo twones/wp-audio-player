@@ -181,19 +181,22 @@ class net.onepixelout.audio.Player
 	* Moves player head to a new position
 	* @param newPosition a number between 0 and 1
 	*/
-	public function moveHead(newPosition:Number):Void
+	public function moveHead(newHeadPosition:Number):Void
 	{
 		// Ignore if player is not playing or paused
 		if(this.state < PAUSED) return;
 		
+		var newPosition:Number = this.duration * newHeadPosition;
+		if(newPosition == this.loaded * this.duration) newPosition -= 500;
+		
 		// Player in paused state: simply record the new position
-		if(this.state == PAUSED) _recordedPosition = this.duration * newPosition;
+		if(this.state == PAUSED) _recordedPosition = newPosition;
 		else
 		{
 			// Otherwise, stop player, calculate new buffer time and restart player
 			_playhead.stop();
-			_setBufferTime(duration * newPosition);
-			_playhead.start(Math.round((duration * newPosition) / 1000));
+			_setBufferTime(newPosition);
+			_playhead.start(Math.round(newPosition / 1000));
 		}
 		
 		// Update stats now (don't wait for watcher to kick in)
