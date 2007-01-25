@@ -1,0 +1,5 @@
+﻿<flash_project name="Test Player" version="1">
+    <project_file path="./test.fla" filetype="fla" profile="" />
+    <project_file path="./MyButton.as" filetype="as" />
+    <project_file path="./MySlider.as" filetype="as" />
+</flash_project>

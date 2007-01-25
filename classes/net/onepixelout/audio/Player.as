@@ -1,6 +1,6 @@
-import mx.utils.Delegate;
 import net.onepixelout.audio.*;
 import com.freesome.events.LcBroadcast;
+import mx.utils.Delegate;
 
 /**
 * The definitive AS2 mp3 player from 1 Pixel Out
@@ -48,10 +48,6 @@ class net.onepixelout.audio.Player
 	private var _lcBroadcaster:LcBroadcast;
 	private var _playOnInit:Boolean;
 	
-	public var addListener:Function;
-	public var removeListener:Function;
-	private var broadcastMessage:Function;
-	
 	private var _options:Object = {
 		initialVolume:70,
 		enableCycling:true
@@ -59,9 +55,6 @@ class net.onepixelout.audio.Player
 	
 	function Player(options:Object)
 	{
-		// Turn Player into broadcaster
-		AsBroadcaster.initialize(this);
-		
 		// Write options to internal options structure
 		if(options != undefined) _setOptions(options);
 		
@@ -132,14 +125,17 @@ class net.onepixelout.audio.Player
 		
 		// Load current song and get reference to the sound object
 		var currentSong:Song = this.getCurrentSong();
-		_playhead = currentSong.load( (_recordedPosition == 0) );
+		_playhead = currentSong.load();
 		
 		// Setup onSoundComplete event
 		if(_playhead.onSoundComplete == undefined) _playhead.onSoundComplete = Delegate.create(this, next);
 		
 		this.setVolume();
 		
-		if(_recordedPosition > 0) _playhead.start(Math.round(_recordedPosition / 1000));
+		_playhead.start(Math.round(_recordedPosition / 1000));
+		
+		// Update stats now (don't wait for watcher to kick in)
+		_updateStats();
 		
 		if(this.state == STOPPED) _isConnecting = true;
 		this.state = PLAYING;
@@ -187,6 +183,9 @@ class net.onepixelout.audio.Player
 	*/
 	public function moveHead(newPosition:Number):Void
 	{
+		// Ignore if player is not playing or paused
+		if(this.state < PAUSED) return;
+		
 		// Player in paused state: simply record the new position
 		if(this.state == PAUSED) _recordedPosition = this.duration * newPosition;
 		else
@@ -196,6 +195,9 @@ class net.onepixelout.audio.Player
 			_setBufferTime(duration * newPosition);
 			_playhead.start(Math.round((duration * newPosition) / 1000));
 		}
+		
+		// Update stats now (don't wait for watcher to kick in)
+		_updateStats();
 	}
 
 	/**
@@ -251,14 +253,12 @@ class net.onepixelout.audio.Player
 	*/
 	private function _fadeOut():Void
 	{
-		_fadeVolume -= 8;
-		if(_fadeVolume <= 0)
+		_fadeVolume -= 20;
+		if(_fadeVolume <= 20)
 		{
 			clearInterval(_fadeClearID);
-			var currentSong:Song = this.getCurrentSong();
 			_recordedPosition = _playhead.position;
 			_playhead.stop();
-			if(_options.pauseDownload) _playhead = currentSong.unLoad();
 		}
 		else _playhead.setVolume(_fadeVolume);
 	}

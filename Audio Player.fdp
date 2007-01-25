@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <as2apiproject>
-	<setting key="ClassPaths">C:\Documents and Settings\martin.laine\My Documents\Flash\Audio player\classes</setting>
+	<setting key="ClassPaths">C:\Documents and Settings\Martin\My Documents\Flash\Audio Player\classes</setting>
 	<setting key="PageTitle">Audio Player</setting>
-	<setting key="OutputDir">C:\Documents and Settings\martin.laine\My Documents\docs</setting>
+	<setting key="OutputDir">C:\Documents and Settings\Martin\My Documents\Flash\Audio Player\docs</setting>
 	<setting key="Package">net.onepixelout.audio</setting>
 </as2apiproject>

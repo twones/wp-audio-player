@@ -29,7 +29,7 @@ class net.onepixelout.audio.Song
 		}
 	}
 	
-	public function load(start:Boolean):Sound
+	public function load():Sound
 	{
 		if(!_isLoaded)
 		{
@@ -38,7 +38,6 @@ class net.onepixelout.audio.Song
 				this._isFullyLoaded = success;
 			});
 			_soundObject.loadSound(_src, true);
-			if(!start) _soundObject.stop();
 			this._isLoaded = true;
 		}
 		return _soundObject;
