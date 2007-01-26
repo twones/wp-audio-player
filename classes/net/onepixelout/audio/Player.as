@@ -132,7 +132,7 @@ class net.onepixelout.audio.Player
 		
 		this.setVolume();
 		
-		_playhead.start(Math.round(_recordedPosition / 1000));
+		_playhead.start(Math.floor(_recordedPosition / 1000));
 		
 		// Update stats now (don't wait for watcher to kick in)
 		_updateStats();
@@ -187,7 +187,15 @@ class net.onepixelout.audio.Player
 		if(this.state < PAUSED) return;
 		
 		var newPosition:Number = this.duration * newHeadPosition;
-		if(newPosition == this.loaded * this.duration) newPosition -= 500;
+		/*var playable:Number = this.duration * this.loaded;
+		
+		trace("Play at: " + newPosition);
+		trace("Playable: " + playable);
+		
+		// If track is not fully loaded, never try to play less than 500ms before end of playable audio
+		if(this.loaded < 1 && (playable - newPosition) < 1000) newPosition = playable - 1000;
+
+		trace("Really play at: " + newPosition);*/
 		
 		// Player in paused state: simply record the new position
 		if(this.state == PAUSED) _recordedPosition = newPosition;
@@ -196,7 +204,7 @@ class net.onepixelout.audio.Player
 			// Otherwise, stop player, calculate new buffer time and restart player
 			_playhead.stop();
 			_setBufferTime(newPosition);
-			_playhead.start(Math.round(newPosition / 1000));
+			_playhead.start(Math.floor(newPosition / 1000));
 		}
 		
 		// Update stats now (don't wait for watcher to kick in)
@@ -249,6 +257,15 @@ class net.onepixelout.audio.Player
 		if(newVolume != undefined) _volume = newVolume;
 		// Set the player volume
 		_playhead.setVolume(_volume);
+	}
+	
+	/**
+	* Returns current player volume as a percentage
+	* @return number between 0 and 100
+	*/
+	public function getVolume():Number
+	{
+		return _volume;
 	}
 
 	/**

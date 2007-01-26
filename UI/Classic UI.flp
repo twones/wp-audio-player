@@ -1,3 +1,6 @@
 ﻿<flash_project name="Classic UI" version="1">
-    <project_file path="./classic.fla" filetype="fla" profile="" />
+    <project_file path="./classic.fla" filetype="fla" profile="" def_file="true" />
+    <project_file path="./Control.as" filetype="as" />
+    <project_file path="./Loading.as" filetype="as" />
+    <project_file path="./Progress.as" filetype="as" />
 </flash_project>
