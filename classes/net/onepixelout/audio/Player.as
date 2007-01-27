@@ -53,6 +53,10 @@ class net.onepixelout.audio.Player
 		enableCycling:true
 	};
 	
+	/**
+	* Constructor
+	* @param options these get written to the internal _options structure
+	*/
 	function Player(options:Object)
 	{
 		// Write options to internal options structure
@@ -349,7 +353,7 @@ class net.onepixelout.audio.Player
 		// Buffering detection
 		if(this.state == PLAYING)
 		{
-			if(++_playCounter == 10)
+			if(++_playCounter == 2)
 			{
 				_playCounter = 0;
 				_isBuffering = (this.position == _lastPosition);
