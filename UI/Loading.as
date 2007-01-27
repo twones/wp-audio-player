@@ -27,7 +27,7 @@
 	function onResize()
 	{
 		this.track_mc._width += Stage.width - _stageWidth;
-		_stageWidth = Stage.width;
 		_resizeBar();
+		_stageWidth = Stage.width;
 	}
 }
