@@ -9,6 +9,7 @@ class Volume extends MovieClip
 	public var background_mc:MovieClip;
 	
 	private var _settingVolume:Boolean;
+	private var _initialMaskPos:Number;
 	
 	/**
 	 * Constructor
@@ -17,6 +18,8 @@ class Volume extends MovieClip
 	{
 		_toggleControl(false);
 		_settingVolume = false;
+		
+		_initialMaskPos = this.mask_mc._x;
 		
 		this.background_mc.onRollOver = Delegate.create(this, function() {
 			_toggleControl(true);
@@ -33,26 +36,31 @@ class Volume extends MovieClip
 			if(_settingVolume)
 			{
 				_moveVolumeBar();
-				_global.player.setVolume(Math.round(this.mask_mc._x / this.track_mc._width * 100));
+				_global.player.setVolume(_getValue());
 			}
 		});
 		this.background_mc.onRelease = this.background_mc.onReleaseOutside = Delegate.create(this, function() {
 			_settingVolume = false;
 			_moveVolumeBar();
-			_global.player.setVolume(Math.round(this.mask_mc._x / this.track_mc._width * 100));
+			_global.player.setVolume(_getValue());
 		});
 	}
 	
 	function onEnterFrame()
 	{
-		if(!_settingVolume) this.mask_mc._x = Math.round(this.track_mc._width * _global.player.getVolume() / 100);
+		if(!_settingVolume) this.mask_mc._x = _initialMaskPos + Math.round(this.track_mc._width * _global.player.getVolume() / 100);
 	}
 
 	private function _moveVolumeBar()
 	{
-		if(this.track_mc._xmouse > this.track_mc._width) this.mask_mc._x = this.track_mc._width;
-		else if(this.track_mc._xmouse < 0) this.mask_mc._x = 0;
-		else this.mask_mc._x = this.track_mc._xmouse;
+		if(this.track_mc._xmouse > this.track_mc._width) this.mask_mc._x = _initialMaskPos + this.track_mc._width;
+		else if(this.track_mc._xmouse < 0) this.mask_mc._x = _initialMaskPos;
+		else this.mask_mc._x = _initialMaskPos + this.track_mc._xmouse;
+	}
+	
+	private function _getValue():Number
+	{
+		return Math.round((this.mask_mc._x - _initialMaskPos) / this.track_mc._width * 100);
 	}
 		
 	private function _toggleControl(toggle:Boolean)

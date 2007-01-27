@@ -3,4 +3,8 @@
     <project_file path="./Control.as" filetype="as" />
     <project_file path="./Loading.as" filetype="as" />
     <project_file path="./Progress.as" filetype="as" />
+    <project_file path="./Ticker.as" filetype="as" />
+    <project_file path="./Display.as" filetype="as" />
+    <project_file path="./Background.as" filetype="as" />
+    <project_file path="./Volume.as" filetype="as" />
 </flash_project>

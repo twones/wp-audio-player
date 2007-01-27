@@ -2,6 +2,8 @@
 {
 	public var display_txt:TextField;
 	
+	private var _ticker:Ticker;
+	
 	private var _stageWidth:Number;
 	
 	/**
@@ -10,6 +12,8 @@
 	function Display()
 	{
 		_stageWidth = Stage.width;
+		_ticker = new Ticker(this.display_txt);
+		_ticker.start();
 	}
 	
 	function onEnterFrame()
