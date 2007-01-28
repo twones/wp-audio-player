@@ -28,8 +28,8 @@ class net.onepixelout.audio.Player
 	static var PAUSED:Number = 2;
 	static var PLAYING:Number = 3;
 	
-	static var _isBuffering:Boolean;
-	static var _isConnecting:Boolean;
+	private var _isBuffering:Boolean;
+	private var _isConnecting:Boolean;
 
 	public var duration:Number; // Current track duration (in ms)
 	public var position:Number; // Current track position (in ms)

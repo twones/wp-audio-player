@@ -4,19 +4,16 @@
 	
 	private var _ticker:Ticker;
 	
-	private var _stageWidth:Number;
-	
 	/**
 	 * Constructor
 	 */
 	function Display()
 	{
-		_stageWidth = Stage.width;
 		_ticker = new Ticker(this.display_txt);
 		_ticker.start();
 	}
 	
-	function onEnterFrame()
+	public function onEnterFrame():Void
 	{
 		switch(_global.player.state)
 		{
@@ -39,9 +36,8 @@
 		}
 	}
 	
-	function onResize()
+	public function resize(newWidth:Number):Void
 	{
-		this.display_txt._width += Stage.width - _stageWidth;
-		_stageWidth = Stage.width;
+		this.display_txt._width = newWidth;
 	}
 }

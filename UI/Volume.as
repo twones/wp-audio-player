@@ -8,6 +8,8 @@ class Volume extends MovieClip
 	public var track_mc:MovieClip;
 	public var background_mc:MovieClip;
 	
+	public var realWidth:Number;
+	
 	private var _settingVolume:Boolean;
 	private var _initialMaskPos:Number;
 	
@@ -20,6 +22,8 @@ class Volume extends MovieClip
 		_settingVolume = false;
 		
 		_initialMaskPos = this.mask_mc._x;
+		
+		this.realWidth = this.background_mc._width;
 		
 		this.background_mc.onRollOver = Delegate.create(this, function() {
 			_toggleControl(true);

@@ -8,15 +8,11 @@ class Progress extends MovieClip
 	
 	private var _movingHead:Boolean;
 
-	private var _stageWidth:Number;
-
 	/**
 	 * Constructor
 	 */
 	function Progress()
 	{
-		_stageWidth = Stage.width;
-		
 		this.bar_mc._width = 0;
 		_movingHead = false;
 		this.track_mc.onPress = Delegate.create(this, function() {
@@ -32,7 +28,7 @@ class Progress extends MovieClip
 		});
 	}
 	
-	function onEnterFrame()
+	public function onEnterFrame():Void
 	{
 		if(!_movingHead && _global.player.state == 3)
 		{
@@ -40,15 +36,13 @@ class Progress extends MovieClip
 		}
 	}
 	
-	function onResize()
+	public function resize(newWidth:Number):Void
 	{
-		var dWidth:Number = Stage.width - _stageWidth;
-		this.track_mc._width += dWidth;
-		this.border_mc._width += dWidth;
-		_stageWidth = Stage.width;
+		this.track_mc._width = newWidth - 2;
+		this.border_mc._width = newWidth;
 	}
 
-	private function _moveProgressBar()
+	private function _moveProgressBar():Void
 	{
 		var maxPos:Number = _global.player.loaded * this.track_mc._width;
 		var newPos:Number = this._xmouse - 1;
