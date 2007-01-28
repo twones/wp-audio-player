@@ -150,7 +150,7 @@ class App
 		_state = OPENING;
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(this, "_animate", 50, targetPosition);
+		_clearID = setInterval(this, "_animate", 41, targetPosition);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ class App
 		display_mc._visible = false;
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(this, "_animate", 50, targetPosition);
+		_clearID = setInterval(this, "_animate", 41, targetPosition);
 	}	
 
 	/**
@@ -175,8 +175,9 @@ class App
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
 		
-		if(Math.abs(dx) < 1)
+		if(Math.abs(dx) <= 1)
 		{
+			control_mc._x = targetX;
 			clearInterval(_clearID);
 			if(_state == OPENING)
 			{
@@ -186,7 +187,9 @@ class App
 			else _state = CLOSED;
 			return;
 		}
-		control_mc._x += dx * speed;
-		mask_mc._width += dx * speed;
+		
+		dx = Math.round(dx * speed);
+		control_mc._x += dx;
+		mask_mc._width += dx;
 	}
 }
