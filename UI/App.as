@@ -21,28 +21,48 @@ class App
 	private var OPENING:Number = 2;
 	private var OPEN:Number = 3;
 	
+	private var _options:Object = {
+		autostart:false,
+		loop:false,
+		animation:true,
+		volume:70
+	};
+
 	/**
 	* Constructor
 	*/
-	function App()
+	function App(sourceFile:String, options:Object)
 	{
-		var parameters:Object = new Object();
+		if(options != undefined) _setOptions(options);
+		
+		var playerParams:Object = new Object();
 
-		var src:String = "http://downloads.bbc.co.uk/rmhttp/downloadtrial/radio4/inourtime/inourtime_20070125-0900_40_pc.mp3";
-		parameters.initialVolume = 50; // Simulate for now. Should be: _root.volume;
-		parameters.enableCycling = true; // Simulate for now. Should be: _root.loop;
+		playerParams.initialVolume = _options.volume;
+		playerParams.enableCycling = _options.loop;
 
-		// Create audio player instance
-		_player = new Player(parameters);
-		_player.loadPlaylist(src);
+		// Create audio player instance and load playlist
+		_player = new Player(playerParams);
+		_player.loadPlaylist(sourceFile);
 		
 		// TODO: remove need for _global reference
 		_global.player = _player;
 		
-		// TODO: add option to have player always open (no animation)
+		// Initial player state
 		_state = CLOSED;
+		if(!_options.animation || _options.autostart) _state = OPEN;
 		
+		if(_options.autostart) onPlay();
+
 		_setStage();
+	}
+	
+	/**
+	* Writes options object to internal options struct
+	* @param	options
+	*/
+	private function _setOptions(options:Object):Void
+	{
+		for(var key:String in options) _options[key] = options[key];
 	}
 	
 	/**
@@ -73,7 +93,7 @@ class App
 		
 		// Text display
 		display_mc = _root.attachMovie("Display", "display_mc", nextDepth++);
-		display_mc._visible = false;
+		if(_state == CLOSED) display_mc._visible = false;
 		
 		// Volume control
 		volume_mc = _root.attachMovie("Volume", "volume_mc", nextDepth++);
@@ -147,7 +167,12 @@ class App
 	public function onPlay()
 	{
 		_player.play();
+		
+		// If player is already open, stop here
+		if(_state == OPEN) return;
+		
 		_state = OPENING;
+		
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(this, "_animate", 41, targetPosition);
@@ -159,8 +184,15 @@ class App
 	public function onPause()
 	{
 		_player.pause();
+		
+		// If animation is disabled, stop here
+		if(!_options.animation) return;
+		
 		_state = CLOSING;
+		
+		// Hide text display (doesn't work under a mask)
 		display_mc._visible = false;
+
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(this, "_animate", 41, targetPosition);
@@ -175,12 +207,15 @@ class App
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
 		
+		// Stop animation when we are at less than a pixel from the target
 		if(Math.abs(dx) <= 1)
 		{
+			// Position the control element to the exact target position
 			control_mc._x = targetX;
 			clearInterval(_clearID);
 			if(_state == OPENING)
 			{
+				// Show text display
 				display_mc._visible = true;
 				_state = OPEN;
 			}

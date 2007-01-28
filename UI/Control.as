@@ -13,11 +13,12 @@
 	/**
 	 * Constructor
 	 */
-	function Control()
+	function Control(initialState:String)
 	{
 		AsBroadcaster.initialize(this);
 		
-		this.pause_mc._visible = false;
+		if(initialState == "play") this.pause_mc._visible = false;
+		else this.play_mc._visible = false;
 		
 		this.realWidth = this.background_mc._width;
 	}
