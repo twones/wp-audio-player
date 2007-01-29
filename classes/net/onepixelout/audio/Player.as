@@ -19,22 +19,22 @@ class net.onepixelout.audio.Player
 	private var _fadeClearID:Number;
 	
 	// State
-	public var state:Number;
+	private var _state:Number;
 
 	// State constants
-	static var NOTFOUND:Number = -1;
-	static var INITIALISING:Number = 0;
-	static var STOPPED:Number = 1;
-	static var PAUSED:Number = 2;
-	static var PLAYING:Number = 3;
+	static public var NOTFOUND:Number = -1;
+	static public var INITIALISING:Number = 0;
+	static public var STOPPED:Number = 1;
+	static public var PAUSED:Number = 2;
+	static public var PLAYING:Number = 3;
 	
 	private var _isBuffering:Boolean;
 	private var _isConnecting:Boolean;
 
-	public var duration:Number; // Current track duration (in ms)
-	public var position:Number; // Current track position (in ms)
-	public var loaded:Number; // Percentage of track loaded (0 to 1)
-	public var played:Number; // Percentage of track played (0 to 1)
+	private var _duration:Number; // Current track duration (in ms)
+	private var _position:Number; // Current track position (in ms)
+	private var _loaded:Number; // Percentage of track loaded (0 to 1)
+	private var _played:Number; // Percentage of track played (0 to 1)
 	
 	private var _recordedPosition:Number; // When paused, play head position is stored here
 	private var _startPlaying:Boolean;
@@ -45,9 +45,11 @@ class net.onepixelout.audio.Player
 	
 	private var _clearID:Number; // In case we need to stop the periodical function
 	
+	// Local connection broadcaster
 	private var _lcBroadcaster:LcBroadcast;
 	private var _playOnInit:Boolean;
-	
+
+	// Options structure
 	private var _options:Object = {
 		initialVolume:70,
 		enableCycling:true
@@ -64,7 +66,7 @@ class net.onepixelout.audio.Player
 		
 		// Initialise properties
 		_volume = _options.initialVolume;
-		this.state = INITIALISING;
+		_state = INITIALISING;
 		_loadingPlaylist = false;
 		_playOnInit = false;
 		_reset();
@@ -98,10 +100,10 @@ class net.onepixelout.audio.Player
 	*/
 	private function _reset():Void
 	{
-		this.duration = 0;
-		this.position = 0;
-		this.loaded = 0;
-		this.played = 0;
+		_duration = 0;
+		_position = 0;
+		_loaded = 0;
+		_played = 0;
 		_isBuffering = false;
 		_isConnecting = false;
 		_recordedPosition = 0;
@@ -116,10 +118,10 @@ class net.onepixelout.audio.Player
 	public function play():Void
 	{
 		// If already playing, do nothing
-		if(this.state == PLAYING) return;
+		if(_state == PLAYING) return;
 		
 		// If player is still initialising, wait for it
-		if(this.state == INITIALISING)
+		if(_state == INITIALISING)
 		{
 			_playOnInit = true;
 			return;
@@ -141,8 +143,8 @@ class net.onepixelout.audio.Player
 		// Update stats now (don't wait for watcher to kick in)
 		_updateStats();
 		
-		if(this.state == STOPPED) _isConnecting = true;
-		this.state = PLAYING;
+		if(_state == STOPPED) _isConnecting = true;
+		_state = PLAYING;
 
 		// Broadcast message to other players
 		_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
@@ -154,20 +156,20 @@ class net.onepixelout.audio.Player
 	public function pause():Void
 	{
 		// Pause button is also play button when player is paused
-		if(this.state == PAUSED)
+		if(_state == PAUSED)
 		{
 			this.play();
 			return;
 		}
 		
 		// If player isn't playing, do nothing
-		if(this.state < PLAYING) return;
+		if(_state < PLAYING) return;
 		
 		// Start a fade out
 		_fadeVolume  = _volume;
 		_fadeClearID = setInterval(this, "_fadeOut", 50);
 		
-		this.state = PAUSED;
+		_state = PAUSED;
 	}
 
 	/**
@@ -177,7 +179,7 @@ class net.onepixelout.audio.Player
 	{
 		_playhead.stop();
 		_playhead = this.getCurrentTrack().unLoad();
-		this.state = STOPPED;
+		_state = STOPPED;
 		_reset();
 	}
 
@@ -188,21 +190,21 @@ class net.onepixelout.audio.Player
 	public function moveHead(newHeadPosition:Number):Void
 	{
 		// Ignore if player is not playing or paused
-		if(this.state < PAUSED) return;
+		if(_state < PAUSED) return;
 		
-		var newPosition:Number = this.duration * newHeadPosition;
-		/*var playable:Number = this.duration * this.loaded;
+		var newPosition:Number = _duration * newHeadPosition;
+		/*var playable:Number = _duration * _loaded;
 		
 		trace("Play at: " + newPosition);
 		trace("Playable: " + playable);
 		
 		// If track is not fully loaded, never try to play less than 500ms before end of playable audio
-		if(this.loaded < 1 && (playable - newPosition) < 1000) newPosition = playable - 1000;
+		if(_loaded < 1 && (playable - newPosition) < 1000) newPosition = playable - 1000;
 
 		trace("Really play at: " + newPosition);*/
 		
 		// Player in paused state: simply record the new position
-		if(this.state == PAUSED) _recordedPosition = newPosition;
+		if(_state == PAUSED) _recordedPosition = newPosition;
 		else
 		{
 			// Otherwise, stop player, calculate new buffer time and restart player
@@ -222,9 +224,9 @@ class net.onepixelout.audio.Player
 	public function next():Void
 	{
 		// Ignore if player is still initialising
-		if(this.state == INITIALISING) return;
+		if(_state == INITIALISING) return;
 		
-		var startPlaying:Boolean = (this.state == PLAYING);
+		var startPlaying:Boolean = (_state == PLAYING);
 
 		// This stops any downloading that may still be going on
 		this.stop();
@@ -240,9 +242,9 @@ class net.onepixelout.audio.Player
 	public function previous():Void
 	{
 		// Ignore if player is still initialising
-		if(this.state == INITIALISING) return;
+		if(_state == INITIALISING) return;
 		
-		var startPlaying:Boolean = (this.state == PLAYING);
+		var startPlaying:Boolean = (_state == PLAYING);
 		
 		// This stops any downloading that may still be going on
 		this.stop();
@@ -263,13 +265,22 @@ class net.onepixelout.audio.Player
 		_playhead.setVolume(_volume);
 	}
 	
-	/**
-	* Returns current player volume as a percentage
-	* @return number between 0 and 100
-	*/
-	public function getVolume():Number
+	public function getState():Object
 	{
-		return _volume;
+		var result:Object = new Object();
+		
+		result.state = _state;
+		result.buffering = _isBuffering;
+		result.connecting = _isConnecting;
+		result.loaded = _loaded;
+		result.played = _played;
+		result.duration = _duration;
+		result.position = _position;
+		result.volume = _volume;
+		
+		result.trackInfo = this.getCurrentTrack().getInfo();
+		
+		return result;
 	}
 
 	/**
@@ -303,26 +314,26 @@ class net.onepixelout.audio.Player
 			
 			// If current track is fully loaded, no need to calculate loaded and duration
 			if(currentTrack.isFullyLoaded()) {
-				this.loaded = 1;
-				this.duration = _playhead.duration;
+				_loaded = 1;
+				_duration = _playhead.duration;
 			}
 			else
 			{
-				this.loaded = _playhead.getBytesLoaded() / _playhead.getBytesTotal();
+				_loaded = _playhead.getBytesLoaded() / _playhead.getBytesTotal();
 			
 				// Get real duration because the sound is fully loaded
-				if(this.loaded == 1) this.duration = _playhead.duration;
+				if(_loaded == 1) _duration = _playhead.duration;
 				// Get duration from ID3 tag
-				else if(_playhead.id3.TLEN != undefined) this.duration = parseInt(_playhead.id3.TLEN);
+				else if(_playhead.id3.TLEN != undefined) _duration = parseInt(_playhead.id3.TLEN);
 				// This is an estimate
-				else this.duration = (1 / this.loaded) * _playhead.duration;
+				else _duration = (1 / _loaded) * _playhead.duration;
 			}
 			
 			// Update position and played values if playhead is reading
 			if(_playhead.position > 0)
 			{
-				this.position = _playhead.position;
-				this.played = this.position / this.duration;
+				_position = _playhead.position;
+				_played = _position / _duration;
 			}
 			
 			// Update track info if ID3 tags are available
@@ -339,11 +350,11 @@ class net.onepixelout.audio.Player
 		var currentTrack:Track = this.getCurrentTrack();
 		
 		// If the mp3 file doesn't exit
-		if(this.state > NOTFOUND && !_loadingPlaylist && !currentTrack.exists())
+		if(_state > NOTFOUND && !_loadingPlaylist && !currentTrack.exists())
 		{
 			// Reset player
 			_reset();
-			this.state = NOTFOUND;
+			_state = NOTFOUND;
 			return;
 		}
 		
@@ -351,13 +362,13 @@ class net.onepixelout.audio.Player
 		_updateStats();
 		
 		// Buffering detection
-		if(this.state == PLAYING)
+		if(_state == PLAYING)
 		{
 			if(++_playCounter == 2)
 			{
 				_playCounter = 0;
-				_isBuffering = (this.position == _lastPosition);
-				_lastPosition = this.position;
+				_isBuffering = (_position == _lastPosition);
+				_lastPosition = _position;
 			}
 		}
 	}
@@ -387,7 +398,7 @@ class net.onepixelout.audio.Player
 		
 		// Otherwise, look at how much audio is playable and set buffer accordingly
 		
-		var currentBuffer:Number = Math.round(((this.loaded * this.duration) - newPosition) / 1000);
+		var currentBuffer:Number = Math.round(((_loaded * _duration) - newPosition) / 1000);
 		
 		if(currentBuffer >= 5) _root._soundbuftime = 0;
 		else _root._soundbuftime = 5 - currentBuffer;
@@ -427,13 +438,13 @@ class net.onepixelout.audio.Player
 		if(!success)
 		{
 			trace("XML not found");
-			this.state = NOTFOUND;
+			_state = NOTFOUND;
 			return;
 		}
 		_playlist = new Playlist(_options.enableCycling);
 		_playlist.loadFromXML(_playlistXML);
 		_loadingPlaylist = false;
-		if(this.state != INITIALISING && _playOnInit)
+		if(_state != INITIALISING && _playOnInit)
 		{
 			this.play();
 			_playOnInit = false;
@@ -445,7 +456,7 @@ class net.onepixelout.audio.Player
 	*/
 	private function _activate():Void
 	{
-		if(this.state == INITIALISING) this.state = STOPPED;
+		if(_state == INITIALISING) _state = STOPPED;
 		if(_playOnInit && !_loadingPlaylist)
 		{
 			this.play();
@@ -464,7 +475,7 @@ class net.onepixelout.audio.Player
 		switch(parameters.msg)
 		{
 			case "pause":
-				if(this.state == PLAYING) this.pause();
+				if(_state == PLAYING) this.pause();
 				break;
 				
 			default:

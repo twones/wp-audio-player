@@ -12,12 +12,18 @@ class Volume extends MovieClip
 	
 	private var _settingVolume:Boolean;
 	private var _initialMaskPos:Number;
-	
+
+	public var addListener:Function;
+	public var removeListener:Function;
+	private var broadcastMessage:Function;
+
 	/**
 	 * Constructor
 	 */
 	function Volume()
 	{
+		AsBroadcaster.initialize(this);
+
 		_toggleControl(false);
 		_settingVolume = false;
 		
@@ -40,34 +46,41 @@ class Volume extends MovieClip
 			if(_settingVolume)
 			{
 				_moveVolumeBar();
-				_global.player.setVolume(_getValue());
+				broadcastMessage("onSetVolume", _getValue());
 			}
 		});
 		this.background_mc.onRelease = this.background_mc.onReleaseOutside = Delegate.create(this, function() {
 			_settingVolume = false;
 			_moveVolumeBar();
-			_global.player.setVolume(_getValue());
+			broadcastMessage("onSetVolume", _getValue());
 		});
 	}
 	
-	function onEnterFrame()
+	/**
+	 * Updates volume
+	 */
+	public function update(volume:Number):Void
 	{
-		if(!_settingVolume) this.mask_mc._x = _initialMaskPos + Math.round(this.track_mc._width * _global.player.getVolume() / 100);
+		if(!_settingVolume) this.mask_mc._x = _initialMaskPos + Math.round(this.track_mc._width * volume / 100);
 	}
-
-	private function _moveVolumeBar()
+	
+	private function _moveVolumeBar():Void
 	{
 		if(this.track_mc._xmouse > this.track_mc._width) this.mask_mc._x = _initialMaskPos + this.track_mc._width;
 		else if(this.track_mc._xmouse < 0) this.mask_mc._x = _initialMaskPos;
 		else this.mask_mc._x = _initialMaskPos + this.track_mc._xmouse;
 	}
 	
+	/**
+	 * Returns the current position of the volume slider as a percentage
+	 * @return	number between 0 and 100
+	 */
 	private function _getValue():Number
 	{
 		return Math.round((this.mask_mc._x - _initialMaskPos) / this.track_mc._width * 100);
 	}
 		
-	private function _toggleControl(toggle:Boolean)
+	private function _toggleControl(toggle:Boolean):Void
 	{
 		this.mask_mc._visible = this.bar_mc._visible = this.track_mc._visible = toggle;
 		this.icon_mc._visible = !toggle;

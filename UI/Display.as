@@ -13,27 +13,9 @@
 		_ticker.start();
 	}
 	
-	public function onEnterFrame():Void
+	public function setText(text:String):Void
 	{
-		switch(_global.player.state)
-		{
-			case -1:
-				this.display_txt.text = "File not found";
-				break;
-			case 0:
-				this.display_txt.text = "Initialising...";
-				break;
-			case 1:
-				this.display_txt.text = "Stopped";
-				break;
-			default:
-				if(_global.player.isConnecting()) this.display_txt.text = "Connecting...";
-				else if(_global.player.isBuffering()) this.display_txt.text = "Buffering...";
-				else {
-					this.display_txt.text = _global.player.getCurrentTrack().getInfo().songname;
-				}
-				break;
-		}
+		this.display_txt.text = text;
 	}
 	
 	public function resize(newWidth:Number):Void

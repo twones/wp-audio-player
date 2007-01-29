@@ -11,19 +11,15 @@
 		this.bar_mc._width = 0;
 	}
 	
-	public function onEnterFrame():Void
+	public function update(loaded:Number):Void
 	{
-		_resizeBar();
+		this.bar_mc._width = Math.round(loaded * this.track_mc._width);
 	}
-	
+
 	public function resize(newWidth:Number):Void
 	{
+		var change:Number = newWidth / this.track_mc._width;
 		this.track_mc._width = newWidth;
-		_resizeBar();
-	}
-	
-	private function _resizeBar():Void
-	{
-		this.bar_mc._width = Math.round(_global.player.loaded * this.track_mc._width);
+		this.bar_mc._width *= change;
 	}
 }

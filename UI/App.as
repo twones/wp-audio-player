@@ -2,8 +2,10 @@
 
 class App
 {
+	// Audio Player
 	private var _player:Player;
 	
+	// UI Elements
 	private var masked_mc:MovieClip;
 	private var background_mc:MovieClip;
 	private var progress_mc:MovieClip;
@@ -13,14 +15,18 @@ class App
 	private var control_mc:MovieClip;
 	private var volume_mc:MovieClip;
 	
+	// State variables
 	private var _state:Number;
-	private var _clearID:Number;
 	
 	private var CLOSED:Number = 0;
 	private var CLOSING:Number = 1;
 	private var OPENING:Number = 2;
 	private var OPEN:Number = 3;
-	
+
+	// Interval ID for animation
+	private var _clearID:Number;
+
+	// Options structure
 	private var _options:Object = {
 		autostart:false,
 		loop:false,
@@ -44,16 +50,16 @@ class App
 		_player = new Player(playerParams);
 		_player.loadPlaylist(sourceFile);
 		
-		// TODO: remove need for _global reference
-		_global.player = _player;
-		
 		// Initial player state
 		_state = CLOSED;
 		if(!_options.animation || _options.autostart) _state = OPEN;
 		
-		if(_options.autostart) onPlay();
-
 		_setStage();
+
+		// Start player automatically if requested
+		if(_options.autostart) onPlay();
+		
+		setInterval(this, "_update", 100);
 	}
 	
 	/**
@@ -84,6 +90,7 @@ class App
 		masked_mc = _root.createEmptyMovieClip("body_mc", nextDepth++);
 		background_mc = masked_mc.attachMovie("Background", "background_mc", 0);
 		progress_mc = masked_mc.attachMovie("Progress", "progress_mc", 1);
+		progress_mc.addListener(this);
 		loading_mc = masked_mc.attachMovie("Loading", "loading_mc", 2);
 		
 		// Mask
@@ -97,10 +104,10 @@ class App
 		
 		// Volume control
 		volume_mc = _root.attachMovie("Volume", "volume_mc", nextDepth++);
+		volume_mc.addListener(this);
 
 		// Play/pause control
-		control_mc = _root.attachMovie("Control", "control_mc", nextDepth++);
-		
+		control_mc = _root.attachMovie("Control", "control_mc", nextDepth++, { state:_options.autostart ? "pause" : "play" });
 		control_mc.addListener(this);
 		
 		// Align and resize elements to the stage
@@ -164,7 +171,7 @@ class App
 	/**
 	* onPlay event handler
 	*/
-	public function onPlay()
+	public function onPlay():Void
 	{
 		_player.play();
 		
@@ -181,7 +188,7 @@ class App
 	/**
 	* onPause event handler
 	*/
-	public function onPause()
+	public function onPause():Void
 	{
 		_player.pause();
 		
@@ -196,13 +203,30 @@ class App
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(this, "_animate", 41, targetPosition);
-	}	
+	}
+	
+	/**
+	* onMoveHead event handler
+	* @param	newPositon number form 0 to 1
+	*/
+	public function onMoveHead(newPosition:Number):Void
+	{
+		_player.moveHead(newPosition);
+	}
+	
+	/**
+	 * onSetVolume event handler
+	 */
+	public function onSetVolume(volume:Number):Void
+	{
+		_player.setVolume(volume);
+	}
 
 	/**
 	* Moves control element to the given target position (with easing)
 	* @param	targetX target position of control element
 	*/
-	private function _animate(targetX:Number)
+	private function _animate(targetX:Number):Void
 	{
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
@@ -226,5 +250,37 @@ class App
 		dx = Math.round(dx * speed);
 		control_mc._x += dx;
 		mask_mc._width += dx;
+	}
+	
+	private function _update():Void
+	{
+		var playerState:Object = _player.getState();
+		
+		volume_mc.update(playerState.volume);
+
+		control_mc.enabled = (playerState.state >= Player.STOPPED);
+		
+		if(playerState.state == "Playing") progress_mc.updateProgress(playerState.played);
+		progress_mc.setMaxValue(playerState.loaded);
+
+		loading_mc.update(playerState.loaded);
+		
+		switch(playerState.state)
+		{
+			case Player.NOTFOUND:
+				display_mc.setText("File not found");
+				break;
+			case Player.INITIALISING:
+				display_mc.setText("Initialising...");
+				break;
+			case Player.STOPPED:
+				display_mc.setText("Ready");
+				break;
+			default:
+				if(playerState.connecting) display_mc.setText("Connecting...");
+				else if(playerState.buffering) display_mc.setText("Buffering...");
+				else display_mc.setText(playerState.trackInfo.songname);
+				break;
+		}
 	}
 }

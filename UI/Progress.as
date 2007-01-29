@@ -7,14 +7,22 @@ class Progress extends MovieClip
 	public var border_mc:MovieClip;
 	
 	private var _movingHead:Boolean;
+	private var _maxPos:Number;
+	
+	public var addListener:Function;
+	public var removeListener:Function;
+	private var broadcastMessage:Function;
 
 	/**
 	 * Constructor
 	 */
 	function Progress()
 	{
+		AsBroadcaster.initialize(this);
+		
 		this.bar_mc._width = 0;
 		_movingHead = false;
+		
 		this.track_mc.onPress = Delegate.create(this, function() {
 			_movingHead = true;
 			_moveProgressBar();
@@ -23,17 +31,19 @@ class Progress extends MovieClip
 			if(_movingHead) _moveProgressBar();
 		});
 		this.track_mc.onRelease = this.track_mc.onReleaseOutside = Delegate.create(this, function() {
-			_global.player.moveHead(this.bar_mc._width / this.track_mc._width);
+			broadcastMessage("onMoveHead", this.bar_mc._width / this.track_mc._width);
 			_movingHead = false;
 		});
 	}
 	
-	public function onEnterFrame():Void
+	public function updateProgress(played:Number):Void
 	{
-		if(!_movingHead && _global.player.state == 3)
-		{
-			bar_mc._width = Math.round(_global.player.played * track_mc._width);
-		}
+		if(!_movingHead) bar_mc._width = Math.round(played * track_mc._width);
+	}
+	
+	public function setMaxValue(maxValue:Number):Void
+	{
+		_maxPos = maxValue * this.track_mc._width;
 	}
 	
 	public function resize(newWidth:Number):Void
@@ -44,10 +54,9 @@ class Progress extends MovieClip
 
 	private function _moveProgressBar():Void
 	{
-		var maxPos:Number = _global.player.loaded * this.track_mc._width;
 		var newPos:Number = this._xmouse - 1;
 		if(newPos < 0) newPos = 0;
-		else if(newPos > maxPos) newPos = maxPos;
+		else if(newPos > _maxPos) newPos = _maxPos;
 		this.bar_mc._width = newPos;
 	}
 }
