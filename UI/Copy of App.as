@@ -3,31 +3,31 @@
 class App
 {
 	// Audio Player
-	private static var _player:Player;
+	private var _player:Player;
 	
 	// UI Elements
-	private static var masked_mc:MovieClip;
-	private static var background_mc:MovieClip;
-	private static var progress_mc:MovieClip;
-	private static var loading_mc:MovieClip;
-	private static var mask_mc:MovieClip;
-	private static var display_mc:MovieClip;
-	private static var control_mc:MovieClip;
-	private static var volume_mc:MovieClip;
+	private var masked_mc:MovieClip;
+	private var background_mc:MovieClip;
+	private var progress_mc:MovieClip;
+	private var loading_mc:MovieClip;
+	private var mask_mc:MovieClip;
+	private var display_mc:MovieClip;
+	private var control_mc:MovieClip;
+	private var volume_mc:MovieClip;
 	
 	// State variables
-	private static var _state:Number;
+	private var _state:Number;
 	
-	private static var CLOSED:Number = 0;
-	private static var CLOSING:Number = 1;
-	private static var OPENING:Number = 2;
-	private static var OPEN:Number = 3;
+	private var CLOSED:Number = 0;
+	private var CLOSING:Number = 1;
+	private var OPENING:Number = 2;
+	private var OPEN:Number = 3;
 
 	// Interval ID for animation
-	private static var _clearID:Number;
+	private var _clearID:Number;
 	
 	// Options structure
-	private static var _options:Object = {
+	private var _options:Object = {
 		autostart:false,
 		loop:false,
 		animation:true,
@@ -37,7 +37,7 @@ class App
 	/**
 	* Constructor
 	*/
-	public static function start(sourceFile:String, options:Object)
+	function App(sourceFile:String, options:Object)
 	{
 		if(options != undefined) _setOptions(options);
 		
@@ -59,14 +59,14 @@ class App
 		// Start player automatically if requested
 		if(_options.autostart) onPlay();
 		
-		setInterval(_update, 100);
+		setInterval(this, "_update", 100);
 	}
 	
 	/**
 	* Writes options object to internal options struct
 	* @param	options
 	*/
-	private static function _setOptions(options:Object):Void
+	private function _setOptions(options:Object):Void
 	{
 		for(var key:String in options) _options[key] = options[key];
 	}
@@ -75,7 +75,7 @@ class App
 	* Initial stage setup
 	* Adds elements to stage and links up various listeners
 	*/
-	private static function _setStage():Void
+	private function _setStage():Void
 	{
 		// Align UI to left and make sure it isn't scaled
 		Stage.align = "L";
@@ -90,7 +90,7 @@ class App
 		masked_mc = _root.createEmptyMovieClip("body_mc", nextDepth++);
 		background_mc = masked_mc.attachMovie("Background", "background_mc", 0);
 		progress_mc = masked_mc.attachMovie("Progress", "progress_mc", 1);
-		progress_mc.addListener(App);
+		progress_mc.addListener(this);
 		loading_mc = masked_mc.attachMovie("Loading", "loading_mc", 2);
 		
 		// Mask
@@ -104,23 +104,23 @@ class App
 		
 		// Volume control
 		volume_mc = _root.attachMovie("Volume", "volume_mc", nextDepth++);
-		volume_mc.addListener(App);
+		volume_mc.addListener(this);
 
 		// Play/pause control
 		control_mc = _root.attachMovie("Control", "control_mc", nextDepth++, { state:_options.autostart ? "pause" : "play" });
-		control_mc.addListener(App);
+		control_mc.addListener(this);
 		
 		// Align and resize elements to the stage
 		_alignAndResize();
 		
 		// Set stage listener in case the stage is resized
-		Stage.addListener(App);
+		Stage.addListener(this);
 	}
 	
 	/**
 	* Positions and resizes elements on the stage
 	*/
-	private static function _alignAndResize():Void
+	private function _alignAndResize():Void
 	{
 		// ------------------------------------------------------------
 		// Align elements
@@ -136,6 +136,8 @@ class App
 		
 		display_mc._x = volume_mc.realWidth + 7;
 		display_mc._y = 3;
+		
+		trace(_state);
 		
 		// Control element alignment depends on whether player is open or closed
 		if(_state == CLOSED) control_mc._x = volume_mc.realWidth - 6;
@@ -163,7 +165,7 @@ class App
 	/**
 	* onResize event handler
 	*/
-	public static function onResize():Void
+	public function onResize():Void
 	{
 		_alignAndResize();
 	}
@@ -171,7 +173,7 @@ class App
 	/**
 	* onPlay event handler
 	*/
-	public static function onPlay():Void
+	public function onPlay():Void
 	{
 		_player.play();
 		
@@ -182,13 +184,13 @@ class App
 		
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(_animate, 41, targetPosition);
+		_clearID = setInterval(this, "_animate", 41, targetPosition);
 	}
 	
 	/**
 	* onPause event handler
 	*/
-	public static function onPause():Void
+	public function onPause():Void
 	{
 		_player.pause();
 		
@@ -202,14 +204,14 @@ class App
 
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(_animate, 41, targetPosition);
+		_clearID = setInterval(this, "_animate", 41, targetPosition);
 	}
 	
 	/**
 	* onMoveHead event handler
 	* @param	newPositon number form 0 to 1
 	*/
-	public static function onMoveHead(newPosition:Number):Void
+	public function onMoveHead(newPosition:Number):Void
 	{
 		_player.moveHead(newPosition);
 	}
@@ -217,7 +219,7 @@ class App
 	/**
 	 * onSetVolume event handler
 	 */
-	public static function onSetVolume(volume:Number):Void
+	public function onSetVolume(volume:Number):Void
 	{
 		_player.setVolume(volume);
 	}
@@ -226,7 +228,7 @@ class App
 	* Moves control element to the given target position (with easing)
 	* @param	targetX target position of control element
 	*/
-	private static function _animate(targetX:Number):Void
+	private function _animate(targetX:Number):Void
 	{
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
@@ -252,7 +254,7 @@ class App
 		mask_mc._width += dx;
 	}
 	
-	private static function _update():Void
+	private function _update():Void
 	{
 		var playerState:Object = _player.getState();
 		
