@@ -231,8 +231,7 @@ class net.onepixelout.audio.Player
 		// This stops any downloading that may still be going on
 		this.stop();
 		
-		_playlist.next();
-		if(startPlaying) this.play();
+		if(_playlist.next() != null && startPlaying) this.play();
 	}
 
 	/**

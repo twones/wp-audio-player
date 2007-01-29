@@ -260,7 +260,8 @@ class App
 
 		control_mc.enabled = (playerState.state >= Player.STOPPED);
 		
-		if(playerState.state == Player.PLAYING) progress_mc.updateProgress(playerState.played);
+		if(playerState.state != Player.PAUSED) progress_mc.updateProgress(playerState.played);
+		trace(playerState.played);
 		progress_mc.setMaxValue(playerState.loaded);
 
 		loading_mc.update(playerState.loaded);
@@ -279,7 +280,10 @@ class App
 			default:
 				if(playerState.connecting) display_mc.setText("Connecting...");
 				else if(playerState.buffering) display_mc.setText("Buffering...");
-				else display_mc.setText(playerState.trackInfo.songname);
+				else if(playerState.trackInfo.artist.length > 0)
+				{
+					display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname);
+				} else display_mc.setText("");
 				break;
 		}
 	}
