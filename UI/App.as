@@ -260,7 +260,7 @@ class App
 
 		control_mc.enabled = (playerState.state >= Player.STOPPED);
 		
-		if(playerState.state == "Playing") progress_mc.updateProgress(playerState.played);
+		if(playerState.state == Player.PLAYING) progress_mc.updateProgress(playerState.played);
 		progress_mc.setMaxValue(playerState.loaded);
 
 		loading_mc.update(playerState.loaded);
