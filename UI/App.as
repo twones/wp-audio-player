@@ -50,6 +50,8 @@ class App
 		_player = new Player(playerParams);
 		_player.loadPlaylist(sourceFile);
 		
+		_player.addListener(App);
+		
 		// Initial player state
 		_state = CLOSED;
 		if(!_options.animation || _options.autostart) _state = OPEN;
@@ -175,14 +177,14 @@ class App
 	{
 		_player.play();
 		
-		// If player is already open, stop here
-		if(_state == OPEN) return;
-		
-		_state = OPENING;
-		
-		var targetPosition:Number = Stage.width - control_mc.realWidth;
-		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(_animate, 41, targetPosition);
+		// If player is closed and animation is enabled, open the player
+		if(_state == CLOSED && _options.animation) openPlayer();
+	}
+	
+	public static function onStop():Void
+	{
+		if(_options.animation && _state == OPEN) closePlayer();
+		control_mc.toggle();
 	}
 	
 	/**
@@ -192,9 +194,27 @@ class App
 	{
 		_player.pause();
 		
-		// If animation is disabled, stop here
-		if(!_options.animation) return;
+		// If player is open and animation is enabled, close the player
+		if(_state == OPEN && _options.animation) closePlayer();
+	}
+
+	/**
+	* Starts open animation
+	*/
+	public static function openPlayer():Void
+	{
+		_state = OPENING;
 		
+		var targetPosition:Number = Stage.width - control_mc.realWidth;
+		if(_clearID != null) clearInterval(_clearID);
+		_clearID = setInterval(_animate, 41, targetPosition);
+	}
+
+	/**
+	* Starts close animation
+	*/
+	public static function closePlayer():Void
+	{
 		_state = CLOSING;
 		
 		// Hide text display (doesn't work under a mask)
@@ -261,7 +281,7 @@ class App
 		control_mc.enabled = (playerState.state >= Player.STOPPED);
 		
 		if(playerState.state != Player.PAUSED) progress_mc.updateProgress(playerState.played);
-		trace(playerState.played);
+		
 		progress_mc.setMaxValue(playerState.loaded);
 
 		loading_mc.update(playerState.loaded);
@@ -274,16 +294,17 @@ class App
 			case Player.INITIALISING:
 				display_mc.setText("Initialising...");
 				break;
-			case Player.STOPPED:
-				display_mc.setText("Ready");
-				break;
-			default:
+			case Player.PLAYING:
+			case Player.PAUSED:
 				if(playerState.connecting) display_mc.setText("Connecting...");
 				else if(playerState.buffering) display_mc.setText("Buffering...");
 				else if(playerState.trackInfo.artist.length > 0)
 				{
 					display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname);
-				} else display_mc.setText("");
+				}
+				break;
+			default:
+				display_mc.setText("");
 				break;
 		}
 	}

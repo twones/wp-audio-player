@@ -48,7 +48,10 @@ class net.onepixelout.audio.Track
 		return _soundObject;
 	}
 	
-	public function unLoad():Sound
+	/**
+	* Deletes sound object if not fully loaded (stops download)
+	*/
+	public function unLoad():Void
 	{
 		if(!_isFullyLoaded)
 		{
@@ -56,7 +59,6 @@ class net.onepixelout.audio.Track
 			_isLoaded = false;
 			_soundObject = new Sound();
 		}
-		return _soundObject;
 	}
 	
 	public function isFullyLoaded():Boolean

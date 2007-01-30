@@ -28,15 +28,21 @@
 	
 	function onRelease()
 	{
+		this.toggle(true);
+	}
+	
+	public function toggle(broadcast:Boolean):Void
+	{
+		if(broadcast == undefined) broadcast = false;
 		if(this.state == "play")
 		{
-			broadcastMessage("onPlay");
+			if(broadcast) broadcastMessage("onPlay");
 			this.play_mc._visible = false;
 			this.pause_mc._visible = true;
 			this.state = "pause";
 		} else
 		{
-			broadcastMessage("onPause");
+			if(broadcast) broadcastMessage("onPause");
 			this.pause_mc._visible = false;
 			this.play_mc._visible = true;
 			this.state = "play";

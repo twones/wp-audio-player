@@ -48,6 +48,10 @@ class net.onepixelout.audio.Player
 	// Local connection broadcaster
 	private var _lcBroadcaster:LcBroadcast;
 	private var _playOnInit:Boolean;
+	
+	private var broadcastMessage:Function;
+	public var addListener:Function;
+	public var removeListener:Function;
 
 	// Options structure
 	private var _options:Object = {
@@ -61,6 +65,8 @@ class net.onepixelout.audio.Player
 	*/
 	function Player(options:Object)
 	{
+		AsBroadcaster.initialize(this);
+		
 		// Write options to internal options structure
 		if(options != undefined) _setOptions(options);
 		
@@ -136,6 +142,9 @@ class net.onepixelout.audio.Player
 		// Setup onSoundComplete event
 		if(_playhead.onSoundComplete == undefined) _playhead.onSoundComplete = Delegate.create(this, next);
 		
+		if(_state == STOPPED) _isConnecting = true;
+		_state = PLAYING;
+
 		this.setVolume();
 		
 		_playhead.start(Math.floor(_recordedPosition / 1000));
@@ -143,9 +152,6 @@ class net.onepixelout.audio.Player
 		// Update stats now (don't wait for watcher to kick in)
 		_updateStats();
 		
-		if(_state == STOPPED) _isConnecting = true;
-		_state = PLAYING;
-
 		// Broadcast message to other players
 		_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
 	}
@@ -175,10 +181,17 @@ class net.onepixelout.audio.Player
 	/**
 	* Stops the player (also pauses download)
 	*/
-	public function stop():Void
+	public function stop(broadcast:Boolean):Void
 	{
+		if(broadcast == undefined) broadcast = true;
+		
+		if(broadcast) broadcastMessage("onStop");
+		
+		// Stop playhead and unload track (stops download);
 		_playhead.stop();
-		_playhead = this.getCurrentTrack().unLoad();
+		this.getCurrentTrack().unLoad();
+		_playhead = null;
+		
 		_state = STOPPED;
 		_reset();
 	}
@@ -193,15 +206,6 @@ class net.onepixelout.audio.Player
 		if(_state < PAUSED) return;
 		
 		var newPosition:Number = _duration * newHeadPosition;
-		/*var playable:Number = _duration * _loaded;
-		
-		trace("Play at: " + newPosition);
-		trace("Playable: " + playable);
-		
-		// If track is not fully loaded, never try to play less than 500ms before end of playable audio
-		if(_loaded < 1 && (playable - newPosition) < 1000) newPosition = playable - 1000;
-
-		trace("Really play at: " + newPosition);*/
 		
 		// Player in paused state: simply record the new position
 		if(_state == PAUSED) _recordedPosition = newPosition;
@@ -228,10 +232,12 @@ class net.onepixelout.audio.Player
 		
 		var startPlaying:Boolean = (_state == PLAYING);
 
-		// This stops any downloading that may still be going on
-		this.stop();
-		
-		if(_playlist.next() != null && startPlaying) this.play();
+		if(_playlist.next() != null && startPlaying)
+		{
+			this.stop(false);
+			this.play();
+		}
+		else this.stop(true);
 	}
 
 	/**
@@ -245,11 +251,8 @@ class net.onepixelout.audio.Player
 		
 		var startPlaying:Boolean = (_state == PLAYING);
 		
-		// This stops any downloading that may still be going on
 		this.stop();
-		
-		_playlist.previous();
-		if(startPlaying) this.play();
+		if(_playlist.previous() != null && startPlaying) this.play();
 	}
 
 	/**
@@ -261,7 +264,7 @@ class net.onepixelout.audio.Player
 		// If we have a new value for volume, set it
 		if(newVolume != undefined) _volume = newVolume;
 		// Set the player volume
-		_playhead.setVolume(_volume);
+		if(_state > STOPPED) _playhead.setVolume(_volume);
 	}
 	
 	public function getState():Object
@@ -303,7 +306,7 @@ class net.onepixelout.audio.Player
 	*/
 	private function _updateStats():Void
 	{
-		if(_playhead.getBytesTotal() > 0)
+		if(_state > STOPPED && _playhead.getBytesTotal() > 0)
 		{
 			// Flash has started downloading the file
 			_isConnecting = false;
