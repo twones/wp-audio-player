@@ -178,12 +178,12 @@ class App
 		_player.play();
 		
 		// If player is closed and animation is enabled, open the player
-		if(_state == CLOSED && _options.animation) openPlayer();
+		if(_state < OPENING && _options.animation) openPlayer();
 	}
 	
 	public static function onStop():Void
 	{
-		if(_options.animation && _state == OPEN) closePlayer();
+		if(_options.animation && _state > CLOSING) closePlayer();
 		control_mc.toggle();
 	}
 	
