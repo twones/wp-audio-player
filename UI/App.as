@@ -297,6 +297,7 @@ class App
 		{
 			case Player.NOTFOUND:
 				display_mc.setText("File not found");
+				if(control_mc.state == "pause") control_mc.toggle();
 				break;
 			case Player.INITIALISING:
 				display_mc.setText("Initialising...");

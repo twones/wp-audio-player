@@ -79,6 +79,7 @@ class Volume extends MovieClip
 		
 	public function toggleControl(toggle:Boolean, immediate:Boolean):Void
 	{
+		clearInterval(_clearID);
 		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0);
 		else _clearID = setInterval(this, "_animate", 41, 0, 100);
 		
