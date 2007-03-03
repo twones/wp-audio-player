@@ -35,7 +35,9 @@ class App
 	};
 
 	/**
-	* Constructor
+	* Starts app
+	* @param sourceFile a list of mp3 files to play
+	* @param options a structure of options
 	*/
 	public static function start(sourceFile:String, options:Object)
 	{
@@ -57,6 +59,27 @@ class App
 		if(!_options.animation || _options.autostart) _state = OPEN;
 		
 		_setStage();
+		
+		var colorTransforms = [
+			{ target:background_mc, color:options.colors.bg },
+			{ target:volume_mc.background_mc, color:options.colors.leftbg },
+			{ target:volume_mc.icon_mc, color:options.colors.lefticon },
+			{ target:volume_mc.control_mc.track_mc, color:options.colors.righticon },
+			{ target:volume_mc.control_mc.bar_mc, color:options.colors.righticonhover },
+			{ target:control_mc.background_mc.normal_mc, color:options.colors.rightbg },
+			{ target:control_mc.background_mc.hover_mc, color:options.colors.rightbghover },
+			{ target:control_mc.play_mc.normal_mc, color:options.colors.righticon },
+			{ target:control_mc.play_mc.hover_mc, color:options.colors.righticonhover },
+			{ target:control_mc.pause_mc.normal_mc, color:options.colors.righticon },
+			{ target:control_mc.pause_mc.hover_mc, color:options.colors.righticonhover },
+			{ target:loading_mc.bar_mc, color:options.colors.loader },
+			{ target:loading_mc.track_mc, color:options.colors.track },
+			{ target:progress_mc.track_mc, color:options.colors.track },
+			{ target:progress_mc.bar_mc, color:options.colors.progress },
+			{ target:progress_mc.border_mc, color:options.colors.border }
+		];
+		
+		//_setColors(colorTransforms);
 
 		// Start player automatically if requested
 		if(_options.autostart) onPlay();
@@ -82,14 +105,14 @@ class App
 		// Align UI to left and make sure it isn't scaled
 		Stage.align = "L";
 		Stage.scaleMode = "noScale";
-		
+
 		// Add elements to stage
 		
 		// Depth counter
 		var nextDepth:Number = _root.getNextHighestDepth();
 		
 		// Masked elements
-		masked_mc = _root.createEmptyMovieClip("body_mc", nextDepth++);
+		masked_mc = _root.createEmptyMovieClip("masked_mc", nextDepth++);
 		background_mc = masked_mc.attachMovie("Background", "background_mc", 0);
 		progress_mc = masked_mc.attachMovie("Progress", "progress_mc", 1);
 		progress_mc.addListener(App);
@@ -157,6 +180,16 @@ class App
 		progress_mc.resize(availSpace - 8);
 		loading_mc.resize(availSpace - 8);
 		display_mc.resize(availSpace - 12);
+	}
+	
+	private static function _setColors(colorTransforms:Array):Void
+	{
+		var tempColor:Color;
+		for(var i:Number = 0;i<colorTransforms.length;i++)
+		{
+			tempColor = new Color(colorTransforms[i].target);
+			tempColor.setRGB(colorTransforms[i].color);
+		}
 	}
 	
 	// ------------------------------------------------------------
@@ -310,6 +343,7 @@ class App
 				{
 					display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname);
 				}
+				else display_mc.setText("Playing");
 				break;
 			default:
 				display_mc.setText("");

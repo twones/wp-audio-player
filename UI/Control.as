@@ -24,6 +24,22 @@
 		else this.play_mc._visible = false;
 		
 		this.realWidth = this.background_mc._width;
+		
+		background_mc.hover_mc._visible = play_mc.hover_mc._visible = pause_mc.hover_mc._visible = false;
+	}
+	
+	function onRollOver()
+	{
+		if(this.state == "play") this.play_mc.hover_mc._visible = true;
+		if(this.state == "pause") this.pause_mc.hover_mc._visible = true;
+		this.background_mc.hover_mc._visible = true;
+	}
+
+	function onRollOut()
+	{
+		if(this.state == "play") play_mc.hover_mc._visible = false;
+		if(this.state == "pause") pause_mc.hover_mc._visible = false;
+		this.background_mc.hover_mc._visible = false;
 	}
 	
 	function onRelease()
