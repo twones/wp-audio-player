@@ -3,10 +3,9 @@
 class Volume extends MovieClip
 {
 	public var icon_mc:MovieClip;
-	public var mask_mc:MovieClip;
-	public var bar_mc:MovieClip;
-	public var track_mc:MovieClip;
+	public var control_mc:MovieClip;
 	public var background_mc:MovieClip;
+	public var button_mc:MovieClip;
 	
 	public var realWidth:Number;
 	
@@ -17,6 +16,8 @@ class Volume extends MovieClip
 	public var removeListener:Function;
 	private var broadcastMessage:Function;
 
+	private var _clearID:Number;
+	
 	/**
 	 * Constructor
 	 */
@@ -24,32 +25,28 @@ class Volume extends MovieClip
 	{
 		AsBroadcaster.initialize(this);
 
-		_toggleControl(false);
+		control_mc._alpha = 0;
+		this.button_mc._visible = false;
+		icon_mc._alpha = 100;
+		
 		_settingVolume = false;
 		
-		_initialMaskPos = this.mask_mc._x;
+		_initialMaskPos = this.control_mc.mask_mc._x;
 		
 		this.realWidth = this.background_mc._width;
 		
-		this.background_mc.onRollOver = Delegate.create(this, function() {
-			_toggleControl(true);
-		});
-		this.background_mc.onRollOut = Delegate.create(this, function() {
-			_toggleControl(false);
-		});
-		
-		this.background_mc.onPress = Delegate.create(this, function() {
+		this.button_mc.onPress = Delegate.create(this, function() {
 			_settingVolume = true;
 			_moveVolumeBar();
 		});
-		this.background_mc.onMouseMove = Delegate.create(this, function() {
+		this.button_mc.onMouseMove = Delegate.create(this, function() {
 			if(_settingVolume)
 			{
 				_moveVolumeBar();
 				broadcastMessage("onSetVolume", _getValue());
 			}
 		});
-		this.background_mc.onRelease = this.background_mc.onReleaseOutside = Delegate.create(this, function() {
+		this.button_mc.onRelease = this.button_mc.onReleaseOutside = Delegate.create(this, function() {
 			_settingVolume = false;
 			_moveVolumeBar();
 			broadcastMessage("onSetVolume", _getValue());
@@ -61,14 +58,14 @@ class Volume extends MovieClip
 	 */
 	public function update(volume:Number):Void
 	{
-		if(!_settingVolume) this.mask_mc._x = _initialMaskPos + Math.round(this.track_mc._width * volume / 100);
+		if(!_settingVolume) this.control_mc.mask_mc._x = _initialMaskPos + Math.round(this.control_mc.track_mc._width * volume / 100);
 	}
 	
 	private function _moveVolumeBar():Void
 	{
-		if(this.track_mc._xmouse > this.track_mc._width) this.mask_mc._x = _initialMaskPos + this.track_mc._width;
-		else if(this.track_mc._xmouse < 0) this.mask_mc._x = _initialMaskPos;
-		else this.mask_mc._x = _initialMaskPos + this.track_mc._xmouse;
+		if(this.control_mc.track_mc._xmouse > this.control_mc.track_mc._width) this.control_mc.mask_mc._x = _initialMaskPos + this.control_mc.track_mc._width;
+		else if(this.control_mc.track_mc._xmouse < 0) this.control_mc.mask_mc._x = _initialMaskPos;
+		else this.control_mc.mask_mc._x = _initialMaskPos + this.control_mc.track_mc._xmouse;
 	}
 	
 	/**
@@ -77,12 +74,41 @@ class Volume extends MovieClip
 	 */
 	private function _getValue():Number
 	{
-		return Math.round((this.mask_mc._x - _initialMaskPos) / this.track_mc._width * 100);
+		return Math.round((this.control_mc.mask_mc._x - _initialMaskPos) / this.control_mc.track_mc._width * 100);
 	}
 		
-	private function _toggleControl(toggle:Boolean):Void
+	public function toggleControl(toggle:Boolean, immediate:Boolean):Void
 	{
-		this.mask_mc._visible = this.bar_mc._visible = this.track_mc._visible = toggle;
-		this.icon_mc._visible = !toggle;
+		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0);
+		else _clearID = setInterval(this, "_animate", 41, 0, 100);
+		
+		//this.control_mc.mask_mc._visible = this.control_mc.bar_mc._visible = this.control_mc.track_mc._visible = toggle;
+		//this.icon_mc._visible = !toggle;
+	}
+	
+	private function _animate(targetControl:Number, targetIcon:Number):Void
+	{
+		var dAlphaControl:Number = targetControl - control_mc._alpha;
+		var dAlphaIcon:Number = targetIcon - icon_mc._alpha;
+		var speed:Number = 0.2;
+		
+		dAlphaControl = Math.round(dAlphaControl * speed);
+		dAlphaIcon = Math.round(dAlphaIcon * speed);
+
+		// Stop animation when we are at less than a pixel from the target
+		if(Math.abs(dAlphaControl) < 1)
+		{
+			// Position the control element to the exact target position
+			control_mc._alpha = targetControl;
+			icon_mc._alpha = targetIcon;
+			
+			button_mc._visible = (control_mc._alpha == 100);
+			
+			clearInterval(_clearID);
+			return;
+		}
+		
+		control_mc._alpha += dAlphaControl;
+		icon_mc._alpha += dAlphaIcon;
 	}
 }

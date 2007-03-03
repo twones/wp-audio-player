@@ -205,6 +205,8 @@ class App
 	{
 		_state = OPENING;
 		
+		volume_mc.toggleControl(true);
+
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(_animate, 41, targetPosition);
@@ -219,6 +221,8 @@ class App
 		
 		// Hide text display (doesn't work under a mask)
 		display_mc._visible = false;
+
+		volume_mc.toggleControl(false);
 
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
@@ -250,9 +254,11 @@ class App
 	{
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
-		
+
+		dx = Math.round(dx * speed);
+
 		// Stop animation when we are at less than a pixel from the target
-		if(Math.abs(dx) <= 1)
+		if(Math.abs(dx) < 1)
 		{
 			// Position the control element to the exact target position
 			control_mc._x = targetX;
@@ -263,11 +269,12 @@ class App
 				display_mc._visible = true;
 				_state = OPEN;
 			}
-			else _state = CLOSED;
+			else{
+				_state = CLOSED;
+			}
 			return;
 		}
 		
-		dx = Math.round(dx * speed);
 		control_mc._x += dx;
 		mask_mc._width += dx;
 	}

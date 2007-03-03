@@ -23,12 +23,13 @@ class com.freesome.events.LcBroadcast
 	* Version number.  this is broadcast as a field in the onInit setup - the hope is
 	* to allow backwards compatability between versions.
 	*/	
-	public var LCBversion:String = "1.0.0"
+	public var LCBversion:String = "1.0.1"
 	
 	private var _toMaster:LocalConnection;
 	private var _fromMaster:LocalConnection;
 	private var _clientsList:Array;
 	private var _LCtimer:Number;
+	private var _master:String;
 	
 	/**
 	* Add an event listener to this instance
@@ -39,14 +40,29 @@ class com.freesome.events.LcBroadcast
 	* Remove an already registered event listener from this object
 	*/
 	public var removeEventListener:Function;
-	
+
 	private var broadcastMessage:Function;
 	
 	/**
 	* Constructor
+	* @param	var classID - 
+	* 
+	* <p>
+	* a Unique identifier for your group of LcBroadcasts which you want to communicate together.  
+	* Specifying a value here will allow other movies who use LcBroadcast in unrelated applications
+	* To ignore your calls.
+	* 
+	* In order to ensure a unique ID it is recommended to use a java style package string such as
+	* 
+	* LcBroadcast("com.yourwebsite.yourapplication");
+	* </p>
+	* 
+	* 
 	*/
-	function LcBroadcast()
+	function LcBroadcast(var classID:String)
 	{
+		//Add underscore to connection name
+		_master = "_"+classID;
 		//Set up a broadcaster
 		AsBroadcaster.initialize(this);	
 		//Set up a slight delay to avoid deadlocks
@@ -70,11 +86,11 @@ class com.freesome.events.LcBroadcast
 			_receiveMessageMaster(ob);
 		else {
 			var lc:LocalConnection = new LocalConnection();
-			if (lc.connect("_MASTER")) {
+			if (lc.connect(_master)) {
 
 				this._makeMeMaster();
 			}
-			_toMaster.send("_MASTER","receiveMessageMaster",ob);
+			_toMaster.send(_master,"receiveMessageMaster",ob);
 		}
 	}
 	
@@ -90,7 +106,7 @@ class com.freesome.events.LcBroadcast
 		_toMaster["LCB"] = this;
 		
 		//if we can not connect as master, we must be a client
-		if (!_toMaster.connect("_MASTER") ) {			
+		if (!_toMaster.connect(_master) ) {			
 			_registerWithMaster();
 		} else {
 				//clear polling timer
@@ -108,7 +124,7 @@ class com.freesome.events.LcBroadcast
 	private function _makeMeMaster():Void{
 		
 		this.isMaster = true;
-		this.internalID = "_MASTER";
+		this.internalID = this._master;
 		_clientsList = new Array();
 		
 		_toMaster.registerClient= function(ob:Object) {this["LCB"]._registerClient(ob)};
@@ -181,7 +197,7 @@ class com.freesome.events.LcBroadcast
 	
 		
 		//register with master
-		_toMaster.send("_MASTER","registerClient",{id:this.internalID});
+		_toMaster.send(_master,"registerClient",{id:this.internalID});
 		
 		
 	}

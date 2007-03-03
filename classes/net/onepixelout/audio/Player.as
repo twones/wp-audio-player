@@ -86,7 +86,7 @@ class net.onepixelout.audio.Player
 		listen.onInit = Delegate.create(this, _activate);
 		
 		// Create local connection broadcaster
-		_lcBroadcaster = new LcBroadcast();
+		_lcBroadcaster = new LcBroadcast("net.1pixelout.audio.Player");
 		
 		// Add the listener
 		_lcBroadcaster.addListener(listen);
@@ -477,7 +477,11 @@ class net.onepixelout.audio.Player
 		switch(parameters.msg)
 		{
 			case "pause":
-				if(_state == PLAYING) this.pause();
+				if(_state == PLAYING)
+				{
+					this.pause();
+					broadcastMessage("onStop");
+				}
 				break;
 				
 			default:
