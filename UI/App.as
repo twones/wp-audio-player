@@ -31,7 +31,7 @@ class App
 		autostart:false,
 		loop:false,
 		animation:true,
-		volume:70
+		volume:80
 	};
 
 	/**
@@ -129,10 +129,10 @@ class App
 		background_mc._x = volume_mc.realWidth - 7;
 		
 		progress_mc._x = volume_mc.realWidth + 4;
-		progress_mc._y = 2;
+		progress_mc._y = 3;
 		
 		loading_mc._x = volume_mc.realWidth + 4;
-		loading_mc._y = 22;
+		loading_mc._y = 20;
 		
 		mask_mc._x = volume_mc.realWidth - 7;
 		
