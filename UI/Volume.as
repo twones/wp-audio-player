@@ -82,16 +82,13 @@ class Volume extends MovieClip
 		clearInterval(_clearID);
 		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0);
 		else _clearID = setInterval(this, "_animate", 41, 0, 100);
-		
-		//this.control_mc.mask_mc._visible = this.control_mc.bar_mc._visible = this.control_mc.track_mc._visible = toggle;
-		//this.icon_mc._visible = !toggle;
 	}
 	
 	private function _animate(targetControl:Number, targetIcon:Number):Void
 	{
 		var dAlphaControl:Number = targetControl - control_mc._alpha;
 		var dAlphaIcon:Number = targetIcon - icon_mc._alpha;
-		var speed:Number = 0.2;
+		var speed:Number = 0.3;
 		
 		dAlphaControl = Math.round(dAlphaControl * speed);
 		dAlphaIcon = Math.round(dAlphaIcon * speed);

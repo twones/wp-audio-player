@@ -64,8 +64,8 @@ class App
 			{ target:background_mc, color:options.colors.bg },
 			{ target:volume_mc.background_mc, color:options.colors.leftbg },
 			{ target:volume_mc.icon_mc, color:options.colors.lefticon },
-			{ target:volume_mc.control_mc.track_mc, color:options.colors.righticon },
-			{ target:volume_mc.control_mc.bar_mc, color:options.colors.righticonhover },
+			{ target:volume_mc.control_mc.track_mc, color:options.colors.voltrack },
+			{ target:volume_mc.control_mc.bar_mc, color:options.colors.volslider },
 			{ target:control_mc.background_mc.normal_mc, color:options.colors.rightbg },
 			{ target:control_mc.background_mc.hover_mc, color:options.colors.rightbghover },
 			{ target:control_mc.play_mc.normal_mc, color:options.colors.righticon },
@@ -75,11 +75,12 @@ class App
 			{ target:loading_mc.bar_mc, color:options.colors.loader },
 			{ target:loading_mc.track_mc, color:options.colors.track },
 			{ target:progress_mc.track_mc, color:options.colors.track },
-			{ target:progress_mc.bar_mc, color:options.colors.progress },
-			{ target:progress_mc.border_mc, color:options.colors.border }
+			{ target:progress_mc.bar_mc, color:options.colors.tracker },
+			{ target:progress_mc.border_mc, color:options.colors.border },
+			{ target:display_mc.display_txt, color:options.colors.text }
 		];
 		
-		//_setColors(colorTransforms);
+		_setColors(colorTransforms);
 
 		// Start player automatically if requested
 		if(_options.autostart) onPlay();
@@ -187,8 +188,11 @@ class App
 		var tempColor:Color;
 		for(var i:Number = 0;i<colorTransforms.length;i++)
 		{
-			tempColor = new Color(colorTransforms[i].target);
-			tempColor.setRGB(colorTransforms[i].color);
+			if(typeof(colorTransforms[i].target) == "movieclip")
+			{
+				tempColor = new Color(colorTransforms[i].target);
+				tempColor.setRGB(colorTransforms[i].color);
+			} else colorTransforms[i].target.textColor = colorTransforms[i].color;
 		}
 	}
 	

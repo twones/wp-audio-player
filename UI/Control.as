@@ -30,21 +30,29 @@
 	
 	function onRollOver()
 	{
-		if(this.state == "play") this.play_mc.hover_mc._visible = true;
-		if(this.state == "pause") this.pause_mc.hover_mc._visible = true;
-		this.background_mc.hover_mc._visible = true;
+		_flip(true);
 	}
 
 	function onRollOut()
 	{
-		if(this.state == "play") play_mc.hover_mc._visible = false;
-		if(this.state == "pause") pause_mc.hover_mc._visible = false;
-		this.background_mc.hover_mc._visible = false;
+		_flip(false);
 	}
 	
+	function onReleaseOutside()
+	{
+		_flip(false);
+	}
+
 	function onRelease()
 	{
 		this.toggle(true);
+	}
+	
+	private function _flip(toggle:Boolean):Void
+	{
+		if(this.state == "play") this.play_mc.hover_mc._visible = toggle;
+		if(this.state == "pause") this.pause_mc.hover_mc._visible = toggle;
+		this.background_mc.hover_mc._visible = toggle;
 	}
 	
 	public function toggle(broadcast:Boolean):Void
@@ -54,12 +62,14 @@
 		{
 			if(broadcast) broadcastMessage("onPlay");
 			this.play_mc._visible = false;
+			this.play_mc.hover_mc._visible = false;
 			this.pause_mc._visible = true;
 			this.state = "pause";
 		} else
 		{
 			if(broadcast) broadcastMessage("onPause");
 			this.pause_mc._visible = false;
+			this.pause_mc.hover_mc._visible = false;
 			this.play_mc._visible = true;
 			this.state = "play";
 		}

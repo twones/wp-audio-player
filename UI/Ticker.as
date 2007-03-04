@@ -11,7 +11,7 @@
 		_textField = textField;
 		_clearID = null;
 		
-		_options = { pause:4000, interval:25, increment:1 };
+		_options = { pause:6000, interval:25, increment:1 };
 		if(typeof options == "Object") this.setOptions(options);
 	}
 	

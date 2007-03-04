@@ -59,7 +59,7 @@ class com.freesome.events.LcBroadcast
 	* 
 	* 
 	*/
-	function LcBroadcast(var classID:String)
+	function LcBroadcast(classID:String)
 	{
 		//Add underscore to connection name
 		_master = "_"+classID;
