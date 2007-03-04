@@ -25,6 +25,13 @@
 		_clearID = setInterval(this, "_start", _options.pause);
 	}
 	
+	public function reset():Void
+	{
+		clearInterval(_clearID);
+		_textField.hscroll = 0;
+		start();
+	}
+
 	private function _start():Void
 	{
 		if(_textField.maxhscroll == 0) return;

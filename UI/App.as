@@ -208,6 +208,8 @@ class App
 			{ target:progress_mc.track_mc, color:colors.track },
 			{ target:progress_mc.bar_mc, color:colors.tracker },
 			{ target:progress_mc.border_mc, color:colors.border },
+			{ target:display_mc.toggle_mc.disk_mc, color:colors.text },
+			{ target:display_mc.toggle_mc.arrow_mc, color:colors.track },
 			{ target:display_mc.display_txt, color:colors.text }
 		];
 		
@@ -351,9 +353,12 @@ class App
 		mask_mc._width += dx;
 	}
 	
+	// ------------------------------------------------------------
+	// Periodical update method
+
 	/**
 	* General periodical update method. It performs the following:
-	* 	Updates various UI element states (volume, control, progress bar and loading bar)
+	* Updates various UI element states (volume, control, progress bar and loading bar)
 	*/
 	private static function _update():Void
 	{
@@ -379,25 +384,32 @@ class App
 		switch(playerState.state)
 		{
 			case Player.NOTFOUND:
-				display_mc.setText("File not found");
+				display_mc.setText("File not found", 0);
 				// Also toggle control button
 				if(control_mc.state == "pause") control_mc.toggle();
 				break;
 			case Player.INITIALISING:
-				display_mc.setText("Initialising...");
+				display_mc.setText("Initialising...", 0);
 				break;
 			case Player.PLAYING:
 			case Player.PAUSED:
-				if(playerState.connecting) display_mc.setText("Connecting...");
-				else if(playerState.buffering) display_mc.setText("Buffering...");
-				else if(playerState.trackInfo.artist.length > 0)
+				var slot = 0;
+				if(playerState.connecting) display_mc.setText("Connecting...", slot++, true);
+				else
 				{
-					display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname);
+					if(playerState.buffering) display_mc.setText("Buffering...", slot++, true);
+					else if(playerState.trackInfo.artist.length > 0)
+					{
+						display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname, slot++, true);
+					}
+				
+					display_mc.setText("Time elapsed: " + _formatTime(playerState.position), slot++);
+					display_mc.setText("Time left: " + _formatTime(playerState.duration - playerState.position), slot++);
+					display_mc.setText("Track length: " + _formatTime(playerState.duration), slot++);
 				}
-				else display_mc.setText("Playing");
 				break;
 			default:
-				display_mc.setText("");
+				display_mc.clear();
 				break;
 		}
 		
@@ -416,4 +428,39 @@ class App
 			_root.setcolors = 0;
 		}
 	}
+	
+	// ------------------------------------------------------------
+	// Helper functions
+	
+	private static function _formatTime(ms:Number):String
+	{
+		var trkTimeInfo:Date = new Date();
+		var seconds:Number, minutes:Number, hours:Number;
+		var result:String;
+
+		// Populate a date object (to convert from ms to hours/minutes/seconds)
+		trkTimeInfo.setSeconds(int(ms/1000));
+		trkTimeInfo.setMinutes(int((ms/1000)/60));
+		trkTimeInfo.setHours(int(((ms/1000)/60)/60));
+
+		// Get the values from date object
+		seconds = trkTimeInfo.getSeconds();
+		minutes = trkTimeInfo.getMinutes();
+		hours = trkTimeInfo.getHours();
+
+		// Build position string
+		result = seconds.toString();
+		if(seconds < 10) result = "0" + result;
+		result = ":" + result;
+		result = minutes.toString() + result;
+		if(minutes < 10) result = "0" + result;
+		if(hours > 0)
+		{
+			result = ":" + result;
+			result = hours.toString() + result;
+		}
+
+		return result;
+	}
+
 }
