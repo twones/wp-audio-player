@@ -26,6 +26,27 @@ class App
 	// Interval ID for animation
 	private static var _clearID:Number;
 	
+	// List of color keys
+	private static var _colorKeys:Array = ["bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker"];
+	
+	// Holds the current colour scheme (initialise with default colour scheme)
+	private static var _colorScheme:Object = {
+		bg:0xE5E5E5,
+		leftbg:0xCCCCCC,
+		lefticon:0x333333,
+		voltrack:0xF2F2F2,
+		volslider:0x666666,
+		rightbg:0xB4B4B4,
+		rightbghover:0x999999,
+		righticon:0x333333,
+		text:0x333333,
+		slider:0xCCCCCC,
+		track:0xFFFFFF,
+		border:0xCCCCCC,
+		loader:0x009900,
+		tracker:0xDDDDDD	
+	};
+	
 	// Options structure
 	private static var _options:Object = {
 		autostart:false,
@@ -60,27 +81,7 @@ class App
 		
 		_setStage();
 		
-		var colorTransforms = [
-			{ target:background_mc, color:options.colors.bg },
-			{ target:volume_mc.background_mc, color:options.colors.leftbg },
-			{ target:volume_mc.icon_mc, color:options.colors.lefticon },
-			{ target:volume_mc.control_mc.track_mc, color:options.colors.voltrack },
-			{ target:volume_mc.control_mc.bar_mc, color:options.colors.volslider },
-			{ target:control_mc.background_mc.normal_mc, color:options.colors.rightbg },
-			{ target:control_mc.background_mc.hover_mc, color:options.colors.rightbghover },
-			{ target:control_mc.play_mc.normal_mc, color:options.colors.righticon },
-			{ target:control_mc.play_mc.hover_mc, color:options.colors.righticonhover },
-			{ target:control_mc.pause_mc.normal_mc, color:options.colors.righticon },
-			{ target:control_mc.pause_mc.hover_mc, color:options.colors.righticonhover },
-			{ target:loading_mc.bar_mc, color:options.colors.loader },
-			{ target:loading_mc.track_mc, color:options.colors.track },
-			{ target:progress_mc.track_mc, color:options.colors.track },
-			{ target:progress_mc.bar_mc, color:options.colors.tracker },
-			{ target:progress_mc.border_mc, color:options.colors.border },
-			{ target:display_mc.display_txt, color:options.colors.text }
-		];
-		
-		_setColors(colorTransforms);
+		_setColors(_colorScheme);
 
 		// Start player automatically if requested
 		if(_options.autostart) onPlay();
@@ -153,7 +154,7 @@ class App
 		background_mc._x = volume_mc.realWidth - 7;
 		
 		progress_mc._x = volume_mc.realWidth + 4;
-		progress_mc._y = 3;
+		progress_mc._y = 2;
 		
 		loading_mc._x = volume_mc.realWidth + 4;
 		loading_mc._y = 20;
@@ -161,7 +162,7 @@ class App
 		mask_mc._x = volume_mc.realWidth - 7;
 		
 		display_mc._x = volume_mc.realWidth + 7;
-		display_mc._y = 3;
+		display_mc._y = 2;
 		
 		// Control element alignment depends on whether player is open or closed
 		if(_state == CLOSED) control_mc._x = volume_mc.realWidth - 6;
@@ -183,8 +184,34 @@ class App
 		display_mc.resize(availSpace - 12);
 	}
 	
-	private static function _setColors(colorTransforms:Array):Void
+	/**
+	* Applies colour scheme to player
+	* @param	colors a structure of color keys (e.g. colors.bg = 0x000000)
+	*/
+	private static function _setColors(colors:Object):Void
 	{
+		// Map colours to player elements
+		var colorTransforms = [
+			{ target:background_mc, color:colors.bg },
+			{ target:volume_mc.background_mc, color:colors.leftbg },
+			{ target:volume_mc.icon_mc, color:colors.lefticon },
+			{ target:volume_mc.control_mc.track_mc, color:colors.voltrack },
+			{ target:volume_mc.control_mc.bar_mc, color:colors.volslider },
+			{ target:control_mc.background_mc.normal_mc, color:colors.rightbg },
+			{ target:control_mc.background_mc.hover_mc, color:colors.rightbghover },
+			{ target:control_mc.play_mc.normal_mc, color:colors.righticon },
+			{ target:control_mc.play_mc.hover_mc, color:colors.righticonhover },
+			{ target:control_mc.pause_mc.normal_mc, color:colors.righticon },
+			{ target:control_mc.pause_mc.hover_mc, color:colors.righticonhover },
+			{ target:loading_mc.bar_mc, color:colors.loader },
+			{ target:loading_mc.track_mc, color:colors.track },
+			{ target:progress_mc.track_mc, color:colors.track },
+			{ target:progress_mc.bar_mc, color:colors.tracker },
+			{ target:progress_mc.border_mc, color:colors.border },
+			{ target:display_mc.display_txt, color:colors.text }
+		];
+		
+		// Apply colours
 		var tempColor:Color;
 		for(var i:Number = 0;i<colorTransforms.length;i++)
 		{
@@ -218,9 +245,14 @@ class App
 		if(_state < OPENING && _options.animation) openPlayer();
 	}
 	
+	/**
+	* onStop event handler
+	*/
 	public static function onStop():Void
 	{
+		// If player is open and animation is enabled, close the player
 		if(_options.animation && _state > CLOSING) closePlayer();
+		// Toggle play button state
 		control_mc.toggle();
 	}
 	
@@ -232,9 +264,29 @@ class App
 		_player.pause();
 		
 		// If player is open and animation is enabled, close the player
-		if(_state == OPEN && _options.animation) closePlayer();
+		if(_state > CLOSING && _options.animation) closePlayer();
 	}
 
+	/**
+	* onMoveHead event handler
+	* @param	newPositon number form 0 to 1
+	*/
+	public static function onMoveHead(newPosition:Number):Void
+	{
+		_player.moveHead(newPosition);
+	}
+	
+	/**
+	 * onSetVolume event handler
+	 */
+	public static function onSetVolume(volume:Number):Void
+	{
+		_player.setVolume(volume);
+	}
+
+	// ------------------------------------------------------------
+	// Open / close animation
+	
 	/**
 	* Starts open animation
 	*/
@@ -266,23 +318,6 @@ class App
 		_clearID = setInterval(_animate, 41, targetPosition);
 	}
 	
-	/**
-	* onMoveHead event handler
-	* @param	newPositon number form 0 to 1
-	*/
-	public static function onMoveHead(newPosition:Number):Void
-	{
-		_player.moveHead(newPosition);
-	}
-	
-	/**
-	 * onSetVolume event handler
-	 */
-	public static function onSetVolume(volume:Number):Void
-	{
-		_player.setVolume(volume);
-	}
-
 	/**
 	* Moves control element to the given target position (with easing)
 	* @param	targetX target position of control element
@@ -316,24 +351,36 @@ class App
 		mask_mc._width += dx;
 	}
 	
+	/**
+	* General periodical update method. It performs the following:
+	* 	Updates various UI element states (volume, control, progress bar and loading bar)
+	*/
 	private static function _update():Void
 	{
+		// Get player state (head positions, stats etc)
 		var playerState:Object = _player.getState();
 		
+		// Update volume control state
 		volume_mc.update(playerState.volume);
 
+		// Enable / disable control button
 		control_mc.enabled = (playerState.state >= Player.STOPPED);
 		
+		// Update progress bar if necessary
 		if(playerState.state != Player.PAUSED) progress_mc.updateProgress(playerState.played);
 		
+		// Tell progress bar how far it can go
 		progress_mc.setMaxValue(playerState.loaded);
 
+		// Update loading bar state
 		loading_mc.update(playerState.loaded);
 		
+		// Update text display
 		switch(playerState.state)
 		{
 			case Player.NOTFOUND:
 				display_mc.setText("File not found");
+				// Also toggle control button
 				if(control_mc.state == "pause") control_mc.toggle();
 				break;
 			case Player.INITIALISING:
@@ -352,6 +399,21 @@ class App
 			default:
 				display_mc.setText("");
 				break;
+		}
+		
+		// Set colour scheme at runtime
+		if(_root.setcolors)
+		{
+			// Update colour scheme from root variables (can be set via javascript)
+			for(var i:Number = 0;i<_colorKeys.length;i++)
+			{
+				if(_root[_colorKeys[i]] != undefined) _colorScheme[_colorKeys[i]] = _root[_colorKeys[i]];
+			}
+			
+			// Apply the new colour scheme
+			_setColors(_colorScheme);
+
+			_root.setcolors = 0;
 		}
 	}
 }
