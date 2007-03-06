@@ -283,7 +283,8 @@ class App
 	 */
 	public static function onSetVolume(volume:Number):Void
 	{
-		_player.setVolume(volume);
+		// Set the volume and force a broadcast of the changed volume
+		_player.setVolume(volume, true);
 	}
 
 	// ------------------------------------------------------------

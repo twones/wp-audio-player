@@ -44,9 +44,11 @@ class net.onepixelout.audio.Player
 	private var _lastPosition:Number;
 	
 	private var _clearID:Number; // In case we need to stop the periodical function
+	private var _delayID:Number; // For calling a method with a delay
 	
 	// Local connection broadcaster
 	private var _lcBroadcaster:LcBroadcast;
+	
 	private var _playOnInit:Boolean;
 	
 	private var broadcastMessage:Function;
@@ -56,7 +58,9 @@ class net.onepixelout.audio.Player
 	// Options structure
 	private var _options:Object = {
 		initialVolume:70,
-		enableCycling:true
+		enableCycling:true,
+		syncVolumes:true,
+		killDownloads:true
 	};
 	
 	/**
@@ -152,7 +156,7 @@ class net.onepixelout.audio.Player
 		// Update stats now (don't wait for watcher to kick in)
 		_updateStats();
 		
-		// Broadcast message to other players
+		// Tell any other players to stop playing (don't want no cacophony do we?)
 		_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
 	}
 	
@@ -185,6 +189,7 @@ class net.onepixelout.audio.Player
 	{
 		if(broadcast == undefined) broadcast = true;
 		
+		// Tell anyone interested that the player has stopped
 		if(broadcast) broadcastMessage("onStop");
 		
 		// Stop playhead and unload track (stops download);
@@ -258,15 +263,28 @@ class net.onepixelout.audio.Player
 	/**
 	* Sets the player volume
 	* @param newVolume number between 0 and 100
+	* @param broadcast if true, a setvolume message is broadcast to any other players to synchronise volumes
 	*/
-	public function setVolume(newVolume:Number):Void
+	public function setVolume(newVolume:Number, broadcast:Boolean):Void
 	{
+		// Clear delay interval
+		clearInterval(_delayID);
+		
+		if(broadcast == undefined) broadcast = false;
+		
 		// If we have a new value for volume, set it
 		if(newVolume != undefined) _volume = newVolume;
 		// Set the player volume
 		if(_state > STOPPED) _playhead.setVolume(_volume);
+		
+		// Tell any other players that the volume has changed
+		if(_options.syncVolumes && broadcast) _lcBroadcaster.broadcast({msg:"volume", volume:_volume, id:_lcBroadcaster.internalID});
 	}
 	
+	/**
+	* Returns a snapshot of the current state of the player
+	* @return a structure of values describing the current state
+	*/
 	public function getState():Object
 	{
 		var result:Object = new Object();
@@ -399,7 +417,6 @@ class net.onepixelout.audio.Player
 		}
 		
 		// Otherwise, look at how much audio is playable and set buffer accordingly
-		
 		var currentBuffer:Number = Math.round(((_loaded * _duration) - newPosition) / 1000);
 		
 		if(currentBuffer >= 5) _root._soundbuftime = 0;
@@ -459,6 +476,11 @@ class net.onepixelout.audio.Player
 	private function _activate():Void
 	{
 		if(_state == INITIALISING) _state = STOPPED;
+		
+		// Ask any other existing players for the current volume
+		if(_options.syncVolumes) _lcBroadcaster.broadcast({msg:"givemevolume", id:_lcBroadcaster.internalID});
+		
+		// If the playlist has finished loading and we were to start playing
 		if(_playOnInit && !_loadingPlaylist)
 		{
 			this.play();
@@ -477,14 +499,28 @@ class net.onepixelout.audio.Player
 		switch(parameters.msg)
 		{
 			case "pause":
+				// Another player has asked us to stop
 				if(_state == PLAYING)
 				{
-					this.pause();
+					// If the track is still loading, stop everything including the download
+					if(_options.killDownloads && _loaded < 1) this.stop(false);
+					// Otherwise, just pause the track
+					else this.pause();
+					
+					// Tell anyone interested that the player is now stopped
 					broadcastMessage("onStop");
 				}
 				break;
+			
+			case "volume":
+				// Another player has had its volume changed, synchronise the volume to this new value
+				if(_options.syncVolumes) this.setVolume(parameters.volume);
+				break;
 				
-			default:
+			case "givemevolume":
+				// Another player is asking for the current volume value
+				// Delay the respone (didn't work without the delay)
+				_delayID = setInterval(this, "setVolume", 200, _volume, true);
 				break;
 		}
 	}
