@@ -24,15 +24,15 @@ class Progress extends MovieClip
 		_movingHead = false;
 		
 		this.track_mc.onPress = Delegate.create(this, function() {
-			_movingHead = true;
-			_moveProgressBar();
+			this._movingHead = true;
+			this._moveProgressBar();
 		});
 		this.track_mc.onMouseMove = Delegate.create(this, function() {
-			if(_movingHead) _moveProgressBar();
+			if(this._movingHead) this._moveProgressBar();
 		});
 		this.track_mc.onRelease = this.track_mc.onReleaseOutside = Delegate.create(this, function() {
-			broadcastMessage("onMoveHead", this.bar_mc._width / this.track_mc._width);
-			_movingHead = false;
+			this.broadcastMessage("onMoveHead", this.bar_mc._width / this.track_mc._width);
+			this._movingHead = false;
 		});
 	}
 	

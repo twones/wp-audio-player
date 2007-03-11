@@ -36,20 +36,20 @@ class Volume extends MovieClip
 		this.realWidth = this.background_mc._width;
 		
 		this.button_mc.onPress = Delegate.create(this, function() {
-			_settingVolume = true;
-			_moveVolumeBar();
+			this._settingVolume = true;
+			this._moveVolumeBar();
 		});
 		this.button_mc.onMouseMove = Delegate.create(this, function() {
-			if(_settingVolume)
+			if(this._settingVolume)
 			{
-				_moveVolumeBar();
-				broadcastMessage("onSetVolume", _getValue());
+				this._moveVolumeBar();
+				this.broadcastMessage("onSetVolume", this._getValue());
 			}
 		});
 		this.button_mc.onRelease = this.button_mc.onReleaseOutside = Delegate.create(this, function() {
-			_settingVolume = false;
-			_moveVolumeBar();
-			broadcastMessage("onSetVolume", _getValue());
+			this._settingVolume = false;
+			this._moveVolumeBar();
+			this.broadcastMessage("onSetVolume", this._getValue());
 		});
 	}
 	
