@@ -1,6 +1,6 @@
 ﻿import net.onepixelout.audio.*;
 
-class App
+class Application
 {
 	// Audio Player
 	private static var _player:Player;
@@ -39,6 +39,7 @@ class App
 		rightbg:0xB4B4B4,
 		rightbghover:0x999999,
 		righticon:0x333333,
+		righticonhover:0xFFFFFF,
 		text:0x333333,
 		slider:0xCCCCCC,
 		track:0xFFFFFF,
@@ -73,7 +74,7 @@ class App
 		_player = new Player(playerParams);
 		_player.loadPlaylist(sourceFile);
 		
-		_player.addListener(App);
+		_player.addListener(Application);
 		
 		// Initial player state
 		_state = CLOSED;
@@ -117,7 +118,7 @@ class App
 		masked_mc = _root.createEmptyMovieClip("masked_mc", nextDepth++);
 		background_mc = masked_mc.attachMovie("Background", "background_mc", 0);
 		progress_mc = masked_mc.attachMovie("Progress", "progress_mc", 1);
-		progress_mc.addListener(App);
+		progress_mc.addListener(Application);
 		loading_mc = masked_mc.attachMovie("Loading", "loading_mc", 2);
 		
 		// Mask
@@ -131,17 +132,17 @@ class App
 		
 		// Volume control
 		volume_mc = _root.attachMovie("Volume", "volume_mc", nextDepth++);
-		volume_mc.addListener(App);
+		volume_mc.addListener(Application);
 
 		// Play/pause control
 		control_mc = _root.attachMovie("Control", "control_mc", nextDepth++, { state:_options.autostart ? "pause" : "play" });
-		control_mc.addListener(App);
+		control_mc.addListener(Application);
 		
 		// Align and resize elements to the stage
 		_alignAndResize();
 		
 		// Set stage listener in case the stage is resized
-		Stage.addListener(App);
+		Stage.addListener(Application);
 	}
 	
 	/**
@@ -463,5 +464,18 @@ class App
 
 		return result;
 	}
-
+	
+	/**
+	* Fake function for pre-compiling library classes
+	*/
+	private function _preCompile()
+	{
+		var x;
+		x = new Control();
+		x = new Display();
+		x = new Loading();
+		x = new Progress();
+		x = new Ticker();
+		x = new Volume();
+	}
 }
