@@ -134,9 +134,13 @@ class Application
 			// Add event handlers
 			next_mc.onRelease = function() {
 				Application._player.next();
+				// Reset time display
+				Application.display_mc.setTime(0);
 			};
 			previous_mc.onRelease = function() {
 				Application._player.previous();
+				// Reset time display
+				Application.display_mc.setTime(0);
 			};
 		}
 		
@@ -190,7 +194,7 @@ class Application
 		
 		mask_mc._x = volume_mc.realWidth - 7;
 		
-		display_mc._x = volume_mc.realWidth + 5;
+		display_mc._x = volume_mc.realWidth + 4;
 		if(trackCount > 1) display_mc._x += 10;
 		display_mc._y = 2;
 		
@@ -379,7 +383,7 @@ class Application
 		{
 			// Position the control element to the exact target position
 			control_mc._x = targetX;
-			mask_mc._width += (dx*4);
+			mask_mc._width += (dx*2);
 			clearInterval(_clearID);
 			if(_state == OPENING)
 			{
@@ -441,12 +445,15 @@ class Application
 				display_mc.setText("File not found", 0);
 				// Also toggle control button
 				if(control_mc.state == "pause") control_mc.toggle();
+				display_mc.setTime(0);
 				break;
 			case Player.INITIALISING:
 				display_mc.setText("Initialising...", 0);
+				display_mc.setTime(0);
 				break;
 			case Player.PLAYING:
 			case Player.PAUSED:
+				// Here, we have a slot system but we don't use it anymore
 				var slot = 0;
 				if(playerState.connecting) display_mc.setText("Connecting...", slot++, true);
 				else
@@ -458,11 +465,8 @@ class Application
 						if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
 						display_mc.setText(trackNumber + playerState.trackInfo.artist + ": " + playerState.trackInfo.songname, slot++, true);
 					}
-				
-					display_mc.setText("Time elapsed: " + _formatTime(playerState.position), slot++);
-					display_mc.setText("Time left: " + _formatTime(playerState.duration - playerState.position), slot++);
-					display_mc.setText("Track length: " + _formatTime(playerState.duration), slot++);
 				}
+				display_mc.setTime(playerState.position);
 				break;
 			default:
 				display_mc.clear();
@@ -471,40 +475,6 @@ class Application
 		
 		// Set colour scheme at runtime
 		_setColors(false);
-	}
-	
-	// ------------------------------------------------------------
-	// Helper functions
-	
-	private static function _formatTime(ms:Number):String
-	{
-		var trkTimeInfo:Date = new Date();
-		var seconds:Number, minutes:Number, hours:Number;
-		var result:String;
-
-		// Populate a date object (to convert from ms to hours/minutes/seconds)
-		trkTimeInfo.setSeconds(int(ms/1000));
-		trkTimeInfo.setMinutes(int((ms/1000)/60));
-		trkTimeInfo.setHours(int(((ms/1000)/60)/60));
-
-		// Get the values from date object
-		seconds = trkTimeInfo.getSeconds();
-		minutes = trkTimeInfo.getMinutes();
-		hours = trkTimeInfo.getHours();
-
-		// Build position string
-		result = seconds.toString();
-		if(seconds < 10) result = "0" + result;
-		result = ":" + result;
-		result = minutes.toString() + result;
-		if(minutes < 10) result = "0" + result;
-		if(hours > 0)
-		{
-			result = ":" + result;
-			result = hours.toString() + result;
-		}
-
-		return result;
 	}
 	
 	/**

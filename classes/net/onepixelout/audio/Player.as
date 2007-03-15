@@ -235,7 +235,7 @@ class net.onepixelout.audio.Player
 		// Ignore if player is still initialising
 		if(_state == INITIALISING) return;
 		
-		var startPlaying:Boolean = (_state == PLAYING);
+		var startPlaying:Boolean = (_state == PLAYING || _state == NOTFOUND);
 
 		if(_playlist.next() != null && startPlaying)
 		{
