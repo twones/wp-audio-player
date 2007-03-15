@@ -9,7 +9,7 @@
     <movie input="" />
     <movie path="player.swf" />
     <movie fps="21" />
-    <movie width="250" />
+    <movie width="290" />
     <movie height="24" />
     <movie version="6" />
     <movie background="#FFFFFF" />

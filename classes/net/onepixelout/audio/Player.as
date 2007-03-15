@@ -256,8 +256,12 @@ class net.onepixelout.audio.Player
 		
 		var startPlaying:Boolean = (_state == PLAYING);
 		
-		this.stop();
-		if(_playlist.previous() != null && startPlaying) this.play();
+		if(_playlist.previous() != null && startPlaying)
+		{
+			this.stop(false);
+			this.play();
+		}
+		else this.stop(true);
 	}
 
 	/**
@@ -297,6 +301,10 @@ class net.onepixelout.audio.Player
 		result.duration = _duration;
 		result.position = _position;
 		result.volume = _volume;
+		result.trackIndex = _playlist.getCurrentIndex();
+		result.hasNext = _playlist.hasNext();
+		result.hasPrevious = _playlist.hasPrevious();
+		result.trackCount = _playlist.length;
 		
 		result.trackInfo = this.getCurrentTrack().getInfo();
 		
@@ -431,6 +439,15 @@ class net.onepixelout.audio.Player
 	{
 		_playlist = new Playlist(_options.enableCycling);
 		_playlist.loadFromList(trackFileList);
+	}
+	
+	/**
+	* Returns the number of tracks in the playlist
+	* @return the number of tracks
+	*/
+	public function getTrackCount():Number
+	{
+		return _playlist.length;
 	}
 
 	/**

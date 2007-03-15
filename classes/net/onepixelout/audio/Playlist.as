@@ -49,6 +49,11 @@ class net.onepixelout.audio.Playlist
 		return _tracks[_currentTrackIndex];
 	}
 	
+	public function getCurrentIndex():Number
+	{
+		return _currentTrackIndex;
+	}
+	
 	public function hasNext():Boolean
 	{
 		return (_currentTrackIndex < length-1);

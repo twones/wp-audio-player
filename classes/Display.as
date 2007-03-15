@@ -3,7 +3,6 @@
 class Display extends MovieClip
 {
 	public var display_txt:TextField;
-	public var toggle_mc:MovieClip;
 	
 	private var _ticker:Ticker;
 	
@@ -24,7 +23,6 @@ class Display extends MovieClip
 		_ticker.start();
 
 		// Add event handler to toggle switch (cycles through messages)
-		this.toggle_mc.onRelease = Delegate.create(this, next);
 	}
 	
 	private function next():Void
@@ -55,7 +53,7 @@ class Display extends MovieClip
 		if(update) _update();
 		
 		// Show / hide toggle switch
-		this.toggle_mc._visible = (_messages.length > 1);
+		//this.toggle_mc._visible = (_messages.length > 1);
 	}
 	
 	/**
@@ -66,7 +64,7 @@ class Display extends MovieClip
 		_messages = new Array();
 		_currentSlot = 0;
 		this.display_txt.text = "";
-		this.toggle_mc._visible =  false;
+		//this.toggle_mc._visible =  false;
 		_ticker.reset();
 	}
 	
@@ -76,8 +74,8 @@ class Display extends MovieClip
 	*/
 	public function resize(newWidth:Number):Void
 	{
-		this.display_txt._width = newWidth - 15;
-		this.toggle_mc._x = newWidth - 12;
+		this.display_txt._width = newWidth;
+		//this.toggle_mc._x = newWidth - 12;
 	}
 	
 	/**

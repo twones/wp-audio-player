@@ -2,8 +2,10 @@ class Main
 {
 	static function main()
 	{
-		if(_root.soundfile == undefined) _root.soundfile = "http://www.1pixelout.net/audio/adbusters.mp3";
+		if(_root.soundfile == undefined) _root.soundfile = "http://www.1pixelout.net/audio/adbusters.mp3,http://www.lepti.net/audio/david-last.mp3";
 
+		//_root.loop = "yes";
+		
 		var options:Object = new Object();
 		if(_root.autostart == "yes") options.autostart = true;
 		else if(_root.autostart == "no") options.autostart = false;

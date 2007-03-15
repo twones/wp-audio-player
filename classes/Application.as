@@ -10,6 +10,8 @@ class Application
 	private static var background_mc:MovieClip;
 	private static var progress_mc:MovieClip;
 	private static var loading_mc:MovieClip;
+	private static var next_mc:MovieClip;
+	private static var previous_mc:MovieClip;
 	private static var mask_mc:MovieClip;
 	private static var display_mc:MovieClip;
 	private static var control_mc:MovieClip;
@@ -82,7 +84,7 @@ class Application
 		
 		_setStage();
 		
-		_setColors(_colorScheme);
+		_setColors(true);
 
 		// Start player automatically if requested
 		if(_options.autostart) onPlay();
@@ -121,6 +123,23 @@ class Application
 		progress_mc.addListener(Application);
 		loading_mc = masked_mc.attachMovie("Loading", "loading_mc", 2);
 		
+		// Next and previous buttons (if needed)
+		if(_player.getTrackCount() > 1)
+		{
+			next_mc = masked_mc.attachMovie("Toggle", "next_mc", 3);
+			previous_mc = masked_mc.attachMovie("Toggle", "previous_mc", 4);
+			// Make it point the other way
+			previous_mc._rotation = -180;
+			
+			// Add event handlers
+			next_mc.onRelease = function() {
+				Application._player.next();
+			};
+			previous_mc.onRelease = function() {
+				Application._player.previous();
+			};
+		}
+		
 		// Mask
 		mask_mc = _root.attachMovie("Mask", "mask_mc", nextDepth++);
 		masked_mc.setMask(mask_mc);
@@ -154,15 +173,25 @@ class Application
 		// Align elements
 		background_mc._x = volume_mc.realWidth - 7;
 		
+		var trackCount = _player.getTrackCount();
+		
 		progress_mc._x = volume_mc.realWidth + 4;
+		if(trackCount > 1) progress_mc._x += 8;
 		progress_mc._y = 2;
 		
 		loading_mc._x = volume_mc.realWidth + 4;
+		if(trackCount > 1) loading_mc._x += 8;
 		loading_mc._y = 20;
+		
+		next_mc._x = Stage.width - 43;
+		next_mc._y = 12;
+		previous_mc._x = volume_mc.realWidth + 6;
+		previous_mc._y = 12;
 		
 		mask_mc._x = volume_mc.realWidth - 7;
 		
-		display_mc._x = volume_mc.realWidth + 7;
+		display_mc._x = volume_mc.realWidth + 5;
+		if(trackCount > 1) display_mc._x += 10;
 		display_mc._y = 2;
 		
 		// Control element alignment depends on whether player is open or closed
@@ -178,6 +207,8 @@ class Application
 		background_mc._width = availSpace + 14;
 		// Only resize mask if player is open
 		if(_state == OPEN) mask_mc._width = availSpace + 14;
+		
+		if(trackCount > 1) availSpace -= 12;
 
 		// Call resize methods on composite elements
 		progress_mc.resize(availSpace - 8);
@@ -187,31 +218,41 @@ class Application
 	
 	/**
 	* Applies colour scheme to player
-	* @param	colors a structure of color keys (e.g. colors.bg = 0x000000)
+	* @param	force if true, don't check _root.setcolors
 	*/
-	private static function _setColors(colors:Object):Void
+	private static function _setColors(force:Boolean):Void
 	{
+		if(!force && !_root.setcolors) return;
+		
+		// Update colour scheme from root variables (can be set via javascript)
+		for(var i:Number = 0;i<_colorKeys.length;i++)
+		{
+			if(_root[_colorKeys[i]] != undefined) _colorScheme[_colorKeys[i]] = _root[_colorKeys[i]];
+		}
+		
+		_root.setcolors = 0;
+		
 		// Map colours to player elements
 		var colorTransforms = [
-			{ target:background_mc, color:colors.bg },
-			{ target:volume_mc.background_mc, color:colors.leftbg },
-			{ target:volume_mc.icon_mc, color:colors.lefticon },
-			{ target:volume_mc.control_mc.track_mc, color:colors.voltrack },
-			{ target:volume_mc.control_mc.bar_mc, color:colors.volslider },
-			{ target:control_mc.background_mc.normal_mc, color:colors.rightbg },
-			{ target:control_mc.background_mc.hover_mc, color:colors.rightbghover },
-			{ target:control_mc.play_mc.normal_mc, color:colors.righticon },
-			{ target:control_mc.play_mc.hover_mc, color:colors.righticonhover },
-			{ target:control_mc.pause_mc.normal_mc, color:colors.righticon },
-			{ target:control_mc.pause_mc.hover_mc, color:colors.righticonhover },
-			{ target:loading_mc.bar_mc, color:colors.loader },
-			{ target:loading_mc.track_mc, color:colors.track },
-			{ target:progress_mc.track_mc, color:colors.track },
-			{ target:progress_mc.bar_mc, color:colors.tracker },
-			{ target:progress_mc.border_mc, color:colors.border },
-			{ target:display_mc.toggle_mc.disk_mc, color:colors.text },
-			{ target:display_mc.toggle_mc.arrow_mc, color:colors.track },
-			{ target:display_mc.display_txt, color:colors.text }
+			{ target:background_mc, color:_colorScheme.bg },
+			{ target:volume_mc.background_mc, color:_colorScheme.leftbg },
+			{ target:volume_mc.icon_mc, color:_colorScheme.lefticon },
+			{ target:volume_mc.control_mc.track_mc, color:_colorScheme.voltrack },
+			{ target:volume_mc.control_mc.bar_mc, color:_colorScheme.volslider },
+			{ target:control_mc.background_mc.normal_mc, color:_colorScheme.rightbg },
+			{ target:control_mc.background_mc.hover_mc, color:_colorScheme.rightbghover },
+			{ target:control_mc.play_mc.normal_mc, color:_colorScheme.righticon },
+			{ target:control_mc.play_mc.hover_mc, color:_colorScheme.righticonhover },
+			{ target:control_mc.pause_mc.normal_mc, color:_colorScheme.righticon },
+			{ target:control_mc.pause_mc.hover_mc, color:_colorScheme.righticonhover },
+			{ target:loading_mc.bar_mc, color:_colorScheme.loader },
+			{ target:loading_mc.track_mc, color:_colorScheme.track },
+			{ target:progress_mc.track_mc, color:_colorScheme.track },
+			{ target:progress_mc.bar_mc, color:_colorScheme.tracker },
+			{ target:progress_mc.border_mc, color:_colorScheme.border },
+			{ target:display_mc.toggle_mc.disk_mc, color:_colorScheme.text },
+			{ target:display_mc.toggle_mc.arrow_mc, color:_colorScheme.track },
+			{ target:display_mc.display_txt, color:_colorScheme.text }
 		];
 		
 		// Apply colours
@@ -331,13 +372,14 @@ class Application
 		var dx:Number = targetX - control_mc._x;
 		var speed:Number = 0.5;
 
-		dx = Math.round(dx * speed);
+		dx = dx * speed;
 
 		// Stop animation when we are at less than a pixel from the target
 		if(Math.abs(dx) < 1)
 		{
 			// Position the control element to the exact target position
 			control_mc._x = targetX;
+			mask_mc._width += (dx*4);
 			clearInterval(_clearID);
 			if(_state == OPENING)
 			{
@@ -382,6 +424,16 @@ class Application
 		// Update loading bar state
 		loading_mc.update(playerState.loaded);
 		
+		if(playerState.trackCount > 1)
+		{
+			next_mc.enabled = playerState.hasNext;
+			previous_mc.enabled = playerState.hasPrevious;
+			if(playerState.hasNext) next_mc._alpha = 100;
+			else next_mc._alpha = 60;
+			if(playerState.hasPrevious) previous_mc._alpha = 100;
+			else previous_mc._alpha = 60;
+		}
+		
 		// Update text display
 		switch(playerState.state)
 		{
@@ -402,7 +454,9 @@ class Application
 					if(playerState.buffering) display_mc.setText("Buffering...", slot++, true);
 					else if(playerState.trackInfo.artist.length > 0)
 					{
-						display_mc.setText(playerState.trackInfo.artist + ": " + playerState.trackInfo.songname, slot++, true);
+						var trackNumber = "";
+						if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
+						display_mc.setText(trackNumber + playerState.trackInfo.artist + ": " + playerState.trackInfo.songname, slot++, true);
 					}
 				
 					display_mc.setText("Time elapsed: " + _formatTime(playerState.position), slot++);
@@ -416,19 +470,7 @@ class Application
 		}
 		
 		// Set colour scheme at runtime
-		if(_root.setcolors)
-		{
-			// Update colour scheme from root variables (can be set via javascript)
-			for(var i:Number = 0;i<_colorKeys.length;i++)
-			{
-				if(_root[_colorKeys[i]] != undefined) _colorScheme[_colorKeys[i]] = _root[_colorKeys[i]];
-			}
-			
-			// Apply the new colour scheme
-			_setColors(_colorScheme);
-
-			_root.setcolors = 0;
-		}
+		_setColors(false);
 	}
 	
 	// ------------------------------------------------------------

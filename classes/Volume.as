@@ -80,18 +80,20 @@ class Volume extends MovieClip
 	public function toggleControl(toggle:Boolean, immediate:Boolean):Void
 	{
 		clearInterval(_clearID);
-		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0);
-		else _clearID = setInterval(this, "_animate", 41, 0, 100);
+		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0, 6);
+		else _clearID = setInterval(this, "_animate", 41, 0, 100, 16);
 	}
 	
-	private function _animate(targetControl:Number, targetIcon:Number):Void
+	private function _animate(targetControl:Number, targetIcon:Number, targetIconX:Number):Void
 	{
 		var dAlphaControl:Number = targetControl - control_mc._alpha;
 		var dAlphaIcon:Number = targetIcon - icon_mc._alpha;
+		var dAlphaIconX:Number = targetIconX - icon_mc._x;
 		var speed:Number = 0.3;
 		
-		dAlphaControl = Math.round(dAlphaControl * speed);
-		dAlphaIcon = Math.round(dAlphaIcon * speed);
+		dAlphaControl = dAlphaControl * speed;
+		dAlphaIcon = dAlphaIcon * speed;
+		dAlphaIconX = dAlphaIconX * speed;
 
 		// Stop animation when we are at less than a pixel from the target
 		if(Math.abs(dAlphaControl) < 1)
@@ -99,6 +101,7 @@ class Volume extends MovieClip
 			// Position the control element to the exact target position
 			control_mc._alpha = targetControl;
 			icon_mc._alpha = targetIcon;
+			icon_mc._x = targetIconX;
 			
 			button_mc._visible = (control_mc._alpha == 100);
 			
@@ -108,5 +111,6 @@ class Volume extends MovieClip
 		
 		control_mc._alpha += dAlphaControl;
 		icon_mc._alpha += dAlphaIcon;
+		icon_mc._x += dAlphaIconX;
 	}
 }
