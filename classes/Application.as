@@ -29,7 +29,7 @@ class Application
 	private static var _clearID:Number;
 	
 	// List of color keys
-	private static var _colorKeys:Array = ["bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker"];
+	private static var _colorKeys:Array = ["bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip"];
 	
 	// Holds the current colour scheme (initialise with default colour scheme)
 	private static var _colorScheme:Object = {
