@@ -42,6 +42,7 @@ class Application
 		rightbghover:0x999999,
 		righticon:0x333333,
 		righticonhover:0xFFFFFF,
+		skip:0x666666,
 		text:0x333333,
 		slider:0xCCCCCC,
 		track:0xFFFFFF,
@@ -187,15 +188,18 @@ class Application
 		if(trackCount > 1) loading_mc._x += 8;
 		loading_mc._y = 20;
 		
-		next_mc._x = Stage.width - 43;
-		next_mc._y = 12;
-		previous_mc._x = volume_mc.realWidth + 6;
-		previous_mc._y = 12;
+		if(trackCount > 1)
+		{
+			next_mc._x = Stage.width - 43;
+			next_mc._y = 12;
+			previous_mc._x = volume_mc.realWidth + 6;
+			previous_mc._y = 12;
+		}
 		
 		mask_mc._x = volume_mc.realWidth - 7;
 		
-		display_mc._x = volume_mc.realWidth + 4;
-		if(trackCount > 1) display_mc._x += 10;
+		display_mc._x = volume_mc.realWidth + 6;
+		if(trackCount > 1) display_mc._x += 8;
 		display_mc._y = 2;
 		
 		// Control element alignment depends on whether player is open or closed
@@ -254,6 +258,8 @@ class Application
 			{ target:progress_mc.track_mc, color:_colorScheme.track },
 			{ target:progress_mc.bar_mc, color:_colorScheme.tracker },
 			{ target:progress_mc.border_mc, color:_colorScheme.border },
+			{ target:next_mc, color:_colorScheme.skip },
+			{ target:previous_mc, color:_colorScheme.skip },
 			{ target:display_mc.toggle_mc.disk_mc, color:_colorScheme.text },
 			{ target:display_mc.toggle_mc.arrow_mc, color:_colorScheme.track },
 			{ target:display_mc.display_txt, color:_colorScheme.text }
@@ -433,16 +439,19 @@ class Application
 			next_mc.enabled = playerState.hasNext;
 			previous_mc.enabled = playerState.hasPrevious;
 			if(playerState.hasNext) next_mc._alpha = 100;
-			else next_mc._alpha = 60;
+			else next_mc._alpha = 50;
 			if(playerState.hasPrevious) previous_mc._alpha = 100;
-			else previous_mc._alpha = 60;
+			else previous_mc._alpha = 50;
 		}
+		
+		var trackNumber:String = "";
 		
 		// Update text display
 		switch(playerState.state)
 		{
 			case Player.NOTFOUND:
-				display_mc.setText("File not found", 0);
+				if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
+				display_mc.setText(trackNumber + "File not found", 0);
 				// Also toggle control button
 				if(control_mc.state == "pause") control_mc.toggle();
 				display_mc.setTime(0);
@@ -453,19 +462,19 @@ class Application
 				break;
 			case Player.PLAYING:
 			case Player.PAUSED:
-				// Here, we have a slot system but we don't use it anymore
-				var slot = 0;
-				if(playerState.connecting) display_mc.setText("Connecting...", slot++, true);
+				var message = "";
+				if(playerState.connecting) message = "Connecting...";
 				else
 				{
-					if(playerState.buffering) display_mc.setText("Buffering...", slot++, true);
+					if(playerState.trackCount > 1) message = (playerState.trackIndex + 1) + ": ";
+					if(playerState.buffering) message += "Buffering...";
 					else if(playerState.trackInfo.artist.length > 0)
 					{
-						var trackNumber = "";
-						if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
-						display_mc.setText(trackNumber + playerState.trackInfo.artist + ": " + playerState.trackInfo.songname, slot++, true);
+						message += playerState.trackInfo.artist + " - " + playerState.trackInfo.songname;
 					}
+					else message = "Track #" + (playerState.trackIndex + 1);
 				}
+				display_mc.setText(message, 0, true);
 				display_mc.setTime(playerState.position);
 				break;
 			default:

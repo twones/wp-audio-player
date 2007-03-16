@@ -2,9 +2,9 @@ class Main
 {
 	static function main()
 	{
-		if(_root.soundfile == undefined) _root.soundfile = "http://www.1pixelout.net/audio/adbusters.mp3,http://www.lepti.net/audio/david-last.mp3";
+		if(_root.soundfile == undefined) _root.soundfile = "http://www.1pixelout.net/audio/adbusters.mp3,http://downloads.bbc.co.uk/rmhttp/downloadtrial/radio4/inourtime/inourtime_20070315-0900_40_st.mp3";
 
-		//_root.loop = "yes";
+		//_root.animation = "no";
 		
 		var options:Object = new Object();
 		if(_root.autostart == "yes") options.autostart = true;

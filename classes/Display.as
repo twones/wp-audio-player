@@ -24,8 +24,6 @@ class Display extends MovieClip
 		// Initialise and start ticker
 		_ticker = new Ticker(this.message_txt);
 		_ticker.start();
-
-		// Add event handler to toggle switch (cycles through messages)
 	}
 	
 	/**
@@ -91,7 +89,7 @@ class Display extends MovieClip
 		var newMessageWidth = _newWidth;
 		newMessageWidth -= ((this.time_txt.text.length > 5) ? 50: 38);
 		this.message_txt._width = newMessageWidth;
-		this.time_txt._x = _newWidth - (this.time_txt._width - 2);
+		this.time_txt._x = _newWidth - this.time_txt._width + 1;
 	}
 	
 	/**
@@ -124,9 +122,9 @@ class Display extends MovieClip
 		if(seconds < 10) result = "0" + result;
 		result = ":" + result;
 		result = minutes.toString() + result;
-		if(minutes < 10) result = "0" + result;
 		if(hours > 0)
 		{
+			if(minutes < 10) result = "0" + result;
 			result = ":" + result;
 			result = hours.toString() + result;
 		}

@@ -242,7 +242,7 @@ class net.onepixelout.audio.Player
 			this.stop(false);
 			this.play();
 		}
-		else this.stop(true);
+		else this.stop(false);
 	}
 
 	/**
@@ -261,7 +261,7 @@ class net.onepixelout.audio.Player
 			this.stop(false);
 			this.play();
 		}
-		else this.stop(true);
+		else this.stop(false);
 	}
 
 	/**
@@ -271,7 +271,6 @@ class net.onepixelout.audio.Player
 	*/
 	public function setVolume(newVolume:Number, broadcast:Boolean):Void
 	{
-		// Clear delay interval
 		clearInterval(_delayID);
 		
 		if(broadcast == undefined) broadcast = false;
@@ -536,8 +535,9 @@ class net.onepixelout.audio.Player
 				
 			case "givemevolume":
 				// Another player is asking for the current volume value
-				// Delay the respone (didn't work without the delay)
-				_delayID = setInterval(this, "setVolume", 200, _volume, true);
+				// Delay the response (didn't work without the delay)
+				// And ignore if already requested
+				if(!_delayID) _delayID = setInterval(this, "setVolume", 200, _volume, true);
 				break;
 		}
 	}
