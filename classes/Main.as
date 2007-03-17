@@ -2,7 +2,8 @@ class Main
 {
 	static function main()
 	{
-		if(_root.soundfile == undefined) _root.soundfile = "http://www.1pixelout.net/audio/adbusters.mp3,http://downloads.bbc.co.uk/rmhttp/downloadtrial/radio4/inourtime/inourtime_20070315-0900_40_st.mp3";
+		if(_root.soundfile != undefined) _root.soundFile = _root.soundfile;
+		if(_root.soundFile == undefined) _root.soundFile = "http://www.1pixelout.net/audio/adbusters.mp3,http://downloads.bbc.co.uk/rmhttp/downloadtrial/radio4/inourtime/inourtime_20070315-0900_40_st.mp3";
 
 		//_root.animation = "no";
 		
@@ -14,6 +15,6 @@ class Main
 		if(_root.loop == "yes") options.loop = true;
 		else if(_root.loop == "no") options.loop = false;
 		
-		Application.start(_root.soundfile, options);
+		Application.start(_root.soundFile, options);
 	}
 }
