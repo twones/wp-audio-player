@@ -232,7 +232,7 @@ class Application
 	{
 		if(!force && !_root.setcolors) return;
 		
-		// Update colour scheme from root variables (can be set via javascript)
+		// Update colour scheme from root variables (set via javascript)
 		for(var i:Number = 0;i<_colorKeys.length;i++)
 		{
 			if(_root[_colorKeys[i]] != undefined) _colorScheme[_colorKeys[i]] = _root[_colorKeys[i]];
@@ -295,6 +295,9 @@ class Application
 	{
 		_player.play();
 		
+		// Show volume control
+		volume_mc.toggleControl(true);
+		
 		// If player is closed and animation is enabled, open the player
 		if(_state < OPENING && _options.animation) openPlayer();
 	}
@@ -306,6 +309,10 @@ class Application
 	{
 		// If player is open and animation is enabled, close the player
 		if(_options.animation && _state > CLOSING) closePlayer();
+		
+		// Hide volume control
+		volume_mc.toggleControl(false);
+		
 		// Toggle play button state
 		control_mc.toggle();
 	}
@@ -316,6 +323,9 @@ class Application
 	public static function onPause():Void
 	{
 		_player.pause();
+		
+		// Hide volume control
+		volume_mc.toggleControl(false);
 		
 		// If player is open and animation is enabled, close the player
 		if(_state > CLOSING && _options.animation) closePlayer();
@@ -349,8 +359,6 @@ class Application
 	{
 		_state = OPENING;
 		
-		volume_mc.toggleControl(true);
-
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(_animate, 41, targetPosition);
@@ -365,8 +373,6 @@ class Application
 		
 		// Hide text display (doesn't work under a mask)
 		display_mc._visible = false;
-
-		volume_mc.toggleControl(false);
 
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
