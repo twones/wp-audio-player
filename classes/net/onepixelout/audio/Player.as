@@ -434,10 +434,12 @@ class net.onepixelout.audio.Player
 	* Loads a list of mp3 files onto a playlist
 	* @param trackFileList
 	*/
-	public function loadPlaylist(trackFileList:String):Void
+	public function loadPlaylist(trackFileList:String, titleList:String, artistList:String):Void
 	{
+		if(titleList == undefined) titleList = "";
+		if(artistList == undefined) artistList = "";
 		_playlist = new Playlist(_options.enableCycling);
-		_playlist.loadFromList(trackFileList);
+		_playlist.loadFromList(trackFileList, titleList, artistList);
 	}
 	
 	/**

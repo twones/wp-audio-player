@@ -16,10 +16,22 @@ class net.onepixelout.audio.Playlist
 		if(enableCycling != undefined) _cyclingEnabled = enableCycling;
 	}
 	
-	public function loadFromList(trackList:String):Void
+	public function loadFromList(trackList:String, titleList:String, artistList:String):Void
 	{
+		if(titleList == undefined) titleList = "";
+		if(artistList == undefined) artistList = "";
 		var trackArray:Array = trackList.split(",");
-		for(var i:Number = 0;i < trackArray.length;i++) this.addTrack(new Track(trackArray[i]));
+		var titleArray:Array = titleList.split(",");
+		var artistArray:Array = artistList.split(",");
+		var newTrack:Track;
+		
+		for(var i:Number = 0;i < trackArray.length;i++)
+		{
+			newTrack = new Track(trackArray[i]);
+			if(i < titleArray.length) newTrack.setTitle(titleArray[i]);
+			if(i < artistArray.length) newTrack.setArtist(artistArray[i]);
+			this.addTrack(newTrack);
+		}
 	}
 	
 	public function loadFromXML(listXML:XML):Void

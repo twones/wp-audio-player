@@ -16,7 +16,7 @@ class net.onepixelout.audio.Track
 	private var _id3Loaded:Boolean; // TRUE = ID3 tags already loaded
 	private var _id3Tags:Object; // All ID3 tag information (direct link to ID3 structure of sound object)
 
-	function Track(src:String, songName:String, artist:String)
+	function Track(src:String, title:String, artist:String)
 	{
 		_soundObject = new Sound();
 		_src = src;
@@ -25,13 +25,26 @@ class net.onepixelout.audio.Track
 		_id3Loaded = false;
 		_notFound = false;
 		
-		if(songName != undefined && artist != undefined)
+		_id3Tags = new Object();
+
+		if(title != undefined && artist != undefined)
 		{
-			_id3Tags = new Object();
-			_id3Tags.songname = songName;
+			_id3Tags.songname = title;
 			_id3Tags.artist = artist;
 			_id3Loaded = true;
 		}
+	}
+	
+	public function setTitle(title:String):Void
+	{
+		_id3Tags.songname = title;
+		_id3Loaded = true;
+	}
+	
+	public function setArtist(artist:String):Void
+	{
+		_id3Tags.artist = artist;
+		_id3Loaded = true;
 	}
 	
 	public function load():Sound

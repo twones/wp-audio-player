@@ -75,7 +75,10 @@ class Application
 
 		// Create audio player instance and load playlist
 		_player = new Player(playerParams);
-		_player.loadPlaylist(sourceFile);
+		
+		var trackTitles:String = (_options.titles != undefined) ? _options.titles : "";
+		var trackArtists:String = (_options.artists != undefined) ? _options.artists : "";
+		_player.loadPlaylist(sourceFile, trackTitles, trackArtists);
 		
 		_player.addListener(Application);
 		
@@ -474,9 +477,11 @@ class Application
 				{
 					if(playerState.trackCount > 1) message = (playerState.trackIndex + 1) + ": ";
 					if(playerState.buffering) message += "Buffering...";
-					else if(playerState.trackInfo.artist.length > 0)
+					else if(playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songname.length > 0)
 					{
-						message += playerState.trackInfo.artist + " - " + playerState.trackInfo.songname;
+						message += playerState.trackInfo.artist;
+						if(playerState.trackInfo.artist.length > 0) message += " - ";
+						message += playerState.trackInfo.songname;
 					}
 					else message = "Track #" + (playerState.trackIndex + 1);
 				}
