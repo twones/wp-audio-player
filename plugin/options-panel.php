@@ -1,5 +1,5 @@
 <div class="wrap" style="height:100%">
-	<h2>Audio player options</h2>
+	<h2>Audio Player options</h2>
 	<?php if( function_exists( "curl_init" ) || ini_get( "allow_url_fopen" ) ) { ?>
 	<form style="float:right;margin:0 0 0 10px;" method="post" class="submit"><input type="submit" class="button" name="ap_updateCheck" value="Check for updates" /></form>
 	<?php } ?>

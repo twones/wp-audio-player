@@ -98,6 +98,8 @@ License:
 add_option('audio_player_web_path', '/audio', "Web path to audio files", true);
 add_option('audio_player_width', '290', "Player width", true);
 add_option('audio_player_enableAnimation', 'yes', "Enable animation", true);
+add_option('audio_player_embedmethod', 'ufo', "FLash embed method", true);
+add_option('audio_player_includeembedfile', 'yes', "Include embed method file", true);
 add_option('audio_player_behaviour', 'default', "Plugin behaviour", true);
 add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true);
 add_option('audio_player_rsscustomalternate', '[See post to listen to audio]', "Custom RSS alternate content", true);
@@ -311,6 +313,7 @@ function ap_getplayer($source, $options = array()) {
 
 // Add filter hook
 add_filter('the_content', 'ap_insert_player_widgets');
+if(in_array("comments", $ap_behaviour)) add_filter('comment_text', 'ap_insert_player_widgets');
 
 // Helper function for displaying a system message
 function ap_showMessage( $message ) {
@@ -368,7 +371,12 @@ function ap_options_subpanel() {
 		update_option('audio_player_web_path', $_POST['ap_audiowebpath']);
 
 		// Update behaviour and rss alternate content options
-		update_option('audio_player_behaviour', implode(",", $_POST['ap_behaviour']));
+		update_option('audio_player_embedmethod', $_POST['ap_embedmethod']);
+		update_option('audio_player_includeembedfile', isset( $_POST["ap_includeembedfile"] ));
+		if(isset( $_POST["ap_disableAnimation"] )) update_option('audio_player_enableAnimation', "no");
+		else update_option('audio_player_enableAnimation', "yes");
+		if(count($_POST['ap_behaviour']) > 0) update_option('audio_player_behaviour', implode(",", $_POST['ap_behaviour']));
+		else update_option('audio_player_behaviour', '');
 		update_option('audio_player_rssalternate', $_POST['ap_rssalternate']);
 		update_option('audio_player_rsscustomalternate', $_POST['ap_rsscustomalternate']);
 		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
@@ -400,13 +408,17 @@ function ap_options_subpanel() {
 	$ap_demo_options["autostart"] = "yes";
 	$ap_demo_options["loop"] = "yes";
 	
+	$ap_embedMethod = get_option("audio_player_embedmethod");
+	$ap_includeEmbedFile = get_option("audio_player_includeembedfile");
+	$ap_enableAnimation = get_option("audio_player_enableAnimation");
+	
 	// Include options panel
-	include( "options-panel.php" );
+	include( "options-panel-2.php" );
 }
 
 // Add options page to admin menu
 function ap_post_add_options() {
-	add_options_page('Audio player options', 'Audio player', 8, basename(__FILE__), 'ap_options_subpanel');
+	add_options_page('Audio player options', 'Audio Player', 8, basename(__FILE__), 'ap_options_subpanel');
 }
 add_action('admin_menu', 'ap_post_add_options');
 
@@ -424,9 +436,13 @@ function ap_wp_head() {
 	}
 	$width = get_option("audio_player_width");
 	
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/swfobject.js"></script>';
-	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-swfobject.js"></script>';
+	$embedMethod = get_option("audio_player_embedmethod");
+	
+	if(get_option("audio_player_includeembedfile")) {
+		echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/' . $embedMethod . '.js"></script>';
+		echo "\n";
+	}
+	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-' . $embedMethod . '.js"></script>';
 	echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
@@ -440,12 +456,14 @@ add_action('wp_head', 'ap_wp_head');
 // Output script tag in WP admin head
 function ap_wp_admin_head() {
 	global $ap_playerID;
+	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.css" rel="stylesheet" type="text/css" />';
+	echo "\n";
 	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/plugin.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.js"></script>';
+	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin-2.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/plugin.js"></script>';
-	echo "\n";
+	//echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/plugin.js"></script>';
+	//echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
 	echo 'var ap_updateURL = "' . get_option("siteurl") . '/wp-content/plugins/audio-player/upgrade/";';
