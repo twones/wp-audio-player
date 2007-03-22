@@ -346,10 +346,11 @@ class Application
 	/**
 	 * onSetVolume event handler
 	 */
-	public static function onSetVolume(volume:Number):Void
+	public static function onSetVolume(volume:Number, final:Boolean):Void
 	{
+		if(final == undefined) final = true;
 		// Set the volume and force a broadcast of the changed volume
-		_player.setVolume(volume, true);
+		_player.setVolume(volume, final);
 	}
 
 	// ------------------------------------------------------------
@@ -469,8 +470,7 @@ class Application
 				display_mc.setText("Initialising...", 0);
 				display_mc.setTime(0);
 				break;
-			case Player.PLAYING:
-			case Player.PAUSED:
+			default:
 				var message = "";
 				if(playerState.connecting) message = "Connecting...";
 				else
@@ -487,9 +487,6 @@ class Application
 				}
 				display_mc.setText(message, 0, true);
 				display_mc.setTime(playerState.position);
-				break;
-			default:
-				display_mc.clear();
 				break;
 		}
 		

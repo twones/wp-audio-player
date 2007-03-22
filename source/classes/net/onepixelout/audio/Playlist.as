@@ -18,11 +18,13 @@ class net.onepixelout.audio.Playlist
 	
 	public function loadFromList(trackList:String, titleList:String, artistList:String):Void
 	{
+		var trackArray:Array = trackList.split(",");
+
 		if(titleList == undefined) titleList = "";
 		if(artistList == undefined) artistList = "";
-		var trackArray:Array = trackList.split(",");
-		var titleArray:Array = titleList.split(",");
-		var artistArray:Array = artistList.split(",");
+		var titleArray:Array = (titleList.length == 0) ? new Array() : titleList.split(",");
+		var artistArray:Array = (artistList.length == 0) ? new Array() : artistList.split(",");
+		
 		var newTrack:Track;
 		
 		for(var i:Number = 0;i < trackArray.length;i++)
