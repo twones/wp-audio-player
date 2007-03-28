@@ -1,45 +1,98 @@
-var AP_Admin = {
+var AP_Admin = new Class({
 	
-	setup:function()
+	initialize:function()
 	{
-		this.tabBar = document.getElementById("ap-tabs");
+		this.tabBar = $("ap-tabs");
 		if(!this.tabBar) return;
 
 		this.panels = [];
 		
-		this.tabs = this.tabBar.getElementsByTagName("li");
+		this.tabs = this.tabBar.getElements("li");
 		
-		var divTags = document.getElementsByTagName("div");
-		for(var i=divTags.length-1;i>=0;i--)
+		for(var i=0;i<this.tabs.length;i++)
 		{
-			if(this.hasClass(divTags[i], "ap-panel")) this.panels[this.panels.length] = divTags[i];
+			tabID = this.tabs[i].getElement("a").getProperty("id");
+			this.tabs[i].addEvent("click", this.tabClick.bindWithEvent(this));
+			if(i==0) this.tabs[i].addClass("ap-active");
+		}
+		
+		this.panels = document.getElements("div.ap-panel");
+		for(var i=1;i<this.panels.length;i++) this.panels[i].setStyle("display", "none");
+		
+		this.colorPicker = new MooColorPicker("ap-colorpicker", {panelMode:false})
+		this.colorPicker.attach("ap-colorsample", "background-color");
+		this.colorPicker.addEvent("selectColor", (function(color) {
+			this.colorField.value = color;
+			this.getCurrentColorField().value = color;
+			this.updatePlayer();
+		}).bind(this));
+		
+		this.fieldSelector = $("ap-fieldselector");
+		this.colorField = $("ap-colorvalue");
+		
+		this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
+		this.colorField.addEvent("keyup", this.updateColor.bind(this));
+				
+		this.selectColorField();
+		
+		this.player = null;
+	},
+	
+	selectColorField:function()
+	{
+		var color = this.getCurrentColorField().getValue();
+		this.colorField.value = color;
+		this.colorPicker.setColor(color);
+	},
+	
+	updateColor:function()
+	{
+		var color = this.colorField.value;
+		if(color.test(/#?[0-9a-f]{6}/i))
+		{
+			this.getCurrentColorField().value = color;
+			this.colorPicker.setColor(color);
+			this.updatePlayer();
 		}
 	},
 	
-	showTab:function(tabID)
+	updatePlayer:function()
 	{
-		for(var i=0;i<this.panels.length;i++) {
-			this.panels[i].style.display = (this.panels[i].id == "ap-panel-" + tabID)?"block":"none";
+		if(!this.player)
+		{
+			this.player = document.getElementById("ap_audioplayer_player");
 		}
-		for(var i=0;i<this.tabs.length;i++) this.removeClass(this.tabs[i], "active");
-		this.addClass(document.getElementById("ap-tab-" + tabID), "active");
+		
+		if(this.player)
+		{
+			this.player.SetVariable(this.fieldSelector.getValue(), this.getCurrentColorField().getValue().replace("#", "0x"));
+			this.player.SetVariable("setcolors", 1);
+		}
 	},
 	
-	hasClass:function(element, className)
+	getCurrentColorField:function()
 	{
-		return element.className.match(new RegExp('(?:^|\\s)' + className + '(?:\\s|$)'));
+		return $("ap_" + this.fieldSelector.getValue() + "color");
 	},
-
-	addClass:function(element, className)
+	
+	tabClick:function(event)
 	{
-		if(!this.hasClass(element, className)) element.className = (element.className+' '+className);
-	},
+		event.stop();
+		var i;
+		var target = $(event.target);
 
-	removeClass:function(element, className)
-	{
-		element.className = element.className.replace(new RegExp('(^|\\s)'+className+'(?:\\s|$)'), '$1');
+		var tab = target;
+		while(tab.getTag() != "li") tab = tab.getParent();
+		if(tab.hasClass("ap-active")) return;
+		for(i=0;i<this.tabs.length;i++) this.tabs[i].removeClass("ap-active");
+		tab.addClass("ap-active");
+		
+		for(i=0;i<this.panels.length;i++) this.panels[i].setStyle("display", "none");
+		$(target.getProperty("href").replace("#", "")).setStyle("display", "block");
+
+		this.colorPicker.update();
 	}
-};
 
+});
 
-addLoadEvent(function() { AP_Admin.setup(); });
+addLoadEvent(function() { new AP_Admin(); });

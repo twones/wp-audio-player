@@ -19,7 +19,10 @@ var AudioPlayer = {
 			menu:"false",
 			bgcolor:this.bgcolor,
 			majorversion:"6",
-			build:"0"
+			build:"0",
+			id:elementID.replace("-", "_") + "_player",
+			name:elementID.replace("-", "_") + "_player",
+			swliveconnect:"true"
 		};
 		var key;
 		var instanceOptions = {};

@@ -31,7 +31,7 @@ ul#ap-tabs li a {
 	outline:none;
 	-moz-outline:none;
 }
-ul#ap-tabs li.active a { background:#E5F3FF; }
+ul#ap-tabs li.ap-active a { background:#E5F3FF; }
 
 div.ap-panel {
 	clear:both;
@@ -46,10 +46,34 @@ div.ap-panel h3 {
 }
 div.ap-panel p { margin-bottom:20px; }
 
-ul.ap_optionlist {
-	padding-left:10px;
+ul.ap-optionlist {
+	padding-left:2px;
 	margin-left:0;
 	list-style-type:none;
 }
-ul.ap_optionlist li { margin-bottom:15px; }
-ul.ap_optionlist input { border:none; background:none; }
+ul.ap-optionlist li { margin-bottom:15px; }
+ul.ap-optionlist input { border:none; background:none; }
+
+#ap-colorscheme {
+	float:left;
+	margin-bottom:20px;
+	background:#333333;
+}
+#ap-colorscheme div { float:left; }
+#ap-audioplayer {
+	clear:both;
+	margin-top:10px;
+}
+#ap-colorselector { padding:10px 0 10px 10px; }
+#ap-colorselector select,
+#ap-colorselector input {
+	float:left;
+	margin-right:5px;
+}
+#ap-colorsample {
+	float:left;
+	width:25px;
+	height:25px;
+	border:1px solid #000000;
+	background:#FFFFFF;
+}

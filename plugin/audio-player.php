@@ -456,14 +456,17 @@ add_action('wp_head', 'ap_wp_head');
 // Output script tag in WP admin head
 function ap_wp_admin_head() {
 	global $ap_playerID;
+	if(!($_GET["page"] == "audio-player.php")) return;
 	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/plugin.css" rel="stylesheet" type="text/css" />';
+	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
+	echo "\n";
+	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/mootools.js"></script>';
+	echo "\n";
+	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/moocolorpicker.js"></script>';
 	echo "\n";
 	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin-2.js"></script>';
 	echo "\n";
-	//echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/plugin.js"></script>';
-	//echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
 	echo 'var ap_updateURL = "' . get_option("siteurl") . '/wp-content/plugins/audio-player/upgrade/";';
@@ -472,6 +475,7 @@ function ap_wp_admin_head() {
 	echo "\n";
 }
 add_action('admin_head', 'ap_wp_admin_head');
+add_action('admin_head', 'ap_wp_head');
 
 function ap_php2js($object) {
 	$js_options = '{';
