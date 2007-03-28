@@ -22,7 +22,7 @@
     <option useMain="True" />
     <option useMX="True" />
     <option warnUnusedImports="False" />
-    <option traceMode="FlashOut" />
+    <option traceMode="FlashMX" />
     <option traceFunction="" />
     <option libraryPrefix="" />
     <option excludeFile="" />

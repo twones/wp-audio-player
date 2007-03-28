@@ -263,9 +263,8 @@ class Application
 			{ target:progress_mc.border_mc, color:_colorScheme.border },
 			{ target:next_mc, color:_colorScheme.skip },
 			{ target:previous_mc, color:_colorScheme.skip },
-			{ target:display_mc.toggle_mc.disk_mc, color:_colorScheme.text },
-			{ target:display_mc.toggle_mc.arrow_mc, color:_colorScheme.track },
-			{ target:display_mc.display_txt, color:_colorScheme.text }
+			{ target:display_mc.message_txt, color:_colorScheme.text },
+			{ target:display_mc.time_txt, color:_colorScheme.text }
 		];
 		
 		// Apply colours
