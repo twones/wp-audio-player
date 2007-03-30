@@ -98,7 +98,8 @@ License:
 add_option('audio_player_web_path', '/audio', "Web path to audio files", true);
 add_option('audio_player_width', '290', "Player width", true);
 add_option('audio_player_enableAnimation', 'yes', "Enable animation", true);
-add_option('audio_player_embedmethod', 'ufo', "FLash embed method", true);
+add_option('audio_player_encodeSource', 'yes', "Encode source", true);
+add_option('audio_player_embedmethod', 'ufo', "Flash embed method", true);
 add_option('audio_player_includeembedfile', 'yes', "Include embed method file", true);
 add_option('audio_player_behaviour', 'default', "Plugin behaviour", true);
 add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true);
@@ -184,6 +185,7 @@ function ap_set_options() {
 	global $ap_options, $ap_colorkeys;
 	foreach( $ap_colorkeys as $value ) $ap_options[$value] = get_option("audio_player_" . $value . "color");
 	$ap_options["animation"] = get_option("audio_player_enableAnimation");
+	$ap_options["encode"] = get_option("audio_player_encodeSource");
 }
 
 ap_set_options();
@@ -276,6 +278,7 @@ function ap_getplayer($source, $options = array()) {
 	$ap_playerID++;
 	
 	// Add source to options
+	if(get_option('audio_player_encodeSource') == "yes") $source = ap_encodeSource($source);
 	$options["soundFile"] = $source;
 
 	if(is_feed()) {
@@ -309,6 +312,22 @@ function ap_getplayer($source, $options = array()) {
 		$playerCode .= '</script>';
 		return $playerCode;
 	}
+}
+
+function ap_encodeSource($source) {
+	$source = utf8_decode($source);
+	$ntexto = "";
+	$codekey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+	for($i=0; $i< strlen($source); $i++) {
+		$ntexto .= substr("0000".base_convert(ord($source{$i}), 10, 2), -8);
+	}
+	$ntexto .= substr("00000", 0, 6-strlen($ntexto)%6);
+	$source = "";
+	for ($i=0; $i< strlen($ntexto)-1; $i = $i+6) {
+		$source .= $codekey{intval(substr($ntexto, $i, 6), 2)};
+	}
+	
+	return $source;
 }
 
 // Add filter hook
@@ -373,6 +392,8 @@ function ap_options_subpanel() {
 		// Update behaviour and rss alternate content options
 		update_option('audio_player_embedmethod', $_POST['ap_embedmethod']);
 		update_option('audio_player_includeembedfile', isset( $_POST["ap_includeembedfile"] ));
+		if(isset( $_POST["ap_encodeSource"] )) update_option('audio_player_encodeSource', "yes");
+		else update_option('audio_player_encodeSource', "no");
 		if(isset( $_POST["ap_disableAnimation"] )) update_option('audio_player_enableAnimation', "no");
 		else update_option('audio_player_enableAnimation', "yes");
 		if(count($_POST['ap_behaviour']) > 0) update_option('audio_player_behaviour', implode(",", $_POST['ap_behaviour']));
@@ -410,6 +431,7 @@ function ap_options_subpanel() {
 	
 	$ap_embedMethod = get_option("audio_player_embedmethod");
 	$ap_includeEmbedFile = get_option("audio_player_includeembedfile");
+	$ap_encodeSource = (get_option("audio_player_encodeSource") == "yes");
 	$ap_enableAnimation = get_option("audio_player_enableAnimation");
 	
 	// Include options panel
@@ -482,7 +504,7 @@ function ap_php2js($object) {
 	$separator = "";
 	$real_separator = ",";
 	foreach($object as $key=>$value) {
-		$js_options .= $separator . $key . ':"' . $value .'"';
+		$js_options .= $separator . $key . ':"' . rawurlencode($value) .'"';
 		$separator = $real_separator;
 	}
 	$js_options .= "}";

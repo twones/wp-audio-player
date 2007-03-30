@@ -34,7 +34,7 @@ var AudioPlayer = {
 		var realSeparator = "&";		
 		for(key in instanceOptions)
 		{
-			flashvars += separator + key + "=" + encodeURIComponent(instanceOptions[key]);
+			flashvars += separator + key + "=" + instanceOptions[key];
 			separator = realSeparator;
 		}
 		FO.flashvars = flashvars;

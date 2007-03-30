@@ -20,7 +20,7 @@ var AudioPlayer = {
 		so.addParam("wmode", this.wmode);
 		so.addParam("menu", false);
 		
-		for(key in instanceOptions) so.addVariable(key, encodeURIComponent(instanceOptions[key]));
+		for(key in instanceOptions) so.addVariable(key, instanceOptions[key]);
 
 		so.write(elementID);
 	}

@@ -164,6 +164,15 @@
 		</p>
 	</div>
 	<div class="ap-panel" id="ap-panel-advanced">
+		<h3>Encoding</h3>
+		<p>Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.</p>
+		<ul class="ap-optionlist">
+			<li>
+				<label for="ap_encodeSource">
+				<input type="checkbox" name="ap_encodeSource" id="ap_encodeSource" value="true"<?php if($ap_encodeSource) echo ' checked="checked"'; ?> />
+				<strong>Encode mp3 URLs</strong></label>
+			</li>
+		</ul>
 		<h3>Which embed method do you wish to use?</h3>
 		<p><strong>Audio Player</strong> allows you to use one of two popular methods for embedding the Flash players: <a href="http://blog.deconcept.com/swfobject/" target="_blank" title="Learn more about the SWFObject method">SWFObject</a> or <a href="http://www.bobbyvandersluis.com/ufo/" target="_blank" title="Learn more about the UFO method">UFO</a>.</p>
 		<ul class="ap-optionlist">
