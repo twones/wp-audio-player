@@ -53,6 +53,7 @@ class Application
 	
 	// Options structure
 	private static var _options:Object = {
+		encode:false,
 		autostart:false,
 		loop:false,
 		animation:true,
@@ -67,6 +68,8 @@ class Application
 	public static function start(sourceFile:String, options:Object)
 	{
 		if(options != undefined) _setOptions(options);
+		
+		if(_options.encode) sourceFile = _sixBitDecode(sourceFile);
 		
 		var playerParams:Object = new Object();
 
@@ -491,6 +494,34 @@ class Application
 		
 		// Set colour scheme at runtime
 		_setColors(false);
+	}
+	
+	/**
+	* Decodes a 6-bit encoded string
+	* Thanks to mattiasdh (mattias_d@excite.com) for this
+	* http://modxcms.com/forums/index.php/topic,9340.0.html
+	* @param	source the string to decode
+	* @return	the decoded string
+	*/
+	private static function _sixBitDecode(sourceStr)
+	{
+		var ntexto = "";
+		var nntexto = "";
+		var codeKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"
+		var charCode, charChar, charCodeBin, i;
+		for(i=0; i<sourceStr.length; i++)
+		{
+			charCode = codeKey.indexOf(sourceStr.substr(i,1)); // char index
+			charCodeBin = ("000000" + charCode.toString(2)).substr(-6,6); // char index in binary, 6 bits
+			ntexto += charCodeBin;
+		}
+		for (i=0; i< ntexto.length; i+=8) {
+			charCodeBin = ntexto.substr(i, 8); // char code in binary
+			charCode = parseInt(charCodeBin, 2);
+			charChar = String.fromCharCode(charCode);
+			nntexto += charChar;
+		}
+		return (nntexto);
 	}
 	
 	/**

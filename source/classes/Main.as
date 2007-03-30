@@ -14,6 +14,8 @@ class Main
 		else if(_root.animation == "yes") options.animation = true;
 		if(_root.loop == "yes") options.loop = true;
 		else if(_root.loop == "no") options.loop = false;
+		if(_root.encode == "yes") options.encode = true;
+		else if(_root.encode == "no") options.encode = false;
 		if(_root.titles != undefined) options.titles = _root.titles;
 		if(_root.artists != undefined) options.artists = _root.artists;
 		
