@@ -1,0 +1,28 @@
+﻿<flash_project name="Audio Player" version="1">
+    <project_folder name="classes" expanded="false">
+        <project_folder name="com" expanded="false">
+            <project_folder name="freesome" expanded="true">
+                <project_folder name="events" expanded="false">
+                    <project_file path="./classes/com/freesome/events/LcBroadcast.as" filetype="as" />
+                </project_folder>
+            </project_folder>
+        </project_folder>
+        <project_folder name="net" expanded="true">
+            <project_folder name="onepixelout" expanded="true">
+                <project_folder name="audio" expanded="true">
+                    <project_file path="./classes/net/onepixelout/audio/Player.as" filetype="as" />
+                    <project_file path="./classes/net/onepixelout/audio/Playlist.as" filetype="as" />
+                    <project_file path="./classes/net/onepixelout/audio/Track.as" filetype="as" />
+                </project_folder>
+            </project_folder>
+        </project_folder>
+        <project_file path="./classes/Application.as" filetype="as" />
+        <project_file path="./classes/Control.as" filetype="as" />
+        <project_file path="./classes/Display.as" filetype="as" />
+        <project_file path="./classes/Loading.as" filetype="as" />
+        <project_file path="./classes/Progress.as" filetype="as" />
+        <project_file path="./classes/Ticker.as" filetype="as" />
+        <project_file path="./classes/Volume.as" filetype="as" />
+    </project_folder>
+    <project_file path="./player.fla" filetype="fla" profile="" def_file="true" />
+</flash_project>

@@ -57,6 +57,7 @@ class Application
 		autostart:false,
 		loop:false,
 		animation:true,
+		showRemaining:true,
 		volume:80
 	};
 
@@ -367,7 +368,7 @@ class Application
 		
 		var targetPosition:Number = Stage.width - control_mc.realWidth;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(_animate, 41, targetPosition);
+		_clearID = setInterval(_animate, 40, targetPosition);
 	}
 
 	/**
@@ -382,7 +383,7 @@ class Application
 
 		var targetPosition:Number = volume_mc.realWidth - 6;
 		if(_clearID != null) clearInterval(_clearID);
-		_clearID = setInterval(_animate, 41, targetPosition);
+		_clearID = setInterval(_animate, 40, targetPosition);
 	}
 	
 	/**
@@ -488,7 +489,7 @@ class Application
 					else message = "Track #" + (playerState.trackIndex + 1);
 				}
 				display_mc.setText(message, 0, true);
-				display_mc.setTime(playerState.position);
+				display_mc.setTime(_options.showRemaining ? playerState.duration - playerState.position : playerState.position, _options.showRemaining);
 				break;
 		}
 		
@@ -526,7 +527,6 @@ class Application
 	
 	/**
 	* Fake function for pre-compiling library classes
-	*/
 	private function _preCompile()
 	{
 		var x;
@@ -537,4 +537,5 @@ class Application
 		x = new Ticker();
 		x = new Volume();
 	}
+	*/
 }

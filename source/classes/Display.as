@@ -61,9 +61,10 @@ class Display extends MovieClip
 	* Sets the time display
 	* @param	ms the time to display in milliseconds
 	*/
-	public function setTime(ms:Number)
+	public function setTime(ms:Number, isRemaining:Boolean)
 	{
-		this.time_txt.text = _formatTime(ms);
+		var timeDisplay:String = (isRemaining && ms > 0)?"-":"";
+		this.time_txt.text = timeDisplay + _formatTime(ms);
 		this.resize();
 	}
 	
