@@ -343,46 +343,7 @@ function ap_showMessage( $message ) {
 function ap_options_subpanel() {
 	global $ap_colorkeys, $ap_options, $ap_version, $ap_updateURL, $ap_docURL;
 	
-	if( $_POST['ap_updateCheck'] ) {
-		// Update check. Gets the file at the update URL , reads and compares it with the current version
-		$ap_contents = "";
-		if( function_exists( "curl_init" ) ) {
-			$source = curl_init();
-			curl_setopt( $source, CURLOPT_URL, $ap_updateURL );
-			curl_setopt( $source, CURLOPT_CONNECTTIMEOUT, 10 );
-			curl_setopt( $source, CURLOPT_FAILONERROR, 1 );
-			curl_setopt( $source, CURLOPT_RETURNTRANSFER, 1 );
-			$ap_contents = curl_exec( $source );
-			if( curl_errno( $source ) > 0 ) {
-				$ap_contents = "error";
-			} else curl_close( $source );
-		} else if( ini_get( "allow_url_fopen" ) ) {
-			if( $source = @fopen( $ap_updateURL, "r" ) ) {
-				while( !feof( $source ) ) {
-					$ap_contents .= fread( $source, 8192 );
-				}
-				fclose($source);
-			} else $ap_contents = "error";
-		}
-
-		// Errors
-		if( $ap_contents == "error" ) {
-			ap_showMessage( 'Failed to contact update server. Please visit <a href="' . $ap_docURL . '">1 Pixel Out</a> to check for updates.' );
-		} else if( $ap_contents == "" ) {
-			ap_showMessage( 'Some PHP functionality used by the Upgrade wizard are disabled on your server. Please visit <a href="' . $ap_docURL . '">1 Pixel Out</a> to check for updates.' );
-		} else if( $ap_contents != $ap_version ) {
-			// A new version is available so announce this with a message
-			// Check that the zip extension is loaded and the PHP engine is 4.2.0 at least (otherwise the upgrade wizard won't work)
-			if( version_compare( phpversion(), "4.2.0" ) == 1 && in_array( "zip", get_loaded_extensions() ) ) {
-				ap_showMessage( 'Version ' . $ap_contents . ' of the Audio Player plugin is now available! <a href="javascript:ap_startUpgradeWizard()">Upgrade now</a>.' );
-			} else {
-				ap_showMessage( 'Version ' . $ap_contents . ' of the Audio Player plugin is now available! Download it <a href="' . $ap_docURL . '">here</a>.' );
-			}
-		} else {
-			// Plugin is up-to-date
-			ap_showMessage( "Your copy of Audio Player plugin is up-to-date." );
-		}
-	} else if( $_POST['Submit'] ) {
+	if( $_POST['Submit'] ) {
 		// Update plugin options
 	
 		// Set audio web path
@@ -403,6 +364,8 @@ function ap_options_subpanel() {
 		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
 		update_option('audio_player_postfixaudio', $_POST['ap_audiopostfixwebpath']);
 
+		update_option('audio_player_width', $_POST['ap_player_width']);
+
 		// Update colour options
 		foreach( $ap_colorkeys as $colorkey ) {
 			// Ignore missing or invalid color values
@@ -421,8 +384,11 @@ function ap_options_subpanel() {
 		ap_showMessage( "Options updated." );
 	}
 
+	$ap_theme_colors = ap_get_theme_colors();
+
 	$ap_behaviour = explode(",", get_option("audio_player_behaviour"));
 	$ap_rssalternate = get_option('audio_player_rssalternate');
+	$ap_player_width = get_option("audio_player_width");
 	
 	// Preview player options
 	$ap_demo_options = array();
@@ -436,6 +402,16 @@ function ap_options_subpanel() {
 	
 	// Include options panel
 	include( "options-panel-2.php" );
+}
+
+function ap_get_theme_colors() {
+	$current_theme_data = get_theme(get_current_theme());
+
+	$theme_css = implode('', file( get_theme_root() . "/" . $current_theme_data["Stylesheet"] . "/style.css"));
+
+	preg_match_all('/:[^:;}]*#([abcdef1234567890]+)/i', $theme_css, $matches);
+
+	return array_unique($matches[1]);
 }
 
 // Add options page to admin menu
@@ -468,7 +444,7 @@ function ap_wp_head() {
 	echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
-	echo 'AudioPlayer.setup("' . get_settings("siteurl") . '/wp-content/plugins/audio-player/player.swf", ' . get_option("audio_player_width") . ', "' . $wmode . '", "' . $bgcolor . '", ' . ap_php2js($ap_options) . ');';
+	echo 'AudioPlayer.setup("' . get_settings("siteurl") . '/wp-content/plugins/audio-player/player.swf", "' . get_option("audio_player_width") . '", "' . $wmode . '", "' . $bgcolor . '", ' . ap_php2js($ap_options) . ');';
 	echo "\n";
 	echo '</script>';
 	echo "\n";

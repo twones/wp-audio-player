@@ -2,11 +2,8 @@
 	<h2>Audio Player options</h2>
 
 	<div id="ap-intro">
-		<?php if( function_exists( "curl_init" ) || ini_get( "allow_url_fopen" ) ) { ?>
-		<form method="post" class="submit"><input type="submit" class="button" name="ap_updateCheck" value="Check for updates" /></form>
-		<?php } ?>
 		<p>Settings for the Audio Player plugin. Visit <a href="<?php echo $ap_docURL; ?>">1 Pixel Out</a> for usage information and project news.</p>
-		<p>Current version: <strong><?php echo $ap_version; ?></strong><?php if( !function_exists( "curl_init" ) && !ini_get( "allow_url_fopen" ) ) { ?> (Visit <a href="<?php echo $ap_docURL; ?>">1 Pixel Out</a> to check for updates)<?php } ?></p>
+		<p>Current version: <strong><?php echo $ap_version; ?></strong></p>
 	</div>
 
 	<ul id="ap-tabs">
@@ -60,7 +57,7 @@
 	</div>
 	<div class="ap-panel" id="ap-panel-colour">
 		<h3>Enable/disable the animation</h3>
-		<p>If you don't like the open/close animation, you can disable it here. The player</p>
+		<p>If you don't like the open/close animation, you can disable it here.</p>
 		<ul class="ap-optionlist">
 			<li>
 				<label for="ap_disableAnimation">
@@ -68,6 +65,12 @@
 				<strong>Disable animation</strong></label>
 			</li>
 		</ul>
+		<h3>Player width</h3>
+		<p>If you don't like the open/close animation, you can disable it here.</p>
+		<p>
+			<label for="ap_player_width">Player width</label>
+			<input type="text" id="ap_player_width" name="ap_player_width" value="<?php echo $ap_player_width; ?>" size="10" />
+		</p>
 		<h3>Colour scheme</h3>
 		<div id="ap-colorscheme">
 			<div id="ap-colorselector">
@@ -111,6 +114,12 @@
 				<script type="text/javascript">
 				AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo get_settings("siteurl") ?>/wp-content/plugins/audio-player/test.mp3", autostart:"yes", loop:"yes"});
 				</script>
+
+				<select>
+					<?php foreach($ap_theme_colors as $ap_theme_color) { ?>
+					<option value="#<?php echo $ap_theme_color ?>">#<?php echo $ap_theme_color ?></option>
+					<?php } ?>
+				</select>
 			</div>
 			<div id="ap-colorpicker"></div>
 		</div>
