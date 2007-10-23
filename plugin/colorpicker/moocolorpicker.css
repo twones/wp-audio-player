@@ -39,7 +39,7 @@ body {
 .moocp_sv-panel-ie {
 	width:180px;
 	height:180px;
-	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='lib/saturation-value.png', sizingMethod='scale');
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../wp-content/plugins/audio-player/colorpicker/saturation-value.png', sizingMethod='scale');
 	position:absolute;
 	top:10px;
 	left:10px;

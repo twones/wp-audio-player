@@ -27,10 +27,12 @@ ul#ap-tabs li a {
 	font-size:1.1em;
 	float:left;
 	border:none;
+	color:#00019B;
 	padding:5px 10px;
 	outline:none;
 	-moz-outline:none;
 }
+ul#ap-tabs li a:hover { background:#F8F8F8; }
 ul#ap-tabs li.ap-active a { background:#E5F3FF; }
 
 div.ap-panel {
@@ -52,28 +54,67 @@ ul.ap-optionlist {
 	list-style-type:none;
 }
 ul.ap-optionlist li { margin-bottom:15px; }
+#ap_transparentpagebg,
 ul.ap-optionlist input { border:none; background:none; }
 
 #ap-colorscheme {
 	float:left;
 	margin-bottom:20px;
-	background:#333333;
+	background:#e5e5e5;
+	border:1px solid #CCCCCC;
 }
-#ap-colorscheme div { float:left; }
-#ap-audioplayer {
+#ap-audioplayer-wrapper {
 	clear:both;
-	margin-top:10px;
+	background:#FFFFFF;
+	padding:30px 15px;
+	border-top:1px solid #CCCCCC;
 }
-#ap-colorselector { padding:10px 0 10px 10px; }
+#ap-audioplayer { width:490px; }
+#ap-audioplayer-wrapper embed,
+#ap-audioplayer-wrapper object { display:block; }
+#ap-colorselector {
+	float:left;
+	padding:5px 10px;
+}
 #ap-colorselector select,
 #ap-colorselector input {
 	float:left;
-	margin-right:5px;
+	margin:0 5px 0 0;
+	padding:2px;
 }
+#ap-colorselector input { padding:2px; }
 #ap-colorsample {
 	float:left;
-	width:25px;
-	height:25px;
+	width:19px;
+	height:19px;
 	border:1px solid #000000;
 	background:#FFFFFF;
+}
+#ap_themecolor_btn {
+	display:block;
+	float:left;
+	padding:4px 10px;
+	font-size:11px;
+	cursor:pointer;
+	color:#0000FF;
+	text-decoration:underline;
+}
+#ap_themecolor {
+	position:absolute;
+	display:none;
+	width:100px;
+	padding:1px;
+	float:left;
+	background:#000;
+}
+#ap_themecolor span {
+	cursor:pointer;
+	display:block;
+	float:left;
+	width:16px;
+	height:16px;
+	margin:1px;
+	border:1px solid #FFFFFF;
+	line-height:0;
+	font-size:0;
 }
