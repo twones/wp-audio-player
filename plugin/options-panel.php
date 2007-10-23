@@ -1,4 +1,4 @@
-<div class="wrap" style>
+<div class="wrap">
 	<h2>Audio Player options</h2>
 
 	<div id="ap-intro">
@@ -23,10 +23,21 @@
 		<h3>Audio file location</h3>
 		<p>If you use the <code>[audio]</code> syntax, the plugin will assume that all your audio files are located in this folder. The path is relative
 		to your blog root. This option does not affect your RSS enclosures or audio files with absolute URLs.</p>
+		<?php
+		$ap_sysDelimiter = '/';
+		if(strpos(ABSPATH, '\\') !== false) $ap_sysDelimiter = '\\';
+		$ap_audioRoot = preg_replace('/[\\\\\/]+/', $ap_sysDelimiter, ABSPATH . get_option("audio_player_web_path"));
+		if(!file_exists($ap_audioRoot)) { ?>
+		<p class="ap_warning">
+			<strong>Warning</strong>: the audio file folder was not found (<?php echo $ap_audioRoot ?>). Check that the folder exists and is in the correct location.
+		</p>
+		<?php } ?>
 		<p>
-			<label for="ap_audiowebpath">Audio files folder:</label>
+			<strong><?php echo get_settings('siteurl') ?></strong>
 			<input type="text" id="ap_audiowebpath" name="ap_audiowebpath" size="40" value="<?php echo( get_option("audio_player_web_path") ); ?>" />
 			Recommended: <code>/audio</code>
+		</p>
+		<p>Important note about track information (ID3 tags):<br />
 		</p>
 
 		<h3>How do you want to use the audio player?</h3>

@@ -3,95 +3,31 @@
 Plugin Name: Audio player
 Plugin URI: http://www.1pixelout.net/code/audio-player-wordpress-plugin/
 Description: Highly configurable single track mp3 player.
-Version: 1.2.3
+Version: 2.0 beta
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
 
-Change log:
-
-	1.2.3 (01 March 2006)
-	
-		* Added page background and disable transparency option
-
-	1.2.2 (14 February 2006)
-	
-		* Fixed a bug for the "replace all mp3 links" option (now case-insensitive)
-
-	1.2.1 (07 February 2006)
-	
-		* Fixed a bug for the "replace all mp3 links" option (now supports extra attributes in a tags)
-
-	1.2 (07 February 2006)
-	
-		* Implemented post/pre append clip feature
-		* Amended player to allow for clip sequence playback
-		* Improved plugn php code syntax
-		* Minor improvements to slider bar appearance
-		* Added configurable behaviour options: [audio] syntax, enclosure integration and mp3 link replace
-		* Added configurable RSS alternate content option: insert download link, nothing or custom content
-		* Player now closes automatically if you open another one on the same page
-		* Fixed a problem with colour options in Flash 6
-		* Added player preview to colour scheme configurator
-		* Check for updates and automatic upgrade feature
-
-	1.0.1 (31 December 2005)
-
-		* All text fields now use device fonts (much crisper text rendering, support for many more characters and even smaller player file size)
-		* General clean up and commenting of source code
-
-	1.0 (26 December 2005)
-		
-		* Player now based on the emff player (http://www.marcreichelt.de/)
-		* New thinner design (suggested by Don Bledsoe - http://screenwriterradio.com/)
-		* More colour options
-		* New slider function to move around the track
-		* Simple scrolling ID3 tag support for title and artist (thanks to Ari - http://www.adrstudios.com/)
-		* Time display now includes hours for very long tracks
-		* Support for autostart and loop (suggested by gotjosh - http://gotblogua.gotjosh.net/)
-		* Support for custom colours per player instance
-		* Fixed an issue with rss feeds. Post content in rss feeds now only shows a link to the file rather than the player (thanks to Blair Kitchen - http://96rpm.the-blair.com/)
-		* Better handling of buffering and file not found errors 
-
-	0.7.1 beta (29 October 2005)
-
-		* MP3 files are no longer pre-loaded (saves on bandwidth if you have multiple players on one page)
-
-	0.7 beta (24 October 2005)
-
-		* Added colour customisation.
-
-	0.6 beta (23 October 2005)
-
-		* Fixed bug in flash player: progress bar was not updating properly.
-
-	0.5 beta (19 October 2005)
-
-		* Moved player.swf to plugins folder
-		* Default location of audio files is now top-level /audio folder
-		* Better handling of paths and URIs
-		* Added support for linking to external files
-
-	0.2 beta (19 October 2005)
-
-		* Bug fix: the paths to the flash player and the mp3 files didn?t respect the web path option. This caused problems for blogs that don?t live in the root of the domain (eg www.mydomain.com/blog/)
-
 License:
 
-    Copyright 2005-2006  Martin Laine  (email : martin@1pixelout.net)
+Copyright (c) 2007 Martin Laine
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 */
 
 // Option defaults
@@ -106,6 +42,7 @@ add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true
 add_option('audio_player_rsscustomalternate', '[See post to listen to audio]', "Custom RSS alternate content", true);
 add_option('audio_player_prefixaudio', '', "Pre-Stream Audio", true);
 add_option('audio_player_postfixaudio', '', "Post-Stream Audio", true);
+add_option('audio_player_initialvolume', '', "Initial Volume", 80);
 
 if(get_option('audio_player_iconcolor') != '' && get_option('audio_player_lefticoncolor') == '') {
 	// Upgrade options from version 0.x
@@ -166,10 +103,10 @@ add_option('audio_player_pagebgcolor', '#FFFFFF', "Page background color", true)
 
 // Global variables
 $ap_version = "2.0 beta";
-$ap_updateURL = "http://www.1pixelout.net/download/audio-player-update.txt";
 $ap_docURL = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
 $ap_colorkeys = array("bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip");
-$ap_playerURL = get_settings('siteurl') . '/wp-content/plugins/audio-player/player.swf';
+$ap_pluginRoot = get_settings('siteurl') . '/wp-content/plugins/audio-player/';
+$ap_playerURL = $ap_pluginRoot . 'player.swf';
 $ap_audioURL = get_settings('siteurl') . get_option("audio_player_web_path");
 
 // Initialise playerID (each instance gets unique ID)
@@ -195,7 +132,7 @@ $ap_instances = array();
 
 // Filter function (inserts player instances according to behaviour option)
 function ap_insert_player_widgets($content = '') {
-	global $ap_behaviour, $ap_instances;
+	global $ap_behaviour, $ap_instances, $comment;
 	
 	// Reset instance array
 	$ap_instances = array();
@@ -204,10 +141,10 @@ function ap_insert_player_widgets($content = '') {
 	if( in_array( "links", $ap_behaviour ) ) $content = preg_replace_callback( "/<a ([^=]+=\"[^\"]+\" )*href=\"([^\"]+\.mp3)\"( [^=]+=\"[^\"]+\")*>[^<]+<\/a>/i", "ap_replace", $content );
 	
 	// Replace [audio syntax]
-	if( in_array( "default", $ap_behaviour ) ) $content = preg_replace_callback( "/\[audio:(([^]]+))]/i", "ap_replace", $content );
+	if( in_array( "default", $ap_behaviour ) ) $content = preg_replace_callback( "/\[audio:(([^]]+))\]/i", "ap_replace", $content );
 
 	// Enclosure integration
-	if( in_array( "enclosure", $ap_behaviour ) ) {
+	if( !$comment && in_array( "enclosure", $ap_behaviour ) ) {
 		$enclosure = get_enclosed($post_id);
 
 		// Insert prefix and postfix clips if set
@@ -278,8 +215,7 @@ function ap_getplayer($source, $options = array()) {
 	$ap_playerID++;
 	
 	// Add source to options
-	if(get_option('audio_player_encodeSource') == "yes") $source = ap_encodeSource($source);
-	$options["soundFile"] = $source;
+	if(get_option('audio_player_encodeSource') == "yes") $options["soundFile"] = ap_encodeSource($source);
 
 	if(is_feed()) {
 		// We are in a feed so use RSS alternate content option
@@ -307,9 +243,18 @@ function ap_getplayer($source, $options = array()) {
 	else {
 		$playerElementID = "audioplayer_" . $ap_playerID;
 		$playerCode = '<div class="audioplayer-container" id="' . $playerElementID . '">Audio Player</div>';
-		$playerCode .= '<script type="text/javascript">';
+		$playerCode .= '<script type="text/javascript"><!--';
+		$playerCode .= "\n";
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
-		$playerCode .= '</script>';
+		$playerCode .= "\n";
+		$playerCode .= '--></script>';
+		// TODO: Download links
+		/*$files = explode(",", $source);
+		for($i=0;$i<count($files);$i++) {
+			$fileparts = explode("/", $files[$i]);
+			$fileName = $fileparts[count($fileparts)-1];
+			$playerCode .= '<p><a href="' . $files[$i] . '">Download audio file (' . $fileName . ')</a></p>';
+		}*/
 		return $playerCode;
 	}
 }
@@ -335,8 +280,8 @@ add_filter('the_content', 'ap_insert_player_widgets');
 if(in_array("comments", $ap_behaviour)) add_filter('comment_text', 'ap_insert_player_widgets');
 
 // Helper function for displaying a system message
-function ap_showMessage( $message ) {
-	echo '<div id="message" class="updated fade"><p><strong>' . $message . '</strong></p></div>';
+function ap_showMessage( $message, $type="updated" ) {
+	echo '<div id="message" class="' . $type . ' fade"><p><strong>' . $message . '</strong></p></div>';
 }
 
 // Option panel functionality
@@ -418,7 +363,7 @@ add_action('admin_menu', 'ap_post_add_options');
 
 // Output script tag in WP front-end head
 function ap_wp_head() {
-	global $ap_playerID, $ap_options;
+	global $ap_options, $ap_pluginRoot, $ap_playerURL;
 	
 	if( get_option("audio_player_transparentpagebg") )
 	{
@@ -433,10 +378,10 @@ function ap_wp_head() {
 	$embedMethod = get_option("audio_player_embedmethod");
 	
 	if(get_option("audio_player_includeembedfile")) {
-		echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/' . $embedMethod . '.js"></script>';
+		echo '<script type="text/javascript" src="' . $ap_pluginRoot . $embedMethod . '.js"></script>';
 		echo "\n";
 	}
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-' . $embedMethod . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . 'audio-player-' . $embedMethod . '.js"></script>';
 	echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
@@ -449,23 +394,24 @@ add_action('wp_head', 'ap_wp_head');
 
 // Output script tag in WP admin head
 function ap_wp_admin_head() {
-	global $ap_playerID;
+	global $ap_pluginRoot;
+	
 	if(!($_GET["page"] == "audio-player-options")) return;
-	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.css" rel="stylesheet" type="text/css" />';
+	echo '<link href="' . $ap_pluginRoot . 'audio-player-admin.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
+	echo '<link href="' . $ap_pluginRoot . 'colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/mootools.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . 'mootools.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/moocolorpicker.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . 'colorpicker/moocolorpicker.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . 'audio-player-admin.js"></script>';
 	echo "\n";
 
 	$embedMethod = get_option("audio_player_embedmethod");
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/' . $embedMethod . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . $embedMethod . '.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-' . $embedMethod . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_pluginRoot . 'audio-player-' . $embedMethod . '.js"></script>';
 	echo "\n";
 }
 add_action('admin_head', 'ap_wp_admin_head');
