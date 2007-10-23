@@ -15,6 +15,10 @@
 	</ul>
 	
 	<form method="post">
+	<?php
+	if( function_exists('wp_nonce_field') )
+		wp_nonce_field('audio-player-action');
+	?>
 	<div class="ap-panel" id="ap-panel-general">
 		<h3>Audio file location</h3>
 		<p>If you use the <code>[audio]</code> syntax, the plugin will assume that all your audio files are located in this folder. The path is relative
@@ -120,19 +124,8 @@
 					Audio Player
 				</div>
 			</div>
-			<?php
-			if( get_option("audio_player_transparentpagebg") )
-			{
-				$wmode = "transparent";
-				$bgcolor = "transparent";
-			} else {
-				$wmode = "opaque";
-				$bgcolor = get_option("audio_player_pagebgcolor");
-			}
-			$width = get_option("audio_player_width");
-			?>
 			<script type="text/javascript">
-			AudioPlayer.setup("<?php echo get_settings("siteurl") ?>/wp-content/plugins/audio-player/player.swf", "<?php echo get_option("audio_player_width") ?>", "opaque", "#FFFFFF", <?php echo ap_php2js($ap_options) ?>);
+			AudioPlayer.setup("<?php echo $ap_playerURL ?>", "<?php echo get_option("audio_player_width") ?>", "opaque", "#FFFFFF", <?php echo ap_php2js($ap_options) ?>);
 			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo get_settings("siteurl") ?>/wp-content/plugins/audio-player/test.mp3", autostart:"yes", loop:"yes"});
 			</script>
 		</div>

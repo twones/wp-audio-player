@@ -341,10 +341,11 @@ function ap_showMessage( $message ) {
 
 // Option panel functionality
 function ap_options_subpanel() {
-	global $ap_colorkeys, $ap_options, $ap_version, $ap_updateURL, $ap_docURL;
+	global $ap_colorkeys, $ap_options, $ap_version, $ap_playerURL, $ap_docURL;
 	
+	// Update plugin options
 	if( $_POST['Submit'] ) {
-		// Update plugin options
+		check_admin_referer('audio-player-action');
 	
 		// Set audio web path
 		if( substr( $_POST['ap_audiowebpath'], -1 ) == "/" ) $_POST['ap_audiowebpath'] = substr( $_POST['ap_audiowebpath'], 0, strlen( $_POST['ap_audiowebpath'] ) - 1 );
@@ -390,11 +391,6 @@ function ap_options_subpanel() {
 	$ap_rssalternate = get_option('audio_player_rssalternate');
 	$ap_player_width = get_option("audio_player_width");
 	
-	// Preview player options
-	$ap_demo_options = array();
-	$ap_demo_options["autostart"] = "yes";
-	$ap_demo_options["loop"] = "yes";
-	
 	$ap_embedMethod = get_option("audio_player_embedmethod");
 	$ap_includeEmbedFile = get_option("audio_player_includeembedfile");
 	$ap_encodeSource = (get_option("audio_player_encodeSource") == "yes");
@@ -416,7 +412,7 @@ function ap_get_theme_colors() {
 
 // Add options page to admin menu
 function ap_post_add_options() {
-	add_options_page('Audio player options', 'Audio Player', 8, basename(__FILE__), 'ap_options_subpanel');
+	add_options_page('Audio player options', 'Audio Player', 8, 'audio-player-options', 'ap_options_subpanel');
 }
 add_action('admin_menu', 'ap_post_add_options');
 
@@ -444,7 +440,7 @@ function ap_wp_head() {
 	echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
-	echo 'AudioPlayer.setup("' . get_settings("siteurl") . '/wp-content/plugins/audio-player/player.swf", "' . get_option("audio_player_width") . '", "' . $wmode . '", "' . $bgcolor . '", ' . ap_php2js($ap_options) . ');';
+	echo 'AudioPlayer.setup("' . $ap_playerURL . '", "' . get_option("audio_player_width") . '", "' . $wmode . '", "' . $bgcolor . '", ' . ap_php2js($ap_options) . ');';
 	echo "\n";
 	echo '</script>';
 	echo "\n";
@@ -454,7 +450,7 @@ add_action('wp_head', 'ap_wp_head');
 // Output script tag in WP admin head
 function ap_wp_admin_head() {
 	global $ap_playerID;
-	if(!($_GET["page"] == "audio-player.php")) return;
+	if(!($_GET["page"] == "audio-player-options")) return;
 	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/audio-player-admin.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
 	echo '<link href="' . get_settings("siteurl") . '/wp-content/plugins/audio-player/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
