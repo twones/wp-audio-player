@@ -34,6 +34,7 @@ THE SOFTWARE.
 add_option('audio_player_web_path', '/audio', "Web path to audio files", true);
 add_option('audio_player_width', '290', "Player width", true);
 add_option('audio_player_enableAnimation', 'yes', "Enable animation", true);
+add_option('audio_player_showRemaining', 'no', "Show remaining", true);
 add_option('audio_player_encodeSource', 'yes', "Encode source", true);
 add_option('audio_player_embedmethod', 'ufo', "Flash embed method", true);
 add_option('audio_player_includeembedfile', 'yes', "Include embed method file", true);
@@ -123,6 +124,8 @@ function ap_set_options() {
 	foreach( $ap_colorkeys as $value ) $ap_options[$value] = get_option("audio_player_" . $value . "color");
 	$ap_options["animation"] = get_option("audio_player_enableAnimation");
 	$ap_options["encode"] = get_option("audio_player_encodeSource");
+	$ap_options["initialvolume"] = get_option("audio_player_initialvolume");
+	$ap_options["remaining"] = get_option("audio_player_showRemaining");
 }
 
 ap_set_options();
@@ -299,18 +302,26 @@ function ap_options_subpanel() {
 		// Update behaviour and rss alternate content options
 		update_option('audio_player_embedmethod', $_POST['ap_embedmethod']);
 		update_option('audio_player_includeembedfile', isset( $_POST["ap_includeembedfile"] ));
+
 		if(isset( $_POST["ap_encodeSource"] )) update_option('audio_player_encodeSource', "yes");
 		else update_option('audio_player_encodeSource', "no");
+
 		if(isset( $_POST["ap_disableAnimation"] )) update_option('audio_player_enableAnimation', "no");
 		else update_option('audio_player_enableAnimation', "yes");
+
+		if(isset( $_POST["ap_showRemaining"] )) update_option('audio_player_showRemaining', "yes");
+		else update_option('audio_player_showRemaining', "no");
+
 		if(count($_POST['ap_behaviour']) > 0) update_option('audio_player_behaviour', implode(",", $_POST['ap_behaviour']));
 		else update_option('audio_player_behaviour', '');
+
 		update_option('audio_player_rssalternate', $_POST['ap_rssalternate']);
 		update_option('audio_player_rsscustomalternate', $_POST['ap_rsscustomalternate']);
 		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
 		update_option('audio_player_postfixaudio', $_POST['ap_audiopostfixwebpath']);
 
 		update_option('audio_player_width', $_POST['ap_player_width']);
+		update_option('audio_player_initialvolume', $_POST['ap_initial_volume']);
 
 		// Update colour options
 		foreach( $ap_colorkeys as $colorkey ) {
@@ -335,11 +346,13 @@ function ap_options_subpanel() {
 	$ap_behaviour = explode(",", get_option("audio_player_behaviour"));
 	$ap_rssalternate = get_option('audio_player_rssalternate');
 	$ap_player_width = get_option("audio_player_width");
+	$ap_initial_volume = get_option("audio_player_initialvolume");
 	
 	$ap_embedMethod = get_option("audio_player_embedmethod");
 	$ap_includeEmbedFile = get_option("audio_player_includeembedfile");
 	$ap_encodeSource = (get_option("audio_player_encodeSource") == "yes");
 	$ap_enableAnimation = get_option("audio_player_enableAnimation");
+	$ap_showRemaining = get_option("audio_player_showRemaining");
 	
 	// Include options panel
 	include( "options-panel.php" );

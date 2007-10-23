@@ -70,6 +70,7 @@
 			</li>
 		</ul>
 	</div>
+	
 	<div class="ap-panel" id="ap-panel-colour">
 		<h3>Enable/disable the animation</h3>
 		<p>If you don't like the open/close animation, you can disable it here.</p>
@@ -78,6 +79,15 @@
 				<label for="ap_disableAnimation">
 				<input type="checkbox" name="ap_disableAnimation" id="ap_disableAnimation" value="true"<?php if($ap_enableAnimation == "no") echo ' checked="checked"'; ?> />
 				<strong>Disable animation</strong></label>
+			</li>
+		</ul>
+		<h3>Show remaining time</h3>
+		<p>This will make the time display count down rather than up.</p>
+		<ul class="ap-optionlist">
+			<li>
+				<label for="ap_showRemaining">
+				<input type="checkbox" name="ap_showRemaining" id="ap_showRemaining" value="true"<?php if($ap_showRemaining == "yes") echo ' checked="checked"'; ?> />
+				<strong>Show remaining time</strong></label>
 			</li>
 		</ul>
 		<h3>Player width</h3>
@@ -156,6 +166,7 @@
 			</label>
 		</p>
 	</div>
+	
 	<div class="ap-panel" id="ap-panel-feed">
 		<h3>Feed options</h3>
 		<p>The following options determine what is included in your feeds. The plugin doesn't place a player instance in the feed. Instead, you can choose what the plugin
@@ -178,6 +189,7 @@
 			<input type="text" id="ap_rsscustomalternate" name="ap_rsscustomalternate" size="60" value="<?php echo( get_option("audio_player_rsscustomalternate") ); ?>" />
 		</p>
 	</div>
+	
 	<div class="ap-panel" id="ap-panel-podcasting">
 		<h3>Pre and Post appended audio clips</h3>
 		<p>You may wish to pre-append or post-append audio clips into your players. The pre-appended audio will be played before the main audio, and the post-appended will come after. A typical podcasting use-case for this feature is adding a sponsorship message or simple instructions that help casual listeners become subscribers. <strong>This will apply to all audio players on your site</strong>. Your chosen audio clips should be substantially shorter than your main feature.</p>
@@ -192,7 +204,14 @@
 			<em>Leave this value blank for no post-appended audio</em>
 		</p>
 	</div>
+	
 	<div class="ap-panel" id="ap-panel-advanced">
+		<h3>Initial volume</h3>
+		<p>This is the volume at which the player defaults to (0 is off, 100 is full volume)</p>
+		<p>
+			<label for="ap_volume">Initial volume</label>
+			<input type="text" id="ap_volume" name="ap_initial_volume" value="<?php echo $ap_initial_volume; ?>" size="5" />
+		</p>
 		<h3>Encoding</h3>
 		<p>Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.</p>
 		<ul class="ap-optionlist">
