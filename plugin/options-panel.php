@@ -137,7 +137,7 @@
 			</div>
 			<script type="text/javascript">
 			AudioPlayer.setup("<?php echo $ap_playerURL ?>", "<?php echo get_option("audio_player_width") ?>", "opaque", "#FFFFFF", <?php echo ap_php2js($ap_options) ?>);
-			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo get_settings("siteurl") ?>/wp-content/plugins/audio-player/test.mp3", autostart:"yes", loop:"yes"});
+			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo get_settings("siteurl") ?>/wp-content/plugins/audio-player/test.mp3", autostart:"yes", loop:"yes", encode:"no"});
 			</script>
 		</div>
 		
@@ -149,9 +149,9 @@
 		</p>
 		<p>
 			<label for="ap_pagebgcolor"><strong>Page background color:</strong></label>
-			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="<?php echo( get_option("audio_player_pagebgcolor") ); ?>" />
+			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="<?php echo( get_option("audio_player_pagebgcolor") ); ?>"<?php if( get_option("audio_player_transparentpagebg") ) echo ' disabled="disabled" style="color:#999999"'; ?> />
 			<label for="ap_transparentpagebg">
-				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( get_option("audio_player_transparentpagebg") ) echo ' checked="checked"'; ?> onclick="ap_setPagebgField()" />
+				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( get_option("audio_player_transparentpagebg") ) echo ' checked="checked"'; ?> />
 				Transparent
 			</label>
 		</p>

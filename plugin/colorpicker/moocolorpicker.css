@@ -1,17 +1,18 @@
-body {
-	padding:0;
-	margin:0;
-}
-
 .moocp_color-picker {
 	width:230px;
 	float:left;
 	background:#333333;
+	position:relative;
+}
+.moocp_panel-mode {
+	width:230px;
+	padding:3px 5px 7px 5px;
+	background:url(background.png) no-repeat left top;
+	position:absolute;
 }
 
 .moocp_header-panel {
 	height:16px;
-	background:#999999;
 	cursor:move;
 	position:relative;
 }
@@ -25,16 +26,20 @@ body {
 	background:url(close.gif) no-repeat center center;
 	cursor:pointer;
 }
+.moocp_panel-mode .moocp_header-panel span { right:4px; }
 
 .moocp_sv-panel {
 	float:left;
 	width:180px;
 	height:180px;
-	margin:10px;
-	display:inline; /* For IE6 */
+	top:10px;
+	left:10px;
 	background:#FF0000 url(saturation-value.png) no-repeat;
 	position:relative;
 	z-index:2;
+}
+.ie6 .moocp_sv-panel {
+	background:transparent;
 }
 .moocp_sv-panel-ie {
 	width:180px;
@@ -45,7 +50,10 @@ body {
 	left:10px;
 	z-index:1;
 }
-.moocp_panel-mode .moocp_sv-panel-ie { top:26px; }
+.moocp_panel-mode .moocp_sv-panel-ie {
+	left:15px;
+	top:29px;
+}
 .moocp_sv-panel span {
 	position:absolute;
 	display:block;

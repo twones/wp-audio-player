@@ -19,6 +19,17 @@ var AP_Admin = new Class({
 		this.panels = document.getElements("div.ap-panel");
 		for(var i=1;i<this.panels.length;i++) this.panels[i].setStyle("display", "none");
 		
+		$("ap_transparentpagebg").addEvent("click", function() {
+			var bgField = $("ap_pagebgcolor");
+			if($("ap_transparentpagebg").checked) {
+				bgField.disabled = true;
+				bgField.setStyle("color", "#999999");
+			} else {
+				bgField.disabled = false;
+				bgField.setStyle("color", "#000000");
+			}
+		});
+		
 		this.colorPicker = new MooColorPicker({panelMode:true});
 		this.colorPicker.hide();
 		this.colorPicker.attach("ap-colorsample", "background-color");
@@ -41,6 +52,7 @@ var AP_Admin = new Class({
 		this.themeColorPickerBtn = $("ap_themecolor_btn");
 		this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
 		document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
+		document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
 		this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
 		
 		this.selectColorField();
@@ -54,6 +66,15 @@ var AP_Admin = new Class({
 		this.colorField.value = color;
 		this.colorPicker.setColor(color);
 		$("ap-colorsample").setStyle("background-color", color);
+	},
+	
+	hideColorPicker:function(evt) {
+		var el = $(evt.target);
+		do {
+			if(el.getProperty("id") == "ap-colorsample" || el.hasClass("moocp_color-picker")) return;
+			el = el.getParent();
+		} while(el.getTag() != "body");
+		this.colorPicker.hide();
 	},
 
 	showHideThemeColors:function(evt) {
@@ -137,8 +158,6 @@ var AP_Admin = new Class({
 		
 		for(i=0;i<this.panels.length;i++) this.panels[i].setStyle("display", "none");
 		$(target.getProperty("href").replace(/[^#]*#/, "")).setStyle("display", "block");
-
-		//this.colorPicker.update();
 	}
 
 });

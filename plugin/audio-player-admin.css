@@ -71,13 +71,11 @@ ul.ap-optionlist input { border:none; background:none; }
 }
 #ap-audioplayer-wrapper {
 	clear:both;
+	width:490px;
 	background:#FFFFFF;
 	padding:30px 15px;
 	border-top:1px solid #CCCCCC;
 }
-#ap-audioplayer { width:490px; }
-#ap-audioplayer-wrapper embed,
-#ap-audioplayer-wrapper object { display:block; }
 #ap-colorselector {
 	float:left;
 	padding:5px 10px;
