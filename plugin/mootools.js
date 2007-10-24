@@ -1,3 +1,4257 @@
-//MooTools, My Object Oriented Javascript Tools. Copyright (c) 2006-2007 Valerio Proietti, <http://mad4milk.net>, MIT Style License.
+/*
+Script: Core.js
+	Mootools - My Object Oriented javascript.
 
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('o 89={8b:\'1.11\'};k $42(12){c(12!=6A)};k $v(12){m(!$42(12))c Y;m(12.2Y)c\'N\';o v=3M 12;m(v==\'2H\'&&12.83){1E(12.5e){M 1:c\'N\';M 3:c(/\\S/).2B(12.6L)?\'8c\':\'7X\'}}m(v==\'2H\'||v==\'k\'){1E(12.6K){M 1C:c\'1c\';M 4E:c\'4F\';M 1k:c\'4Z\'}m(3M 12.O==\'3t\'){m(12.2d)c\'81\';m(12.71)c\'V\'}}c v};k $2J(){o 3m={};K(o i=0;i<V.O;i++){K(o C 1q V[i]){o ap=V[i][C];o 45=3m[C];m(45&&$v(ap)==\'2H\'&&$v(45)==\'2H\')3m[C]=$2J(45,ap);W 3m[C]=ap}}c 3m};o $U=k(){o 14=V;m(!14[1])14=[7,14[0]];K(o C 1q 14[1])14[0][C]=14[1][C];c 14[0]};o $36=k(){K(o i=0,l=V.O;i<l;i++){V[i].U=k(1n){K(o 1u 1q 1n){m(!7.1d[1u])7.1d[1u]=1n[1u];m(!7[1u])7[1u]=$36.4s(1u)}}}};$36.4s=k(1u){c k(Q){c 7.1d[1u].3d(Q,1C.1d.7d.1O(V,1))}};$36(5d,1C,4C,6W);k $1X(12){c!!(12||12===0)};k $47(12,65){c $42(12)?12:65};k $5y(2g,1t){c 1b.6I(1b.5y()*(1t-2g+1)+2g)};k $86(){c X 85().88()};k $77(3f){82(3f);7R(3f);c 1f};o 33=k(12){12=12||{};12.U=$U;c 12};o 94=X 33(J);o 8M=X 33(I);I.6x=I.2b(\'6x\')[0];J.2x=!!(I.6T);m(J.8O)J.1R=J[J.8Q?\'8L\':\'6N\']=1a;W m(I.6n&&!I.8K&&!8G.8F)J.2N=J[J.2x?\'8H\':\'5K\']=1a;W m(I.8J!=1f)J.4P=1a;J.8R=J.2N;90.U=$U;m(3M 3x==\'6A\'){o 3x=k(){};m(J.2N)I.70("93");3x.1d=(J.2N)?J["[[8Y.1d]]"]:{}}3x.1d.2Y=k(){};m(J.6N)5i{I.8U("8V",Y,1a)}5g(e){};o 1k=k(2o){o 3H=k(){c(V[0]!==1f&&7.28&&$v(7.28)==\'k\')?7.28.3d(7,V):7};$U(3H,7);3H.1d=2o;3H.6K=1k;c 3H};1k.2f=k(){};1k.1d={U:k(2o){o 3L=X 7(1f);K(o C 1q 2o){o 6G=3L[C];3L[C]=1k.66(6G,2o[C])}c X 1k(3L)},5W:k(){K(o i=0,l=V.O;i<l;i++)$U(7.1d,V[i])}};1k.66=k(2E,1A){m(2E&&2E!=1A){o v=$v(1A);m(v!=$v(2E))c 1A;1E(v){M\'k\':o 5Q=k(){7.1P=V.71.1P;c 1A.3d(7,V)};5Q.1P=2E;c 5Q;M\'2H\':c $2J(2E,1A)}}c 1A};o 8f=X 1k({8g:k(H){7.2I=7.2I||[];7.2I.19(H);c 7},8h:k(){m(7.2I&&7.2I.O)7.2I.6s().1G(10,7)},8i:k(){7.2I=[]}});o 2e=X 1k({2w:k(v,H){m(H!=1k.2f){7.$R=7.$R||{};7.$R[v]=7.$R[v]||[];7.$R[v].5A(H)}c 7},1D:k(v,14,1G){m(7.$R&&7.$R[v]){7.$R[v].1w(k(H){H.29({\'Q\':7,\'1G\':1G,\'V\':14})()},7)}c 7},4o:k(v,H){m(7.$R&&7.$R[v])7.$R[v].31(H);c 7}});o 61=X 1k({5m:k(){7.F=$2J.3d(1f,[7.F].U(V));m(7.2w){K(o 2v 1q 7.F){m($v(7.F[2v]==\'k\')&&(/^4W[A-Z]/).2B(2v))7.2w(2v,7.F[2v])}}c 7}});1C.U({3N:k(H,Q){K(o i=0,j=7.O;i<j;i++)H.1O(Q,7[i],i,7)},23:k(H,Q){o 3e=[];K(o i=0,j=7.O;i<j;i++){m(H.1O(Q,7[i],i,7))3e.19(7[i])}c 3e},2m:k(H,Q){o 3e=[];K(o i=0,j=7.O;i<j;i++)3e[i]=H.1O(Q,7[i],i,7);c 3e},4j:k(H,Q){K(o i=0,j=7.O;i<j;i++){m(!H.1O(Q,7[i],i,7))c Y}c 1a},8q:k(H,Q){K(o i=0,j=7.O;i<j;i++){m(H.1O(Q,7[i],i,7))c 1a}c Y},3a:k(2d,1W){o 3c=7.O;K(o i=(1W<0)?1b.1t(0,3c+1W):1W||0;i<3c;i++){m(7[i]===2d)c i}c-1},5s:k(1m,O){1m=1m||0;m(1m<0)1m=7.O+1m;O=O||(7.O-1m);o 5t=[];K(o i=0;i<O;i++)5t[i]=7[1m++];c 5t},31:k(2d){o i=0;o 3c=7.O;5q(i<3c){m(7[i]===2d){7.4A(i,1);3c--}W{i++}}c 7},15:k(2d,1W){c 7.3a(2d,1W)!=-1},8r:k(1v){o 12={},O=1b.2g(7.O,1v.O);K(o i=0;i<O;i++)12[1v[i]]=7[i];c 12},U:k(1c){K(o i=0,j=1c.O;i<j;i++)7.19(1c[i]);c 7},2J:k(1c){K(o i=0,l=1c.O;i<l;i++)7.5A(1c[i]);c 7},5A:k(2d){m(!7.15(2d))7.19(2d);c 7},8B:k(){c 7[$5y(0,7.O-1)]||1f},5p:k(){c 7[7.O-1]||1f}});1C.1d.1w=1C.1d.3N;1C.1w=1C.3N;k $A(1c){c 1C.5s(1c)};k $1w(2y,H,Q){m(2y&&3M 2y.O==\'3t\'&&$v(2y)!=\'2H\'){1C.3N(2y,H,Q)}W{K(o 1s 1q 2y)H.1O(Q||2y,2y[1s],1s)}};1C.1d.2B=1C.1d.15;4C.U({2B:k(4b,78){c(($v(4b)==\'2t\')?X 4E(4b,78):4b).2B(7)},2M:k(){c 3u(7,10)},6U:k(){c 52(7)},5c:k(){c 7.2F(/-\\D/g,k(2l){c 2l.5V(1).7c()})},6u:k(){c 7.2F(/\\w[A-Z]/g,k(2l){c(2l.5V(0)+\'-\'+2l.5V(1).4z())})},7K:k(){c 7.2F(/\\b[a-z]/g,k(2l){c 2l.7c()})},4O:k(){c 7.2F(/^\\s+|\\s+$/g,\'\')},4R:k(){c 7.2F(/\\s{2,}/g,\' \').4O()},3D:k(1c){o 17=7.2l(/\\d{1,3}/g);c(17)?17.3D(1c):Y},4u:k(1c){o 2r=7.2l(/^#?(\\w{1,2})(\\w{1,2})(\\w{1,2})$/);c(2r)?2r.7d(1).4u(1c):Y},15:k(2t,s){c(s)?(s+7+s).3a(s+2t+s)>-1:7.3a(2t)>-1},8w:k(){c 7.2F(/([.*+?^${}()|[\\]\\/\\\\])/g,\'\\\\$1\')}});1C.U({3D:k(1c){m(7.O<3)c Y;m(7.O==4&&7[3]==0&&!1c)c\'8E\';o 2r=[];K(o i=0;i<3;i++){o 34=(7[i]-0).8v(16);2r.19((34.O==1)?\'0\'+34:34)}c 1c?2r:\'#\'+2r.25(\'\')},4u:k(1c){m(7.O!=3)c Y;o 17=[];K(o i=0;i<3;i++){17.19(3u((7[i].O==1)?7[i]+7[i]:7[i],16))}c 1c?17:\'17(\'+17.25(\',\')+\')\'}});5d.U({29:k(F){o H=7;F=$2J({\'Q\':H,\'B\':Y,\'V\':1f,\'1G\':Y,\'3i\':Y,\'4e\':Y},F);m($1X(F.V)&&$v(F.V)!=\'1c\')F.V=[F.V];c k(B){o 14;m(F.B){B=B||J.B;14=[(F.B===1a)?B:X F.B(B)];m(F.V)14.U(F.V)}W 14=F.V||V;o 2p=k(){c H.3d($47(F.Q,H),14)};m(F.1G)c 8u(2p,F.1G);m(F.3i)c 8s(2p,F.3i);m(F.4e)5i{c 2p()}5g(8t){c Y};c 2p()}},8x:k(14,Q){c 7.29({\'V\':14,\'Q\':Q})},4e:k(14,Q){c 7.29({\'V\':14,\'Q\':Q,\'4e\':1a})()},Q:k(Q,14){c 7.29({\'Q\':Q,\'V\':14})},8y:k(Q,14){c 7.29({\'Q\':Q,\'B\':1a,\'V\':14})},1G:k(1G,Q,14){c 7.29({\'1G\':1G,\'Q\':Q,\'V\':14})()},3i:k(6X,Q,14){c 7.29({\'3i\':6X,\'Q\':Q,\'V\':14})()}});6W.U({2M:k(){c 3u(7)},6U:k(){c 52(7)},1o:k(2g,1t){c 1b.2g(1t,1b.1t(2g,7))},1Z:k(3A){3A=1b.5z(10,3A||0);c 1b.1Z(7*3A)/3A},8C:k(H){K(o i=0;i<7;i++)H(i)}});o G=X 1k({28:k(u,1n){m($v(u)==\'2t\'){m(J.1R&&1n&&(1n.1s||1n.v)){o 1s=(1n.1s)?\' 1s="\'+1n.1s+\'"\':\'\';o v=(1n.v)?\' v="\'+1n.v+\'"\':\'\';55 1n.1s;55 1n.v;u=\'<\'+u+1s+v+\'>\'}u=I.70(u)}u=$(u);c(!1n||!u)?u:u.7I(1n)}});o 1y=X 1k({28:k(P){c(P)?$U(P,7):7}});1y.U=k(1n){K(o 1u 1q 1n){7.1d[1u]=1n[1u];7[1u]=$36.4s(1u)}};k $(u){m(!u)c 1f;m(u.2Y)c 1J.2V(u);m([J,I].15(u))c u;o v=$v(u);m(v==\'2t\'){u=I.3X(u);v=(u)?\'N\':Y}m(v!=\'N\')c 1f;m(u.2Y)c 1J.2V(u);m([\'2H\',\'8A\'].15(u.4a.4z()))c u;$U(u,G.1d);u.2Y=k(){};c 1J.2V(u)};I.43=I.2b;k $$(){o P=[];K(o i=0,j=V.O;i<j;i++){o 1j=V[i];1E($v(1j)){M\'N\':P.19(1j);M\'8z\':1l;M Y:1l;M\'2t\':1j=I.43(1j,1a);4B:P.U(1j)}}c $$.3z(P)};$$.3z=k(1c){o P=[];K(o i=0,l=1c.O;i<l;i++){m(1c[i].$3J)49;o N=$(1c[i]);m(N&&!N.$3J){N.$3J=1a;P.19(N)}}K(o n=0,d=P.O;n<d;n++)P[n].$3J=1f;c X 1y(P)};1y.7G=k(C){c k(){o 14=V;o 18=[];o P=1a;K(o i=0,j=7.O,2p;i<j;i++){2p=7[i][C].3d(7[i],14);m($v(2p)!=\'N\')P=Y;18.19(2p)};c(P)?$$.3z(18):18}};G.U=k(2o){K(o C 1q 2o){3x.1d[C]=2o[C];G.1d[C]=2o[C];G[C]=$36.4s(C);o 7M=(1C.1d[C])?C+\'1y\':C;1y.1d[7M]=1y.7G(C)}};G.U({7I:k(1n){K(o 1u 1q 1n){o 2T=1n[1u];1E(1u){M\'8e\':7.5M(2T);1l;M\'R\':m(7.4Y)7.4Y(2T);1l;M\'2o\':7.7f(2T);1l;4B:7.44(1u,2T)}}c 7},3h:k(u,7u){u=$(u);1E(7u){M\'6a\':u.2i.54(7,u);1l;M\'6h\':o 3v=u.6z();m(!3v)u.2i.51(7);W u.2i.54(7,3v);1l;M\'1i\':o 56=u.4N;m(56){u.54(7,56);1l}4B:u.51(7)}c 7},8j:k(u){c 7.3h(u,\'6a\')},8k:k(u){c 7.3h(u,\'6h\')},8p:k(u){c 7.3h(u,\'3G\')},8o:k(u){c 7.3h(u,\'1i\')},8n:k(){o P=[];$1w(V,k(6i){P=P.5L(6i)});$$(P).3h(7);c 7},31:k(){c 7.2i.7l(7)},8l:k(6c){o u=$(7.8m(6c!==Y));m(!u.$R)c u;u.$R={};K(o v 1q 7.$R)u.$R[v]={\'1v\':$A(7.$R[v].1v),\'1Y\':$A(7.$R[v].1Y)};c u.4p()},8D:k(u){u=$(u);7.2i.8d(u,7);c u},7k:k(20){7.51(I.8X(20));c 7},4S:k(1g){c 7.1g.15(1g,\' \')},6k:k(1g){m(!7.4S(1g))7.1g=(7.1g+\' \'+1g).4R();c 7},6F:k(1g){7.1g=7.1g.2F(X 4E(\'(^|\\\\s)\'+1g+\'(?:\\\\s|$)\'),\'$1\').4R();c 7},8W:k(1g){c 7.4S(1g)?7.6F(1g):7.6k(1g)},5T:k(C,L){1E(C){M\'1U\':c 7.6q(52(L));M\'8T\':C=(J.1R)?\'8Z\':\'92\'}C=C.5c();1E($v(L)){M\'3t\':m(![\'91\',\'6m\'].15(C))L+=\'5U\';1l;M\'1c\':L=\'17(\'+L.25(\',\')+\')\'}7.1h[C]=L;c 7},5M:k(2z){1E($v(2z)){M\'2H\':G.4m(7,\'5T\',2z);1l;M\'2t\':7.1h.4M=2z}c 7},6q:k(1U){m(1U==0){m(7.1h.4h!="5O")7.1h.4h="5O"}W{m(7.1h.4h!="6o")7.1h.4h="6o"}m(!7.3R||!7.3R.8S)7.1h.6m=1;m(J.1R)7.1h.23=(1U==1)?\'\':"4i(1U="+1U*2D+")";7.1h.1U=7.$2C.1U=1U;c 7},1N:k(C){C=C.5c();o 1e=7.1h[C];m(!$1X(1e)){m(C==\'1U\')c 7.$2C.1U;1e=[];K(o 1h 1q G.3b){m(C==1h){G.3b[1h].1w(k(s){o 1h=7.1N(s);1e.19(3u(1h)?1h:\'62\')},7);m(C==\'2G\'){o 4j=1e.4j(k(34){c(34==1e[0])});c(4j)?1e[0]:Y}c 1e.25(\' \')}}m(C.15(\'2G\')){m(G.3b.2G.15(C)){c[\'6b\',\'8I\',\'26\'].2m(k(p){c 7.1N(C+p)},7).25(\' \')}W m(G.6O.15(C)){c[\'6f\',\'6d\',\'6e\',\'5X\'].2m(k(p){c 7.1N(\'2G\'+p+C.2F(\'2G\',\'\'))},7).25(\' \')}}m(I.6y)1e=I.6y.8P(7,1f).8N(C.6u());W m(7.3R)1e=7.3R[C]}m(J.1R)1e=G.7o(C,1e,7);m(1e&&C.2B(/1L/i)&&1e.15(\'17\')){c 1e.58(\'17\').4A(1,4).2m(k(1L){c 1L.3D()}).25(\' \')}c 1e},7V:k(){c G.4H(7,\'1N\',V)},3y:k(3P,1m){3P+=\'7U\';o u=(1m)?7[1m]:7[3P];5q(u&&$v(u)!=\'N\')u=u[3P];c $(u)},7T:k(){c 7.3y(\'2E\')},6z:k(){c 7.3y(\'3v\')},7Y:k(){c 7.3y(\'3v\',\'4N\')},5p:k(){c 7.3y(\'2E\',\'7Q\')},7W:k(){c $(7.2i)},7Z:k(){c $$(7.6n)},4J:k(u){c!!$A(7.2b(\'*\')).15(u)},3V:k(C){o 2s=G.4d[C];m(2s)c 7[2s];o 5b=G.6v[C]||0;m(!J.1R||5b)c 7.8a(C,5b);o 4G=7.84[C];c(4G)?4G.6L:1f},7S:k(C){o 2s=G.4d[C];m(2s)7[2s]=\'\';W 7.80(C);c 7},87:k(){c G.4H(7,\'3V\',V)},44:k(C,L){o 2s=G.4d[C];m(2s)7[2s]=L;W 7.9x(C,L);c 7},7f:k(2z){c G.4m(7,\'44\',2z)},73:k(){7.7p=$A(V).25(\'\');c 7},az:k(20){o 2n=7.30();m([\'1h\',\'35\'].15(2n)){m(J.1R){m(2n==\'1h\')7.6V.4M=20;W m(2n==\'35\')7.44(\'20\',20);c 7}W{7.7l(7.4N);c 7.7k(20)}}7[$42(7.4L)?\'4L\':\'75\']=20;c 7},aA:k(){o 2n=7.30();m([\'1h\',\'35\'].15(2n)){m(J.1R){m(2n==\'1h\')c 7.6V.4M;W m(2n==\'35\')c 7.3V(\'20\')}W{c 7.7p}}c($47(7.4L,7.75))},30:k(){c 7.4a.4z()},2f:k(){1J.4r(7.2b(\'*\'));c 7.73(\'\')}});G.7o=k(C,1e,N){m($1X(3u(1e)))c 1e;m([\'2S\',\'2q\'].15(C)){o 1Y=(C==\'2q\')?[\'1p\',\'3E\']:[\'1i\',\'3G\'];o 3n=0;1Y.1w(k(L){3n+=N.1N(\'2G-\'+L+\'-2q\').2M()+N.1N(\'4T-\'+L).2M()});c N[\'ay\'+C.7K()]-3n+\'5U\'}W m(C.2B(/2G(.+)6b|6g|4T/)){c\'62\'}c 1e};G.3b={\'2G\':[],\'4T\':[],\'6g\':[]};[\'6f\',\'6d\',\'6e\',\'5X\'].1w(k(6Q){K(o 1h 1q G.3b)G.3b[1h].19(1h+6Q)});G.6O=[\'ax\',\'au\',\'av\'];G.4H=k(u,2R,1v){o 1e={};$1w(1v,k(1Q){1e[1Q]=u[2R](1Q)});c 1e};G.4m=k(u,2R,5j){K(o 1Q 1q 5j)u[2R](1Q,5j[1Q]);c u};G.4d=X 33({\'4Z\':\'1g\',\'K\':\'aw\',\'aB\':\'aC\',\'aH\':\'aI\',\'aG\':\'aF\',\'aD\':\'aE\',\'at\':\'as\',\'ag\':\'ah\',\'af\':\'ae\',\'L\':\'L\',\'5N\':\'5N\',\'5F\':\'5F\',\'5E\':\'5E\',\'5I\':\'5I\'});G.6v={\'ab\':2,\'3Q\':2};G.2a={3U:{2k:k(v,H){m(7.53)7.53(v,H,Y);W 7.ac(\'4W\'+v,H);c 7},3j:k(v,H){m(7.6w)7.6w(v,H,Y);W 7.ad(\'4W\'+v,H);c 7}}};J.U(G.2a.3U);I.U(G.2a.3U);G.U(G.2a.3U);o 1J={P:[],2V:k(u){m(!u.$2C){1J.P.19(u);u.$2C={\'1U\':1}}c u},4r:k(P){K(o i=0,j=P.O,u;i<j;i++){m(!(u=P[i])||!u.$2C)49;m(u.$R)u.1D(\'4r\').4p();K(o p 1q u.$2C)u.$2C[p]=1f;K(o d 1q G.1d)u[d]=1f;1J.P[1J.P.3a(u)]=1f;u.2Y=u.$2C=u=1f}1J.P.31(1f)},2f:k(){1J.2V(J);1J.2V(I);1J.4r(1J.P)}};J.2k(\'7H\',k(){J.2k(\'4X\',1J.2f);m(J.1R)J.2k(\'4X\',ai)});o 1T=X 1k({28:k(B){m(B&&B.$6t)c B;7.$6t=1a;B=B||J.B;7.B=B;7.v=B.v;7.3g=B.3g||B.aj;m(7.3g.5e==3)7.3g=7.3g.2i;7.6s=B.aq;7.ar=B.ao;7.an=B.ak;7.al=B.am;m([\'59\',\'4g\'].15(7.v)){7.aK=(B.6r)?B.6r/aJ:-(B.aQ||0)/3}W m(7.v.15(\'1Q\')){7.4k=B.6C||B.aY;K(o 1s 1q 1T.1v){m(1T.1v[1s]==7.4k){7.1Q=1s;1l}}m(7.v==\'7P\'){o 4w=7.4k-b0;m(4w>0&&4w<13)7.1Q=\'f\'+4w}7.1Q=7.1Q||4C.b3(7.4k).4z()}W m(7.v.2B(/(7v|2h|b2)/)){7.2W={\'x\':B.5h||B.6J+I.1V.3B,\'y\':B.4D||B.6D+I.1V.3o};7.aX={\'x\':B.5h?B.5h-J.7O:B.6J,\'y\':B.4D?B.4D-J.7E:B.6D};7.aV=(B.6C==3)||(B.aO==2);1E(7.v){M\'5f\':7.1z=B.1z||B.aN;1l;M\'57\':7.1z=B.1z||B.aM}7.5Y()}c 7},2j:k(){c 7.3Z().4c()},3Z:k(){m(7.B.3Z)7.B.3Z();W 7.B.aL=1a;c 7},4c:k(){m(7.B.4c)7.B.4c();W 7.B.aP=Y;c 7}});1T.4f={1z:k(){m(7.1z&&7.1z.5e==3)7.1z=7.1z.2i},5Z:k(){5i{1T.4f.1z.1O(7)}5g(e){7.1z=7.3g}}};1T.1d.5Y=(J.4P)?1T.4f.5Z:1T.4f.1z;1T.1v=X 33({\'aU\':13,\'aS\':38,\'aR\':40,\'1p\':37,\'3E\':39,\'aT\':27,\'aW\':32,\'b1\':8,\'aZ\':9,\'55\':46});G.2a.2e={2w:k(v,H){7.$R=7.$R||{};7.$R[v]=7.$R[v]||{\'1v\':[],\'1Y\':[]};m(7.$R[v].1v.15(H))c 7;7.$R[v].1v.19(H);o 4v=v;o 1F=G.2e[v];m(1F){m(1F.5v)1F.5v.1O(7,H);m(1F.2m)H=1F.2m;m(1F.v)4v=1F.v}m(!7.53)H=H.29({\'Q\':7,\'B\':1a});7.$R[v].1Y.19(H);c(G.4Q.15(4v))?7.2k(4v,H):7},4o:k(v,H){m(!7.$R||!7.$R[v])c 7;o 2O=7.$R[v].1v.3a(H);m(2O==-1)c 7;o 1Q=7.$R[v].1v.4A(2O,1)[0];o L=7.$R[v].1Y.4A(2O,1)[0];o 1F=G.2e[v];m(1F){m(1F.31)1F.31.1O(7,H);m(1F.v)v=1F.v}c(G.4Q.15(v))?7.3j(v,L):7},4Y:k(2z){c G.4m(7,\'2w\',2z)},4p:k(v){m(!7.$R)c 7;m(!v){K(o 4x 1q 7.$R)7.4p(4x);7.$R=1f}W m(7.$R[v]){7.$R[v].1v.1w(k(H){7.4o(v,H)},7);7.$R[v]=1f}c 7},1D:k(v,14,1G){m(7.$R&&7.$R[v]){7.$R[v].1v.1w(k(H){H.29({\'Q\':7,\'1G\':1G,\'V\':14})()},7)}c 7},7A:k(1W,v){m(!1W.$R)c 7;m(!v){K(o 4x 1q 1W.$R)7.7A(1W,4x)}W m(1W.$R[v]){1W.$R[v].1v.1w(k(H){7.2w(v,H)},7)}c 7}};J.U(G.2a.2e);I.U(G.2a.2e);G.U(G.2a.2e);G.2e=X 33({\'7w\':{v:\'5f\',2m:k(B){B=X 1T(B);m(B.1z!=7&&!7.4J(B.1z))7.1D(\'7w\',B)}},\'7F\':{v:\'57\',2m:k(B){B=X 1T(B);m(B.1z!=7&&!7.4J(B.1z))7.1D(\'7F\',B)}},\'4g\':{v:(J.4P)?\'59\':\'4g\'}});G.4Q=[\'7v\',\'a9\',\'5u\',\'5P\',\'4g\',\'59\',\'5f\',\'57\',\'3l\',\'7P\',\'9s\',\'9t\',\'72\',\'4X\',\'7H\',\'aa\',\'9q\',\'9n\',\'9o\',\'9p\',\'9u\',\'95\',\'5k\',\'9v\',\'9A\',\'9B\',\'5o\'];5d.U({4t:k(Q,14){c 7.29({\'Q\':Q,\'V\':14,\'B\':1T})}});1y.U({9z:k(2n){c X 1y(7.23(k(u){c(G.30(u)==2n)}))},6Y:k(1g,1H){o P=7.23(k(u){c(u.1g&&u.1g.15(1g,\' \'))});c(1H)?P:X 1y(P)},6Z:k(2Q,1H){o P=7.23(k(u){c(u.2Q==2Q)});c(1H)?P:X 1y(P)},79:k(1s,4V,L,1H){o P=7.23(k(u){o 1A=G.3V(u,1s);m(!1A)c Y;m(!4V)c 1a;1E(4V){M\'=\':c(1A==L);M\'*=\':c(1A.15(L));M\'^=\':c(1A.76(0,L.O)==L);M\'$=\':c(1A.76(1A.O-L.O)==L);M\'!=\':c(1A!=L);M\'~=\':c 1A.15(L,\' \')}c Y});c(1H)?P:X 1y(P)}});k $E(1j,23){c($(23)||I).7e(1j)};k $9w(1j,23){c($(23)||I).43(1j)};$$.2u={\'4F\':/^(\\w*|\\*)(?:#([\\w-]+)|\\.([\\w-]+))?(?:\\[(\\w+)(?:([!*^$]?=)["\']?([^"\'\\]]*)["\']?)?])?$/,\'2x\':{4I:k(18,24,T,i){o 1M=[24.9m?\'4U:\':\'\',T[1]];m(T[2])1M.19(\'[@2Q="\',T[2],\'"]\');m(T[3])1M.19(\'[15(5L(" ", @4Z, " "), " \',T[3],\' ")]\');m(T[4]){m(T[5]&&T[6]){1E(T[5]){M\'*=\':1M.19(\'[15(@\',T[4],\', "\',T[6],\'")]\');1l;M\'^=\':1M.19(\'[9l-9b(@\',T[4],\', "\',T[6],\'")]\');1l;M\'$=\':1M.19(\'[9c(@\',T[4],\', 2t-O(@\',T[4],\') - \',T[6].O,\' + 1) = "\',T[6],\'"]\');1l;M\'=\':1M.19(\'[@\',T[4],\'="\',T[6],\'"]\');1l;M\'!=\':1M.19(\'[@\',T[4],\'!="\',T[6],\'"]\')}}W{1M.19(\'[@\',T[4],\']\')}}18.19(1M.25(\'\'));c 18},4K:k(18,24,1H){o P=[];o 2x=I.6T(\'.//\'+18.25(\'//\'),24,$$.2u.7j,9a.99,1f);K(o i=0,j=2x.96;i<j;i++)P.19(2x.97(i));c(1H)?P:X 1y(P.2m($))}},\'7b\':{4I:k(18,24,T,i){m(i==0){m(T[2]){o u=24.3X(T[2]);m(!u||((T[1]!=\'*\')&&(G.30(u)!=T[1])))c Y;18=[u]}W{18=$A(24.2b(T[1]))}}W{18=$$.2u.2b(18,T[1]);m(T[2])18=1y.6Z(18,T[2],1a)}m(T[3])18=1y.6Y(18,T[3],1a);m(T[4])18=1y.79(18,T[4],T[5],T[6],1a);c 18},4K:k(18,24,1H){c(1H)?18:$$.3z(18)}},7j:k(7i){c(7i==\'4U\')?\'98://9d.9e.9j/9k/4U\':Y},2b:k(24,4a){o 5a=[];K(o i=0,j=24.O;i<j;i++)5a.U(24[i].2b(4a));c 5a}};$$.2u.2R=(J.2x)?\'2x\':\'7b\';G.2a.5J={3Y:k(1j,1H){o 18=[];1j=1j.4O().58(\' \');K(o i=0,j=1j.O;i<j;i++){o 7a=1j[i];o T=7a.2l($$.2u.4F);m(!T)1l;T[1]=T[1]||\'*\';o 1M=$$.2u[$$.2u.2R].4I(18,7,T,i);m(!1M)1l;18=1M}c $$.2u[$$.2u.2R].4K(18,7,1H)},7e:k(1j){c $(7.3Y(1j,1a)[0]||Y)},43:k(1j,1H){o P=[];1j=1j.58(\',\');K(o i=0,j=1j.O;i<j;i++)P=P.5L(7.3Y(1j[i],1a));c(1H)?P:$$.3z(P)}};G.U({3X:k(2Q){o u=I.3X(2Q);m(!u)c Y;K(o 1P=u.2i;1P!=7;1P=1P.2i){m(!1P)c Y}c u},9i:k(1g){c 7.3Y(\'.\'+1g)}});I.U(G.2a.5J);G.U(G.2a.5J);G.U({7n:k(){1E(7.30()){M\'5k\':o 1Y=[];$1w(7.F,k(2v){m(2v.5I)1Y.19($47(2v.L,2v.20))});c(7.5E)?1Y:1Y[0];M\'7g\':m(!(7.5F&&[\'9h\',\'9f\'].15(7.v))&&![\'5O\',\'20\',\'9g\'].15(7.v))1l;M\'7h\':c 7.L}c Y},7m:k(){c $$(7.2b(\'7g\'),7.2b(\'5k\'),7.2b(\'7h\'))},9D:k(){o 5B=[];7.7m().1w(k(u){o 1s=u.1s;o L=u.7n();m(L===Y||!1s||u.5N)c;o 5n=k(2T){5B.19(1s+\'=\'+9Z(2T))};m($v(L)==\'1c\')L.1w(5n);W 5n(L)});c 5B.25(\'&\')}});G.U({a0:k(x,y){7.3B=x;7.3o=y},7t:k(){c{\'5o\':{\'x\':7.3B,\'y\':7.3o},\'3n\':{\'x\':7.5x,\'y\':7.5w},\'7r\':{\'x\':7.4l,\'y\':7.4q}}},3p:k(1I){1I=1I||[];o u=7,1p=0,1i=0;9Y{1p+=u.9X||0;1i+=u.9V||0;u=u.9W}5q(u);1I.1w(k(N){1p-=N.3B||0;1i-=N.3o||0});c{\'x\':1p,\'y\':1i}},6R:k(1I){c 7.3p(1I).y},6H:k(1I){c 7.3p(1I).x},3W:k(1I){o 1B=7.3p(1I);o 12={\'2q\':7.5x,\'2S\':7.5w,\'1p\':1B.x,\'1i\':1B.y};12.3E=12.1p+12.2q;12.3G=12.1i+12.2S;c 12}});G.2e.5C={5v:k(H){m(J.3T){H.1O(7);c}o 3w=k(){m(J.3T)c;J.3T=1a;J.3f=$77(J.3f);7.1D(\'5C\')}.Q(7);m(I.3K&&J.2N){J.3f=k(){m([\'3T\',\'74\'].15(I.3K))3w()}.3i(50)}W m(I.3K&&J.1R){m(!$(\'5l\')){o 3Q=(J.a1.a2==\'a7:\')?\'://0\':\'a8:a6(0)\';I.a5(\'<35 2Q="5l" a3 3Q="\'+3Q+\'"><\\/35>\');$(\'5l\').a4=k(){m(7.3K==\'74\')3w()}}}W{J.2k("72",3w);I.2k("9U",3w)}}};J.9T=k(H){c 7.2w(\'5C\',H)};J.U({7s:k(){m(7.5K)c 7.9J;m(7.7J)c I.4n.7N;c I.1V.7N},7q:k(){m(7.5K)c 7.9K;m(7.7J)c I.4n.7L;c I.1V.7L},7x:k(){m(7.1R)c 1b.1t(I.1V.5x,I.1V.4l);m(7.2N)c I.4n.4l;c I.1V.4l},7C:k(){m(7.1R)c 1b.1t(I.1V.5w,I.1V.4q);m(7.2N)c I.4n.4q;c I.1V.4q},7D:k(){c 7.7O||I.1V.3B},7B:k(){c 7.7E||I.1V.3o},7t:k(){c{\'3n\':{\'x\':7.7s(),\'y\':7.7q()},\'7r\':{\'x\':7.7x(),\'y\':7.7C()},\'5o\':{\'x\':7.7D(),\'y\':7.7B()}}},3p:k(){c{\'x\':0,\'y\':0}}});o 2K={};2K.3S=X 1k({F:{3F:Y,63:\'5U\',7z:1k.2f,7y:1k.2f,6j:1k.2f,67:1k.2f,64:1k.2f,1o:Y,2A:{x:\'1p\',y:\'1i\'},2L:Y,69:6},28:k(u,F){7.5m(F);7.N=$(u);7.3F=$(7.F.3F)||7.N;7.2h={\'1r\':{},\'2O\':{}};7.L={\'1m\':{},\'1r\':{}};7.2c={\'1m\':7.1m.4t(7),\'3k\':7.3k.4t(7),\'2P\':7.2P.4t(7),\'2j\':7.2j.Q(7)};7.6S();m(7.F.28)7.F.28.1O(7)},6S:k(){7.3F.2w(\'5P\',7.2c.1m);c 7},9I:k(){7.3F.4o(\'5P\',7.2c.1m);c 7},1m:k(B){7.1D(\'7y\',7.N);7.2h.1m=B.2W;o 1o=7.F.1o;7.1o={\'x\':[],\'y\':[]};K(o z 1q 7.F.2A){m(!7.F.2A[z])49;7.L.1r[z]=7.N.1N(7.F.2A[z]).2M();7.2h.2O[z]=B.2W[z]-7.L.1r[z];m(1o&&1o[z]){K(o i=0;i<2;i++){m($1X(1o[z][i]))7.1o[z][i]=($v(1o[z][i])==\'k\')?1o[z][i]():1o[z][i]}}}m($v(7.F.2L)==\'3t\')7.F.2L={\'x\':7.F.2L,\'y\':7.F.2L};I.2k(\'3l\',7.2c.3k);I.2k(\'5u\',7.2c.2j);7.1D(\'7z\',7.N);B.2j()},3k:k(B){o 68=1b.1Z(1b.9H(1b.5z(B.2W.x-7.2h.1m.x,2)+1b.5z(B.2W.y-7.2h.1m.y,2)));m(68>7.F.69){I.3j(\'3l\',7.2c.3k);I.2k(\'3l\',7.2c.2P);7.2P(B);7.1D(\'67\',7.N)}B.2j()},2P:k(B){7.3I=Y;7.2h.1r=B.2W;K(o z 1q 7.F.2A){m(!7.F.2A[z])49;7.L.1r[z]=7.2h.1r[z]-7.2h.2O[z];m(7.1o[z]){m($1X(7.1o[z][1])&&(7.L.1r[z]>7.1o[z][1])){7.L.1r[z]=7.1o[z][1];7.3I=1a}W m($1X(7.1o[z][0])&&(7.L.1r[z]<7.1o[z][0])){7.L.1r[z]=7.1o[z][0];7.3I=1a}}m(7.F.2L[z])7.L.1r[z]-=(7.L.1r[z]%7.F.2L[z]);7.N.5T(7.F.2A[z],7.L.1r[z]+7.F.63)}7.1D(\'64\',7.N);B.2j()},2j:k(){I.3j(\'3l\',7.2c.3k);I.3j(\'3l\',7.2c.2P);I.3j(\'5u\',7.2c.2j);7.1D(\'6j\',7.N)}});2K.3S.5W(X 2e,X 61);G.U({9E:k(F){c X 2K.3S(7,$2J({2A:{x:\'2q\',y:\'2S\'}},F))}});2K.6M=2K.3S.U({F:{41:[],22:Y,1I:[]},28:k(u,F){7.5m(F);7.N=$(u);7.41=$$(7.F.41);7.22=$(7.F.22);7.1B={\'N\':7.N.1N(\'1B\'),\'22\':Y};m(7.22)7.1B.22=7.22.1N(\'1B\');m(![\'5G\',\'2X\',\'5D\'].15(7.1B.N))7.1B.N=\'2X\';o 1i=7.N.1N(\'1i\').2M();o 1p=7.N.1N(\'1p\').2M();m(7.1B.N==\'2X\'&&![\'5G\',\'2X\',\'5D\'].15(7.1B.22)){1i=$1X(1i)?1i:7.N.6R(7.F.1I);1p=$1X(1p)?1p:7.N.6H(7.F.1I)}W{1i=$1X(1i)?1i:0;1p=$1X(1p)?1p:0}7.N.5M({\'1i\':1i,\'1p\':1p,\'1B\':7.1B.N});7.1P(7.N)},1m:k(B){7.21=1f;m(7.22){o 2U=7.22.3W();o u=7.N.3W();m(7.1B.N==\'2X\'&&![\'5G\',\'2X\',\'5D\'].15(7.1B.22)){7.F.1o={\'x\':[2U.1p,2U.3E-u.2q],\'y\':[2U.1i,2U.3G-u.2S]}}W{7.F.1o={\'y\':[0,2U.2S-u.2S],\'x\':[0,2U.2q-u.2q]}}}7.1P(B)},2P:k(B){7.1P(B);o 21=7.3I?Y:7.41.23(7.6E,7).5p();m(7.21!=21){m(7.21)7.21.1D(\'9F\',[7.N,7]);7.21=21?21.1D(\'9G\',[7.N,7]):1f}c 7},6E:k(u){u=u.3W(7.F.1I);o 1r=7.2h.1r;c(1r.x>u.1p&&1r.x<u.3E&&1r.y<u.3G&&1r.y>u.1i)},2j:k(){m(7.21&&!7.3I)7.21.1D(\'9R\',[7.N,7]);W 7.N.1D(\'9S\',7);7.1P();c 7}});G.U({9Q:k(F){c X 2K.6M(7,F)}});o 26=X 1k({28:k(1L,v){v=v||(1L.19?\'17\':\'2r\');o 17,1x;1E(v){M\'17\':17=1L;1x=17.5H();1l;M\'1x\':17=1L.6l();1x=1L;1l;4B:17=1L.4u(1a);1x=17.5H()}17.1x=1x;17.2r=17.3D();c $U(17,26.1d)},3m:k(){o 3C=$A(V);o 4i=($v(3C[3C.O-1])==\'3t\')?3C.9N():50;o 17=7.5s();3C.1w(k(1L){1L=X 26(1L);K(o i=0;i<3;i++)17[i]=1b.1Z((17[i]/ 2D * (2D - 4i)) + (1L[i] /2D*4i))});c X 26(17,\'17\')},9r:k(){c X 26(7.2m(k(L){c 2Z-L}))},9O:k(L){c X 26([L,7.1x[1],7.1x[2]],\'1x\')},9P:k(4y){c X 26([7.1x[0],4y,7.1x[2]],\'1x\')},9M:k(4y){c X 26([7.1x[0],7.1x[1],4y],\'1x\')}});k $9L(r,g,b){c X 26([r,g,b],\'17\')};k $9C(h,s,b){c X 26([h,s,b],\'1x\')};1C.U({5H:k(){o 3q=7[0],3r=7[1],3O=7[2];o 1S,48,5r;o 1t=1b.1t(3q,3r,3O),2g=1b.2g(3q,3r,3O);o 3s=1t-2g;5r=1t/2Z;48=(1t!=0)?3s/1t:0;m(48==0){1S=0}W{o 5S=(1t-3q)/3s;o 5R=(1t-3r)/3s;o 1K=(1t-3O)/3s;m(3q==1t)1S=1K-5R;W m(3r==1t)1S=2+5S-1K;W 1S=4+5R-5S;1S/=6;m(1S<0)1S++}c[1b.1Z(1S*6p),1b.1Z(48*2D),1b.1Z(5r*2D)]},6l:k(){o 1K=1b.1Z(7[2]/2D*2Z);m(7[1]==0){c[1K,1K,1K]}W{o 1S=7[0]%6p;o f=1S%60;o p=1b.1Z((7[2]*(2D-7[1]))/9y*2Z);o q=1b.1Z((7[2]*(6B-7[1]*f))/6P*2Z);o t=1b.1Z((7[2]*(6B-7[1]*(60-f)))/6P*2Z);1E(1b.6I(1S/60)){M 0:c[1K,t,p];M 1:c[q,1K,p];M 2:c[p,1K,t];M 3:c[p,q,1K];M 4:c[t,p,1K];M 5:c[1K,p,q]}}c Y}});',62,686,'|||||||this|||||return||||||||function||if||var||||||el|type||||||event|property|||options|Element|fn|document|window|for|value|case|element|length|elements|bind|events||param|extend|arguments|else|new|false||||obj||args|contains||rgb|items|push|true|Math|array|prototype|result|null|className|style|top|selector|Class|break|start|props|limit|left|in|now|name|max|prop|keys|each|hsb|Elements|relatedTarget|current|position|Array|fireEvent|switch|custom|delay|nocash|overflown|Garbage|br|color|temp|getStyle|call|parent|key|ie|hue|Event|opacity|documentElement|from|chk|values|round|text|overed|container|filter|context|join|Color||initialize|create|Methods|getElementsByTagName|bound|item|Events|empty|min|mouse|parentNode|stop|addListener|match|map|tag|properties|returns|width|hex|index|string|shared|option|addEvent|xpath|iterable|source|modifiers|test|tmp|100|previous|replace|border|object|chains|merge|Drag|grid|toInt|webkit|pos|drag|id|method|height|val|cont|collect|page|absolute|htmlElement|255|getTag|remove||Abstract|bit|script|native||||indexOf|Styles|len|apply|results|timer|target|inject|periodical|removeListener|check|mousemove|mix|size|scrollTop|getPosition|red|green|delta|number|parseInt|next|domReady|HTMLElement|walk|unique|precision|scrollLeft|colors|rgbToHex|right|handle|bottom|klass|out|included|readyState|proto|typeof|forEach|blue|brother|src|currentStyle|Base|loaded|Listeners|getProperty|getCoordinates|getElementById|getElements|stopPropagation||droppables|defined|getElementsBySelector|setProperty|mp||pick|saturation|continue|tagName|regex|preventDefault|Properties|attempt|fix|mousewheel|visibility|alpha|every|code|scrollWidth|setMany|body|removeEvent|removeEvents|scrollHeight|trash|generic|bindWithEvent|hexToRgb|realType|fKey|evType|percent|toLowerCase|splice|default|String|pageY|RegExp|regexp|node|getMany|getParam|hasChild|getItems|innerText|cssText|firstChild|trim|gecko|NativeEvents|clean|hasClass|padding|xhtml|operator|on|unload|addEvents|class||appendChild|parseFloat|addEventListener|insertBefore|delete|first|mouseout|split|DOMMouseScroll|found|flag|camelCase|Function|nodeType|mouseover|catch|pageX|try|pairs|select|ie_ready|setOptions|qs|scroll|getLast|while|brightness|copy|newArray|mouseup|add|offsetHeight|offsetWidth|random|pow|include|queryString|domready|fixed|multiple|checked|relative|rgbToHsb|selected|Dom|webkit419|concat|setStyles|disabled|hidden|mousedown|merged|gr|rr|setStyle|px|charAt|implement|Left|fixRelatedTarget|relatedTargetGecko||Options|0px|unit|onDrag|picked|Merge|onSnap|distance|snap|before|Width|contents|Right|Bottom|Top|margin|after|argument|onComplete|addClass|hsbToRgb|zoom|childNodes|visible|360|setOpacity|wheelDelta|shift|extended|hyphenate|PropertiesIFlag|removeEventListener|head|defaultView|getNext|undefined|6000|which|clientY|checkAgainst|removeClass|pp|getLeft|floor|clientX|constructor|nodeValue|Move|ie6|borderShort|600000|direction|getTop|attach|evaluate|toFloat|styleSheet|Number|interval|filterByClass|filterById|createElement|callee|load|setHTML|complete|textContent|substr|clear|params|filterByAttribute|sel|normal|toUpperCase|slice|getElement|setProperties|input|textarea|prefix|resolver|appendText|removeChild|getFormElements|getValue|fixStyle|innerHTML|getHeight|scrollSize|getWidth|getSize|where|click|mouseenter|getScrollWidth|onBeforeStart|onStart|cloneEvents|getScrollTop|getScrollHeight|getScrollLeft|pageYOffset|mouseleave|Multi|beforeunload|set|opera|capitalize|clientHeight|elementsProperty|clientWidth|pageXOffset|keydown|lastChild|clearInterval|removeProperty|getPrevious|Sibling|getStyles|getParent|whitespace|getFirst|getChildren|removeAttribute|collection|clearTimeout|nodeName|attributes|Date|time|getProperties|getTime|MooTools|getAttribute|version|textnode|replaceChild|styles|Chain|chain|callChain|clearChain|injectBefore|injectAfter|clone|cloneNode|adopt|injectTop|injectInside|some|associate|setInterval|err|setTimeout|toString|escapeRegExp|pass|bindAsEventListener|boolean|embed|getRandom|times|replaceWith|transparent|taintEnabled|navigator|webkit420|Style|getBoxObjectFor|all|ie7|Document|getPropertyValue|ActiveXObject|getComputedStyle|XMLHttpRequest|khtml|hasLayout|float|execCommand|BackgroundImageCache|toggleClass|createTextNode|DOMElement|styleFloat|Object|zIndex|cssFloat|iframe|Window|reset|snapshotLength|snapshotItem|http|UNORDERED_NODE_SNAPSHOT_TYPE|XPathResult|with|substring|www|w3|radio|password|checkbox|getElementsByClassName|org|1999|starts|namespaceURI|focus|blur|change|move|invert|keypress|keyup|submit|error|ES|setAttribute|10000|filterByTag|abort|contextmenu|HSB|toQueryString|makeResizable|leave|over|sqrt|detach|innerWidth|innerHeight|RGB|setBrightness|pop|setHue|setSaturation|makeDraggable|drop|emptydrop|onDomReady|DOMContentLoaded|offsetTop|offsetParent|offsetLeft|do|encodeURIComponent|scrollTo|location|protocol|defer|onreadystatechange|write|void|https|javascript|dblclick|resize|href|attachEvent|detachEvent|frameBorder|frameborder|readonly|readOnly|CollectGarbage|srcElement|altKey|meta|metaKey|alt|ctrlKey||shiftKey|control|maxLength|maxlength|borderStyle|borderColor|htmlFor|borderWidth|offset|setText|getText|colspan|colSpan|tabindex|tabIndex|accessKey|accesskey|rowspan|rowSpan|120|wheel|cancelBubble|toElement|fromElement|button|returnValue|detail|down|up|esc|enter|rightClick|space|client|keyCode|tab|111|backspace|menu|fromCharCode'.split('|'),0,{}))
+License:
+	MIT-style license.
+
+MooTools Copyright:
+	copyright (c) 2007 Valerio Proietti, <http://mad4milk.net>
+
+MooTools Credits:
+	- Class is slightly based on Base.js <http://dean.edwards.name/weblog/2006/03/base/> (c) 2006 Dean Edwards, License <http://creativecommons.org/licenses/LGPL/2.1/>
+	- Some functions are inspired by those found in prototype.js <http://prototype.conio.net/> (c) 2005 Sam Stephenson sam [at] conio [dot] net, MIT-style license
+	- Documentation by Aaron Newton (aaron.newton [at] cnet [dot] com) and Valerio Proietti.
+*/
+
+var MooTools = {
+	version: '1.11'
+};
+
+/* Section: Core Functions */
+
+/*
+Function: $defined
+	Returns true if the passed in value/object is defined, that means is not null or undefined.
+
+Arguments:
+	obj - object to inspect
+*/
+
+function $defined(obj){
+	return (obj != undefined);
+};
+
+/*
+Function: $type
+	Returns the type of object that matches the element passed in.
+
+Arguments:
+	obj - the object to inspect.
+
+Example:
+	>var myString = 'hello';
+	>$type(myString); //returns "string"
+
+Returns:
+	'element' - if obj is a DOM element node
+	'textnode' - if obj is a DOM text node
+	'whitespace' - if obj is a DOM whitespace node
+	'arguments' - if obj is an arguments object
+	'object' - if obj is an object
+	'string' - if obj is a string
+	'number' - if obj is a number
+	'boolean' - if obj is a boolean
+	'function' - if obj is a function
+	'regexp' - if obj is a regular expression
+	'class' - if obj is a Class. (created with new Class, or the extend of another class).
+	'collection' - if obj is a native htmlelements collection, such as childNodes, getElementsByTagName .. etc.
+	false - (boolean) if the object is not defined or none of the above.
+*/
+
+function $type(obj){
+	if (!$defined(obj)) return false;
+	if (obj.htmlElement) return 'element';
+	var type = typeof obj;
+	if (type == 'object' && obj.nodeName){
+		switch(obj.nodeType){
+			case 1: return 'element';
+			case 3: return (/\S/).test(obj.nodeValue) ? 'textnode' : 'whitespace';
+		}
+	}
+	if (type == 'object' || type == 'function'){
+		switch(obj.constructor){
+			case Array: return 'array';
+			case RegExp: return 'regexp';
+			case Class: return 'class';
+		}
+		if (typeof obj.length == 'number'){
+			if (obj.item) return 'collection';
+			if (obj.callee) return 'arguments';
+		}
+	}
+	return type;
+};
+
+/*
+Function: $merge
+	merges a number of objects recursively without referencing them or their sub-objects.
+
+Arguments:
+	any number of objects.
+
+Example:
+	>var mergedObj = $merge(obj1, obj2, obj3);
+	>//obj1, obj2, and obj3 are unaltered
+*/
+
+function $merge(){
+	var mix = {};
+	for (var i = 0; i < arguments.length; i++){
+		for (var property in arguments[i]){
+			var ap = arguments[i][property];
+			var mp = mix[property];
+			if (mp && $type(ap) == 'object' && $type(mp) == 'object') mix[property] = $merge(mp, ap);
+			else mix[property] = ap;
+		}
+	}
+	return mix;
+};
+
+/*
+Function: $extend
+	Copies all the properties from the second passed object to the first passed Object.
+	If you do myWhatever.extend = $extend the first parameter will become myWhatever, and your extend function will only need one parameter.
+
+Example:
+	(start code)
+	var firstOb = {
+		'name': 'John',
+		'lastName': 'Doe'
+	};
+	var secondOb = {
+		'age': '20',
+		'sex': 'male',
+		'lastName': 'Dorian'
+	};
+	$extend(firstOb, secondOb);
+	//firstOb will become:
+	{
+		'name': 'John',
+		'lastName': 'Dorian',
+		'age': '20',
+		'sex': 'male'
+	};
+	(end)
+
+Returns:
+	The first object, extended.
+*/
+
+var $extend = function(){
+	var args = arguments;
+	if (!args[1]) args = [this, args[0]];
+	for (var property in args[1]) args[0][property] = args[1][property];
+	return args[0];
+};
+
+/*
+Function: $native
+	Will add a .extend method to the objects passed as a parameter, but the property passed in will be copied to the object's prototype only if non previously existent.
+	Its handy if you dont want the .extend method of an object to overwrite existing methods.
+	Used automatically in MooTools to implement Array/String/Function/Number methods to browser that dont support them whitout manual checking.
+
+Arguments:
+	a number of classes/native javascript objects
+
+*/
+
+var $native = function(){
+	for (var i = 0, l = arguments.length; i < l; i++){
+		arguments[i].extend = function(props){
+			for (var prop in props){
+				if (!this.prototype[prop]) this.prototype[prop] = props[prop];
+				if (!this[prop]) this[prop] = $native.generic(prop);
+			}
+		};
+	}
+};
+
+$native.generic = function(prop){
+	return function(bind){
+		return this.prototype[prop].apply(bind, Array.prototype.slice.call(arguments, 1));
+	};
+};
+
+$native(Function, Array, String, Number);
+
+/*
+Function: $chk
+	Returns true if the passed in value/object exists or is 0, otherwise returns false.
+	Useful to accept zeroes.
+
+Arguments:
+	obj - object to inspect
+*/
+
+function $chk(obj){
+	return !!(obj || obj === 0);
+};
+
+/*
+Function: $pick
+	Returns the first object if defined, otherwise returns the second.
+
+Arguments:
+	obj - object to test
+	picked - the default to return
+
+Example:
+	(start code)
+		function say(msg){
+			alert($pick(msg, 'no meessage supplied'));
+		}
+	(end)
+*/
+
+function $pick(obj, picked){
+	return $defined(obj) ? obj : picked;
+};
+
+/*
+Function: $random
+	Returns a random integer number between the two passed in values.
+
+Arguments:
+	min - integer, the minimum value (inclusive).
+	max - integer, the maximum value (inclusive).
+
+Returns:
+	a random integer between min and max.
+*/
+
+function $random(min, max){
+	return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+/*
+Function: $time
+	Returns the current timestamp
+
+Returns:
+	a timestamp integer.
+*/
+
+function $time(){
+	return new Date().getTime();
+};
+
+/*
+Function: $clear
+	clears a timeout or an Interval.
+
+Returns:
+	null
+
+Arguments:
+	timer - the setInterval or setTimeout to clear.
+
+Example:
+	>var myTimer = myFunction.delay(5000); //wait 5 seconds and execute my function.
+	>myTimer = $clear(myTimer); //nevermind
+
+See also:
+	<Function.delay>, <Function.periodical>
+*/
+
+function $clear(timer){
+	clearTimeout(timer);
+	clearInterval(timer);
+	return null;
+};
+
+/*
+Class: Abstract
+	Abstract class, to be used as singleton. Will add .extend to any object
+
+Arguments:
+	an object
+
+Returns:
+	the object with an .extend property, equivalent to <$extend>.
+*/
+
+var Abstract = function(obj){
+	obj = obj || {};
+	obj.extend = $extend;
+	return obj;
+};
+
+//window, document
+
+var Window = new Abstract(window);
+var Document = new Abstract(document);
+document.head = document.getElementsByTagName('head')[0];
+
+/*
+Class: window
+	Some properties are attached to the window object by the browser detection.
+	
+Note:
+	browser detection is entirely object-based. We dont sniff.
+
+Properties:
+	window.ie - will be set to true if the current browser is internet explorer (any).
+	window.ie6 - will be set to true if the current browser is internet explorer 6.
+	window.ie7 - will be set to true if the current browser is internet explorer 7.
+	window.gecko - will be set to true if the current browser is Mozilla/Gecko.
+	window.webkit - will be set to true if the current browser is Safari/Konqueror.
+	window.webkit419 - will be set to true if the current browser is Safari2 / webkit till version 419.
+	window.webkit420 - will be set to true if the current browser is Safari3 (Webkit SVN Build) / webkit over version 419.
+	window.opera - is set to true by opera itself.
+*/
+
+window.xpath = !!(document.evaluate);
+if (window.ActiveXObject) window.ie = window[window.XMLHttpRequest ? 'ie7' : 'ie6'] = true;
+else if (document.childNodes && !document.all && !navigator.taintEnabled) window.webkit = window[window.xpath ? 'webkit420' : 'webkit419'] = true;
+else if (document.getBoxObjectFor != null) window.gecko = true;
+
+/*compatibility*/
+
+window.khtml = window.webkit;
+
+Object.extend = $extend;
+
+/*end compatibility*/
+
+//htmlelement
+
+if (typeof HTMLElement == 'undefined'){
+	var HTMLElement = function(){};
+	if (window.webkit) document.createElement("iframe"); //fixes safari
+	HTMLElement.prototype = (window.webkit) ? window["[[DOMElement.prototype]]"] : {};
+}
+HTMLElement.prototype.htmlElement = function(){};
+
+//enables background image cache for internet explorer 6
+
+if (window.ie6) try {document.execCommand("BackgroundImageCache", false, true);} catch(e){};
+
+/*
+Script: Class.js
+	Contains the Class Function, aims to ease the creation of reusable Classes.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Class
+	The base class object of the <http://mootools.net> framework.
+	Creates a new class, its initialize method will fire upon class instantiation.
+	Initialize wont fire on instantiation when you pass *null*.
+
+Arguments:
+	properties - the collection of properties that apply to the class.
+
+Example:
+	(start code)
+	var Cat = new Class({
+		initialize: function(name){
+			this.name = name;
+		}
+	});
+	var myCat = new Cat('Micia');
+	alert(myCat.name); //alerts 'Micia'
+	(end)
+*/
+
+var Class = function(properties){
+	var klass = function(){
+		return (arguments[0] !== null && this.initialize && $type(this.initialize) == 'function') ? this.initialize.apply(this, arguments) : this;
+	};
+	$extend(klass, this);
+	klass.prototype = properties;
+	klass.constructor = Class;
+	return klass;
+};
+
+/*
+Property: empty
+	Returns an empty function
+*/
+
+Class.empty = function(){};
+
+Class.prototype = {
+
+	/*
+	Property: extend
+		Returns the copy of the Class extended with the passed in properties.
+
+	Arguments:
+		properties - the properties to add to the base class in this new Class.
+
+	Example:
+		(start code)
+		var Animal = new Class({
+			initialize: function(age){
+				this.age = age;
+			}
+		});
+		var Cat = Animal.extend({
+			initialize: function(name, age){
+				this.parent(age); //will call the previous initialize;
+				this.name = name;
+			}
+		});
+		var myCat = new Cat('Micia', 20);
+		alert(myCat.name); //alerts 'Micia'
+		alert(myCat.age); //alerts 20
+		(end)
+	*/
+
+	extend: function(properties){
+		var proto = new this(null);
+		for (var property in properties){
+			var pp = proto[property];
+			proto[property] = Class.Merge(pp, properties[property]);
+		}
+		return new Class(proto);
+	},
+
+	/*
+	Property: implement
+		Implements the passed in properties to the base Class prototypes, altering the base class, unlike <Class.extend>.
+
+	Arguments:
+		properties - the properties to add to the base class.
+
+	Example:
+		(start code)
+		var Animal = new Class({
+			initialize: function(age){
+				this.age = age;
+			}
+		});
+		Animal.implement({
+			setName: function(name){
+				this.name = name
+			}
+		});
+		var myAnimal = new Animal(20);
+		myAnimal.setName('Micia');
+		alert(myAnimal.name); //alerts 'Micia'
+		(end)
+	*/
+
+	implement: function(){
+		for (var i = 0, l = arguments.length; i < l; i++) $extend(this.prototype, arguments[i]);
+	}
+
+};
+
+//internal
+
+Class.Merge = function(previous, current){
+	if (previous && previous != current){
+		var type = $type(current);
+		if (type != $type(previous)) return current;
+		switch(type){
+			case 'function':
+				var merged = function(){
+					this.parent = arguments.callee.parent;
+					return current.apply(this, arguments);
+				};
+				merged.parent = previous;
+				return merged;
+			case 'object': return $merge(previous, current);
+		}
+	}
+	return current;
+};
+
+/*
+Script: Class.Extras.js
+	Contains common implementations for custom classes. In Mootools is implemented in <Ajax>, <XHR> and <Fx.Base> and many more.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Chain
+	An "Utility" Class. Its methods can be implemented with <Class.implement> into any <Class>.
+	Currently implemented in <Fx.Base>, <XHR> and <Ajax>. In <Fx.Base> for example, is used to execute a list of function, one after another, once the effect is completed.
+	The functions will not be fired all togheter, but one every completion, to create custom complex animations.
+
+Example:
+	(start code)
+	var myFx = new Fx.Style('element', 'opacity');
+
+	myFx.start(1,0).chain(function(){
+		myFx.start(0,1);
+	}).chain(function(){
+		myFx.start(1,0);
+	}).chain(function(){
+		myFx.start(0,1);
+	});
+	//the element will appear and disappear three times
+	(end)
+*/
+
+var Chain = new Class({
+
+	/*
+	Property: chain
+		adds a function to the Chain instance stack.
+
+	Arguments:
+		fn - the function to append.
+	*/
+
+	chain: function(fn){
+		this.chains = this.chains || [];
+		this.chains.push(fn);
+		return this;
+	},
+
+	/*
+	Property: callChain
+		Executes the first function of the Chain instance stack, then removes it. The first function will then become the second.
+	*/
+
+	callChain: function(){
+		if (this.chains && this.chains.length) this.chains.shift().delay(10, this);
+	},
+
+	/*
+	Property: clearChain
+		Clears the stack of a Chain instance.
+	*/
+
+	clearChain: function(){
+		this.chains = [];
+	}
+
+});
+
+/*
+Class: Events
+	An "Utility" Class. Its methods can be implemented with <Class.implement> into any <Class>.
+	In <Fx.Base> Class, for example, is used to give the possibility add any number of functions to the Effects events, like onComplete, onStart, onCancel.
+	Events in a Class that implements <Events> can be either added as an option, or with addEvent. Never with .options.onEventName.
+
+Example:
+	(start code)
+	var myFx = new Fx.Style('element', 'opacity').addEvent('onComplete', function(){
+		alert('the effect is completed');
+	}).addEvent('onComplete', function(){
+		alert('I told you the effect is completed');
+	});
+
+	myFx.start(0,1);
+	//upon completion it will display the 2 alerts, in order.
+	(end)
+
+Implementing:
+	This class can be implemented into other classes to add the functionality to them.
+	Goes well with the <Options> class.
+
+Example:
+	(start code)
+	var Widget = new Class({
+		initialize: function(){},
+		finish: function(){
+			this.fireEvent('onComplete');
+		}
+	});
+	Widget.implement(new Events);
+	//later...
+	var myWidget = new Widget();
+	myWidget.addEvent('onComplete', myfunction);
+	(end)
+*/
+
+var Events = new Class({
+
+	/*
+	Property: addEvent
+		adds an event to the stack of events of the Class instance.
+
+	Arguments:
+		type - string; the event name (e.g. 'onComplete')
+		fn - function to execute
+	*/
+
+	addEvent: function(type, fn){
+		if (fn != Class.empty){
+			this.$events = this.$events || {};
+			this.$events[type] = this.$events[type] || [];
+			this.$events[type].include(fn);
+		}
+		return this;
+	},
+
+	/*
+	Property: fireEvent
+		fires all events of the specified type in the Class instance.
+
+	Arguments:
+		type - string; the event name (e.g. 'onComplete')
+		args - array or single object; arguments to pass to the function; if more than one argument, must be an array
+		delay - (integer) delay (in ms) to wait to execute the event
+
+	Example:
+	(start code)
+	var Widget = new Class({
+		initialize: function(arg1, arg2){
+			...
+			this.fireEvent("onInitialize", [arg1, arg2], 50);
+		}
+	});
+	Widget.implement(new Events);
+	(end)
+	*/
+
+	fireEvent: function(type, args, delay){
+		if (this.$events && this.$events[type]){
+			this.$events[type].each(function(fn){
+				fn.create({'bind': this, 'delay': delay, 'arguments': args})();
+			}, this);
+		}
+		return this;
+	},
+
+	/*
+	Property: removeEvent
+		removes an event from the stack of events of the Class instance.
+
+	Arguments:
+		type - string; the event name (e.g. 'onComplete')
+		fn - function that was added
+	*/
+
+	removeEvent: function(type, fn){
+		if (this.$events && this.$events[type]) this.$events[type].remove(fn);
+		return this;
+	}
+
+});
+
+/*
+Class: Options
+	An "Utility" Class. Its methods can be implemented with <Class.implement> into any <Class>.
+	Used to automate the options settings, also adding Class <Events> when the option begins with on.
+
+	Example:
+		(start code)
+		var Widget = new Class({
+			options: {
+				color: '#fff',
+				size: {
+					width: 100
+					height: 100
+				}
+			},
+			initialize: function(options){
+				this.setOptions(options);
+			}
+		});
+		Widget.implement(new Options);
+		//later...
+		var myWidget = new Widget({
+			color: '#f00',
+			size: {
+				width: 200
+			}
+		});
+		//myWidget.options = {color: #f00, size: {width: 200, height: 100}}
+		(end)
+*/
+
+var Options = new Class({
+
+	/*
+	Property: setOptions
+		sets this.options
+
+	Arguments:
+		defaults - object; the default set of options
+		options - object; the user entered options. can be empty too.
+
+	Note:
+		if your Class has <Events> implemented, every option beginning with on, followed by a capital letter (onComplete) becomes an Class instance event.
+	*/
+
+	setOptions: function(){
+		this.options = $merge.apply(null, [this.options].extend(arguments));
+		if (this.addEvent){
+			for (var option in this.options){
+				if ($type(this.options[option] == 'function') && (/^on[A-Z]/).test(option)) this.addEvent(option, this.options[option]);
+			}
+		}
+		return this;
+	}
+
+});
+
+/*
+Script: Array.js
+	Contains Array prototypes, <$A>, <$each>
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Array
+	A collection of The Array Object prototype methods.
+*/
+
+//custom methods
+
+Array.extend({
+
+	/*
+	Property: forEach
+		Iterates through an array; This method is only available for browsers without native *forEach* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:forEach>
+
+		*forEach* executes the provided function (callback) once for each element present in the array. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - the object to bind "this" to (see <Function.bind>)
+
+	Example:
+		>['apple','banana','lemon'].each(function(item, index){
+		>	alert(index + " = " + item); //alerts "0 = apple" etc.
+		>}, bindObj); //optional second arg for binding, not used here
+	*/
+
+	forEach: function(fn, bind){
+		for (var i = 0, j = this.length; i < j; i++) fn.call(bind, this[i], i, this);
+	},
+
+	/*
+	Property: filter
+		This method is provided only for browsers without native *filter* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter>
+
+		*filter* calls a provided callback function once for each element in an array, and constructs a new array of all the values for which callback returns a true value. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values. Array elements which do not pass the callback test are simply skipped, and are not included in the new array.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - the object to bind "this" to (see <Function.bind>)
+
+	Example:
+		>var biggerThanTwenty = [10,3,25,100].filter(function(item, index){
+		> return item > 20;
+		>});
+		>//biggerThanTwenty = [25,100]
+	*/
+
+	filter: function(fn, bind){
+		var results = [];
+		for (var i = 0, j = this.length; i < j; i++){
+			if (fn.call(bind, this[i], i, this)) results.push(this[i]);
+		}
+		return results;
+	},
+
+	/*
+	Property: map
+		This method is provided only for browsers without native *map* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:map>
+
+		*map* calls a provided callback function once for each element in an array, in order, and constructs a new array from the results. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - the object to bind "this" to (see <Function.bind>)
+
+	Example:
+		>var timesTwo = [1,2,3].map(function(item, index){
+		> return item*2;
+		>});
+		>//timesTwo = [2,4,6];
+	*/
+
+	map: function(fn, bind){
+		var results = [];
+		for (var i = 0, j = this.length; i < j; i++) results[i] = fn.call(bind, this[i], i, this);
+		return results;
+	},
+
+	/*
+	Property: every
+		This method is provided only for browsers without native *every* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:every>
+
+		*every* executes the provided callback function once for each element present in the array until it finds one where callback returns a false value. If such an element is found, the every method immediately returns false. Otherwise, if callback returned a true value for all elements, every will return true. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - the object to bind "this" to (see <Function.bind>)
+
+	Example:
+		>var areAllBigEnough = [10,4,25,100].every(function(item, index){
+		> return item > 20;
+		>});
+		>//areAllBigEnough = false
+	*/
+
+	every: function(fn, bind){
+		for (var i = 0, j = this.length; i < j; i++){
+			if (!fn.call(bind, this[i], i, this)) return false;
+		}
+		return true;
+	},
+
+	/*
+	Property: some
+		This method is provided only for browsers without native *some* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:some>
+
+		*some* executes the callback function once for each element present in the array until it finds one where callback returns a true value. If such an element is found, some immediately returns true. Otherwise, some returns false. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - the object to bind "this" to (see <Function.bind>)
+
+	Example:
+		>var isAnyBigEnough = [10,4,25,100].some(function(item, index){
+		> return item > 20;
+		>});
+		>//isAnyBigEnough = true
+	*/
+
+	some: function(fn, bind){
+		for (var i = 0, j = this.length; i < j; i++){
+			if (fn.call(bind, this[i], i, this)) return true;
+		}
+		return false;
+	},
+
+	/*
+	Property: indexOf
+		This method is provided only for browsers without native *indexOf* support.
+		For more info see <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:indexOf>
+
+		*indexOf* compares a search element to elements of the Array using strict equality (the same method used by the ===, or triple-equals, operator).
+
+	Arguments:
+		item - any type of object; element to locate in the array
+		from - integer; optional; the index of the array at which to begin the search (defaults to 0)
+
+	Example:
+		>['apple','lemon','banana'].indexOf('lemon'); //returns 1
+		>['apple','lemon'].indexOf('banana'); //returns -1
+	*/
+
+	indexOf: function(item, from){
+		var len = this.length;
+		for (var i = (from < 0) ? Math.max(0, len + from) : from || 0; i < len; i++){
+			if (this[i] === item) return i;
+		}
+		return -1;
+	},
+
+	/*
+	Property: each
+		Same as <Array.forEach>.
+
+	Arguments:
+		fn - function to execute with each item in the array; passed the item and the index of that item in the array
+		bind - optional, the object that the "this" of the function will refer to.
+
+	Example:
+		>var Animals = ['Cat', 'Dog', 'Coala'];
+		>Animals.each(function(animal){
+		>	document.write(animal)
+		>});
+	*/
+
+	/*
+	Property: copy
+		returns a copy of the array.
+
+	Returns:
+		a new array which is a copy of the current one.
+
+	Arguments:
+		start - integer; optional; the index where to start the copy, default is 0. If negative, it is taken as the offset from the end of the array.
+		length - integer; optional; the number of elements to copy. By default, copies all elements from start to the end of the array.
+
+	Example:
+		>var letters = ["a","b","c"];
+		>var copy = letters.copy();		// ["a","b","c"] (new instance)
+	*/
+
+	copy: function(start, length){
+		start = start || 0;
+		if (start < 0) start = this.length + start;
+		length = length || (this.length - start);
+		var newArray = [];
+		for (var i = 0; i < length; i++) newArray[i] = this[start++];
+		return newArray;
+	},
+
+	/*
+	Property: remove
+		Removes all occurrences of an item from the array.
+
+	Arguments:
+		item - the item to remove
+
+	Returns:
+		the Array with all occurrences of the item removed.
+
+	Example:
+		>["1","2","3","2"].remove("2") // ["1","3"];
+	*/
+
+	remove: function(item){
+		var i = 0;
+		var len = this.length;
+		while (i < len){
+			if (this[i] === item){
+				this.splice(i, 1);
+				len--;
+			} else {
+				i++;
+			}
+		}
+		return this;
+	},
+
+	/*
+	Property: contains
+		Tests an array for the presence of an item.
+
+	Arguments:
+		item - the item to search for in the array.
+		from - integer; optional; the index at which to begin the search, default is 0. If negative, it is taken as the offset from the end of the array.
+
+	Returns:
+		true - the item was found
+		false - it wasn't
+
+	Example:
+		>["a","b","c"].contains("a"); // true
+		>["a","b","c"].contains("d"); // false
+	*/
+
+	contains: function(item, from){
+		return this.indexOf(item, from) != -1;
+	},
+
+	/*
+	Property: associate
+		Creates an object with key-value pairs based on the array of keywords passed in
+		and the current content of the array.
+
+	Arguments:
+		keys - the array of keywords.
+
+	Example:
+		(start code)
+		var Animals = ['Cat', 'Dog', 'Coala', 'Lizard'];
+		var Speech = ['Miao', 'Bau', 'Fruuu', 'Mute'];
+		var Speeches = Animals.associate(Speech);
+		//Speeches['Miao'] is now Cat.
+		//Speeches['Bau'] is now Dog.
+		//...
+		(end)
+	*/
+
+	associate: function(keys){
+		var obj = {}, length = Math.min(this.length, keys.length);
+		for (var i = 0; i < length; i++) obj[keys[i]] = this[i];
+		return obj;
+	},
+
+	/*
+	Property: extend
+		Extends an array with another one.
+
+	Arguments:
+		array - the array to extend ours with
+
+	Example:
+		>var Animals = ['Cat', 'Dog', 'Coala'];
+		>Animals.extend(['Lizard']);
+		>//Animals is now: ['Cat', 'Dog', 'Coala', 'Lizard'];
+	*/
+
+	extend: function(array){
+		for (var i = 0, j = array.length; i < j; i++) this.push(array[i]);
+		return this;
+	},
+
+	/*
+	Property: merge
+		merges an array in another array, without duplicates. (case- and type-sensitive)
+
+	Arguments:
+		array - the array to merge from.
+
+	Example:
+		>['Cat','Dog'].merge(['Dog','Coala']); //returns ['Cat','Dog','Coala']
+	*/
+
+	merge: function(array){
+		for (var i = 0, l = array.length; i < l; i++) this.include(array[i]);
+		return this;
+	},
+
+	/*
+	Property: include
+		includes the passed in element in the array, only if its not already present. (case- and type-sensitive)
+
+	Arguments:
+		item - item to add to the array (if not present)
+
+	Example:
+		>['Cat','Dog'].include('Dog'); //returns ['Cat','Dog']
+		>['Cat','Dog'].include('Coala'); //returns ['Cat','Dog','Coala']
+	*/
+
+	include: function(item){
+		if (!this.contains(item)) this.push(item);
+		return this;
+	},
+
+	/*
+	Property: getRandom
+		returns a random item in the Array
+	*/
+
+	getRandom: function(){
+		return this[$random(0, this.length - 1)] || null;
+	},
+
+	/*
+	Property: getLast
+		returns the last item in the Array
+	*/
+
+	getLast: function(){
+		return this[this.length - 1] || null;
+	}
+
+});
+
+//copies
+
+Array.prototype.each = Array.prototype.forEach;
+Array.each = Array.forEach;
+
+/* Section: Utility Functions */
+
+/*
+Function: $A()
+	Same as <Array.copy>, but as function.
+	Useful to apply Array prototypes to iterable objects, as a collection of DOM elements or the arguments object.
+
+Example:
+	(start code)
+	function myFunction(){
+		$A(arguments).each(argument, function(){
+			alert(argument);
+		});
+	};
+	//the above will alert all the arguments passed to the function myFunction.
+	(end)
+*/
+
+function $A(array){
+	return Array.copy(array);
+};
+
+/*
+Function: $each
+	Use to iterate through iterables that are not regular arrays, such as builtin getElementsByTagName calls, arguments of a function, or an object.
+
+Arguments:
+	iterable - an iterable element or an objct.
+	function - function to apply to the iterable.
+	bind - optional, the 'this' of the function will refer to this object.
+
+Function argument:
+	The function argument will be passed the following arguments.
+
+	item - the current item in the iterator being procesed
+	index - integer; the index of the item, or key in case of an object.
+
+Examples:
+	(start code)
+	$each(['Sun','Mon','Tue'], function(day, index){
+		alert('name:' + day + ', index: ' + index);
+	});
+	//alerts "name: Sun, index: 0", "name: Mon, index: 1", etc.
+	//over an object
+	$each({first: "Sunday", second: "Monday", third: "Tuesday"}, function(value, key){
+		alert("the " + key + " day of the week is " + value);
+	});
+	//alerts "the first day of the week is Sunday",
+	//"the second day of the week is Monday", etc.
+	(end)
+*/
+
+function $each(iterable, fn, bind){
+	if (iterable && typeof iterable.length == 'number' && $type(iterable) != 'object'){
+		Array.forEach(iterable, fn, bind);
+	} else {
+		 for (var name in iterable) fn.call(bind || iterable, iterable[name], name);
+	}
+};
+
+/*compatibility*/
+
+Array.prototype.test = Array.prototype.contains;
+
+/*end compatibility*/
+
+/*
+Script: String.js
+	Contains String prototypes.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: String
+	A collection of The String Object prototype methods.
+*/
+
+String.extend({
+
+	/*
+	Property: test
+		Tests a string with a regular expression.
+
+	Arguments:
+		regex - a string or regular expression object, the regular expression you want to match the string with
+		params - optional, if first parameter is a string, any parameters you want to pass to the regex ('g' has no effect)
+
+	Returns:
+		true if a match for the regular expression is found in the string, false if not.
+		See <http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:RegExp:test>
+
+	Example:
+		>"I like cookies".test("cookie"); // returns true
+		>"I like cookies".test("COOKIE", "i") // ignore case, returns true
+		>"I like cookies".test("cake"); // returns false
+	*/
+
+	test: function(regex, params){
+		return (($type(regex) == 'string') ? new RegExp(regex, params) : regex).test(this);
+	},
+
+	/*
+	Property: toInt
+		parses a string to an integer.
+
+	Returns:
+		either an int or "NaN" if the string is not a number.
+
+	Example:
+		>var value = "10px".toInt(); // value is 10
+	*/
+
+	toInt: function(){
+		return parseInt(this, 10);
+	},
+
+	/*
+	Property: toFloat
+		parses a string to an float.
+
+	Returns:
+		either a float or "NaN" if the string is not a number.
+
+	Example:
+		>var value = "10.848".toFloat(); // value is 10.848
+	*/
+
+	toFloat: function(){
+		return parseFloat(this);
+	},
+
+	/*
+	Property: camelCase
+		Converts a hiphenated string to a camelcase string.
+
+	Example:
+		>"I-like-cookies".camelCase(); //"ILikeCookies"
+
+	Returns:
+		the camel cased string
+	*/
+
+	camelCase: function(){
+		return this.replace(/-\D/g, function(match){
+			return match.charAt(1).toUpperCase();
+		});
+	},
+
+	/*
+	Property: hyphenate
+		Converts a camelCased string to a hyphen-ated string.
+
+	Example:
+		>"ILikeCookies".hyphenate(); //"I-like-cookies"
+	*/
+
+	hyphenate: function(){
+		return this.replace(/\w[A-Z]/g, function(match){
+			return (match.charAt(0) + '-' + match.charAt(1).toLowerCase());
+		});
+	},
+
+	/*
+	Property: capitalize
+		Converts the first letter in each word of a string to Uppercase.
+
+	Example:
+		>"i like cookies".capitalize(); //"I Like Cookies"
+
+	Returns:
+		the capitalized string
+	*/
+
+	capitalize: function(){
+		return this.replace(/\b[a-z]/g, function(match){
+			return match.toUpperCase();
+		});
+	},
+
+	/*
+	Property: trim
+		Trims the leading and trailing spaces off a string.
+
+	Example:
+		>"    i like cookies     ".trim() //"i like cookies"
+
+	Returns:
+		the trimmed string
+	*/
+
+	trim: function(){
+		return this.replace(/^\s+|\s+$/g, '');
+	},
+
+	/*
+	Property: clean
+		trims (<String.trim>) a string AND removes all the double spaces in a string.
+
+	Returns:
+		the cleaned string
+
+	Example:
+		>" i      like     cookies      \n\n".clean() //"i like cookies"
+	*/
+
+	clean: function(){
+		return this.replace(/\s{2,}/g, ' ').trim();
+	},
+
+	/*
+	Property: rgbToHex
+		Converts an RGB value to hexidecimal. The string must be in the format of "rgb(255,255,255)" or "rgba(255,255,255,1)";
+
+	Arguments:
+		array - boolean value, defaults to false. Use true if you want the array ['FF','33','00'] as output instead of "#FF3300"
+
+	Returns:
+		hex string or array. returns "transparent" if the output is set as string and the fourth value of rgba in input string is 0.
+
+	Example:
+		>"rgb(17,34,51)".rgbToHex(); //"#112233"
+		>"rgba(17,34,51,0)".rgbToHex(); //"transparent"
+		>"rgb(17,34,51)".rgbToHex(true); //['11','22','33']
+	*/
+
+	rgbToHex: function(array){
+		var rgb = this.match(/\d{1,3}/g);
+		return (rgb) ? rgb.rgbToHex(array) : false;
+	},
+
+	/*
+	Property: hexToRgb
+		Converts a hexidecimal color value to RGB. Input string must be the hex color value (with or without the hash). Also accepts triplets ('333');
+
+	Arguments:
+		array - boolean value, defaults to false. Use true if you want the array [255,255,255] as output instead of "rgb(255,255,255)";
+
+	Returns:
+		rgb string or array.
+
+	Example:
+		>"#112233".hexToRgb(); //"rgb(17,34,51)"
+		>"#112233".hexToRgb(true); //[17,34,51]
+	*/
+
+	hexToRgb: function(array){
+		var hex = this.match(/^#?(\w{1,2})(\w{1,2})(\w{1,2})$/);
+		return (hex) ? hex.slice(1).hexToRgb(array) : false;
+	},
+
+	/*
+	Property: contains
+		checks if the passed in string is contained in the String. also accepts an optional second parameter, to check if the string is contained in a list of separated values.
+
+	Example:
+		>'a b c'.contains('c', ' '); //true
+		>'a bc'.contains('bc'); //true
+		>'a bc'.contains('b', ' '); //false
+	*/
+
+	contains: function(string, s){
+		return (s) ? (s + this + s).indexOf(s + string + s) > -1 : this.indexOf(string) > -1;
+	},
+
+	/*
+	Property: escapeRegExp
+		Returns string with escaped regular expression characters
+
+	Example:
+		>var search = 'animals.sheeps[1]'.escapeRegExp(); // search is now 'animals\.sheeps\[1\]'
+
+	Returns:
+		Escaped string
+	*/
+
+	escapeRegExp: function(){
+		return this.replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1');
+	}
+
+});
+
+Array.extend({
+
+	/*
+	Property: rgbToHex
+		see <String.rgbToHex>, but as an array method.
+	*/
+
+	rgbToHex: function(array){
+		if (this.length < 3) return false;
+		if (this.length == 4 && this[3] == 0 && !array) return 'transparent';
+		var hex = [];
+		for (var i = 0; i < 3; i++){
+			var bit = (this[i] - 0).toString(16);
+			hex.push((bit.length == 1) ? '0' + bit : bit);
+		}
+		return array ? hex : '#' + hex.join('');
+	},
+
+	/*
+	Property: hexToRgb
+		same as <String.hexToRgb>, but as an array method.
+	*/
+
+	hexToRgb: function(array){
+		if (this.length != 3) return false;
+		var rgb = [];
+		for (var i = 0; i < 3; i++){
+			rgb.push(parseInt((this[i].length == 1) ? this[i] + this[i] : this[i], 16));
+		}
+		return array ? rgb : 'rgb(' + rgb.join(',') + ')';
+	}
+
+});
+
+/* 
+Script: Function.js
+	Contains Function prototypes and utility functions .
+
+License:
+	MIT-style license.
+
+Credits:
+	- Some functions are inspired by those found in prototype.js <http://prototype.conio.net/> (c) 2005 Sam Stephenson sam [at] conio [dot] net, MIT-style license
+*/
+
+/*
+Class: Function
+	A collection of The Function Object prototype methods.
+*/
+
+Function.extend({
+
+	/*
+	Property: create
+		Main function to create closures.
+
+	Returns:
+		a function.
+
+	Arguments:
+		options - An Options object.
+
+	Options:
+		bind - The object that the "this" of the function will refer to. Default is the current function.
+		event - If set to true, the function will act as an event listener and receive an event as first argument.
+				If set to a class name, the function will receive a new instance of this class (with the event passed as argument's constructor) as first argument.
+				Default is false.
+		arguments - A single argument or array of arguments that will be passed to the function when called.
+		
+					If both the event and arguments options are set, the event is passed as first argument and the arguments array will follow.
+					
+					Default is no custom arguments, the function will receive the standard arguments when called.
+					
+		delay - Numeric value: if set, the returned function will delay the actual execution by this amount of milliseconds and return a timer handle when called.
+				Default is no delay.
+		periodical - Numeric value: if set, the returned function will periodically perform the actual execution with this specified interval and return a timer handle when called.
+				Default is no periodical execution.
+		attempt - If set to true, the returned function will try to execute and return either the results or false on error. Default is false.
+	*/
+
+	create: function(options){
+		var fn = this;
+		options = $merge({
+			'bind': fn,
+			'event': false,
+			'arguments': null,
+			'delay': false,
+			'periodical': false,
+			'attempt': false
+		}, options);
+		if ($chk(options.arguments) && $type(options.arguments) != 'array') options.arguments = [options.arguments];
+		return function(event){
+			var args;
+			if (options.event){
+				event = event || window.event;
+				args = [(options.event === true) ? event : new options.event(event)];
+				if (options.arguments) args.extend(options.arguments);
+			}
+			else args = options.arguments || arguments;
+			var returns = function(){
+				return fn.apply($pick(options.bind, fn), args);
+			};
+			if (options.delay) return setTimeout(returns, options.delay);
+			if (options.periodical) return setInterval(returns, options.periodical);
+			if (options.attempt) try {return returns();} catch(err){return false;};
+			return returns();
+		};
+	},
+
+	/*
+	Property: pass
+		Shortcut to create closures with arguments and bind.
+
+	Returns:
+		a function.
+
+	Arguments:
+		args - the arguments passed. must be an array if arguments > 1
+		bind - optional, the object that the "this" of the function will refer to.
+
+	Example:
+		>myFunction.pass([arg1, arg2], myElement);
+	*/
+
+	pass: function(args, bind){
+		return this.create({'arguments': args, 'bind': bind});
+	},
+
+	/*
+	Property: attempt
+		Tries to execute the function, returns either the result of the function or false on error.
+
+	Arguments:
+		args - the arguments passed. must be an array if arguments > 1
+		bind - optional, the object that the "this" of the function will refer to.
+
+	Example:
+		>myFunction.attempt([arg1, arg2], myElement);
+	*/
+
+	attempt: function(args, bind){
+		return this.create({'arguments': args, 'bind': bind, 'attempt': true})();
+	},
+
+	/*
+	Property: bind
+		method to easily create closures with "this" altered.
+
+	Arguments:
+		bind - optional, the object that the "this" of the function will refer to.
+		args - optional, the arguments passed. must be an array if arguments > 1
+
+	Returns:
+		a function.
+
+	Example:
+		>function myFunction(){
+		>	this.setStyle('color', 'red');
+		>	// note that 'this' here refers to myFunction, not an element
+		>	// we'll need to bind this function to the element we want to alter
+		>};
+		>var myBoundFunction = myFunction.bind(myElement);
+		>myBoundFunction(); // this will make the element myElement red.
+	*/
+
+	bind: function(bind, args){
+		return this.create({'bind': bind, 'arguments': args});
+	},
+
+	/*
+	Property: bindAsEventListener
+		cross browser method to pass event firer
+
+	Arguments:
+		bind - optional, the object that the "this" of the function will refer to.
+		args - optional, the arguments passed. must be an array if arguments > 1
+
+	Returns:
+		a function with the parameter bind as its "this" and as a pre-passed argument event or window.event, depending on the browser.
+
+	Example:
+		>function myFunction(event){
+		>	alert(event.clientx) //returns the coordinates of the mouse..
+		>};
+		>myElement.onclick = myFunction.bindAsEventListener(myElement);
+	*/
+
+	bindAsEventListener: function(bind, args){
+		return this.create({'bind': bind, 'event': true, 'arguments': args});
+	},
+
+	/*
+	Property: delay
+		Delays the execution of a function by a specified duration.
+
+	Arguments:
+		delay - the duration to wait in milliseconds.
+		bind - optional, the object that the "this" of the function will refer to.
+		args - optional, the arguments passed. must be an array if arguments > 1
+
+	Example:
+		>myFunction.delay(50, myElement) //wait 50 milliseconds, then call myFunction and bind myElement to it
+		>(function(){alert('one second later...')}).delay(1000); //wait a second and alert
+	*/
+
+	delay: function(delay, bind, args){
+		return this.create({'delay': delay, 'bind': bind, 'arguments': args})();
+	},
+
+	/*
+	Property: periodical
+		Executes a function in the specified intervals of time
+
+	Arguments:
+		interval - the duration of the intervals between executions.
+		bind - optional, the object that the "this" of the function will refer to.
+		args - optional, the arguments passed. must be an array if arguments > 1
+	*/
+
+	periodical: function(interval, bind, args){
+		return this.create({'periodical': interval, 'bind': bind, 'arguments': args})();
+	}
+
+});
+
+/*
+Script: Number.js
+	Contains the Number prototypes.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Number
+	A collection of The Number Object prototype methods.
+*/
+
+Number.extend({
+
+	/*
+	Property: toInt
+		Returns this number; useful because toInt must work on both Strings and Numbers.
+	*/
+
+	toInt: function(){
+		return parseInt(this);
+	},
+
+	/*
+	Property: toFloat
+		Returns this number as a float; useful because toFloat must work on both Strings and Numbers.
+	*/
+
+	toFloat: function(){
+		return parseFloat(this);
+	},
+
+	/*
+	Property: limit
+		Limits the number.
+
+	Arguments:
+		min - number, minimum value
+		max - number, maximum value
+
+	Returns:
+		the number in the given limits.
+
+	Example:
+		>(12).limit(2, 6.5)  // returns 6.5
+		>(-4).limit(2, 6.5)  // returns 2
+		>(4.3).limit(2, 6.5) // returns 4.3
+	*/
+
+	limit: function(min, max){
+		return Math.min(max, Math.max(min, this));
+	},
+
+	/*
+	Property: round
+		Returns the number rounded to specified precision.
+
+	Arguments:
+		precision - integer, number of digits after the decimal point. Can also be negative or zero (default).
+
+	Example:
+		>12.45.round() // returns 12
+		>12.45.round(1) // returns 12.5
+		>12.45.round(-1) // returns 10
+
+	Returns:
+		The rounded number.
+	*/
+
+	round: function(precision){
+		precision = Math.pow(10, precision || 0);
+		return Math.round(this * precision) / precision;
+	},
+
+	/*
+	Property: times
+		Executes a passed in function the specified number of times
+
+	Arguments:
+		function - the function to be executed on each iteration of the loop
+
+	Example:
+		>(4).times(alert);
+	*/
+
+	times: function(fn){
+		for (var i = 0; i < this; i++) fn(i);
+	}
+
+});
+
+/*
+Script: Element.js
+	Contains useful Element prototypes, to be used with the dollar function <$>.
+
+License:
+	MIT-style license.
+
+Credits:
+	- Some functions are inspired by those found in prototype.js <http://prototype.conio.net/> (c) 2005 Sam Stephenson sam [at] conio [dot] net, MIT-style license
+*/
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+var Element = new Class({
+
+	/*
+	Property: initialize
+		Creates a new element of the type passed in.
+
+	Arguments:
+		el - string; the tag name for the element you wish to create. you can also pass in an element reference, in which case it will be extended.
+		props - object; the properties you want to add to your element.
+		Accepts the same keys as <Element.setProperties>, but also allows events and styles
+
+	Props:
+		the key styles will be used as setStyles, the key events will be used as addEvents. any other key is used as setProperty.
+
+	Example:
+		(start code)
+		new Element('a', {
+			'styles': {
+				'display': 'block',
+				'border': '1px solid black'
+			},
+			'events': {
+				'click': function(){
+					//aaa
+				},
+				'mousedown': function(){
+					//aaa
+				}
+			},
+			'class': 'myClassSuperClass',
+			'href': 'http://mad4milk.net'
+		});
+
+		(end)
+	*/
+
+	initialize: function(el, props){
+		if ($type(el) == 'string'){
+			if (window.ie && props && (props.name || props.type)){
+				var name = (props.name) ? ' name="' + props.name + '"' : '';
+				var type = (props.type) ? ' type="' + props.type + '"' : '';
+				delete props.name;
+				delete props.type;
+				el = '<' + el + name + type + '>';
+			}
+			el = document.createElement(el);
+		}
+		el = $(el);
+		return (!props || !el) ? el : el.set(props);
+	}
+
+});
+
+/*
+Class: Elements
+	- Every dom function such as <$$>, or in general every function that returns a collection of nodes in mootools, returns them as an Elements class.
+	- The purpose of the Elements class is to allow <Element> methods to work also on <Elements> array.
+	- Elements is also an Array, so it accepts all the <Array> methods.
+	- Every node of the Elements instance is already extended with <$>.
+
+Example:
+	>$$('myselector').each(function(el){
+	> //...
+	>});
+
+	some iterations here, $$('myselector') is also an array.
+
+	>$$('myselector').setStyle('color', 'red');
+	every element returned by $$('myselector') also accepts <Element> methods, in this example every element will be made red.
+*/
+
+var Elements = new Class({
+
+	initialize: function(elements){
+		return (elements) ? $extend(elements, this) : this;
+	}
+
+});
+
+Elements.extend = function(props){
+	for (var prop in props){
+		this.prototype[prop] = props[prop];
+		this[prop] = $native.generic(prop);
+	}
+};
+
+/*
+Section: Utility Functions
+
+Function: $
+	returns the element passed in with all the Element prototypes applied.
+
+Arguments:
+	el - a reference to an actual element or a string representing the id of an element
+
+Example:
+	>$('myElement') // gets a DOM element by id with all the Element prototypes applied.
+	>var div = document.getElementById('myElement');
+	>$(div) //returns an Element also with all the mootools extentions applied.
+
+	You'll use this when you aren't sure if a variable is an actual element or an id, as
+	well as just shorthand for document.getElementById().
+
+Returns:
+	a DOM element or false (if no id was found).
+
+Note:
+	you need to call $ on an element only once to get all the prototypes.
+	But its no harm to call it multiple times, as it will detect if it has been already extended.
+*/
+
+function $(el){
+	if (!el) return null;
+	if (el.htmlElement) return Garbage.collect(el);
+	if ([window, document].contains(el)) return el;
+	var type = $type(el);
+	if (type == 'string'){
+		el = document.getElementById(el);
+		type = (el) ? 'element' : false;
+	}
+	if (type != 'element') return null;
+	if (el.htmlElement) return Garbage.collect(el);
+	if (['object', 'embed'].contains(el.tagName.toLowerCase())) return el;
+	$extend(el, Element.prototype);
+	el.htmlElement = function(){};
+	return Garbage.collect(el);
+};
+
+/*
+Function: $$
+	Selects, and extends DOM elements. Elements arrays returned with $$ will also accept all the <Element> methods.
+	The return type of element methods run through $$ is always an array. If the return array is only made by elements,
+	$$ will be applied automatically.
+
+Arguments:
+	HTML Collections, arrays of elements, arrays of strings as element ids, elements, strings as selectors.
+	Any number of the above as arguments are accepted.
+
+Note:
+	if you load <Element.Selectors.js>, $$ will also accept CSS Selectors, otherwise the only selectors supported are tag names.
+
+Example:
+	>$$('a') //an array of all anchor tags on the page
+	>$$('a', 'b') //an array of all anchor and bold tags on the page
+	>$$('#myElement') //array containing only the element with id = myElement. (only with <Element.Selectors.js>)
+	>$$('#myElement a.myClass') //an array of all anchor tags with the class "myClass"
+	>//within the DOM element with id "myElement" (only with <Element.Selectors.js>)
+	>$$(myelement, myelement2, 'a', ['myid', myid2, 'myid3'], document.getElementsByTagName('div')) //an array containing:
+	>// the element referenced as myelement if existing,
+	>// the element referenced as myelement2 if existing,
+	>// all the elements with a as tag in the page,
+	>// the element with id = myid if existing
+	>// the element with id = myid2 if existing
+	>// the element with id = myid3 if existing
+	>// all the elements with div as tag in the page
+
+Returns:
+	array - array of all the dom elements matched, extended with <$>.  Returns as <Elements>.
+*/
+
+document.getElementsBySelector = document.getElementsByTagName;
+
+function $$(){
+	var elements = [];
+	for (var i = 0, j = arguments.length; i < j; i++){
+		var selector = arguments[i];
+		switch($type(selector)){
+			case 'element': elements.push(selector);
+			case 'boolean': break;
+			case false: break;
+			case 'string': selector = document.getElementsBySelector(selector, true);
+			default: elements.extend(selector);
+		}
+	}
+	return $$.unique(elements);
+};
+
+$$.unique = function(array){
+	var elements = [];
+	for (var i = 0, l = array.length; i < l; i++){
+		if (array[i].$included) continue;
+		var element = $(array[i]);
+		if (element && !element.$included){
+			element.$included = true;
+			elements.push(element);
+		}
+	}
+	for (var n = 0, d = elements.length; n < d; n++) elements[n].$included = null;
+	return new Elements(elements);
+};
+
+Elements.Multi = function(property){
+	return function(){
+		var args = arguments;
+		var items = [];
+		var elements = true;
+		for (var i = 0, j = this.length, returns; i < j; i++){
+			returns = this[i][property].apply(this[i], args);
+			if ($type(returns) != 'element') elements = false;
+			items.push(returns);
+		};
+		return (elements) ? $$.unique(items) : items;
+	};
+};
+
+Element.extend = function(properties){
+	for (var property in properties){
+		HTMLElement.prototype[property] = properties[property];
+		Element.prototype[property] = properties[property];
+		Element[property] = $native.generic(property);
+		var elementsProperty = (Array.prototype[property]) ? property + 'Elements' : property;
+		Elements.prototype[elementsProperty] = Elements.Multi(property);
+	}
+};
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: set
+		you can set events, styles and properties with this shortcut. same as calling new Element.
+	*/
+
+	set: function(props){
+		for (var prop in props){
+			var val = props[prop];
+			switch(prop){
+				case 'styles': this.setStyles(val); break;
+				case 'events': if (this.addEvents) this.addEvents(val); break;
+				case 'properties': this.setProperties(val); break;
+				default: this.setProperty(prop, val);
+			}
+		}
+		return this;
+	},
+
+	inject: function(el, where){
+		el = $(el);
+		switch(where){
+			case 'before': el.parentNode.insertBefore(this, el); break;
+			case 'after':
+				var next = el.getNext();
+				if (!next) el.parentNode.appendChild(this);
+				else el.parentNode.insertBefore(this, next);
+				break;
+			case 'top':
+				var first = el.firstChild;
+				if (first){
+					el.insertBefore(this, first);
+					break;
+				}
+			default: el.appendChild(this);
+		}
+		return this;
+	},
+
+	/*
+	Property: injectBefore
+		Inserts the Element before the passed element.
+
+	Arguments:
+		el - an element reference or the id of the element to be injected in.
+
+	Example:
+		>html:
+		><div id="myElement"></div>
+		><div id="mySecondElement"></div>
+		>js:
+		>$('mySecondElement').injectBefore('myElement');
+		>resulting html:
+		><div id="mySecondElement"></div>
+		><div id="myElement"></div>
+	*/
+
+	injectBefore: function(el){
+		return this.inject(el, 'before');
+	},
+
+	/*
+	Property: injectAfter
+		Same as <Element.injectBefore>, but inserts the element after.
+	*/
+
+	injectAfter: function(el){
+		return this.inject(el, 'after');
+	},
+
+	/*
+	Property: injectInside
+		Same as <Element.injectBefore>, but inserts the element inside.
+	*/
+
+	injectInside: function(el){
+		return this.inject(el, 'bottom');
+	},
+
+	/*
+	Property: injectTop
+		Same as <Element.injectInside>, but inserts the element inside, at the top.
+	*/
+
+	injectTop: function(el){
+		return this.inject(el, 'top');
+	},
+
+	/*
+	Property: adopt
+		Inserts the passed elements inside the Element.
+
+	Arguments:
+		accepts elements references, element ids as string, selectors ($$('stuff')) / array of elements, array of ids as strings and collections.
+	*/
+
+	adopt: function(){
+		var elements = [];
+		$each(arguments, function(argument){
+			elements = elements.concat(argument);
+		});
+		$$(elements).inject(this);
+		return this;
+	},
+
+	/*
+	Property: remove
+		Removes the Element from the DOM.
+
+	Example:
+		>$('myElement').remove() //bye bye
+	*/
+
+	remove: function(){
+		return this.parentNode.removeChild(this);
+	},
+
+	/*
+	Property: clone
+		Clones the Element and returns the cloned one.
+
+	Arguments:
+		contents - boolean, when true the Element is cloned with childNodes, default true
+
+	Returns:
+		the cloned element
+
+	Example:
+		>var clone = $('myElement').clone().injectAfter('myElement');
+		>//clones the Element and append the clone after the Element.
+	*/
+
+	clone: function(contents){
+		var el = $(this.cloneNode(contents !== false));
+		if (!el.$events) return el;
+		el.$events = {};
+		for (var type in this.$events) el.$events[type] = {
+			'keys': $A(this.$events[type].keys),
+			'values': $A(this.$events[type].values)
+		};
+		return el.removeEvents();
+	},
+
+	/*
+	Property: replaceWith
+		Replaces the Element with an element passed.
+
+	Arguments:
+		el - a string representing the element to be injected in (myElementId, or div), or an element reference.
+		If you pass div or another tag, the element will be created.
+
+	Returns:
+		the passed in element
+
+	Example:
+		>$('myOldElement').replaceWith($('myNewElement')); //$('myOldElement') is gone, and $('myNewElement') is in its place.
+	*/
+
+	replaceWith: function(el){
+		el = $(el);
+		this.parentNode.replaceChild(el, this);
+		return el;
+	},
+
+	/*
+	Property: appendText
+		Appends text node to a DOM element.
+
+	Arguments:
+		text - the text to append.
+
+	Example:
+		><div id="myElement">hey</div>
+		>$('myElement').appendText(' howdy'); //myElement innerHTML is now "hey howdy"
+	*/
+
+	appendText: function(text){
+		this.appendChild(document.createTextNode(text));
+		return this;
+	},
+
+	/*
+	Property: hasClass
+		Tests the Element to see if it has the passed in className.
+
+	Returns:
+		true - the Element has the class
+		false - it doesn't
+
+	Arguments:
+		className - string; the class name to test.
+
+	Example:
+		><div id="myElement" class="testClass"></div>
+		>$('myElement').hasClass('testClass'); //returns true
+	*/
+
+	hasClass: function(className){
+		return this.className.contains(className, ' ');
+	},
+
+	/*
+	Property: addClass
+		Adds the passed in class to the Element, if the element doesnt already have it.
+
+	Arguments:
+		className - string; the class name to add
+
+	Example:
+		><div id="myElement" class="testClass"></div>
+		>$('myElement').addClass('newClass'); //<div id="myElement" class="testClass newClass"></div>
+	*/
+
+	addClass: function(className){
+		if (!this.hasClass(className)) this.className = (this.className + ' ' + className).clean();
+		return this;
+	},
+
+	/*
+	Property: removeClass
+		Works like <Element.addClass>, but removes the class from the element.
+	*/
+
+	removeClass: function(className){
+		this.className = this.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1').clean();
+		return this;
+	},
+
+	/*
+	Property: toggleClass
+		Adds or removes the passed in class name to the element, depending on if it's present or not.
+
+	Arguments:
+		className - the class to add or remove
+
+	Example:
+		><div id="myElement" class="myClass"></div>
+		>$('myElement').toggleClass('myClass');
+		><div id="myElement" class=""></div>
+		>$('myElement').toggleClass('myClass');
+		><div id="myElement" class="myClass"></div>
+	*/
+
+	toggleClass: function(className){
+		return this.hasClass(className) ? this.removeClass(className) : this.addClass(className);
+	},
+
+	/*
+	Property: setStyle
+		Sets a css property to the Element.
+
+		Arguments:
+			property - the property to set
+			value - the value to which to set it; for numeric values that require "px" you can pass an integer
+
+		Example:
+			>$('myElement').setStyle('width', '300px'); //the width is now 300px
+			>$('myElement').setStyle('width', 300); //the width is now 300px
+	*/
+
+	setStyle: function(property, value){
+		switch(property){
+			case 'opacity': return this.setOpacity(parseFloat(value));
+			case 'float': property = (window.ie) ? 'styleFloat' : 'cssFloat';
+		}
+		property = property.camelCase();
+		switch($type(value)){
+			case 'number': if (!['zIndex', 'zoom'].contains(property)) value += 'px'; break;
+			case 'array': value = 'rgb(' + value.join(',') + ')';
+		}
+		this.style[property] = value;
+		return this;
+	},
+
+	/*
+	Property: setStyles
+		Applies a collection of styles to the Element.
+
+	Arguments:
+		source - an object or string containing all the styles to apply. When its a string it overrides old style.
+
+	Examples:
+		>$('myElement').setStyles({
+		>	border: '1px solid #000',
+		>	width: 300,
+		>	height: 400
+		>});
+
+		OR
+
+		>$('myElement').setStyles('border: 1px solid #000; width: 300px; height: 400px;');
+	*/
+
+	setStyles: function(source){
+		switch($type(source)){
+			case 'object': Element.setMany(this, 'setStyle', source); break;
+			case 'string': this.style.cssText = source;
+		}
+		return this;
+	},
+
+	/*
+	Property: setOpacity
+		Sets the opacity of the Element, and sets also visibility == "hidden" if opacity == 0, and visibility = "visible" if opacity > 0.
+
+	Arguments:
+		opacity - float; Accepts values from 0 to 1.
+
+	Example:
+		>$('myElement').setOpacity(0.5) //make it 50% transparent
+	*/
+
+	setOpacity: function(opacity){
+		if (opacity == 0){
+			if (this.style.visibility != "hidden") this.style.visibility = "hidden";
+		} else {
+			if (this.style.visibility != "visible") this.style.visibility = "visible";
+		}
+		if (!this.currentStyle || !this.currentStyle.hasLayout) this.style.zoom = 1;
+		if (window.ie) this.style.filter = (opacity == 1) ? '' : "alpha(opacity=" + opacity * 100 + ")";
+		this.style.opacity = this.$tmp.opacity = opacity;
+		return this;
+	},
+
+	/*
+	Property: getStyle
+		Returns the style of the Element given the property passed in.
+
+	Arguments:
+		property - the css style property you want to retrieve
+
+	Example:
+		>$('myElement').getStyle('width'); //returns "400px"
+		>//but you can also use
+		>$('myElement').getStyle('width').toInt(); //returns 400
+
+	Returns:
+		the style as a string
+	*/
+
+	getStyle: function(property){
+		property = property.camelCase();
+		var result = this.style[property];
+		if (!$chk(result)){
+			if (property == 'opacity') return this.$tmp.opacity;
+			result = [];
+			for (var style in Element.Styles){
+				if (property == style){
+					Element.Styles[style].each(function(s){
+						var style = this.getStyle(s);
+						result.push(parseInt(style) ? style : '0px');
+					}, this);
+					if (property == 'border'){
+						var every = result.every(function(bit){
+							return (bit == result[0]);
+						});
+						return (every) ? result[0] : false;
+					}
+					return result.join(' ');
+				}
+			}
+			if (property.contains('border')){
+				if (Element.Styles.border.contains(property)){
+					return ['Width', 'Style', 'Color'].map(function(p){
+						return this.getStyle(property + p);
+					}, this).join(' ');
+				} else if (Element.borderShort.contains(property)){
+					return ['Top', 'Right', 'Bottom', 'Left'].map(function(p){
+						return this.getStyle('border' + p + property.replace('border', ''));
+					}, this).join(' ');
+				}
+			}
+			if (document.defaultView) result = document.defaultView.getComputedStyle(this, null).getPropertyValue(property.hyphenate());
+			else if (this.currentStyle) result = this.currentStyle[property];
+		}
+		if (window.ie) result = Element.fixStyle(property, result, this);
+		if (result && property.test(/color/i) && result.contains('rgb')){
+			return result.split('rgb').splice(1,4).map(function(color){
+				return color.rgbToHex();
+			}).join(' ');
+		}
+		return result;
+	},
+
+	/*
+	Property: getStyles
+		Returns an object of styles of the Element for each argument passed in.
+		Arguments:
+		properties - strings; any number of style properties
+	Example:
+		>$('myElement').getStyles('width','height','padding');
+		>//returns an object like:
+		>{width: "10px", height: "10px", padding: "10px 0px 10px 0px"}
+	*/
+
+	getStyles: function(){
+		return Element.getMany(this, 'getStyle', arguments);
+	},
+
+	walk: function(brother, start){
+		brother += 'Sibling';
+		var el = (start) ? this[start] : this[brother];
+		while (el && $type(el) != 'element') el = el[brother];
+		return $(el);
+	},
+
+	/*
+	Property: getPrevious
+		Returns the previousSibling of the Element, excluding text nodes.
+
+	Example:
+		>$('myElement').getPrevious(); //get the previous DOM element from myElement
+
+	Returns:
+		the sibling element or undefined if none found.
+	*/
+
+	getPrevious: function(){
+		return this.walk('previous');
+	},
+
+	/*
+	Property: getNext
+		Works as Element.getPrevious, but tries to find the nextSibling.
+	*/
+
+	getNext: function(){
+		return this.walk('next');
+	},
+
+	/*
+	Property: getFirst
+		Works as <Element.getPrevious>, but tries to find the firstChild.
+	*/
+
+	getFirst: function(){
+		return this.walk('next', 'firstChild');
+	},
+
+	/*
+	Property: getLast
+		Works as <Element.getPrevious>, but tries to find the lastChild.
+	*/
+
+	getLast: function(){
+		return this.walk('previous', 'lastChild');
+	},
+
+	/*
+	Property: getParent
+		returns the $(element.parentNode)
+	*/
+
+	getParent: function(){
+		return $(this.parentNode);
+	},
+
+	/*
+	Property: getChildren
+		returns all the $(element.childNodes), excluding text nodes. Returns as <Elements>.
+	*/
+
+	getChildren: function(){
+		return $$(this.childNodes);
+	},
+
+	/*
+	Property: hasChild
+		returns true if the passed in element is a child of the $(element).
+	*/
+
+	hasChild: function(el){
+		return !!$A(this.getElementsByTagName('*')).contains(el);
+	},
+
+	/*
+	Property: getProperty
+		Gets the an attribute of the Element.
+
+	Arguments:
+		property - string; the attribute to retrieve
+
+	Example:
+		>$('myImage').getProperty('src') // returns whatever.gif
+
+	Returns:
+		the value, or an empty string
+	*/
+
+	getProperty: function(property){
+		var index = Element.Properties[property];
+		if (index) return this[index];
+		var flag = Element.PropertiesIFlag[property] || 0;
+		if (!window.ie || flag) return this.getAttribute(property, flag);
+		var node = this.attributes[property];
+		return (node) ? node.nodeValue : null;
+	},
+
+	/*
+	Property: removeProperty
+		Removes an attribute from the Element
+
+	Arguments:
+		property - string; the attribute to remove
+	*/
+
+	removeProperty: function(property){
+		var index = Element.Properties[property];
+		if (index) this[index] = '';
+		else this.removeAttribute(property);
+		return this;
+	},
+
+	/*
+	Property: getProperties
+		same as <Element.getStyles>, but for properties
+	*/
+
+	getProperties: function(){
+		return Element.getMany(this, 'getProperty', arguments);
+	},
+
+	/*
+	Property: setProperty
+		Sets an attribute for the Element.
+
+	Arguments:
+		property - string; the property to assign the value passed in
+		value - the value to assign to the property passed in
+
+	Example:
+		>$('myImage').setProperty('src', 'whatever.gif'); //myImage now points to whatever.gif for its source
+	*/
+
+	setProperty: function(property, value){
+		var index = Element.Properties[property];
+		if (index) this[index] = value;
+		else this.setAttribute(property, value);
+		return this;
+	},
+
+	/*
+	Property: setProperties
+		Sets numerous attributes for the Element.
+
+	Arguments:
+		source - an object with key/value pairs.
+
+	Example:
+		(start code)
+		$('myElement').setProperties({
+			src: 'whatever.gif',
+			alt: 'whatever dude'
+		});
+		<img src="whatever.gif" alt="whatever dude">
+		(end)
+	*/
+
+	setProperties: function(source){
+		return Element.setMany(this, 'setProperty', source);
+	},
+
+	/*
+	Property: setHTML
+		Sets the innerHTML of the Element.
+
+	Arguments:
+		html - string; the new innerHTML for the element.
+
+	Example:
+		>$('myElement').setHTML(newHTML) //the innerHTML of myElement is now = newHTML
+	*/
+
+	setHTML: function(){
+		this.innerHTML = $A(arguments).join('');
+		return this;
+	},
+
+	/*
+	Property: setText
+		Sets the inner text of the Element.
+
+	Arguments:
+		text - string; the new text content for the element.
+
+	Example:
+		>$('myElement').setText('some text') //the text of myElement is now = 'some text'
+	*/
+
+	setText: function(text){
+		var tag = this.getTag();
+		if (['style', 'script'].contains(tag)){
+			if (window.ie){
+				if (tag == 'style') this.styleSheet.cssText = text;
+				else if (tag ==  'script') this.setProperty('text', text);
+				return this;
+			} else {
+				this.removeChild(this.firstChild);
+				return this.appendText(text);
+			}
+		}
+		this[$defined(this.innerText) ? 'innerText' : 'textContent'] = text;
+		return this;
+	},
+
+	/*
+	Property: getText
+		Gets the inner text of the Element.
+	*/
+
+	getText: function(){
+		var tag = this.getTag();
+		if (['style', 'script'].contains(tag)){
+			if (window.ie){
+				if (tag == 'style') return this.styleSheet.cssText;
+				else if (tag ==  'script') return this.getProperty('text');
+			} else {
+				return this.innerHTML;
+			}
+		}
+		return ($pick(this.innerText, this.textContent));
+	},
+
+	/*
+	Property: getTag
+		Returns the tagName of the element in lower case.
+
+	Example:
+		>$('myImage').getTag() // returns 'img'
+
+	Returns:
+		The tag name in lower case
+	*/
+
+	getTag: function(){
+		return this.tagName.toLowerCase();
+	},
+
+	/*
+	Property: empty
+		Empties an element of all its children.
+
+	Example:
+		>$('myDiv').empty() // empties the Div and returns it
+
+	Returns:
+		The element.
+	*/
+
+	empty: function(){
+		Garbage.trash(this.getElementsByTagName('*'));
+		return this.setHTML('');
+	}
+
+});
+
+Element.fixStyle = function(property, result, element){
+	if ($chk(parseInt(result))) return result;
+	if (['height', 'width'].contains(property)){
+		var values = (property == 'width') ? ['left', 'right'] : ['top', 'bottom'];
+		var size = 0;
+		values.each(function(value){
+			size += element.getStyle('border-' + value + '-width').toInt() + element.getStyle('padding-' + value).toInt();
+		});
+		return element['offset' + property.capitalize()] - size + 'px';
+	} else if (property.test(/border(.+)Width|margin|padding/)){
+		return '0px';
+	}
+	return result;
+};
+
+Element.Styles = {'border': [], 'padding': [], 'margin': []};
+['Top', 'Right', 'Bottom', 'Left'].each(function(direction){
+	for (var style in Element.Styles) Element.Styles[style].push(style + direction);
+});
+
+Element.borderShort = ['borderWidth', 'borderStyle', 'borderColor'];
+
+Element.getMany = function(el, method, keys){
+	var result = {};
+	$each(keys, function(key){
+		result[key] = el[method](key);
+	});
+	return result;
+};
+
+Element.setMany = function(el, method, pairs){
+	for (var key in pairs) el[method](key, pairs[key]);
+	return el;
+};
+
+Element.Properties = new Abstract({
+	'class': 'className', 'for': 'htmlFor', 'colspan': 'colSpan', 'rowspan': 'rowSpan',
+	'accesskey': 'accessKey', 'tabindex': 'tabIndex', 'maxlength': 'maxLength',
+	'readonly': 'readOnly', 'frameborder': 'frameBorder', 'value': 'value',
+	'disabled': 'disabled', 'checked': 'checked', 'multiple': 'multiple', 'selected': 'selected'
+});
+Element.PropertiesIFlag = {
+	'href': 2, 'src': 2
+};
+
+Element.Methods = {
+	Listeners: {
+		addListener: function(type, fn){
+			if (this.addEventListener) this.addEventListener(type, fn, false);
+			else this.attachEvent('on' + type, fn);
+			return this;
+		},
+
+		removeListener: function(type, fn){
+			if (this.removeEventListener) this.removeEventListener(type, fn, false);
+			else this.detachEvent('on' + type, fn);
+			return this;
+		}
+	}
+};
+
+window.extend(Element.Methods.Listeners);
+document.extend(Element.Methods.Listeners);
+Element.extend(Element.Methods.Listeners);
+
+var Garbage = {
+
+	elements: [],
+
+	collect: function(el){
+		if (!el.$tmp){
+			Garbage.elements.push(el);
+			el.$tmp = {'opacity': 1};
+		}
+		return el;
+	},
+
+	trash: function(elements){
+		for (var i = 0, j = elements.length, el; i < j; i++){
+			if (!(el = elements[i]) || !el.$tmp) continue;
+			if (el.$events) el.fireEvent('trash').removeEvents();
+			for (var p in el.$tmp) el.$tmp[p] = null;
+			for (var d in Element.prototype) el[d] = null;
+			Garbage.elements[Garbage.elements.indexOf(el)] = null;
+			el.htmlElement = el.$tmp = el = null;
+		}
+		Garbage.elements.remove(null);
+	},
+
+	empty: function(){
+		Garbage.collect(window);
+		Garbage.collect(document);
+		Garbage.trash(Garbage.elements);
+	}
+
+};
+
+window.addListener('beforeunload', function(){
+	window.addListener('unload', Garbage.empty);
+	if (window.ie) window.addListener('unload', CollectGarbage);
+});
+
+/*
+Script: Element.Event.js
+	Contains the Event Class, Element methods to deal with Element events, custom Events, and the Function prototype bindWithEvent.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Event
+	Cross browser methods to manage events.
+
+Arguments:
+	event - the event
+
+Properties:
+	shift - true if the user pressed the shift
+	control - true if the user pressed the control
+	alt - true if the user pressed the alt
+	meta - true if the user pressed the meta key
+	wheel - the amount of third button scrolling
+	code - the keycode of the key pressed
+	page.x - the x position of the mouse, relative to the full window
+	page.y - the y position of the mouse, relative to the full window
+	client.x - the x position of the mouse, relative to the viewport
+	client.y - the y position of the mouse, relative to the viewport
+	key - the key pressed as a lowercase string. key also returns 'enter', 'up', 'down', 'left', 'right', 'space', 'backspace', 'delete', 'esc'. Handy for these special keys.
+	target - the event target
+	relatedTarget - the event related target
+
+Example:
+	(start code)
+	$('myLink').onkeydown = function(event){
+		var event = new Event(event);
+		//event is now the Event class.
+		alert(event.key); //returns the lowercase letter pressed
+		alert(event.shift); //returns true if the key pressed is shift
+		if (event.key == 's' && event.control) alert('document saved');
+	};
+	(end)
+*/
+
+var Event = new Class({
+
+	initialize: function(event){
+		if (event && event.$extended) return event;
+		this.$extended = true;
+		event = event || window.event;
+		this.event = event;
+		this.type = event.type;
+		this.target = event.target || event.srcElement;
+		if (this.target.nodeType == 3) this.target = this.target.parentNode;
+		this.shift = event.shiftKey;
+		this.control = event.ctrlKey;
+		this.alt = event.altKey;
+		this.meta = event.metaKey;
+		if (['DOMMouseScroll', 'mousewheel'].contains(this.type)){
+			this.wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
+		} else if (this.type.contains('key')){
+			this.code = event.which || event.keyCode;
+			for (var name in Event.keys){
+				if (Event.keys[name] == this.code){
+					this.key = name;
+					break;
+				}
+			}
+			if (this.type == 'keydown'){
+				var fKey = this.code - 111;
+				if (fKey > 0 && fKey < 13) this.key = 'f' + fKey;
+			}
+			this.key = this.key || String.fromCharCode(this.code).toLowerCase();
+		} else if (this.type.test(/(click|mouse|menu)/)){
+			this.page = {
+				'x': event.pageX || event.clientX + document.documentElement.scrollLeft,
+				'y': event.pageY || event.clientY + document.documentElement.scrollTop
+			};
+			this.client = {
+				'x': event.pageX ? event.pageX - window.pageXOffset : event.clientX,
+				'y': event.pageY ? event.pageY - window.pageYOffset : event.clientY
+			};
+			this.rightClick = (event.which == 3) || (event.button == 2);
+			switch(this.type){
+				case 'mouseover': this.relatedTarget = event.relatedTarget || event.fromElement; break;
+				case 'mouseout': this.relatedTarget = event.relatedTarget || event.toElement;
+			}
+			this.fixRelatedTarget();
+		}
+		return this;
+	},
+
+	/*
+	Property: stop
+		cross browser method to stop an event
+	*/
+
+	stop: function(){
+		return this.stopPropagation().preventDefault();
+	},
+
+	/*
+	Property: stopPropagation
+		cross browser method to stop the propagation of an event
+	*/
+
+	stopPropagation: function(){
+		if (this.event.stopPropagation) this.event.stopPropagation();
+		else this.event.cancelBubble = true;
+		return this;
+	},
+
+	/*
+	Property: preventDefault
+		cross browser method to prevent the default action of the event
+	*/
+
+	preventDefault: function(){
+		if (this.event.preventDefault) this.event.preventDefault();
+		else this.event.returnValue = false;
+		return this;
+	}
+
+});
+
+Event.fix = {
+
+	relatedTarget: function(){
+		if (this.relatedTarget && this.relatedTarget.nodeType == 3) this.relatedTarget = this.relatedTarget.parentNode;
+	},
+
+	relatedTargetGecko: function(){
+		try {Event.fix.relatedTarget.call(this);} catch(e){this.relatedTarget = this.target;}
+	}
+
+};
+
+Event.prototype.fixRelatedTarget = (window.gecko) ? Event.fix.relatedTargetGecko : Event.fix.relatedTarget;
+
+/*
+Property: keys
+	you can add additional Event keys codes this way:
+
+Example:
+	(start code)
+	Event.keys.whatever = 80;
+	$(myelement).addEvent(keydown, function(event){
+		event = new Event(event);
+		if (event.key == 'whatever') console.log(whatever key clicked).
+	});
+	(end)
+*/
+
+Event.keys = new Abstract({
+	'enter': 13,
+	'up': 38,
+	'down': 40,
+	'left': 37,
+	'right': 39,
+	'esc': 27,
+	'space': 32,
+	'backspace': 8,
+	'tab': 9,
+	'delete': 46
+});
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.Methods.Events = {
+
+	/*
+	Property: addEvent
+		Attaches an event listener to a DOM element.
+
+	Arguments:
+		type - the event to monitor ('click', 'load', etc) without the prefix 'on'.
+		fn - the function to execute
+
+	Example:
+		>$('myElement').addEvent('click', function(){alert('clicked!')});
+	*/
+
+	addEvent: function(type, fn){
+		this.$events = this.$events || {};
+		this.$events[type] = this.$events[type] || {'keys': [], 'values': []};
+		if (this.$events[type].keys.contains(fn)) return this;
+		this.$events[type].keys.push(fn);
+		var realType = type;
+		var custom = Element.Events[type];
+		if (custom){
+			if (custom.add) custom.add.call(this, fn);
+			if (custom.map) fn = custom.map;
+			if (custom.type) realType = custom.type;
+		}
+		if (!this.addEventListener) fn = fn.create({'bind': this, 'event': true});
+		this.$events[type].values.push(fn);
+		return (Element.NativeEvents.contains(realType)) ? this.addListener(realType, fn) : this;
+	},
+
+	/*
+	Property: removeEvent
+		Works as Element.addEvent, but instead removes the previously added event listener.
+	*/
+
+	removeEvent: function(type, fn){
+		if (!this.$events || !this.$events[type]) return this;
+		var pos = this.$events[type].keys.indexOf(fn);
+		if (pos == -1) return this;
+		var key = this.$events[type].keys.splice(pos,1)[0];
+		var value = this.$events[type].values.splice(pos,1)[0];
+		var custom = Element.Events[type];
+		if (custom){
+			if (custom.remove) custom.remove.call(this, fn);
+			if (custom.type) type = custom.type;
+		}
+		return (Element.NativeEvents.contains(type)) ? this.removeListener(type, value) : this;
+	},
+
+	/*
+	Property: addEvents
+		As <addEvent>, but accepts an object and add multiple events at once.
+	*/
+
+	addEvents: function(source){
+		return Element.setMany(this, 'addEvent', source);
+	},
+
+	/*
+	Property: removeEvents
+		removes all events of a certain type from an element. if no argument is passed in, removes all events.
+
+	Arguments:
+		type - string; the event name (e.g. 'click')
+	*/
+
+	removeEvents: function(type){
+		if (!this.$events) return this;
+		if (!type){
+			for (var evType in this.$events) this.removeEvents(evType);
+			this.$events = null;
+		} else if (this.$events[type]){
+			this.$events[type].keys.each(function(fn){
+				this.removeEvent(type, fn);
+			}, this);
+			this.$events[type] = null;
+		}
+		return this;
+	},
+
+	/*
+	Property: fireEvent
+		executes all events of the specified type present in the element.
+
+	Arguments:
+		type - string; the event name (e.g. 'click')
+		args - array or single object; arguments to pass to the function; if more than one argument, must be an array
+		delay - (integer) delay (in ms) to wait to execute the event
+	*/
+
+	fireEvent: function(type, args, delay){
+		if (this.$events && this.$events[type]){
+			this.$events[type].keys.each(function(fn){
+				fn.create({'bind': this, 'delay': delay, 'arguments': args})();
+			}, this);
+		}
+		return this;
+	},
+
+	/*
+	Property: cloneEvents
+		Clones all events from an element to this element.
+
+	Arguments:
+		from - element, copy all events from this element
+		type - optional, copies only events of this type
+	*/
+
+	cloneEvents: function(from, type){
+		if (!from.$events) return this;
+		if (!type){
+			for (var evType in from.$events) this.cloneEvents(from, evType);
+		} else if (from.$events[type]){
+			from.$events[type].keys.each(function(fn){
+				this.addEvent(type, fn);
+			}, this);
+		}
+		return this;
+	}
+
+};
+
+window.extend(Element.Methods.Events);
+document.extend(Element.Methods.Events);
+Element.extend(Element.Methods.Events);
+
+/* Section: Custom Events */
+
+Element.Events = new Abstract({
+
+	/*
+	Event: mouseenter
+		In addition to the standard javascript events (load, mouseover, mouseout, click, etc.) <Event.js> contains two custom events
+		this event fires when the mouse enters the area of the dom element; will not be fired again if the mouse crosses over children of the element (unlike mouseover)
+
+
+	Example:
+		>$(myElement).addEvent('mouseenter', myFunction);
+	*/
+
+	'mouseenter': {
+		type: 'mouseover',
+		map: function(event){
+			event = new Event(event);
+			if (event.relatedTarget != this && !this.hasChild(event.relatedTarget)) this.fireEvent('mouseenter', event);
+		}
+	},
+
+	/*
+	Event: mouseleave
+		this event fires when the mouse exits the area of the dom element; will not be fired again if the mouse crosses over children of the element (unlike mouseout)
+
+
+	Example:
+		>$(myElement).addEvent('mouseleave', myFunction);
+	*/
+
+	'mouseleave': {
+		type: 'mouseout',
+		map: function(event){
+			event = new Event(event);
+			if (event.relatedTarget != this && !this.hasChild(event.relatedTarget)) this.fireEvent('mouseleave', event);
+		}
+	},
+
+	'mousewheel': {
+		type: (window.gecko) ? 'DOMMouseScroll' : 'mousewheel'
+	}
+
+});
+
+Element.NativeEvents = [
+	'click', 'dblclick', 'mouseup', 'mousedown', //mouse buttons
+	'mousewheel', 'DOMMouseScroll', //mouse wheel
+	'mouseover', 'mouseout', 'mousemove', //mouse movement
+	'keydown', 'keypress', 'keyup', //keys
+	'load', 'unload', 'beforeunload', 'resize', 'move', //window
+	'focus', 'blur', 'change', 'submit', 'reset', 'select', //forms elements
+	'error', 'abort', 'contextmenu', 'scroll' //misc
+];
+
+/*
+Class: Function
+	A collection of The Function Object prototype methods.
+*/
+
+Function.extend({
+
+	/*
+	Property: bindWithEvent
+		automatically passes MooTools Event Class.
+
+	Arguments:
+		bind - optional, the object that the "this" of the function will refer to.
+		args - optional, an argument to pass to the function; if more than one argument, it must be an array of arguments.
+
+	Returns:
+		a function with the parameter bind as its "this" and as a pre-passed argument event or window.event, depending on the browser.
+
+	Example:
+		>function myFunction(event){
+		>	alert(event.client.x) //returns the coordinates of the mouse..
+		>};
+		>myElement.addEvent('click', myFunction.bindWithEvent(myElement));
+	*/
+
+	bindWithEvent: function(bind, args){
+		return this.create({'bind': bind, 'arguments': args, 'event': Event});
+	}
+
+});
+
+
+/*
+Script: Element.Filters.js
+	add Filters capability to <Elements>.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Elements
+	A collection of methods to be used with <$$> elements collections.
+*/
+
+Elements.extend({
+	
+	/*
+	Property: filterByTag
+		Filters the collection by a specified tag name.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterByTag: function(tag){
+		return new Elements(this.filter(function(el){
+			return (Element.getTag(el) == tag);
+		}));
+	},
+	
+	/*
+	Property: filterByClass
+		Filters the collection by a specified class name.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterByClass: function(className, nocash){
+		var elements = this.filter(function(el){
+			return (el.className && el.className.contains(className, ' '));
+		});
+		return (nocash) ? elements : new Elements(elements);
+	},
+	
+	/*
+	Property: filterById
+		Filters the collection by a specified ID.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterById: function(id, nocash){
+		var elements = this.filter(function(el){
+			return (el.id == id);
+		});
+		return (nocash) ? elements : new Elements(elements);
+	},
+	
+	/*
+	Property: filterByAttribute
+		Filters the collection by a specified attribute.
+		Returns a new Elements collection, while the original remains untouched.
+		
+	Arguments:
+		name - the attribute name.
+		operator - optional, the attribute operator.
+		value - optional, the attribute value, only valid if the operator is specified.
+	*/
+	
+	filterByAttribute: function(name, operator, value, nocash){
+		var elements = this.filter(function(el){
+			var current = Element.getProperty(el, name);
+			if (!current) return false;
+			if (!operator) return true;
+			switch(operator){
+				case '=': return (current == value);
+				case '*=': return (current.contains(value));
+				case '^=': return (current.substr(0, value.length) == value);
+				case '$=': return (current.substr(current.length - value.length) == value);
+				case '!=': return (current != value);
+				case '~=': return current.contains(value, ' ');
+			}
+			return false;
+		});
+		return (nocash) ? elements : new Elements(elements);
+	}
+
+});
+
+/*
+Script: Element.Selectors.js
+	Css Query related functions and <Element> extensions
+
+License:
+	MIT-style license.
+*/
+
+/* Section: Utility Functions */
+
+/*
+Function: $E
+	Selects a single (i.e. the first found) Element based on the selector passed in and an optional filter element.
+	Returns as <Element>.
+
+Arguments:
+	selector - string; the css selector to match
+	filter - optional; a DOM element to limit the scope of the selector match; defaults to document.
+
+Example:
+	>$E('a', 'myElement') //find the first anchor tag inside the DOM element with id 'myElement'
+
+Returns:
+	a DOM element - the first element that matches the selector
+*/
+
+function $E(selector, filter){
+	return ($(filter) || document).getElement(selector);
+};
+
+/*
+Function: $ES
+	Returns a collection of Elements that match the selector passed in limited to the scope of the optional filter.
+	See Also: <Element.getElements> for an alternate syntax.
+	Returns as <Elements>.
+
+Returns:
+	an array of dom elements that match the selector within the filter
+
+Arguments:
+	selector - string; css selector to match
+	filter - optional; a DOM element to limit the scope of the selector match; defaults to document.
+
+Examples:
+	>$ES("a") //gets all the anchor tags; synonymous with $$("a")
+	>$ES('a','myElement') //get all the anchor tags within $('myElement')
+*/
+
+function $ES(selector, filter){
+	return ($(filter) || document).getElementsBySelector(selector);
+};
+
+$$.shared = {
+
+	'regexp': /^(\w*|\*)(?:#([\w-]+)|\.([\w-]+))?(?:\[(\w+)(?:([!*^$]?=)["']?([^"'\]]*)["']?)?])?$/,
+	
+	'xpath': {
+
+		getParam: function(items, context, param, i){
+			var temp = [context.namespaceURI ? 'xhtml:' : '', param[1]];
+			if (param[2]) temp.push('[@id="', param[2], '"]');
+			if (param[3]) temp.push('[contains(concat(" ", @class, " "), " ', param[3], ' ")]');
+			if (param[4]){
+				if (param[5] && param[6]){
+					switch(param[5]){
+						case '*=': temp.push('[contains(@', param[4], ', "', param[6], '")]'); break;
+						case '^=': temp.push('[starts-with(@', param[4], ', "', param[6], '")]'); break;
+						case '$=': temp.push('[substring(@', param[4], ', string-length(@', param[4], ') - ', param[6].length, ' + 1) = "', param[6], '"]'); break;
+						case '=': temp.push('[@', param[4], '="', param[6], '"]'); break;
+						case '!=': temp.push('[@', param[4], '!="', param[6], '"]');
+					}
+				} else {
+					temp.push('[@', param[4], ']');
+				}
+			}
+			items.push(temp.join(''));
+			return items;
+		},
+		
+		getItems: function(items, context, nocash){
+			var elements = [];
+			var xpath = document.evaluate('.//' + items.join('//'), context, $$.shared.resolver, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+			for (var i = 0, j = xpath.snapshotLength; i < j; i++) elements.push(xpath.snapshotItem(i));
+			return (nocash) ? elements : new Elements(elements.map($));
+		}
+
+	},
+	
+	'normal': {
+		
+		getParam: function(items, context, param, i){
+			if (i == 0){
+				if (param[2]){
+					var el = context.getElementById(param[2]);
+					if (!el || ((param[1] != '*') && (Element.getTag(el) != param[1]))) return false;
+					items = [el];
+				} else {
+					items = $A(context.getElementsByTagName(param[1]));
+				}
+			} else {
+				items = $$.shared.getElementsByTagName(items, param[1]);
+				if (param[2]) items = Elements.filterById(items, param[2], true);
+			}
+			if (param[3]) items = Elements.filterByClass(items, param[3], true);
+			if (param[4]) items = Elements.filterByAttribute(items, param[4], param[5], param[6], true);
+			return items;
+		},
+
+		getItems: function(items, context, nocash){
+			return (nocash) ? items : $$.unique(items);
+		}
+
+	},
+
+	resolver: function(prefix){
+		return (prefix == 'xhtml') ? 'http://www.w3.org/1999/xhtml' : false;
+	},
+
+	getElementsByTagName: function(context, tagName){
+		var found = [];
+		for (var i = 0, j = context.length; i < j; i++) found.extend(context[i].getElementsByTagName(tagName));
+		return found;
+	}
+
+};
+
+$$.shared.method = (window.xpath) ? 'xpath' : 'normal';
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.Methods.Dom = {
+
+	/*
+	Property: getElements
+		Gets all the elements within an element that match the given (single) selector.
+		Returns as <Elements>.
+
+	Arguments:
+		selector - string; the css selector to match
+
+	Examples:
+		>$('myElement').getElements('a'); // get all anchors within myElement
+		>$('myElement').getElements('input[name=dialog]') //get all input tags with name 'dialog'
+		>$('myElement').getElements('input[name$=log]') //get all input tags with names ending with 'log'
+
+	Notes:
+		Supports these operators in attribute selectors:
+
+		- = : is equal to
+		- ^= : starts-with
+		- $= : ends-with
+		- != : is not equal to
+
+		Xpath is used automatically for compliant browsers.
+	*/
+
+	getElements: function(selector, nocash){
+		var items = [];
+		selector = selector.trim().split(' ');
+		for (var i = 0, j = selector.length; i < j; i++){
+			var sel = selector[i];
+			var param = sel.match($$.shared.regexp);
+			if (!param) break;
+			param[1] = param[1] || '*';
+			var temp = $$.shared[$$.shared.method].getParam(items, this, param, i);
+			if (!temp) break;
+			items = temp;
+		}
+		return $$.shared[$$.shared.method].getItems(items, this, nocash);
+	},
+
+	/*
+	Property: getElement
+		Same as <Element.getElements>, but returns only the first. Alternate syntax for <$E>, where filter is the Element.
+		Returns as <Element>.
+
+	Arguments:
+		selector - string; css selector
+	*/
+
+	getElement: function(selector){
+		return $(this.getElements(selector, true)[0] || false);
+	},
+
+	/*
+	Property: getElementsBySelector
+		Same as <Element.getElements>, but allows for comma separated selectors, as in css. Alternate syntax for <$$>, where filter is the Element.
+		Returns as <Elements>.
+
+	Arguments:
+		selector - string; css selector
+	*/
+
+	getElementsBySelector: function(selector, nocash){
+		var elements = [];
+		selector = selector.split(',');
+		for (var i = 0, j = selector.length; i < j; i++) elements = elements.concat(this.getElements(selector[i], true));
+		return (nocash) ? elements : $$.unique(elements);
+	}
+
+};
+
+Element.extend({
+
+	/*
+	Property: getElementById
+		Targets an element with the specified id found inside the Element. Does not overwrite document.getElementById.
+
+	Arguments:
+		id - string; the id of the element to find.
+	*/
+
+	getElementById: function(id){
+		var el = document.getElementById(id);
+		if (!el) return false;
+		for (var parent = el.parentNode; parent != this; parent = parent.parentNode){
+			if (!parent) return false;
+		}
+		return el;
+	}/*compatibility*/,
+	
+	getElementsByClassName: function(className){ 
+		return this.getElements('.' + className); 
+	}
+	
+	/*end compatibility*/
+
+});
+
+document.extend(Element.Methods.Dom);
+Element.extend(Element.Methods.Dom);
+
+/*
+Script: Element.Form.js
+	Contains Element prototypes to deal with Forms and their elements.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: getValue
+		Returns the value of the Element, if its tag is textarea, select or input. getValue called on a multiple select will return an array.
+	*/
+
+	getValue: function(){
+		switch(this.getTag()){
+			case 'select':
+				var values = [];
+				$each(this.options, function(option){
+					if (option.selected) values.push($pick(option.value, option.text));
+				});
+				return (this.multiple) ? values : values[0];
+			case 'input': if (!(this.checked && ['checkbox', 'radio'].contains(this.type)) && !['hidden', 'text', 'password'].contains(this.type)) break;
+			case 'textarea': return this.value;
+		}
+		return false;
+	},
+
+	getFormElements: function(){
+		return $$(this.getElementsByTagName('input'), this.getElementsByTagName('select'), this.getElementsByTagName('textarea'));
+	},
+
+	/*
+	Property: toQueryString
+		Reads the children inputs of the Element and generates a query string, based on their values. Used internally in <Ajax>
+
+	Example:
+		(start code)
+		<form id="myForm" action="submit.php">
+		<input name="email" value="bob@bob.com">
+		<input name="zipCode" value="90210">
+		</form>
+
+		<script>
+		 $('myForm').toQueryString()
+		</script>
+		(end)
+
+		Returns:
+			email=bob@bob.com&zipCode=90210
+	*/
+
+	toQueryString: function(){
+		var queryString = [];
+		this.getFormElements().each(function(el){
+			var name = el.name;
+			var value = el.getValue();
+			if (value === false || !name || el.disabled) return;
+			var qs = function(val){
+				queryString.push(name + '=' + encodeURIComponent(val));
+			};
+			if ($type(value) == 'array') value.each(qs);
+			else qs(value);
+		});
+		return queryString.join('&');
+	}
+
+});
+
+/*
+Script: Element.Dimensions.js
+	Contains Element prototypes to deal with Element size and position in space.
+
+Note:
+	The functions in this script require n XHTML doctype.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: scrollTo
+		Scrolls the element to the specified coordinated (if the element has an overflow)
+
+	Arguments:
+		x - the x coordinate
+		y - the y coordinate
+
+	Example:
+		>$('myElement').scrollTo(0, 100)
+	*/
+
+	scrollTo: function(x, y){
+		this.scrollLeft = x;
+		this.scrollTop = y;
+	},
+
+	/*
+	Property: getSize
+		Return an Object representing the size/scroll values of the element.
+
+	Example:
+		(start code)
+		$('myElement').getSize();
+		(end)
+
+	Returns:
+		(start code)
+		{
+			'scroll': {'x': 100, 'y': 100},
+			'size': {'x': 200, 'y': 400},
+			'scrollSize': {'x': 300, 'y': 500}
+		}
+		(end)
+	*/
+
+	getSize: function(){
+		return {
+			'scroll': {'x': this.scrollLeft, 'y': this.scrollTop},
+			'size': {'x': this.offsetWidth, 'y': this.offsetHeight},
+			'scrollSize': {'x': this.scrollWidth, 'y': this.scrollHeight}
+		};
+	},
+
+	/*
+	Property: getPosition
+		Returns the real offsets of the element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers for scroll offset calculation, use this if your element is inside any element containing scrollbars
+
+	Example:
+		>$('element').getPosition();
+
+	Returns:
+		>{x: 100, y:500};
+	*/
+
+	getPosition: function(overflown){
+		overflown = overflown || [];
+		var el = this, left = 0, top = 0;
+		do {
+			left += el.offsetLeft || 0;
+			top += el.offsetTop || 0;
+			el = el.offsetParent;
+		} while (el);
+		overflown.each(function(element){
+			left -= element.scrollLeft || 0;
+			top -= element.scrollTop || 0;
+		});
+		return {'x': left, 'y': top};
+	},
+
+	/*
+	Property: getTop
+		Returns the distance from the top of the window to the Element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+	*/
+
+	getTop: function(overflown){
+		return this.getPosition(overflown).y;
+	},
+
+	/*
+	Property: getLeft
+		Returns the distance from the left of the window to the Element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+	*/
+
+	getLeft: function(overflown){
+		return this.getPosition(overflown).x;
+	},
+
+	/*
+	Property: getCoordinates
+		Returns an object with width, height, left, right, top, and bottom, representing the values of the Element
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+
+	Example:
+		(start code)
+		var myValues = $('myElement').getCoordinates();
+		(end)
+
+	Returns:
+		(start code)
+		{
+			width: 200,
+			height: 300,
+			left: 100,
+			top: 50,
+			right: 300,
+			bottom: 350
+		}
+		(end)
+	*/
+
+	getCoordinates: function(overflown){
+		var position = this.getPosition(overflown);
+		var obj = {
+			'width': this.offsetWidth,
+			'height': this.offsetHeight,
+			'left': position.x,
+			'top': position.y
+		};
+		obj.right = obj.left + obj.width;
+		obj.bottom = obj.top + obj.height;
+		return obj;
+	}
+
+});
+
+/*
+Script: Window.DomReady.js
+	Contains the custom event domready, for window.
+
+License:
+	MIT-style license.
+*/
+
+/* Section: Custom Events */
+
+/*
+Event: domready
+	executes a function when the dom tree is loaded, without waiting for images. Only works when called from window.
+
+Credits:
+	(c) Dean Edwards/Matthias Miller/John Resig, remastered for MooTools.
+
+Arguments:
+	fn - the function to execute when the DOM is ready
+
+Example:
+	> window.addEvent('domready', function(){
+	>	alert('the dom is ready');
+	> });
+*/
+
+Element.Events.domready = {
+
+	add: function(fn){
+		if (window.loaded){
+			fn.call(this);
+			return;
+		}
+		var domReady = function(){
+			if (window.loaded) return;
+			window.loaded = true;
+			window.timer = $clear(window.timer);
+			this.fireEvent('domready');
+		}.bind(this);
+		if (document.readyState && window.webkit){
+			window.timer = function(){
+				if (['loaded','complete'].contains(document.readyState)) domReady();
+			}.periodical(50);
+		} else if (document.readyState && window.ie){
+			if (!$('ie_ready')){
+				var src = (window.location.protocol == 'https:') ? '://0' : 'javascript:void(0)';
+				document.write('<script id="ie_ready" defer src="' + src + '"><\/script>');
+				$('ie_ready').onreadystatechange = function(){
+					if (this.readyState == 'complete') domReady();
+				};
+			}
+		} else {
+			window.addListener("load", domReady);
+			document.addListener("DOMContentLoaded", domReady);
+		}
+	}
+
+};
+
+/*compatibility*/
+
+window.onDomReady = function(fn){ 
+	return this.addEvent('domready', fn); 
+};
+
+/*end compatibility*/
+
+/*
+Script: Window.Size.js
+	Window cross-browser dimensions methods.
+	
+Note:
+	The Functions in this script require an XHTML doctype.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: window
+	Cross browser methods to get various window dimensions.
+	Warning: All these methods require that the browser operates in strict mode, not quirks mode.
+*/
+
+window.extend({
+
+	/*
+	Property: getWidth
+		Returns an integer representing the width of the browser window (without the scrollbar).
+	*/
+
+	getWidth: function(){
+		if (this.webkit419) return this.innerWidth;
+		if (this.opera) return document.body.clientWidth;
+		return document.documentElement.clientWidth;
+	},
+
+	/*
+	Property: getHeight
+		Returns an integer representing the height of the browser window (without the scrollbar).
+	*/
+
+	getHeight: function(){
+		if (this.webkit419) return this.innerHeight;
+		if (this.opera) return document.body.clientHeight;
+		return document.documentElement.clientHeight;
+	},
+
+	/*
+	Property: getScrollWidth
+		Returns an integer representing the scrollWidth of the window.
+		This value is equal to or bigger than <getWidth>.
+
+	See Also:
+		<http://developer.mozilla.org/en/docs/DOM:element.scrollWidth>
+	*/
+
+	getScrollWidth: function(){
+		if (this.ie) return Math.max(document.documentElement.offsetWidth, document.documentElement.scrollWidth);
+		if (this.webkit) return document.body.scrollWidth;
+		return document.documentElement.scrollWidth;
+	},
+
+	/*
+	Property: getScrollHeight
+		Returns an integer representing the scrollHeight of the window.
+		This value is equal to or bigger than <getHeight>.
+
+	See Also:
+		<http://developer.mozilla.org/en/docs/DOM:element.scrollHeight>
+	*/
+
+	getScrollHeight: function(){
+		if (this.ie) return Math.max(document.documentElement.offsetHeight, document.documentElement.scrollHeight);
+		if (this.webkit) return document.body.scrollHeight;
+		return document.documentElement.scrollHeight;
+	},
+
+	/*
+	Property: getScrollLeft
+		Returns an integer representing the scrollLeft of the window (the number of pixels the window has scrolled from the left).
+
+	See Also:
+		<http://developer.mozilla.org/en/docs/DOM:element.scrollLeft>
+	*/
+
+	getScrollLeft: function(){
+		return this.pageXOffset || document.documentElement.scrollLeft;
+	},
+
+	/*
+	Property: getScrollTop
+		Returns an integer representing the scrollTop of the window (the number of pixels the window has scrolled from the top).
+
+	See Also:
+		<http://developer.mozilla.org/en/docs/DOM:element.scrollTop>
+	*/
+
+	getScrollTop: function(){
+		return this.pageYOffset || document.documentElement.scrollTop;
+	},
+
+	/*
+	Property: getSize
+		Same as <Element.getSize>
+	*/
+
+	getSize: function(){
+		return {
+			'size': {'x': this.getWidth(), 'y': this.getHeight()},
+			'scrollSize': {'x': this.getScrollWidth(), 'y': this.getScrollHeight()},
+			'scroll': {'x': this.getScrollLeft(), 'y': this.getScrollTop()}
+		};
+	},
+
+	//ignore
+	getPosition: function(){return {'x': 0, 'y': 0};}
+
+});
+
+/*
+Script: Drag.Base.js
+	Contains <Drag.Base>, <Element.makeResizable>
+
+License:
+	MIT-style license.
+*/
+
+var Drag = {};
+
+/*
+Class: Drag.Base
+	Modify two css properties of an element based on the position of the mouse.
+	
+Note:
+	Drag.Base requires an XHTML doctype.
+
+Arguments:
+	el - the $(element) to apply the transformations to.
+	options - optional. The options object.
+
+Options:
+	handle - the $(element) to act as the handle for the draggable element. defaults to the $(element) itself.
+	modifiers - an object. see Modifiers Below.
+	limit - an object, see Limit below.
+	grid - optional, distance in px for snap-to-grid dragging
+	snap - optional, the distance you have to drag before the element starts to respond to the drag. defaults to false
+
+	modifiers:
+		x - string, the style you want to modify when the mouse moves in an horizontal direction. defaults to 'left'
+		y - string, the style you want to modify when the mouse moves in a vertical direction. defaults to 'top'
+
+	limit:
+		x - array with start and end limit relative to modifiers.x
+		y - array with start and end limit relative to modifiers.y
+		
+Events:
+	onStart - optional, function to execute when the user starts to drag (on mousedown);
+	onComplete - optional, function to execute when the user completes the drag.
+	onDrag - optional, function to execute at every step of the drag
+*/
+
+Drag.Base = new Class({
+
+	options: {
+		handle: false,
+		unit: 'px',
+		onStart: Class.empty,
+		onBeforeStart: Class.empty,
+		onComplete: Class.empty,
+		onSnap: Class.empty,
+		onDrag: Class.empty,
+		limit: false,
+		modifiers: {x: 'left', y: 'top'},
+		grid: false,
+		snap: 6
+	},
+
+	initialize: function(el, options){
+		this.setOptions(options);
+		this.element = $(el);
+		this.handle = $(this.options.handle) || this.element;
+		this.mouse = {'now': {}, 'pos': {}};
+		this.value = {'start': {}, 'now': {}};
+		this.bound = {
+			'start': this.start.bindWithEvent(this),
+			'check': this.check.bindWithEvent(this),
+			'drag': this.drag.bindWithEvent(this),
+			'stop': this.stop.bind(this)
+		};
+		this.attach();
+		if (this.options.initialize) this.options.initialize.call(this);
+	},
+
+	attach: function(){
+		this.handle.addEvent('mousedown', this.bound.start);
+		return this;
+	},
+
+	detach: function(){
+		this.handle.removeEvent('mousedown', this.bound.start);
+		return this;
+	},
+
+	start: function(event){
+		this.fireEvent('onBeforeStart', this.element);
+		this.mouse.start = event.page;
+		var limit = this.options.limit;
+		this.limit = {'x': [], 'y': []};
+		for (var z in this.options.modifiers){
+			if (!this.options.modifiers[z]) continue;
+			this.value.now[z] = this.element.getStyle(this.options.modifiers[z]).toInt();
+			this.mouse.pos[z] = event.page[z] - this.value.now[z];
+			if (limit && limit[z]){
+				for (var i = 0; i < 2; i++){
+					if ($chk(limit[z][i])) this.limit[z][i] = ($type(limit[z][i]) == 'function') ? limit[z][i]() : limit[z][i];
+				}
+			}
+		}
+		if ($type(this.options.grid) == 'number') this.options.grid = {'x': this.options.grid, 'y': this.options.grid};
+		document.addListener('mousemove', this.bound.check);
+		document.addListener('mouseup', this.bound.stop);
+		this.fireEvent('onStart', this.element);
+		event.stop();
+	},
+
+	check: function(event){
+		var distance = Math.round(Math.sqrt(Math.pow(event.page.x - this.mouse.start.x, 2) + Math.pow(event.page.y - this.mouse.start.y, 2)));
+		if (distance > this.options.snap){
+			document.removeListener('mousemove', this.bound.check);
+			document.addListener('mousemove', this.bound.drag);
+			this.drag(event);
+			this.fireEvent('onSnap', this.element);
+		}
+		event.stop();
+	},
+
+	drag: function(event){
+		this.out = false;
+		this.mouse.now = event.page;
+		for (var z in this.options.modifiers){
+			if (!this.options.modifiers[z]) continue;
+			this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
+			if (this.limit[z]){
+				if ($chk(this.limit[z][1]) && (this.value.now[z] > this.limit[z][1])){
+					this.value.now[z] = this.limit[z][1];
+					this.out = true;
+				} else if ($chk(this.limit[z][0]) && (this.value.now[z] < this.limit[z][0])){
+					this.value.now[z] = this.limit[z][0];
+					this.out = true;
+				}
+			}
+			if (this.options.grid[z]) this.value.now[z] -= (this.value.now[z] % this.options.grid[z]);
+			this.element.setStyle(this.options.modifiers[z], this.value.now[z] + this.options.unit);
+		}
+		this.fireEvent('onDrag', this.element);
+		event.stop();
+	},
+
+	stop: function(){
+		document.removeListener('mousemove', this.bound.check);
+		document.removeListener('mousemove', this.bound.drag);
+		document.removeListener('mouseup', this.bound.stop);
+		this.fireEvent('onComplete', this.element);
+	}
+
+});
+
+Drag.Base.implement(new Events, new Options);
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: makeResizable
+		Makes an element resizable (by dragging) with the supplied options.
+
+	Arguments:
+		options - see <Drag.Base> for acceptable options.
+	*/
+
+	makeResizable: function(options){
+		return new Drag.Base(this, $merge({modifiers: {x: 'width', y: 'height'}}, options));
+	}
+
+});
+
+/*
+Script: Drag.Move.js
+	Contains <Drag.Move>, <Element.makeDraggable>
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Drag.Move
+	Extends <Drag.Base>, has additional functionality for dragging an element, support snapping and droppables.
+	Drag.move supports either position absolute or relative. If no position is found, absolute will be set.
+	Inherits methods, properties, options and events from <Drag.Base>.
+
+Note:
+	Drag.Move requires an XHTML doctype.
+
+Arguments:
+	el - the $(element) to apply the drag to.
+	options - optional. see Options below.
+
+Options:
+	all the drag.Base options, plus:
+	container - an element, will fill automatically limiting options based on the $(element) size and position. defaults to false (no limiting)
+	droppables - an array of elements you can drop your draggable to.
+	overflown - an array of nested scrolling containers, see Element::getPosition
+*/
+
+Drag.Move = Drag.Base.extend({
+
+	options: {
+		droppables: [],
+		container: false,
+		overflown: []
+	},
+
+	initialize: function(el, options){
+		this.setOptions(options);
+		this.element = $(el);
+		this.droppables = $$(this.options.droppables);
+		this.container = $(this.options.container);
+		this.position = {'element': this.element.getStyle('position'), 'container': false};
+		if (this.container) this.position.container = this.container.getStyle('position');
+		if (!['relative', 'absolute', 'fixed'].contains(this.position.element)) this.position.element = 'absolute';
+		var top = this.element.getStyle('top').toInt();
+		var left = this.element.getStyle('left').toInt();
+		if (this.position.element == 'absolute' && !['relative', 'absolute', 'fixed'].contains(this.position.container)){
+			top = $chk(top) ? top : this.element.getTop(this.options.overflown);
+			left = $chk(left) ? left : this.element.getLeft(this.options.overflown);
+		} else {
+			top = $chk(top) ? top : 0;
+			left = $chk(left) ? left : 0;
+		}
+		this.element.setStyles({'top': top, 'left': left, 'position': this.position.element});
+		this.parent(this.element);
+	},
+
+	start: function(event){
+		this.overed = null;
+		if (this.container){
+			var cont = this.container.getCoordinates();
+			var el = this.element.getCoordinates();
+			if (this.position.element == 'absolute' && !['relative', 'absolute', 'fixed'].contains(this.position.container)){
+				this.options.limit = {
+					'x': [cont.left, cont.right - el.width],
+					'y': [cont.top, cont.bottom - el.height]
+				};
+			} else {
+				this.options.limit = {
+					'y': [0, cont.height - el.height],
+					'x': [0, cont.width - el.width]
+				};
+			}
+		}
+		this.parent(event);
+	},
+
+	drag: function(event){
+		this.parent(event);
+		var overed = this.out ? false : this.droppables.filter(this.checkAgainst, this).getLast();
+		if (this.overed != overed){
+			if (this.overed) this.overed.fireEvent('leave', [this.element, this]);
+			this.overed = overed ? overed.fireEvent('over', [this.element, this]) : null;
+		}
+		return this;
+	},
+
+	checkAgainst: function(el){
+		el = el.getCoordinates(this.options.overflown);
+		var now = this.mouse.now;
+		return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
+	},
+
+	stop: function(){
+		if (this.overed && !this.out) this.overed.fireEvent('drop', [this.element, this]);
+		else this.element.fireEvent('emptydrop', this);
+		this.parent();
+		return this;
+	}
+
+});
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: makeDraggable
+		Makes an element draggable with the supplied options.
+
+	Arguments:
+		options - see <Drag.Move> and <Drag.Base> for acceptable options.
+	*/
+
+	makeDraggable: function(options){
+		return new Drag.Move(this, options);
+	}
+
+});
+
+/*
+Script: Color.js
+	Contains the Color class.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Color
+	Creates a new Color Object, which is an array with some color specific methods.
+Arguments:
+	color - the hex, the RGB array or the HSB array of the color to create. For HSB colors, you need to specify the second argument.
+	type - a string representing the type of the color to create. needs to be specified if you intend to create the color with HSB values, or an array of HEX values. Can be 'rgb', 'hsb' or 'hex'.
+
+Example:
+	(start code)
+	var black = new Color('#000');
+	var purple = new Color([255,0,255]);
+	// mix black with white and purple, each time at 10% of the new color
+	var darkpurple = black.mix('#fff', purple, 10);
+	$('myDiv').setStyle('background-color', darkpurple);
+	(end)
+*/
+
+var Color = new Class({
+
+	initialize: function(color, type){
+		type = type || (color.push ? 'rgb' : 'hex');
+		var rgb, hsb;
+		switch(type){
+			case 'rgb':
+				rgb = color;
+				hsb = rgb.rgbToHsb();
+				break;
+			case 'hsb':
+				rgb = color.hsbToRgb();
+				hsb = color;
+				break;
+			default:
+				rgb = color.hexToRgb(true);
+				hsb = rgb.rgbToHsb();
+		}
+		rgb.hsb = hsb;
+		rgb.hex = rgb.rgbToHex();
+		return $extend(rgb, Color.prototype);
+	},
+
+	/*
+	Property: mix
+		Mixes two or more colors with the Color.
+		
+	Arguments:
+		color - a color to mix. you can use as arguments how many colors as you want to mix with the original one.
+		alpha - if you use a number as the last argument, it will be threated as the amount of the color to mix.
+	*/
+
+	mix: function(){
+		var colors = $A(arguments);
+		var alpha = ($type(colors[colors.length - 1]) == 'number') ? colors.pop() : 50;
+		var rgb = this.copy();
+		colors.each(function(color){
+			color = new Color(color);
+			for (var i = 0; i < 3; i++) rgb[i] = Math.round((rgb[i] / 100 * (100 - alpha)) + (color[i] / 100 * alpha));
+		});
+		return new Color(rgb, 'rgb');
+	},
+
+	/*
+	Property: invert
+		Inverts the Color.
+	*/
+
+	invert: function(){
+		return new Color(this.map(function(value){
+			return 255 - value;
+		}));
+	},
+
+	/*
+	Property: setHue
+		Modifies the hue of the Color, and returns a new one.
+	
+	Arguments:
+		value - the hue to set
+	*/
+
+	setHue: function(value){
+		return new Color([value, this.hsb[1], this.hsb[2]], 'hsb');
+	},
+
+	/*
+	Property: setSaturation
+		Changes the saturation of the Color, and returns a new one.
+	
+	Arguments:
+		percent - the percentage of the saturation to set
+	*/
+
+	setSaturation: function(percent){
+		return new Color([this.hsb[0], percent, this.hsb[2]], 'hsb');
+	},
+
+	/*
+	Property: setBrightness
+		Changes the brightness of the Color, and returns a new one.
+	
+	Arguments:
+		percent - the percentage of the brightness to set
+	*/
+
+	setBrightness: function(percent){
+		return new Color([this.hsb[0], this.hsb[1], percent], 'hsb');
+	}
+
+});
+
+/* Section: Utility Functions */
+
+/*
+Function: $RGB
+	Shortcut to create a new color, based on red, green, blue values.
+
+Arguments:
+	r - (integer) red value (0-255)
+	g - (integer) green value (0-255)
+	b - (integer) blue value (0-255)
+
+*/
+
+function $RGB(r, g, b){
+	return new Color([r, g, b], 'rgb');
+};
+
+/*
+Function: $HSB
+	Shortcut to create a new color, based on hue, saturation, brightness values.
+
+Arguments:
+	h - (integer) hue value (0-100)
+	s - (integer) saturation value (0-100)
+	b - (integer) brightness value (0-100)
+*/
+
+function $HSB(h, s, b){
+	return new Color([h, s, b], 'hsb');
+};
+
+/*
+Class: Array
+	A collection of The Array Object prototype methods.
+*/
+
+Array.extend({
+	
+	/*
+	Property: rgbToHsb
+		Converts a RGB array to an HSB array.
+
+	Returns:
+		the HSB array.
+	*/
+
+	rgbToHsb: function(){
+		var red = this[0], green = this[1], blue = this[2];
+		var hue, saturation, brightness;
+		var max = Math.max(red, green, blue), min = Math.min(red, green, blue);
+		var delta = max - min;
+		brightness = max / 255;
+		saturation = (max != 0) ? delta / max : 0;
+		if (saturation == 0){
+			hue = 0;
+		} else {
+			var rr = (max - red) / delta;
+			var gr = (max - green) / delta;
+			var br = (max - blue) / delta;
+			if (red == max) hue = br - gr;
+			else if (green == max) hue = 2 + rr - br;
+			else hue = 4 + gr - rr;
+			hue /= 6;
+			if (hue < 0) hue++;
+		}
+		return [Math.round(hue * 360), Math.round(saturation * 100), Math.round(brightness * 100)];
+	},
+
+	/*
+	Property: hsbToRgb
+		Converts an HSB array to an RGB array.
+
+	Returns:
+		the RGB array.
+	*/
+
+	hsbToRgb: function(){
+		var br = Math.round(this[2] / 100 * 255);
+		if (this[1] == 0){
+			return [br, br, br];
+		} else {
+			var hue = this[0] % 360;
+			var f = hue % 60;
+			var p = Math.round((this[2] * (100 - this[1])) / 10000 * 255);
+			var q = Math.round((this[2] * (6000 - this[1] * f)) / 600000 * 255);
+			var t = Math.round((this[2] * (6000 - this[1] * (60 - f))) / 600000 * 255);
+			switch(Math.floor(hue / 60)){
+				case 0: return [br, t, p];
+				case 1: return [q, br, p];
+				case 2: return [p, br, t];
+				case 3: return [p, q, br];
+				case 4: return [t, p, br];
+				case 5: return [br, p, q];
+			}
+		}
+		return false;
+	}
+
+});

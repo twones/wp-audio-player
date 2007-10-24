@@ -43,7 +43,7 @@ add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true
 add_option('audio_player_rsscustomalternate', '[See post to listen to audio]', "Custom RSS alternate content", true);
 add_option('audio_player_prefixaudio', '', "Pre-Stream Audio", true);
 add_option('audio_player_postfixaudio', '', "Post-Stream Audio", true);
-add_option('audio_player_initialvolume', '', "Initial Volume", 80);
+add_option('audio_player_initialvolume', '80', "Initial Volume", true);
 
 if(get_option('audio_player_iconcolor') != '' && get_option('audio_player_lefticoncolor') == '') {
 	// Upgrade options from version 0.x
@@ -144,7 +144,7 @@ function ap_insert_player_widgets($content = '') {
 	if( in_array( "links", $ap_behaviour ) ) $content = preg_replace_callback( "/<a ([^=]+=\"[^\"]+\" )*href=\"([^\"]+\.mp3)\"( [^=]+=\"[^\"]+\")*>[^<]+<\/a>/i", "ap_replace", $content );
 	
 	// Replace [audio syntax]
-	if( in_array( "default", $ap_behaviour ) ) $content = preg_replace_callback( "/\[audio:(([^]]+))\]/i", "ap_replace", $content );
+	if( in_array( "default", $ap_behaviour ) ) $content = preg_replace_callback( "/(<p>)?\[audio:(([^]]+))\](<\/p>)?/i", "ap_replace", $content );
 
 	// Enclosure integration
 	if( !$comment && in_array( "enclosure", $ap_behaviour ) ) {
@@ -173,7 +173,7 @@ function ap_insert_player_widgets($content = '') {
 function ap_replace($matches) {
 	global $ap_audioURL, $ap_instances;
 	// Split options
-	$data = preg_split("/[\|]/", $matches[2]);
+	$data = preg_split("/[\|]/", $matches[3]);
 	$files = array();
 	
 	if(!is_feed()) {
@@ -245,7 +245,7 @@ function ap_getplayer($source, $options = array()) {
 	// Not in a feed so return formatted object tag
 	else {
 		$playerElementID = "audioplayer_" . $ap_playerID;
-		$playerCode = '<div class="audioplayer-container" id="' . $playerElementID . '">Audio Player</div>';
+		$playerCode = '<div class="audioplayer-container" id="' . $playerElementID . '"><p><em><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio sample. You also need to have JavaScript enabled on your browser.</em></p></div>';
 		$playerCode .= '<script type="text/javascript"><!--';
 		$playerCode .= "\n";
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
@@ -316,7 +316,7 @@ function ap_options_subpanel() {
 		else update_option('audio_player_behaviour', '');
 
 		update_option('audio_player_rssalternate', $_POST['ap_rssalternate']);
-		update_option('audio_player_rsscustomalternate', $_POST['ap_rsscustomalternate']);
+		update_option('audio_player_rsscustomalternate', stripslashes($_POST['ap_rsscustomalternate']));
 		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
 		update_option('audio_player_postfixaudio', $_POST['ap_audiopostfixwebpath']);
 
