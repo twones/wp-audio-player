@@ -25,7 +25,7 @@ var AP_Admin = new Class({
         for (i = 1;i < this.panels.length;i++) {
             this.panels[i].setStyle("display", "none");
         }
-        
+
         $("ap_transparentpagebg").addEvent("click", function () {
             var bgField = $("ap_pagebgcolor");
             if ($("ap_transparentpagebg").checked) {
@@ -76,18 +76,18 @@ var AP_Admin = new Class({
     
     hideColorPicker : function (evt) {
         var el = $(evt.target);
-        do {
+        while (el.getTag() != "body") {
             if (el.getProperty("id") == "ap-colorsample" || el.hasClass("moocp_color-picker")) {
                 return;
             }
             el = el.getParent();
-        } while (el.getTag() != "body");
+        }
         this.colorPicker.hide();
     },
 
     showHideThemeColors : function (evt) {
         var el = $(evt.target);
-        do {
+        while (el.getTag() != "body") {
             if (el.getProperty("id") == "ap_themecolor") {
                 evt.stop();
                 return;
@@ -104,13 +104,13 @@ var AP_Admin = new Class({
                 return;
             }
             el = el.getParent();
-        } while (el.getTag() != "body");
+        }
         this.themeColorPicker.setStyle("display", "none");
     },
     
     pickThemeColor : function (evt) {
         var target = $(evt.target);
-        if (target.getTag() != "span") {
+        if (target.getTag() != "li") {
             return;
         }
         var color = target.getProperty("title");
@@ -122,6 +122,7 @@ var AP_Admin = new Class({
         this.updatePlayer();
         this.colorPicker.setColor(color);
         $("ap-colorsample").setStyle("background-color", color);
+        this.themeColorPicker.setStyle("display", "none");
     },
 
     updateColor : function () {
@@ -175,6 +176,6 @@ var AP_Admin = new Class({
 
 });
 
-window.addEvent("domready", function () {
+window.addEvent("load", function () {
     var ap_admin = new AP_Admin();
 });

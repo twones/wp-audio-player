@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Audio Player WordPress plugin" basedir="." default="build">
+<project name="Audio Player WordPress plugin" basedir="." default="deploy">
 	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${ant.library.dir}/jsmin.0.2.2.jar"/>
 	
 	<property name="build" value="build"/>
 	<property name="dist" value="dist"/>
 
-	<property name="deploy.path" value="C:\WebRoot\wordpress23\wp-content\plugins\audio-player"/>
+	<property file="build.properties"/>
 
 	<property name="test.jsfl" value="${basedir}\swfcompile.jsfl"/>
-	<property name="flash" value="C:\Program Files\Macromedia\Flash 8\Flash.exe"/>
 	
-	<target name="init">
+	<target name="init" depends="clean">
 		<mkdir dir="${build}"/>
 		<mkdir dir="${dist}"/>
+	</target>
+
+	<target name="clean" description="Clean up">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+		<delete file="swfcompile.jsfl"/>
+	</target>
+
+	<target name="deploy" depends="build" description="Deploy to local webserver">
+		<delete dir="${deploy.path}"/>
+		<unzip src="${dist}\audio-player.zip" dest="${deploy.path}" overwrite="true"/>
+		<antcall target="clean"/>
 	</target>
 
 	<target name="build" depends="init" description="Build plugin archive">
@@ -21,31 +32,23 @@
 		</copy>
 		<copy todir="${build}" file="source\player.swf"/>
 		
-		<!-- Minify JavaScript files -->
+		<!-- Minify JavaScript files
 		<jsmin force="true">
 			<fileset dir="${build}" includes="**/*.js"/>
 		</jsmin>
-		
-		<!--<antcall target="compile"/>-->
+		 -->
 		
 		<zip destfile="${dist}\audio-player.zip" basedir="${build}"/>
-		
-		<delete dir="${build}"/>
 	</target>
-	
-	<target name="compile">
+		
+	<target name="compile" description="Compile swf player">
 		<filter token="sourceFile" value="file:///${basedir}/source/player.fla"/>
-		<filter token="destFile" value="file:///${basedir}/${build}/player.swf"/>
+		<filter token="destFile" value="file:///${basedir}/source/player.swf"/>
 		<copy file="swfcompile.template" tofile="swfcompile.jsfl" filtering="true"/>
 		<replaceregexp file="swfcompile.jsfl" match="\\" replace="/" flags="g"/>
 	    <exec executable="${flash}">
 	        <arg line="'${test.jsfl}'"/>
 	    </exec>
-		<delete file="swfcompile.jsfl"/>
 	</target>
 	
-	<target name="deploy" depends="build" description="Deploy to local webserver">
-		<delete dir="${deploy.path}"/>
-		<unzip src="${dist}\audio-player.zip" dest="${deploy.path}" overwrite="true"/>
-	</target>
 </project>

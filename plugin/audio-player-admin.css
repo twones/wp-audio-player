@@ -106,19 +106,34 @@ ul.ap-optionlist input { border:none; background:none; }
 #ap_themecolor {
 	position:absolute;
 	display:none;
-	width:100px;
-	padding:1px;
+	width:134px;
+	padding:0 0 13px 0;
 	float:left;
-	background:#000;
+	background:url(thcpck-bottom.png) no-repeat left bottom;
 }
 #ap_themecolor span {
+	display:block;
+	text-indent:-9999px;
+	height:11px;
+	line-height:0;
+	font-size:0;
+	background:url(thcpck-top.png) no-repeat left top;
+}
+#ap_themecolor ul {
+	background:url(thcpck-slice.png) repeat-y left top;
+	padding:2px 14px 4px 15px;
+	float:left;
+	width:105px;
+	margin:0;
+}
+#ap_themecolor li {
 	cursor:pointer;
 	display:block;
+	text-indent:-9999px;
 	float:left;
-	width:16px;
-	height:16px;
-	margin:1px;
-	border:1px solid #FFFFFF;
+	width:20px;
+	height:20px;
+	margin:0 1px 1px 0;
 	line-height:0;
 	font-size:0;
 }

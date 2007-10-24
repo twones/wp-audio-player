@@ -138,9 +138,12 @@
 				<span id="ap-colorsample"></span>
 				<span id="ap_themecolor_btn">Pick from your theme</span>
 				<div id="ap_themecolor">
-					<?php foreach($ap_theme_colors as $ap_theme_color) { ?>
-					<span style="background:#<?php echo $ap_theme_color ?>" title="#<?php echo $ap_theme_color ?>">&nbsp;</span>
-					<?php } ?>
+					<span>Theme colors</span>
+					<ul>
+						<?php foreach($ap_theme_colors as $ap_theme_color) { ?>
+						<li style="background:#<?php echo $ap_theme_color ?>" title="#<?php echo $ap_theme_color ?>">#<?php echo $ap_theme_color ?></li>
+						<?php } ?>
+					</ul>
 				</div>
 			</div>
 			<div id="ap-audioplayer-wrapper">
@@ -150,7 +153,7 @@
 			</div>
 			<script type="text/javascript">
 			AudioPlayer.setup("<?php echo $ap_globals["playerURL"] ?>", "<?php echo $ap_globals["playerWidth"] ?>", "opaque", "#FFFFFF", <?php echo ap_php2js($ap_globals["playerOptions"]) ?>);
-			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo $ap_globals["pluginRoot"] ?>/test.mp3", autostart:"yes", loop:"yes", encode:"no"});
+			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo $ap_globals["pluginRoot"] ?>/blank.mp3", autostart:"yes", loop:"yes", encode:"no"});
 			</script>
 		</div>
 		
