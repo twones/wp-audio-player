@@ -66,7 +66,7 @@ class Application
 	* @param sourceFile a list of mp3 files to play
 	* @param options a structure of options
 	*/
-	public static function start(sourceFile:String, options:Object)
+	public static function start(sourceFile:String, options:Object):Void
 	{
 		if(options != undefined) _setOptions(options);
 		

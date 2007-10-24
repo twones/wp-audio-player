@@ -21,8 +21,9 @@
 	?>
 	<div class="ap-panel" id="ap-panel-general">
 		<h3>Audio file location</h3>
-		<p>If you use the <code>[audio]</code> syntax, the plugin will assume that all your audio files are located in this folder. The path is relative
-		to your blog root. This option does not affect your RSS enclosures or audio files with absolute URLs.</p>
+		<p>If you use the <code>[audio]</code> syntax, the plugin will assume that all your audio files are located in this folder.
+		By default the path is relative to your blog root. However, you can enter a custom path such as "http://anotherdomain.com/mp3files"
+		if your mp3 files are hosted outside of your blog root. This option does not affect your RSS enclosures or audio files with absolute URLs.</p>
 		<?php
 		$ap_sysDelimiter = '/';
 		if(strpos(ABSPATH, '\\') !== false) $ap_sysDelimiter = '\\';
@@ -33,7 +34,10 @@
 		</p>
 		<?php } ?>
 		<p>
-			<strong><?php echo get_settings('siteurl') ?></strong>
+			<select name="ap_audiowebpath_iscustom">
+				<option value="false"<?php if(!$ap_audiowebpath_iscustom) echo(' selected="selected"'); ?>><?php echo get_settings('siteurl') ?></option>
+				<option value="true"<?php if($ap_audiowebpath_iscustom) echo(' selected="selected"'); ?>>Custom</option>
+			</select>
 			<input type="text" id="ap_audiowebpath" name="ap_audiowebpath" size="40" value="<?php echo( get_option("audio_player_web_path") ); ?>" />
 			Recommended: <code>/audio</code>
 		</p>

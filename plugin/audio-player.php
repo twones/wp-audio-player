@@ -108,7 +108,12 @@ $ap_docURL = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
 $ap_colorkeys = array("bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip");
 $ap_pluginRoot = get_settings('siteurl') . '/wp-content/plugins/audio-player/';
 $ap_playerURL = $ap_pluginRoot . 'player.swf';
-$ap_audioURL = get_settings('siteurl') . get_option("audio_player_web_path");
+$ap_audioURL = get_option("audio_player_web_path");
+$ap_audiowebpath_iscustom = true;
+if(strpos($ap_audioURL, "http://") !== 0 && strpos($ap_audioURL, "ftp://") !== 0) {
+	$ap_audiowebpath_iscustom = false;
+	$ap_audioURL = get_settings('siteurl') . get_option("audio_player_web_path");
+}
 
 // Initialise playerID (each instance gets unique ID)
 $ap_playerID = 0;
@@ -289,7 +294,7 @@ function ap_showMessage( $message, $type="updated" ) {
 
 // Option panel functionality
 function ap_options_subpanel() {
-	global $ap_colorkeys, $ap_options, $ap_version, $ap_playerURL, $ap_docURL;
+	global $ap_colorkeys, $ap_options, $ap_version, $ap_playerURL, $ap_docURL, $ap_audiowebpath_iscustom;
 	
 	// Update plugin options
 	if( $_POST['Submit'] ) {
