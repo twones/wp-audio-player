@@ -9,6 +9,14 @@
 		<p>Current version: <strong><?php echo $ap_globals["version"]; ?></strong></p>
 	</div>
 
+	<form method="post">
+	<?php
+	if ( function_exists('wp_nonce_field') )
+		wp_nonce_field('audio-player-action');
+	?>
+	<p class="submit" id="ap-top-submit">
+		<input name="Submit" value="Update Options &raquo;" type="submit" />
+	</p>
 	<ul id="ap-tabs">
 		<li id="ap-tab-general"><a href="#ap-panel-general">General</a></li>
 		<li id="ap-tab-colour"><a href="#ap-panel-colour">Display</a></li>
@@ -17,11 +25,6 @@
 		<li id="ap-tab-advanced" class="last"><a href="#ap-panel-advanced">Advanced</a></li>
 	</ul>
 	
-	<form method="post">
-	<?php
-	if ( function_exists('wp_nonce_field') )
-		wp_nonce_field('audio-player-action');
-	?>
 	<div class="ap-panel" id="ap-panel-general">
 		<h3>Audio file location</h3>
 		<p>If you use the <code>[audio]</code> syntax, the plugin will assume that all your audio files are located in this folder.

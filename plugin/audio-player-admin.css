@@ -2,15 +2,16 @@
 	width:100%;
 	margin-bottom:20px;
 }
-#ap-intro form {
-	float:right;
-	margin:0 0 0 10px;
-}
 
 .ap_warning {
 	background: #FFEFF7;
 	border: 1px solid #c69;
 	padding:10px;
+}
+
+#ap-top-submit {
+	float:right;
+	margin:-10px 0 0 0;
 }
 
 ul#ap-tabs {
