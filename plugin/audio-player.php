@@ -45,6 +45,7 @@ add_option('audio_player_rsscustomalternate', '[See post to listen to audio]', "
 add_option('audio_player_prefixaudio', '', "Pre-stream audio", true);
 add_option('audio_player_postfixaudio', '', "Post-stream audio", true);
 add_option('audio_player_initialvolume', '80', "Initial volume", true);
+add_option('audio_player_noinfo', 'no', "Disable track information", true);
 
 // Color options
 
@@ -138,6 +139,7 @@ function ap_setGlobals() {
 	$ap_globals["encodeSource"] = (get_option("audio_player_encodeSource") == "yes");
 	$ap_globals["enableAnimation"] = (get_option("audio_player_enableAnimation") == "yes");
 	$ap_globals["showRemaining"] = (get_option("audio_player_showRemaining") == "yes");
+	$ap_globals["disableTrackInformation"] = (get_option("audio_player_noinfo") == "yes");
 	$ap_globals["transparentPageBg"] = (get_option("audio_player_transparentpagebgcolor") == "yes");
 	$ap_globals["pageBgColor"] = get_option("audio_player_pagebgcolor");
 
@@ -153,10 +155,12 @@ function ap_setGlobals() {
 	foreach ( $ap_globals["colorkeys"] as $value ) {
 		$playerOptions[$value] = get_option("audio_player_" . $value . "color");
 	}
+	$playerOptions["noinfo"] = "yes";
 	$playerOptions["animation"] = get_option("audio_player_enableAnimation");
 	$playerOptions["encode"] = get_option("audio_player_encodeSource");
 	$playerOptions["initialvolume"] = get_option("audio_player_initialvolume");
 	$playerOptions["remaining"] = get_option("audio_player_showRemaining");
+	$playerOptions["noinfo"] = get_option("audio_player_noinfo");
 
 	$ap_globals["playerOptions"] = $playerOptions;
 	
@@ -294,7 +298,7 @@ function ap_getplayer($source, $options = array()) {
 	} else {
 		// Not in a feed so return formatted object tag
 		$playerElementID = "audioplayer_" . $ap_globals["playerID"];
-		$playerCode = '<div class="audioplayer-container" id="' . $playerElementID . '"><p><em><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio sample. You also need to have JavaScript enabled on your browser.</em></p></div>';
+		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '"><em><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio sample. You also need to have JavaScript enabled on your browser.</em></p>';
 		$playerCode .= '<script type="text/javascript"><!--';
 		$playerCode .= "\n";
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
@@ -361,6 +365,12 @@ function ap_options_subpanel() {
 			update_option('audio_player_showRemaining', "no");
 		}
 
+		if(isset( $_POST["ap_disableTrackInformation"] )) {
+			update_option('audio_player_noinfo', "yes");
+		} else {
+			update_option('audio_player_noinfo', "no");
+		}
+
 		if(count($_POST['ap_behaviour']) > 0) {
 			update_option('audio_player_behaviour', implode(",", $_POST['ap_behaviour']));
 		} else {
@@ -425,13 +435,13 @@ function ap_wp_head() {
 	}
 	
 	if ($ap_globals["includeEmbedFile"]) {
-		echo '<script src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
+		echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
 		echo "\n";
 	}
 	
-	echo '<script src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
-	echo '<script>';
+	echo '<script type="text/javascript">';
 	echo "\n";
 	echo 'AudioPlayer.setup("' . $ap_globals["playerURL"] . '", "' . $ap_globals["playerWidth"] . '", "' . $wmode . '", "' . $bgcolor . '", ' . ap_php2js($ap_globals["playerOptions"]) . ');';
 	echo "\n";
@@ -452,15 +462,15 @@ function ap_wp_admin_head() {
 	echo "\n";
 	echo '<link href="' . $ap_globals["pluginRoot"] . 'colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<script src="' . $ap_globals["pluginRoot"] . 'mootools.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'mootools.js"></script>';
 	echo "\n";
-	echo '<script src="' . $ap_globals["pluginRoot"] . 'colorpicker/moocolorpicker.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'colorpicker/moocolorpicker.js"></script>';
 	echo "\n";
-	echo '<script src="' . $ap_globals["pluginRoot"] . 'audio-player-admin.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-admin.js"></script>';
 	echo "\n";
-	echo '<script src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
-	echo '<script src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
 }
 add_action('admin_head', 'ap_wp_admin_head');

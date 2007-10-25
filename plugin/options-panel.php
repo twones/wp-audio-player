@@ -93,6 +93,15 @@
 				<strong>Show remaining time</strong></label>
 			</li>
 		</ul>
+		<h3>Disable track information</h3>
+		<p>Select this if you wish to disable track information display (the player won't show titles or artist names even if they are available)</p>
+		<ul class="ap-optionlist">
+			<li>
+				<label for="ap_disableTrackInformation">
+				<input type="checkbox" name="ap_disableTrackInformation" id="ap_disableTrackInformation" value="true"<?php if($ap_globals["disableTrackInformation"]) echo ' checked="checked"'; ?> />
+				<strong>Disable track information</strong></label>
+			</li>
+		</ul>
 		<h3>Player width</h3>
 		<p>If you don't like the open/close animation, you can disable it here.</p>
 		<p>

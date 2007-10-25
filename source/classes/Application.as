@@ -58,6 +58,7 @@ class Application
 		loop:false,
 		animation:true,
 		remaining:true,
+		noinfo:false,
 		volume:80
 	};
 
@@ -478,15 +479,17 @@ class Application
 				if(playerState.connecting) message = "Connecting...";
 				else
 				{
-					if(playerState.trackCount > 1) message = (playerState.trackIndex + 1) + ": ";
+					if(!_options.noinfo && playerState.trackCount > 1) message = (playerState.trackIndex + 1) + ": ";
 					if(playerState.buffering) message += "Buffering...";
-					else if(playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songname.length > 0)
-					{
-						message += playerState.trackInfo.artist;
-						if(playerState.trackInfo.artist.length > 0) message += " - ";
-						message += playerState.trackInfo.songname;
+					else if(!_options.noinfo) {
+						if(playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songname.length > 0)
+						{
+							message += playerState.trackInfo.artist;
+							if(playerState.trackInfo.artist.length > 0) message += " - ";
+							message += playerState.trackInfo.songname;
+						}
+						else message = "Track #" + (playerState.trackIndex + 1);
 					}
-					else message = "Track #" + (playerState.trackIndex + 1);
 				}
 				display_mc.setText(message, 0, true);
 				display_mc.setTime(_options.remaining ? playerState.duration - playerState.position : playerState.position, _options.remaining);
