@@ -100,7 +100,7 @@ if(get_option('audio_player_iconcolor') != '' && get_option('audio_player_leftic
 	add_option('audio_player_skipcolor', '0x666666', "Next/Previous button color", true);
 }
 
-add_option('audio_player_transparentpagebgcolor', 'true', "Transparent player background", true);
+add_option('audio_player_transparentpagebgcolor', 'yes', "Transparent player background", true);
 add_option('audio_player_pagebgcolor', '#FFFFFF', "Page background color", true);
 
 // Global variables
@@ -138,7 +138,7 @@ function ap_setGlobals() {
 	$ap_globals["encodeSource"] = (get_option("audio_player_encodeSource") == "yes");
 	$ap_globals["enableAnimation"] = (get_option("audio_player_enableAnimation") == "yes");
 	$ap_globals["showRemaining"] = (get_option("audio_player_showRemaining") == "yes");
-	$ap_globals["transparentPageBgColor"] = get_option("audio_player_transparentpagebgcolor");
+	$ap_globals["transparentPageBg"] = (get_option("audio_player_transparentpagebgcolor") == "yes");
 	$ap_globals["pageBgColor"] = get_option("audio_player_pagebgcolor");
 
 	$ap_globals["prefixAudio"] = get_option("audio_player_prefixaudio");
@@ -386,7 +386,11 @@ function ap_options_subpanel() {
 		if(isset( $_POST["ap_pagebgcolor"] )) {
 			update_option('audio_player_pagebgcolor', $_POST['ap_pagebgcolor']);
 		}
-		update_option('audio_player_transparentpagebg', isset( $_POST["ap_transparentpagebg"] ));
+		if(isset( $_POST["ap_transparentpagebg"] )) {
+			update_option('audio_player_transparentpagebgcolor', "yes");
+		} else {
+			update_option('audio_player_transparentpagebgcolor', "no");
+		}
 		
 		// Need to do this again for the player preview on the options panel
 		ap_setGlobals();
@@ -412,7 +416,7 @@ add_action('admin_menu', 'ap_post_add_options');
 function ap_wp_head() {
 	global $ap_globals;
 	
-	if ( $ap_globals["transparentPageBgColor"] ) {
+	if ( $ap_globals["transparentPageBg"] ) {
 		$wmode = "transparent";
 		$bgcolor = "transparent";
 	} else {

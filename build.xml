@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Audio Player WordPress plugin" basedir="." default="deploy.to.all">
+<project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
 	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${ant.library.dir}/jsmin.0.2.2.jar"/>
 	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${ant.library.dir}/ant-contrib-1.0b3.jar"/>
 	
@@ -34,6 +34,13 @@
 		<input message="Please select test site to deploy to:" addproperty="wp.version" defaultvalue="wp23"/>
 		<antcall target="deploy">
 			<param name="deploy.dir" value="${deploy.path}/${wp.version}"/>
+		</antcall>
+		<antcall target="clean"/>
+	</target>
+
+	<target name="deploy.default" depends="build" description="Deploy to default local test site">
+		<antcall target="deploy">
+			<param name="deploy.dir" value="${deploy.path}/${default.deploy.version}"/>
 		</antcall>
 		<antcall target="clean"/>
 	</target>

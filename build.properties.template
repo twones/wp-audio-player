@@ -1,2 +1,3 @@
-deploy.path=C:/Webroot/wordpress/wp23/wp-content/plugins/audio-player
+deploy.path=C:/Webroot/wordpress
+default.deploy.version=wp23
 flash.exe=C:/Program Files/Adobe/Adobe Flash CS3/Flash.exe

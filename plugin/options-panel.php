@@ -146,13 +146,13 @@
 					</ul>
 				</div>
 			</div>
-			<div id="ap-audioplayer-wrapper">
+			<div id="ap-audioplayer-wrapper"<?php if (!$ap_globals["transparentPageBg"]) echo ' style="background-color:' . $ap_globals["pageBgColor"] . '"' ?>>
 				<div id="ap-audioplayer">
 					Audio Player
 				</div>
 			</div>
 			<script type="text/javascript">
-			AudioPlayer.setup("<?php echo $ap_globals["playerURL"] ?>", "<?php echo $ap_globals["playerWidth"] ?>", "opaque", "#FFFFFF", <?php echo ap_php2js($ap_globals["playerOptions"]) ?>);
+			AudioPlayer.setup("<?php echo $ap_globals["playerURL"] ?>", "<?php echo $ap_globals["playerWidth"] ?>", "<?php echo $ap_globals["transparentPageBg"]?'transparent':'opaque' ?>", "<?php echo $ap_globals["pageBgColor"]; ?>", <?php echo ap_php2js($ap_globals["playerOptions"]) ?>);
 			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo $ap_globals["pluginRoot"] ?>/blank.mp3", autostart:"yes", loop:"yes", encode:"no"});
 			</script>
 		</div>
@@ -165,9 +165,9 @@
 		</p>
 		<p>
 			<label for="ap_pagebgcolor"><strong>Page background color:</strong></label>
-			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBgColor"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
+			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBg"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
 			<label for="ap_transparentpagebg">
-				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( $ap_globals["transparentPageBgColor"] ) echo ' checked="checked"'; ?> />
+				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( $ap_globals["transparentPageBg"] ) echo ' checked="checked"'; ?> />
 				Transparent
 			</label>
 		</p>
