@@ -135,7 +135,7 @@
 			</div>
 			<script type="text/javascript">
 			AudioPlayer.setup("<?php echo $ap_globals["playerURL"] ?>", "<?php echo $ap_globals["playerWidth"] ?>", "<?php echo $ap_globals["transparentPageBg"]?'transparent':'opaque' ?>", "<?php echo $ap_globals["pageBgColor"]; ?>", <?php echo ap_php2js($ap_globals["playerOptions"]) ?>);
-			AudioPlayer.embed("ap-audioplayer", {soundFile:"<?php echo $ap_globals["pluginRoot"] ?>/blank.mp3", autostart:"yes", loop:"yes", encode:"no"});
+			AudioPlayer.embed("ap-audioplayer", {demomode:"yes"});
 			</script>
 		</div>
 		

@@ -57,9 +57,10 @@ class Application
 		autostart:false,
 		loop:false,
 		animation:true,
-		remaining:true,
+		remaining:false,
 		noinfo:false,
-		volume:80
+		demomode:false,
+		volume:60
 	};
 
 	/**
@@ -71,32 +72,34 @@ class Application
 	{
 		if(options != undefined) _setOptions(options);
 		
-		if(_options.encode) sourceFile = _sixBitDecode(sourceFile);
+		if(!_options.demomode && _options.encode) sourceFile = _sixBitDecode(sourceFile);
 		
-		var playerParams:Object = new Object();
+		if(!_options.demomode) {
+			var playerParams:Object = new Object();
+	
+			playerParams.initialVolume = _options.volume;
+			playerParams.enableCycling = _options.loop;
 
-		playerParams.initialVolume = _options.volume;
-		playerParams.enableCycling = _options.loop;
-
-		// Create audio player instance and load playlist
-		_player = new Player(playerParams);
+			// Create audio player instance and load playlist
+			_player = new Player(playerParams);
+			
+			var trackTitles:String = (_options.titles != undefined) ? _options.titles : "";
+			var trackArtists:String = (_options.artists != undefined) ? _options.artists : "";
+			_player.loadPlaylist(sourceFile, trackTitles, trackArtists);
 		
-		var trackTitles:String = (_options.titles != undefined) ? _options.titles : "";
-		var trackArtists:String = (_options.artists != undefined) ? _options.artists : "";
-		_player.loadPlaylist(sourceFile, trackTitles, trackArtists);
-		
-		_player.addListener(Application);
+			if(!_options.demomode) _player.addListener(Application);
+		}
 		
 		// Initial player state
 		_state = CLOSED;
-		if(!_options.animation || _options.autostart) _state = OPEN;
+		if(_options.demomode || !_options.animation || _options.autostart) _state = OPEN;
 		
 		_setStage();
 		
 		_setColors(true);
 
 		// Start player automatically if requested
-		if(_options.autostart) onPlay();
+		if(!_options.demomode && _options.autostart) onPlay();
 		
 		setInterval(_update, 100);
 	}
@@ -133,24 +136,26 @@ class Application
 		loading_mc = masked_mc.attachMovie("Loading", "loading_mc", 2);
 		
 		// Next and previous buttons (if needed)
-		if(_player.getTrackCount() > 1)
+		if(_options.demomode || _player.getTrackCount() > 1)
 		{
 			next_mc = masked_mc.attachMovie("Toggle", "next_mc", 3);
 			previous_mc = masked_mc.attachMovie("Toggle", "previous_mc", 4);
 			// Make it point the other way
 			previous_mc._rotation = -180;
 			
-			// Add event handlers
-			next_mc.onRelease = function() {
-				Application._player.next();
-				// Reset time display
-				Application.display_mc.setTime(0);
-			};
-			previous_mc.onRelease = function() {
-				Application._player.previous();
-				// Reset time display
-				Application.display_mc.setTime(0);
-			};
+			if(!_options.demomode) {
+				// Add event handlers
+				next_mc.onRelease = function() {
+					Application._player.next();
+					// Reset time display
+					Application.display_mc.setTime(0);
+				};
+				previous_mc.onRelease = function() {
+					Application._player.previous();
+					// Reset time display
+					Application.display_mc.setTime(0);
+				};
+			}
 		}
 		
 		// Mask
@@ -172,6 +177,16 @@ class Application
 		
 		// Align and resize elements to the stage
 		_alignAndResize();
+
+		if(_options.demomode) {
+			control_mc.toggle();
+			volume_mc.toggleControl(true);
+			volume_mc.update(_options.volume);
+			progress_mc.updateProgress(0.3);
+			loading_mc.update(0.6);
+			display_mc.setText("1 Pixel Out: Demo Mode", 0, true);
+			display_mc.setTime(356560, _options.remaining);
+		}
 		
 		// Set stage listener in case the stage is resized
 		Stage.addListener(Application);
@@ -189,14 +204,14 @@ class Application
 		var trackCount = _player.getTrackCount();
 		
 		progress_mc._x = volume_mc.realWidth + 4;
-		if(trackCount > 1) progress_mc._x += 8;
+		if(_options.demomode || trackCount > 1) progress_mc._x += 8;
 		progress_mc._y = 2;
 		
 		loading_mc._x = volume_mc.realWidth + 4;
-		if(trackCount > 1) loading_mc._x += 8;
+		if(_options.demomode || trackCount > 1) loading_mc._x += 8;
 		loading_mc._y = 20;
 		
-		if(trackCount > 1)
+		if(_options.demomode || trackCount > 1)
 		{
 			next_mc._x = Stage.width - 43;
 			next_mc._y = 12;
@@ -207,7 +222,7 @@ class Application
 		mask_mc._x = volume_mc.realWidth - 7;
 		
 		display_mc._x = volume_mc.realWidth + 6;
-		if(trackCount > 1) display_mc._x += 8;
+		if(_options.demomode || trackCount > 1) display_mc._x += 8;
 		display_mc._y = 2;
 		
 		// Control element alignment depends on whether player is open or closed
@@ -224,7 +239,7 @@ class Application
 		// Only resize mask if player is open
 		if(_state == OPEN) mask_mc._width = availSpace + 14;
 		
-		if(trackCount > 1) availSpace -= 12;
+		if(_options.demomode || trackCount > 1) availSpace -= 12;
 
 		// Call resize methods on composite elements
 		progress_mc.resize(availSpace - 8);
@@ -320,8 +335,8 @@ class Application
 		// Hide volume control
 		volume_mc.toggleControl(false);
 		
-		// Toggle play button state
-		control_mc.toggle();
+		// Toggle play button state (only if it's in pause state)
+		if(control_mc.state == "pause") control_mc.toggle();
 	}
 	
 	/**
@@ -430,6 +445,13 @@ class Application
 	*/
 	private static function _update():Void
 	{
+		// Set colour scheme at runtime
+		_setColors(false);
+
+		if(_options.demomode) {
+			return;
+		}
+		
 		// Get player state (head positions, stats etc)
 		var playerState:Object = _player.getState();
 		
@@ -495,9 +517,6 @@ class Application
 				display_mc.setTime(_options.remaining ? playerState.duration - playerState.position : playerState.position, _options.remaining);
 				break;
 		}
-		
-		// Set colour scheme at runtime
-		_setColors(false);
 	}
 	
 	/**
@@ -527,18 +546,4 @@ class Application
 		}
 		return (nntexto);
 	}
-	
-	/**
-	* Fake function for pre-compiling library classes
-	private function _preCompile()
-	{
-		var x;
-		x = new Control();
-		x = new Display();
-		x = new Loading();
-		x = new Progress();
-		x = new Ticker();
-		x = new Volume();
-	}
-	*/
 }

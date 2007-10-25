@@ -1,4 +1,4 @@
-import net.onepixelout.audio.*;
+﻿import net.onepixelout.audio.*;
 import com.freesome.events.LcBroadcast;
 import mx.utils.Delegate;
 
@@ -57,7 +57,7 @@ class net.onepixelout.audio.Player
 
 	// Options structure
 	private var _options:Object = {
-		initialVolume:70,
+		initialVolume:60,
 		enableCycling:true,
 		syncVolumes:true,
 		killDownloads:true
@@ -242,7 +242,7 @@ class net.onepixelout.audio.Player
 			this.stop(false);
 			this.play();
 		}
-		else this.stop(false);
+		else this.stop(true);
 	}
 
 	/**
