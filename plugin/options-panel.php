@@ -11,7 +11,7 @@
 
 	<ul id="ap-tabs">
 		<li id="ap-tab-general"><a href="#ap-panel-general">General</a></li>
-		<li id="ap-tab-colour"><a href="#ap-panel-colour">Appearance</a></li>
+		<li id="ap-tab-colour"><a href="#ap-panel-colour">Display</a></li>
 		<li id="ap-tab-feed"><a href="#ap-panel-feed">Feed options</a></li>
 		<li id="ap-tab-podcasting"><a href="#ap-panel-podcasting">Podcasting</a></li>
 		<li id="ap-tab-advanced" class="last"><a href="#ap-panel-advanced">Advanced</a></li>

@@ -14,8 +14,7 @@ var AP_Admin = new Class({
         this.tabs = this.tabBar.getElements("li");
         
         for (i = 0;i < this.tabs.length;i++) {
-            var tabID = this.tabs[i].getElement("a").getProperty("id");
-            this.tabs[i].addEvent("click", this.tabClick.bindWithEvent(this));
+            this.tabs[i].getElement("a").addEvent("click", this.tabClick.bindWithEvent(this));
             if (i === 0) {
                 this.tabs[i].addClass("ap-active");
             }
@@ -56,6 +55,7 @@ var AP_Admin = new Class({
         this.colorField.addEvent("keyup", this.updateColor.bind(this));
         
         this.themeColorPicker = $("ap_themecolor");
+        this.themeColorPicker.setStyle("display", "none");
         this.reorderThemeColors();
         this.themeColorPickerBtn = $("ap_themecolor_btn");
         this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
@@ -153,17 +153,23 @@ var AP_Admin = new Class({
         {
             this.getCurrentColorField().value = color;
             this.colorPicker.setColor(color);
+            $("ap-colorsample").setStyle("background-color", color);
             this.updatePlayer();
         }
     },
     
     updatePlayer : function () {
-    	var hiddenColorFields, i;
+    	var hiddenColorFields, i, playerElementID;
     	
-        if (!this.player) {
-            this.player = document.getElementById("ap_audioplayer_player");
-        }
-        
+    	playerElementID = "ap_audioplayer_player";
+    	if (window.document[playerElementID]) {
+    		this.player = window.document[playerElementID];
+    	} else if (!window.ie && document.embeds && document.embeds[playerElementID]) {
+    		this.player = document.embeds[playerElementID];
+    	} else {
+        	this.player = document.getElementById(playerElementID);
+    	}
+
         if (this.player) {
         	hiddenColorFields = $("ap-colorselector").getElements("input[type=hidden]");
         	for (i = 0;i < hiddenColorFields.length; i++) {
@@ -180,14 +186,11 @@ var AP_Admin = new Class({
     tabClick : function (evt) {
         var i;
         var target = $(evt.target);
-        var tab = target;
+        var tab = target.getParent();
         var activeTabID;
         
         evt.stop();
         
-        while (tab.getTag() != "li") {
-            tab = tab.getParent();
-        }
         if (tab.hasClass("ap-active")) {
             return;
         }
@@ -202,7 +205,13 @@ var AP_Admin = new Class({
         
         activeTabID = target.getProperty("href").replace(/[^#]*#/, "");
         $(activeTabID).setStyle("display", "block");
-        if(activeTabID == "ap-panel-colour") this.updatePlayer.delay(500, this);
+        if (window.gecko || window.webkit) {
+	        if (activeTabID == "ap-panel-colour") {
+	        	this.timer = this.updatePlayer.delay(500, this);
+	        } else if (this.timer) {
+	        	$clear(this.timer);
+	        }
+        }
     }
 
 });
