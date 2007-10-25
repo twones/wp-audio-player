@@ -57,7 +57,7 @@ class Application
 		autostart:false,
 		loop:false,
 		animation:true,
-		showRemaining:true,
+		remaining:true,
 		volume:80
 	};
 
@@ -489,7 +489,7 @@ class Application
 					else message = "Track #" + (playerState.trackIndex + 1);
 				}
 				display_mc.setText(message, 0, true);
-				display_mc.setTime(_options.showRemaining ? playerState.duration - playerState.position : playerState.position, _options.showRemaining);
+				display_mc.setTime(_options.remaining ? playerState.duration - playerState.position : playerState.position, _options.remaining);
 				break;
 		}
 		
