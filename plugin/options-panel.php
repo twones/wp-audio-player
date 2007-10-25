@@ -192,7 +192,7 @@
 		</p>
 		<p>
 			<label for="ap_rsscustomalternate">Custom  alternate content:</label>
-			<input type="text" id="ap_rsscustomalternate" name="ap_rsscustomalternate" size="60" value="<?php echo( $ap_globals["customRssAlternate"] ); ?>" />
+			<input type="text" id="ap_rsscustomalternate" name="ap_rsscustomalternate" size="60" value="<?php echo( $ap_globals["rssCustomAlternate"] ); ?>" />
 		</p>
 	</div>
 	

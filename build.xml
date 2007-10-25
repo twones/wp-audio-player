@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Audio Player WordPress plugin" basedir="." default="deploy">
 	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${ant.library.dir}/jsmin.0.2.2.jar"/>
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${ant.library.dir}/ant-contrib-1.0b3.jar"/>
 	
 	<property name="build" value="build"/>
 	<property name="dist" value="dist"/>
@@ -21,9 +22,17 @@
 	</target>
 
 	<target name="deploy" depends="build" description="Deploy to local webserver">
-		<delete dir="${deploy.path}"/>
-		<unzip src="${dist}\audio-player.zip" dest="${deploy.path}" overwrite="true"/>
+		<foreach target="deploy.to" param="deploy.dir">
+			<path>
+				<dirset dir="${deploy.path}" includes="wp*"/>
+			</path>
+		</foreach>
 		<antcall target="clean"/>
+	</target>
+
+	<target name="deploy.to">
+		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
+		<unzip src="${dist}\audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
 	</target>
 
 	<target name="build" depends="init" description="Build plugin archive">
@@ -46,7 +55,7 @@
 		<filter token="destFile" value="file:///${basedir}/source/player.swf"/>
 		<copy file="swfcompile.template" tofile="swfcompile.jsfl" filtering="true"/>
 		<replaceregexp file="swfcompile.jsfl" match="\\" replace="/" flags="g"/>
-	    <exec executable="${flash}">
+	    <exec executable="${flash.exe}">
 	        <arg line="'${test.jsfl}'"/>
 	    </exec>
 	</target>

@@ -56,6 +56,7 @@ var AP_Admin = new Class({
         this.colorField.addEvent("keyup", this.updateColor.bind(this));
         
         this.themeColorPicker = $("ap_themecolor");
+        this.reorderThemeColors();
         this.themeColorPickerBtn = $("ap_themecolor_btn");
         this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
         document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
@@ -108,6 +109,27 @@ var AP_Admin = new Class({
         this.themeColorPicker.setStyle("display", "none");
     },
     
+    reorderThemeColors : function () {
+    	var swatchList = this.themeColorPicker.getElement("ul");
+    	var swatches = swatchList.getElements("li");
+    	swatches.sort(function (a, b) {
+    		var colorA = new Color(a.getProperty("title"));
+    		var colorB = new Color(b.getProperty("title"));
+    		colorA = colorA.rgbToHsb();
+    		colorB = colorB.rgbToHsb();
+    		if (colorA[2] < colorB[2]) {
+    			return 1;
+    		}
+    		if (colorA[2] > colorB[2]) {
+    			return -1;
+    		}
+    		return 0;
+    	});
+    	swatches.each(function (swatch) {
+    		swatch.injectTop(swatchList);
+    	});
+    },
+    
     pickThemeColor : function (evt) {
         var target = $(evt.target);
         if (target.getTag() != "li") {
@@ -136,12 +158,17 @@ var AP_Admin = new Class({
     },
     
     updatePlayer : function () {
+    	var hiddenColorFields, i;
+    	
         if (!this.player) {
             this.player = document.getElementById("ap_audioplayer_player");
         }
         
         if (this.player) {
-            this.player.SetVariable(this.fieldSelector.getValue(), this.getCurrentColorField().getValue().replace("#", "0x"));
+        	hiddenColorFields = $("ap-colorselector").getElements("input[type=hidden]");
+        	for (i = 0;i < hiddenColorFields.length; i++) {
+	            this.player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", "0x"));
+        	}
             this.player.SetVariable("setcolors", 1);
         }
     },
@@ -154,6 +181,7 @@ var AP_Admin = new Class({
         var i;
         var target = $(evt.target);
         var tab = target;
+        var activeTabID;
         
         evt.stop();
         
@@ -171,7 +199,10 @@ var AP_Admin = new Class({
         for (i = 0;i < this.panels.length;i++) {
             this.panels[i].setStyle("display", "none");
         }
-        $(target.getProperty("href").replace(/[^#]*#/, "")).setStyle("display", "block");
+        
+        activeTabID = target.getProperty("href").replace(/[^#]*#/, "");
+        $(activeTabID).setStyle("display", "block");
+        if(activeTabID == "ap-panel-colour") this.updatePlayer.delay(500, this);
     }
 
 });
