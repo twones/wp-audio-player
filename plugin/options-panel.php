@@ -75,38 +75,11 @@
 	</div>
 	
 	<div class="ap-panel" id="ap-panel-colour">
-		<h3>Enable/disable the animation</h3>
-		<p>If you don't like the open/close animation, you can disable it here.</p>
-		<ul class="ap-optionlist">
-			<li>
-				<label for="ap_disableAnimation">
-				<input type="checkbox" name="ap_disableAnimation" id="ap_disableAnimation" value="true"<?php if(!$ap_globals["enableAnimation"]) echo ' checked="checked"'; ?> />
-				<strong>Disable animation</strong></label>
-			</li>
-		</ul>
-		<h3>Show remaining time</h3>
-		<p>This will make the time display count down rather than up.</p>
-		<ul class="ap-optionlist">
-			<li>
-				<label for="ap_showRemaining">
-				<input type="checkbox" name="ap_showRemaining" id="ap_showRemaining" value="true"<?php if($ap_globals["showRemaining"]) echo ' checked="checked"'; ?> />
-				<strong>Show remaining time</strong></label>
-			</li>
-		</ul>
-		<h3>Disable track information</h3>
-		<p>Select this if you wish to disable track information display (the player won't show titles or artist names even if they are available)</p>
-		<ul class="ap-optionlist">
-			<li>
-				<label for="ap_disableTrackInformation">
-				<input type="checkbox" name="ap_disableTrackInformation" id="ap_disableTrackInformation" value="true"<?php if($ap_globals["disableTrackInformation"]) echo ' checked="checked"'; ?> />
-				<strong>Disable track information</strong></label>
-			</li>
-		</ul>
 		<h3>Player width</h3>
-		<p>If you don't like the open/close animation, you can disable it here.</p>
 		<p>
 			<label for="ap_player_width">Player width</label>
 			<input type="text" id="ap_player_width" name="ap_player_width" value="<?php echo $ap_globals["playerWidth"]; ?>" size="10" />
+			You can enter a value in pixels (e.g. 200) or as a percentage (e.g. 100%)
 		</p>
 		<h3>Colour scheme</h3>
 		<div id="ap-colorscheme">
@@ -180,6 +153,27 @@
 				Transparent
 			</label>
 		</p>
+		<h3>Options</h3>
+		<ul class="ap-optionlist">
+			<li>
+				<label for="ap_disableAnimation">
+				<input type="checkbox" name="ap_disableAnimation" id="ap_disableAnimation" value="true"<?php if(!$ap_globals["enableAnimation"]) echo ' checked="checked"'; ?> />
+				<strong>Disable animation</strong></label><br />
+				If you don't like the open/close animation, you can disable it here.
+			</li>
+			<li>
+				<label for="ap_showRemaining">
+				<input type="checkbox" name="ap_showRemaining" id="ap_showRemaining" value="true"<?php if($ap_globals["showRemaining"]) echo ' checked="checked"'; ?> />
+				<strong>Show remaining time</strong></label><br />
+				This will make the time display count down rather than up.
+			</li>
+			<li>
+				<label for="ap_disableTrackInformation">
+				<input type="checkbox" name="ap_disableTrackInformation" id="ap_disableTrackInformation" value="true"<?php if($ap_globals["disableTrackInformation"]) echo ' checked="checked"'; ?> />
+				<strong>Disable track information</strong></label><br />
+				Select this if you wish to disable track information display (the player won't show titles or artist names even if they are available)
+			</li>
+		</ul>
 	</div>
 	
 	<div class="ap-panel" id="ap-panel-feed">
@@ -250,7 +244,7 @@
 				<strong>use SWFObject</strong></label>
 			</li>
 		</ul>
-		<h3>Include embed method JavaScript file</h3>
+		<h4>Include embed method JavaScript file</h4>
 		<p>Only disable this if you know that you have a plugin that includes it already or if you are including it yourself.</p>
 		<ul class="ap-optionlist">
 			<li>
