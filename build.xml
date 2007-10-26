@@ -8,7 +8,7 @@
 
 	<property file="build.properties"/>
 
-	<property name="swfcompile.jsfl" value="${basedir}\swfcompile.jsfl"/>
+	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
 	
 	<target name="init" depends="clean">
 		<mkdir dir="${build}"/>
@@ -47,32 +47,33 @@
 
 	<target name="deploy" depends="build">
 		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
-		<unzip src="${dist}\audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
+		<unzip src="${dist}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
 	</target>
 
 	<target name="build" depends="init" description="Build plugin archive">
 		<copy todir="${build}">
-			<fileset dir=".\plugin">
+			<fileset dir="./plugin">
 				<include name="**/*.*"/>
 				<exclude name="**/graphics-source.png"/>
+				<exclude name="**/mootools.js"/>
 			</fileset>
 		</copy>
+		<move file="${build}/lib/mootools-compressed.js" tofile="${build}/lib/mootools.js"/>
 		
 		<condition property="swfExists">
-	    	<available file="source\player.swf"/>
+	    	<available file="source/player.swf"/>
 	    </condition>
 		
 		<antcall target="compileIfMissing"/>
 		
-		<copy todir="${build}" file="source\player.swf"/>
+		<copy todir="${build}" file="source/player.swf"/>
 		
-		<!-- Minify JavaScript files
+		<!-- Minify JavaScript files (except mootools) -->
 		<jsmin force="true">
-			<fileset dir="${build}" includes="**/*.js"/>
+			<fileset dir="${build}" includes="**/*.js" excludes="**/mootools*"/>
 		</jsmin>
-		 -->
 		
-		<zip destfile="${dist}\audio-player.zip" basedir="${build}"/>
+		<zip destfile="${dist}/audio-player.zip" basedir="${build}"/>
 	</target>
 	
 	<target name="compileIfMissing" unless="swfExists">

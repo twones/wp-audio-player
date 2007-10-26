@@ -480,11 +480,11 @@ function ap_wp_head() {
 	}
 	
 	if ($ap_globals["includeEmbedFile"]) {
-		echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
+		echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'lib/' . $ap_globals["embedMethod"] . '.js"></script>';
 		echo "\n";
 	}
 	
-	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'assets/audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
 	echo '<script type="text/javascript">';
 	echo "\n";
@@ -503,19 +503,19 @@ function ap_wp_admin_head() {
 		return;
 	}
 	
-	echo '<link href="' . $ap_globals["pluginRoot"] . 'audio-player-admin.css" rel="stylesheet" type="text/css" />';
+	echo '<link href="' . $ap_globals["pluginRoot"] . 'assets/audio-player-admin.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
 	echo '<link href="' . $ap_globals["pluginRoot"] . 'colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'mootools.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'lib/mootools.js"></script>';
 	echo "\n";
 	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'colorpicker/moocolorpicker.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-admin.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'assets/audio-player-admin.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'lib/' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
-	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
+	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'assets/audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
 }
 
