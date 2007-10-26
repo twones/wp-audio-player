@@ -21,7 +21,7 @@
 		<delete file="swfcompile.jsfl"/>
 	</target>
 
-	<target name="deploy.to.all" description="Deploy to all local test sites">
+	<target name="deploy.to.all" depends="build" description="Deploy to all local test sites">
 		<foreach target="deploy" param="deploy.dir">
 			<path>
 				<dirset dir="${deploy.path}" includes="wp*"/>
@@ -30,7 +30,7 @@
 		<antcall target="clean"/>
 	</target>
 
-	<target name="deploy.to" description="Deploy to one local test site">
+	<target name="deploy.to" depends="build" description="Deploy to one local test site">
 		<input message="Please select test site to deploy to:" addproperty="wp.version" defaultvalue="wp23"/>
 		<antcall target="deploy">
 			<param name="deploy.dir" value="${deploy.path}/${wp.version}"/>
@@ -38,14 +38,14 @@
 		<antcall target="clean"/>
 	</target>
 
-	<target name="deploy.default" description="Deploy to default local test site">
+	<target name="deploy.default" depends="build" description="Deploy to default local test site">
 		<antcall target="deploy">
 			<param name="deploy.dir" value="${deploy.path}/${default.deploy.version}"/>
 		</antcall>
 		<antcall target="clean"/>
 	</target>
 
-	<target name="deploy" depends="build">
+	<target name="deploy">
 		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
 		<unzip src="${dist}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
 	</target>
