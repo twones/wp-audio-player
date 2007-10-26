@@ -30,6 +30,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// ------------------------------------------------------------------------------
+// Options setup
+// ------------------------------------------------------------------------------
+
 // Option defaults
 
 add_option('audio_player_web_path', '/audio', "Web path to audio files", true);
@@ -41,7 +45,7 @@ add_option('audio_player_embedmethod', 'ufo', "Flash embed method", true);
 add_option('audio_player_includeembedfile', 'yes', "Include embed method file", true);
 add_option('audio_player_behaviour', 'default', "Plugin behaviour", true);
 add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true);
-add_option('audio_player_rsscustomalternate', '[See post to listen to audio]', "Custom RSS alternate content", true);
+add_option('audio_player_rsscustomalternate', '[View full post to listen to audio]', "Custom RSS alternate content", true);
 add_option('audio_player_prefixaudio', '', "Pre-stream audio", true);
 add_option('audio_player_postfixaudio', '', "Post-stream audio", true);
 add_option('audio_player_initialvolume', '80', "Initial volume", true);
@@ -104,7 +108,10 @@ if(get_option('audio_player_iconcolor') != '' && get_option('audio_player_leftic
 add_option('audio_player_transparentpagebgcolor', 'yes', "Transparent player background", true);
 add_option('audio_player_pagebgcolor', '#FFFFFF', "Page background color", true);
 
-// Global variables
+// ------------------------------------------------------------------------------
+// Global variables for Audio Player
+// ------------------------------------------------------------------------------
+
 $ap_globals = array();
 
 function ap_setGlobals() {
@@ -134,6 +141,7 @@ function ap_setGlobals() {
 	$ap_globals["playerWidth"] = get_option("audio_player_width");
 	$ap_globals["initialVolume"] = get_option("audio_player_initialvolume");
 	$ap_globals["embedMethod"] = get_option("audio_player_embedmethod");
+	
 	// Make sure these values are converted to real boolean values
 	$ap_globals["includeEmbedFile"] = (get_option("audio_player_includeembedfile") == "yes");
 	$ap_globals["encodeSource"] = (get_option("audio_player_encodeSource") == "yes");
@@ -141,6 +149,7 @@ function ap_setGlobals() {
 	$ap_globals["showRemaining"] = (get_option("audio_player_showRemaining") == "yes");
 	$ap_globals["disableTrackInformation"] = (get_option("audio_player_noinfo") == "yes");
 	$ap_globals["transparentPageBg"] = (get_option("audio_player_transparentpagebgcolor") == "yes");
+	
 	$ap_globals["pageBgColor"] = get_option("audio_player_pagebgcolor");
 
 	$ap_globals["prefixAudio"] = get_option("audio_player_prefixaudio");
@@ -169,25 +178,39 @@ function ap_setGlobals() {
 
 	// Initialise playerID (each instance gets unique ID)
 	$ap_globals["playerID"] = 0;
+
+	// Flag for dealing with excerpts
+	$ap_globals["in_excerpt"] = false;
 }
 
+// Set globals
 ap_setGlobals();
+
+// ------------------------------------------------------------------------------
+// Player widget functions
+// ------------------------------------------------------------------------------
 
 // Filter function (inserts player instances according to behaviour option)
 function ap_insert_player_widgets($content = '') {
 	global $ap_globals, $comment;
 	
-	// Reset instance array
+	// Reset instance array (this is so we don't insert duplicate players)
 	$ap_globals["instances"] = array();
 
-	// Replace mp3 links
-	if ( in_array( "links", $ap_globals["behaviour"] ) ) $content = preg_replace_callback( "/<a ([^=]+=\"[^\"]+\" )*href=\"([^\"]+\.mp3)\"( [^=]+=\"[^\"]+\")*>[^<]+<\/a>/i", "ap_replace", $content );
+	// Replace mp3 links (don't do this in feeds and excerpts)
+	if ( !is_feed() && !$ap_globals["in_excerpt"] && in_array( "links", $ap_globals["behaviour"] ) ) {
+		$pattern = "/<a ([^=]+=\"[^\"]+\" )*href=\"(([^\"]+\.mp3))\"( [^=]+=\"[^\"]+\")*>[^<]+<\/a>/i";
+		$content = preg_replace_callback( $pattern, "ap_replace", $content );
+	}
 	
 	// Replace [audio syntax]
-	if( in_array( "default", $ap_globals["behaviour"] ) ) $content = preg_replace_callback( "/(<p>)?\[audio:(([^]]+))\](<\/p>)?/i", "ap_replace", $content );
+	if( in_array( "default", $ap_globals["behaviour"] ) ) {
+		$pattern = "/(<p>)?\[audio:(([^]]+))\](<\/p>)?/i";
+		$content = preg_replace_callback( $pattern, "ap_replace", $content );
+	}
 
-	// Enclosure integration
-	if( !$comment && in_array( "enclosure", $ap_globals["behaviour"] ) ) {
+	// Enclosure integration (don't do this for feeds, excerpts and comments)
+	if( !is_feed() && !$ap_globals["in_excerpt"] && !$comment && in_array( "enclosure", $ap_globals["behaviour"] ) ) {
 		$enclosure = get_enclosed($post_id);
 
 		// Insert prefix and postfix clips if set
@@ -212,22 +235,34 @@ function ap_insert_player_widgets($content = '') {
 // Callback function for preg_replace_callback
 function ap_replace($matches) {
 	global $ap_globals;
+	
 	// Split options
 	$data = preg_split("/[\|]/", $matches[3]);
 	$files = array();
 	
+	// Alternate content for excerpts (don't do this for feeds)
+	if($ap_globals["in_excerpt"] && !is_feed()) {
+		return "Audio Player excerpt";
+	}
+	
 	if (!is_feed()) {
 		// Insert prefix clip if set
-		if( $ap_globals["prefixAudio"] != "" ) {
+		if ( $ap_globals["prefixAudio"] != "" ) {
 			$afile = $ap_globals["prefixAudio"];
-			if (!ap_isAbsoluteURL($afile)) $afile = $ap_globals["audioRoot"] . "/" . $afile;
+			if (!ap_isAbsoluteURL($afile)) {
+				$afile = $ap_globals["audioRoot"] . "/" . $afile;
+			}
 			array_push( $files, $afile );
 		}
 	}
 
-	// If file doesn't start with http:// or ftp://, assume it is in the default audio folder
+	// Create an array of files to load in player
 	foreach ( explode( ",", $data[0] ) as $afile ) {
-		if (!ap_isAbsoluteURL($afile)) $afile = $ap_globals["audioRoot"] . "/" . $afile;
+		// Get absolute URLs for relative ones
+		if (!ap_isAbsoluteURL($afile)) {
+			$afile = $ap_globals["audioRoot"] . "/" . $afile;
+		}
+		
 		array_push( $files, $afile );
 
 		// Add source file to instances already added to the post
@@ -236,15 +271,15 @@ function ap_replace($matches) {
 
 	if (!is_feed()) {
 		// Insert postfix clip if set
-		if( $ap_globals["postfixAudio"] != "" ) {
+		if ( $ap_globals["postfixAudio"] != "" ) {
 			$afile = $ap_globals["postfixAudio"];
-			if (!ap_isAbsoluteURL($afile)) $afile = $ap_globals["audioRoot"] . "/" . $afile;
+			if (!ap_isAbsoluteURL($afile)) {
+				$afile = $ap_globals["audioRoot"] . "/" . $afile;
+			}
 			array_push( $files, $afile );
 		}
 	}
 
-	$file = implode( ",", $files );
-	
 	// Build runtime options array
 	$options = array();
 	for ($i = 1; $i < count($data); $i++) {
@@ -253,7 +288,7 @@ function ap_replace($matches) {
 	}
 	
 	// Return player instance code
-	return ap_getplayer( $file, $options );
+	return ap_getplayer( implode( ",", $files ), $options );
 }
 
 // Generic player instance function (returns object tag code)
@@ -263,9 +298,8 @@ function ap_getplayer($source, $options = array()) {
 	// Get next player ID
 	$ap_globals["playerID"]++;
 	
+	// Add source to options and encode if necessary
 	$options["soundFile"] = $source;
-
-	// Add source to options
 	if ($ap_globals["encodeSource"]) {
 		$options["soundFile"] = ap_encodeSource($source);
 	}
@@ -291,12 +325,12 @@ function ap_getplayer($source, $options = array()) {
 			break;
 
 		case "custom":
-			return $ap_globals["customRssAlternate"];
+			return $ap_globals["rssCustomAlternate"];
 			break;
 
 		}
 	} else {
-		// Not in a feed so return formatted object tag
+		// Not in a feed so return player widget
 		$playerElementID = "audioplayer_" . $ap_globals["playerID"];
 		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '"><em><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio sample. You also need to have JavaScript enabled on your browser.</em></p>';
 		$playerCode .= '<script type="text/javascript"><!--';
@@ -304,29 +338,42 @@ function ap_getplayer($source, $options = array()) {
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
 		$playerCode .= "\n";
 		$playerCode .= '--></script>';
-		// TODO: Download links
-		/*$files = explode(",", $source);
-		for ($i = 0; $i < count($files); $i++) {
-			$fileparts = explode("/", $files[$i]);
-			$fileName = $fileparts[count($fileparts)-1];
-			$playerCode .= '<p><a href="' . $files[$i] . '">Download audio file (' . $fileName . ')</a></p>';
-		}*/
 		return $playerCode;
 	}
 }
 
-// Add filter hook
-add_filter('the_content', 'ap_insert_player_widgets');
-if(in_array("comments", $ap_globals["behaviour"])) add_filter('comment_text', 'ap_insert_player_widgets');
+// ------------------------------------------------------------------------------
+// Excerpt helper functions
+// Sets a flag so we know we are in an automatically created excerpt
+// ------------------------------------------------------------------------------
 
-// Helper function for displaying a system message
-function ap_showMessage( $message, $type="updated" ) {
-	echo '<div id="message" class="' . $type . ' fade"><p><strong>' . $message . '</strong></p></div>';
+// Sets a flag when getting an excerpt
+function ap_in_excerpt($text = '') {
+	global $ap_globals;
+
+	// Only set the flag when the excerpt is empty and WP creates one automatically)
+	if('' == $text) $ap_globals["in_excerpt"] = true;
+
+	return $text;
 }
 
+// Resets a flag after getting an excerpt
+function ap_outof_excerpt($text = '') {
+	global $ap_globals;
+
+	$ap_globals["in_excerpt"] = false;
+
+	return $text;
+}
+
+// ------------------------------------------------------------------------------
 // Option panel functionality
+// ------------------------------------------------------------------------------
+
 function ap_options_subpanel() {
 	global $ap_globals;
+	
+	$ap_updated = false;
 	
 	// Update plugin options
 	if( $_POST['Submit'] ) {
@@ -406,23 +453,21 @@ function ap_options_subpanel() {
 		ap_setGlobals();
 		
 		// Print confirmation message
-		ap_showMessage( "Options updated." );
+		$ap_updated = true;
 	}
 
+	// Get the current theme colors for the theme color picker
 	$ap_theme_colors = ap_get_theme_colors();
 
 	// Include options panel
 	include( "options-panel.php" );
 }
 
+// ------------------------------------------------------------------------------
+// Header content (css and javascript)
+// ------------------------------------------------------------------------------
 
-// Add options page to admin menu
-function ap_post_add_options() {
-	add_options_page('Audio player options', 'Audio Player', 8, 'audio-player-options', 'ap_options_subpanel');
-}
-add_action('admin_menu', 'ap_post_add_options');
-
-// Output script tag in WP front-end head
+// Output necessary stuff to WP head section
 function ap_wp_head() {
 	global $ap_globals;
 	
@@ -448,12 +493,12 @@ function ap_wp_head() {
 	echo '</script>';
 	echo "\n";
 }
-add_action('wp_head', 'ap_wp_head');
 
-// Output script tag in WP admin head
+// Output necessary stuff to WP admin head section
 function ap_wp_admin_head() {
 	global $ap_globals;
 	
+	// Do nothing if not on Audio Player options page
 	if (!($_GET["page"] == "audio-player-options")) {
 		return;
 	}
@@ -473,10 +518,33 @@ function ap_wp_admin_head() {
 	echo '<script type="text/javascript" src="' . $ap_globals["pluginRoot"] . 'audio-player-' . $ap_globals["embedMethod"] . '.js"></script>';
 	echo "\n";
 }
+
+// ------------------------------------------------------------------------------
+// WP hooks
+// ------------------------------------------------------------------------------
+
+add_action('wp_head', 'ap_wp_head');
 add_action('admin_head', 'ap_wp_admin_head');
+function ap_post_add_options() {
+	add_options_page('Audio player options', 'Audio Player', 8, 'audio-player-options', 'ap_options_subpanel');
+}
+add_action('admin_menu', 'ap_post_add_options');
 
+// Filters
+add_filter('the_content', 'ap_insert_player_widgets');
+if(in_array("comments", $ap_globals["behaviour"])) {
+	add_filter('comment_text', 'ap_insert_player_widgets');
+}
+add_filter('get_the_excerpt', 'ap_in_excerpt', 1);
+add_filter('get_the_excerpt', 'ap_outof_excerpt', 12);
+add_filter('the_excerpt', 'ap_insert_player_widgets');
+add_filter('the_excerpt_rss', 'ap_insert_player_widgets');
+
+// ------------------------------------------------------------------------------
 // Helper functions
+// ------------------------------------------------------------------------------
 
+// Parses theme style sheet and returns an array of color codes
 function ap_get_theme_colors() {
 	$current_theme_data = get_theme(get_current_theme());
 
@@ -487,6 +555,7 @@ function ap_get_theme_colors() {
 	return array_unique($matches[1]);
 }
 
+// Formats a php associative array into a javascript object
 function ap_php2js($object) {
 	$js_options = '{';
 	$separator = "";
@@ -500,6 +569,7 @@ function ap_php2js($object) {
 	return $js_options;
 }
 
+// Returns true if $path is absolute
 function ap_isAbsoluteURL($path) {
 	if (strpos($path, "http://") === 0) {
 		return true;
@@ -513,20 +583,21 @@ function ap_isAbsoluteURL($path) {
 	return false;
 }
 
-function ap_encodeSource($source) {
-	$source = utf8_decode($source);
+// Encodes the given string
+function ap_encodeSource($string) {
+	$source = utf8_decode($string);
 	$ntexto = "";
 	$codekey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
-	for ($i = 0; $i < strlen($source); $i++) {
-		$ntexto .= substr("0000".base_convert(ord($source{$i}), 10, 2), -8);
+	for ($i = 0; $i < strlen($string); $i++) {
+		$ntexto .= substr("0000".base_convert(ord($string{$i}), 10, 2), -8);
 	}
 	$ntexto .= substr("00000", 0, 6-strlen($ntexto)%6);
-	$source = "";
+	$string = "";
 	for ($i = 0; $i < strlen($ntexto)-1; $i = $i + 6) {
-		$source .= $codekey{intval(substr($ntexto, $i, 6), 2)};
+		$string .= $codekey{intval(substr($ntexto, $i, 6), 2)};
 	}
 	
-	return $source;
+	return $string;
 }
 
 ?>

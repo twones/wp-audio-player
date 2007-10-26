@@ -1,3 +1,7 @@
+<?php if ($ap_updated) { ?>
+<div id="message" class="updated fade"><p><strong>Options updated</strong></p></div>
+<?php } ?>
+
 <div class="wrap">
 	<h2>Audio Player options</h2>
 
