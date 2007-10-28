@@ -358,6 +358,7 @@ function ap_options_subpanel() {
 		check_admin_referer('audio-player-action');
 	
 		// Set audio web path
+		$_POST['ap_audiowebpath'] = trim($_POST['ap_audiowebpath']);
 		if ( substr( $_POST['ap_audiowebpath'], -1 ) == "/" ) {
 			$_POST['ap_audiowebpath'] = substr( $_POST['ap_audiowebpath'], 0, strlen( $_POST['ap_audiowebpath'] ) - 1 );
 		}
@@ -402,25 +403,35 @@ function ap_options_subpanel() {
 			update_option('audio_player_behaviour', '');
 		}
 
-		update_option('audio_player_excerptalternate', stripslashes($_POST['ap_excerptalternate']));
+		update_option('audio_player_excerptalternate', trim(stripslashes($_POST['ap_excerptalternate'])));
 
 		update_option('audio_player_rssalternate', $_POST['ap_rssalternate']);
-		update_option('audio_player_rsscustomalternate', stripslashes($_POST['ap_rsscustomalternate']));
-		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
-		update_option('audio_player_postfixaudio', $_POST['ap_audiopostfixwebpath']);
+		update_option('audio_player_rsscustomalternate', trim(stripslashes($_POST['ap_rsscustomalternate'])));
+		update_option('audio_player_prefixaudio', trim($_POST['ap_audioprefixwebpath']));
+		update_option('audio_player_postfixaudio', trim($_POST['ap_audiopostfixwebpath']));
 
-		update_option('audio_player_width', $_POST['ap_player_width']);
-		update_option('audio_player_initialvolume', $_POST['ap_initial_volume']);
+		$_POST['ap_player_width'] = trim($_POST['ap_player_width']);
+		if ( preg_match("/^[0-9]+%?$/", $_POST['ap_player_width']) == 1 ) {
+			update_option('audio_player_width', $_POST['ap_player_width']);
+		}
+
+		$_POST['ap_initial_volume'] = trim($_POST['ap_initial_volume']);
+		if ( preg_match("/^[0-9]+$/", $_POST['ap_initial_volume']) == 1 ) {
+			$_POST['ap_initial_volume'] = intval($_POST['ap_initial_volume']);
+			if ($_POST['ap_initial_volume'] <= 100) {
+				update_option('audio_player_initialvolume', $_POST['ap_initial_volume']);
+			}
+		}
 
 		// Update colour options
 		foreach ( $ap_globals["colorkeys"] as $colorkey ) {
 			// Ignore missing or invalid color values
-			if( isset( $_POST["ap_" . $colorkey . "color"] ) && preg_match( "/#[0-9A-Fa-f]{6}/", $_POST["ap_" . $colorkey . "color"] ) == 1 ) {
+			if ( isset( $_POST["ap_" . $colorkey . "color"] ) && preg_match( "/^#[0-9A-Fa-f]{6}$/", $_POST["ap_" . $colorkey . "color"] ) == 1 ) {
 				update_option( "audio_player_" . $colorkey . "color", str_replace( "#", "", $_POST["ap_" . $colorkey . "color"] ) );
 			}
 		}
 
-		if ( isset( $_POST["ap_pagebgcolor"] ) && preg_match( "/#[0-9A-Fa-f]{6}/", $_POST["ap_pagebgcolor"] ) == 1 ) {
+		if ( isset( $_POST["ap_pagebgcolor"] ) && preg_match( "/^#[0-9A-Fa-f]{6}$/", $_POST["ap_pagebgcolor"] ) == 1 ) {
 			update_option('audio_player_pagebgcolor', str_replace( "#", "", $_POST['ap_pagebgcolor']));
 		}
 		if(isset( $_POST["ap_transparentpagebg"] )) {

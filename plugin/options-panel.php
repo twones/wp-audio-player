@@ -166,7 +166,7 @@
 		</p>
 		<p>
 			<label for="ap_pagebgcolor"><strong>Page background color:</strong></label>
-			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="#<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBg"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
+			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" maxlength="7" size="20" value="#<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBg"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
 			<label for="ap_transparentpagebg">
 				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( $ap_globals["transparentPageBg"] ) echo ' checked="checked"'; ?> />
 				Transparent
