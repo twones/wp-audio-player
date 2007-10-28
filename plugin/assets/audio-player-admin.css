@@ -7,6 +7,7 @@
 	background: #FFEFF7;
 	border: 1px solid #c69;
 	padding:10px;
+	
 }
 
 #ap-top-submit {
@@ -72,7 +73,7 @@ ul.ap-optionlist input { border:none; background:none; }
 }
 #ap-audioplayer-wrapper {
 	clear:both;
-	width:490px;
+	width:650px;
 	background:#FFFFFF;
 	padding:30px 15px;
 	border-top:1px solid #CCCCCC;
@@ -95,16 +96,33 @@ ul.ap-optionlist input { border:none; background:none; }
 	border:1px solid #000000;
 	background:#FFFFFF;
 }
-#ap_themecolor_btn {
+#ap-picker_btn {
 	display:block;
 	float:left;
-	padding:4px 10px;
+	height:21px;
+	background:url(picker-icon.png) no-repeat left top;
+	padding-left:28px;
+	padding-top:3px;
+	margin-left:10px;
 	font-size:11px;
 	cursor:pointer;
 	color:#0000FF;
 	text-decoration:underline;
 }
-#ap_themecolor {
+#ap-themecolor_btn {
+	display:block;
+	float:left;
+	height:21px;
+	background:url(theme-picker-icon.png) no-repeat left top;
+	padding-left:28px;
+	padding-top:3px;
+	margin-left:10px;
+	font-size:11px;
+	cursor:pointer;
+	color:#0000FF;
+	text-decoration:underline;
+}
+#ap-themecolor {
 	position:absolute;
 	display:none;
 	width:134px;
@@ -112,7 +130,7 @@ ul.ap-optionlist input { border:none; background:none; }
 	float:left;
 	background:url(thcpck-bottom.png) no-repeat left bottom;
 }
-#ap_themecolor span {
+#ap-themecolor span {
 	display:block;
 	text-indent:-9999px;
 	height:11px;
@@ -120,14 +138,14 @@ ul.ap-optionlist input { border:none; background:none; }
 	font-size:0;
 	background:url(thcpck-top.png) no-repeat left top;
 }
-#ap_themecolor ul {
+#ap-themecolor ul {
 	background:url(thcpck-slice.png) repeat-y left top;
 	padding:2px 14px 4px 15px;
 	float:left;
 	width:105px;
 	margin:0;
 }
-#ap_themecolor li {
+#ap-themecolor li {
 	cursor:pointer;
 	display:block;
 	text-indent:-9999px;

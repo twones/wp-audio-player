@@ -125,8 +125,9 @@
 				</select>
 				<input name="ap_colorvalue" type="text" id="ap-colorvalue" size="15" maxlength="7" />
 				<span id="ap-colorsample"></span>
-				<span id="ap_themecolor_btn">Pick from your theme</span>
-				<div id="ap_themecolor">
+				<span id="ap-picker_btn">Pick</span>
+				<span id="ap-themecolor_btn">From your theme</span>
+				<div id="ap-themecolor">
 					<span>Theme colors</span>
 					<ul>
 						<?php foreach($ap_theme_colors as $ap_theme_color) { ?>

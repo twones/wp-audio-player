@@ -39,7 +39,7 @@ var AP_Admin = new Class({
         this.colorPicker = new MooColorPicker({panelMode : true});
         this.colorPicker.hide();
         this.colorPicker.attach("ap-colorsample", "background-color");
-        $("ap-colorsample").addEvent("click", (function () {
+        $("ap-picker_btn").addEvent("click", (function () {
             this.colorPicker.show();
         }).bind(this));
         this.colorPicker.addEvent("selectColor", (function (color) {
@@ -54,10 +54,10 @@ var AP_Admin = new Class({
         this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
         this.colorField.addEvent("keyup", this.updateColor.bind(this));
         
-        this.themeColorPicker = $("ap_themecolor");
+        this.themeColorPicker = $("ap-themecolor");
         this.themeColorPicker.setStyle("display", "none");
         this.reorderThemeColors();
-        this.themeColorPickerBtn = $("ap_themecolor_btn");
+        this.themeColorPickerBtn = $("ap-themecolor_btn");
         this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
         document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
         document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
@@ -78,7 +78,7 @@ var AP_Admin = new Class({
     hideColorPicker : function (evt) {
         var el = $(evt.target);
         while (el.getTag() != "body") {
-            if (el.getProperty("id") == "ap-colorsample" || el.hasClass("moocp_color-picker")) {
+            if (el.getProperty("id") == "ap-picker_btn" || el.hasClass("moocp_color-picker")) {
                 return;
             }
             el = el.getParent();
@@ -89,11 +89,11 @@ var AP_Admin = new Class({
     showHideThemeColors : function (evt) {
         var el = $(evt.target);
         while (el.getTag() != "body") {
-            if (el.getProperty("id") == "ap_themecolor") {
+            if (el.getProperty("id") == "ap-themecolor") {
                 evt.stop();
                 return;
             }
-            if (el.getProperty("id") == "ap_themecolor_btn") {
+            if (el.getProperty("id") == "ap-themecolor_btn") {
                 var displayProp = this.themeColorPicker.getStyle("display");
                 var coords = this.themeColorPickerBtn.getCoordinates();
                 this.themeColorPicker.setStyles({
