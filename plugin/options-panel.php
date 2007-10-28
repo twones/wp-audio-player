@@ -79,6 +79,17 @@
 				When selected, Audio Player will be enabled for all comments on your blog.
 			</li>
 		</ul>
+
+		<h4>Alternate content for excerpts</h4>
+		<p>
+			WordPress automatically creates excerpts (summaries) for your posts. These are used by some themes
+			to show on archive pages instead of the full post. By default, WordPress strips all HTML from these excerpts. Here you can
+			choose what Audio Player inserts in excerpts in place of the player.
+		</p>
+		<p>
+			<label for="ap_excerptalternate">Alternate content for excerpts:</label>
+			<input type="text" id="ap_excerptalternate" name="ap_excerptalternate" size="60" value="<?php echo( $ap_globals["excerptAlternate"] ); ?>" />
+		</p>
 	</div>
 	
 	<div class="ap-panel" id="ap-panel-colour">

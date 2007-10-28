@@ -402,6 +402,8 @@ function ap_options_subpanel() {
 			update_option('audio_player_behaviour', '');
 		}
 
+		update_option('audio_player_excerptalternate', stripslashes($_POST['ap_excerptalternate']));
+
 		update_option('audio_player_rssalternate', $_POST['ap_rssalternate']);
 		update_option('audio_player_rsscustomalternate', stripslashes($_POST['ap_rsscustomalternate']));
 		update_option('audio_player_prefixaudio', $_POST['ap_audioprefixwebpath']);
