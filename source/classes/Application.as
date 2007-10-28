@@ -186,6 +186,7 @@ class Application
 			loading_mc.update(0.6);
 			display_mc.setText("1 Pixel Out: Demo Mode", 0, true);
 			display_mc.setTime(356560, _options.remaining);
+			previous_mc._alpha = 50;
 		}
 		
 		// Set stage listener in case the stage is resized
@@ -253,18 +254,30 @@ class Application
 	*/
 	private static function _setColors(force:Boolean):Void
 	{
-		if(!force && !_root.setcolors) return;
+		var i:Number;
+		var colorValue:String;
+		
+		if (!force && !_root.setcolors) {
+			return;
+		}
 		
 		// Update colour scheme from root variables (set via javascript)
-		for(var i:Number = 0;i<_colorKeys.length;i++)
+		for (i = 0;i < _colorKeys.length;i++)
 		{
-			if(_root[_colorKeys[i]] != undefined) _colorScheme[_colorKeys[i]] = _root[_colorKeys[i]];
+			if (_root[_colorKeys[i]] != undefined) {
+				// Handle missing '0x' prefixes
+				colorValue = _root[_colorKeys[i]];
+				if (colorValue.indexOf("0x") == -1) {
+					colorValue = "0x" + colorValue;
+				}
+				_colorScheme[_colorKeys[i]] = colorValue;
+			}
 		}
 		
 		_root.setcolors = 0;
 		
 		// Map colours to player elements
-		var colorTransforms = [
+		var colorTransforms:Array = [
 			{ target:background_mc, color:_colorScheme.bg },
 			{ target:volume_mc.background_mc, color:_colorScheme.leftbg },
 			{ target:volume_mc.icon_mc, color:_colorScheme.lefticon },
@@ -289,7 +302,7 @@ class Application
 		
 		// Apply colours
 		var tempColor:Color;
-		for(var i:Number = 0;i<colorTransforms.length;i++)
+		for(i = 0;i<colorTransforms.length;i++)
 		{
 			if(typeof(colorTransforms[i].target) == "movieclip")
 			{

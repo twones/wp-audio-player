@@ -15,7 +15,7 @@ var AudioPlayer = {
         var flashvars = "";
         var separator = "";
         var realSeparator = "&";
-		
+        
         var FO = {
             movie : this.playerURL,
             width : this.width.toString(),
@@ -35,6 +35,7 @@ var AudioPlayer = {
         }
         
         for (key in options) {
+        	if (key == "bgcolor") continue;
             instanceOptions[key] = options[key];
         }
         

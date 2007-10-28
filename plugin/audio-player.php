@@ -31,97 +31,28 @@ THE SOFTWARE.
 */
 
 // ------------------------------------------------------------------------------
-// Options setup
-// ------------------------------------------------------------------------------
-
-// Option defaults
-
-add_option('audio_player_web_path', '/audio', "Web path to audio files", true);
-add_option('audio_player_width', '290', "Player width", true);
-add_option('audio_player_enableAnimation', 'yes', "Enable animation", true);
-add_option('audio_player_showRemaining', 'no', "Show remaining time", true);
-add_option('audio_player_encodeSource', 'yes', "Encode mp3 file URLs", true);
-add_option('audio_player_embedmethod', 'ufo', "Flash embed method", true);
-add_option('audio_player_includeembedfile', 'yes', "Include embed method file", true);
-add_option('audio_player_behaviour', 'default', "Plugin behaviour", true);
-add_option('audio_player_rssalternate', 'nothing', "RSS alternate content", true);
-add_option('audio_player_rsscustomalternate', '[View full post to listen to audio]', "Custom RSS alternate content", true);
-add_option('audio_player_prefixaudio', '', "Pre-stream audio", true);
-add_option('audio_player_postfixaudio', '', "Post-stream audio", true);
-add_option('audio_player_initialvolume', '80', "Initial volume", true);
-add_option('audio_player_noinfo', 'no', "Disable track information", true);
-
-// Color options
-
-if(get_option('audio_player_iconcolor') != '' && get_option('audio_player_lefticoncolor') == '') {
-	// Upgrade options from version 0.x
-	$ap_color = '';
-	$ap_color = str_replace("#", "0x", get_option('audio_player_iconcolor'));
-	add_option('audio_player_lefticoncolor', $ap_color, "Left icon color", true);
-	add_option('audio_player_righticoncolor', $ap_color, "Right icon color", true);
-	add_option('audio_player_righticonhovercolor', $ap_color, "Right icon hover color", true);
-	delete_option('audio_player_iconcolor');
-
-	update_option('audio_player_textcolor', str_replace("#", "0x", get_option('audio_player_textcolor')));
-
-	$ap_color = str_replace("#", "0x", get_option('audio_player_bgcolor'));
-	update_option('audio_player_bgcolor', $ap_color);
-	add_option('audio_player_leftbgcolor', $ap_color, "Left background color", true);
-
-	$ap_color = str_replace("#", "0x", get_option('audio_player_buttoncolor'));
-	add_option('audio_player_rightbgcolor', $ap_color, "Right background color", true);
-	delete_option('audio_player_buttoncolor');
-
-	$ap_color = str_replace("#", "0x", get_option('audio_player_buttonhovercolor'));
-	add_option('audio_player_rightbghovercolor', $ap_color, "Right background hover color", true);
-	delete_option('audio_player_buttonhovercolor');
-
-	$ap_color = str_replace("#", "0x", get_option('audio_player_pathcolor'));
-	add_option('audio_player_trackcolor', $ap_color, "Progress track color", true);
-	delete_option('audio_player_pathcolor');
-
-	$ap_color = str_replace("#", "0x", get_option('audio_player_barcolor'));
-	add_option('audio_player_loadercolor', $ap_color, "Loader bar color", true);
-	add_option('audio_player_bordercolor', $ap_color, "Border color", true);
-	delete_option('audio_player_barcolor');
-
-	add_option('audio_player_slidercolor', '0x666666', "Progress slider color", true);
-} else {
-	// Default color options
-	add_option('audio_player_bgcolor', '0xE5E5E5', "Background color", true);
-	add_option('audio_player_textcolor', '0x333333', "Text color", true);
-	add_option('audio_player_leftbgcolor', '0xCCCCCC', "Left background color", true);
-	add_option('audio_player_lefticoncolor', '0x333333', "Left icon color", true);
-	add_option('audio_player_volslidercolor', '0x666666', "Volume track color", true);
-	add_option('audio_player_voltrackcolor', '0xF2F2F2', "Volume silder color", true);
-	add_option('audio_player_rightbgcolor', '0xB4B4B4', "Right background color", true);
-	add_option('audio_player_rightbghovercolor', '0x999999', "Right background hover color", true);
-	add_option('audio_player_righticoncolor', '0x333333', "Right icon color", true);
-	add_option('audio_player_righticonhovercolor', '0xFFFFFF', "Right icon hover color", true);
-	add_option('audio_player_trackcolor', '0xFFFFFF', "Progress track color", true);
-	add_option('audio_player_loadercolor', '0x009900', "Loader bar color", true);
-	add_option('audio_player_bordercolor', '0xCCCCCC', "Border color", true);
-	add_option('audio_player_trackercolor', '0xDDDDDD', "Progress bar color", true);
-	add_option('audio_player_skipcolor', '0x666666', "Next/Previous button color", true);
-}
-
-add_option('audio_player_transparentpagebgcolor', 'yes', "Transparent player background", true);
-add_option('audio_player_pagebgcolor', '#FFFFFF', "Page background color", true);
-
-// ------------------------------------------------------------------------------
 // Global variables for Audio Player
 // ------------------------------------------------------------------------------
 
 $ap_globals = array();
 
+$ap_globals["version"] = "2.0 beta";
+$ap_globals["docURL"] = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
+$ap_globals["colorkeys"] = array("bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip");
+$ap_globals["pluginRoot"] = get_settings('siteurl') . '/wp-content/plugins/audio-player/';
+$ap_globals["playerURL"] = $ap_globals["pluginRoot"] . 'player.swf';
+
+// Declare instances global variable
+$ap_globals["instances"] = array();
+
+// Initialise playerID (each instance gets unique ID)
+$ap_globals["playerID"] = 0;
+
+// Flag for dealing with excerpts
+$ap_globals["in_excerpt"] = false;
+
 function ap_setGlobals() {
 	global $ap_globals;
-
-	$ap_globals["version"] = "2.0 beta";
-	$ap_globals["docURL"] = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
-	$ap_globals["colorkeys"] = array("bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip");
-	$ap_globals["pluginRoot"] = get_settings('siteurl') . '/wp-content/plugins/audio-player/';
-	$ap_globals["playerURL"] = $ap_globals["pluginRoot"] . 'player.swf';
 
 	$ap_globals["audioRoot"] = get_option("audio_player_web_path");
 
@@ -149,7 +80,7 @@ function ap_setGlobals() {
 	$ap_globals["showRemaining"] = (get_option("audio_player_showRemaining") == "yes");
 	$ap_globals["disableTrackInformation"] = (get_option("audio_player_noinfo") == "yes");
 	$ap_globals["transparentPageBg"] = (get_option("audio_player_transparentpagebgcolor") == "yes");
-	
+
 	$ap_globals["pageBgColor"] = get_option("audio_player_pagebgcolor");
 
 	$ap_globals["prefixAudio"] = get_option("audio_player_prefixaudio");
@@ -158,13 +89,14 @@ function ap_setGlobals() {
 	$ap_globals["rssAlternate"] = get_option("audio_player_rssalternate");
 	$ap_globals["rssCustomAlternate"] = get_option("audio_player_rsscustomalternate");
 	
+	$ap_globals["excerptAlternate"] = get_option("audio_player_excerptalternate");
+
 	// Player options set (options passed to Flash Player)
 	$playerOptions = array();
 
 	foreach ( $ap_globals["colorkeys"] as $value ) {
 		$playerOptions[$value] = get_option("audio_player_" . $value . "color");
 	}
-	$playerOptions["noinfo"] = "yes";
 	$playerOptions["animation"] = get_option("audio_player_enableAnimation");
 	$playerOptions["encode"] = get_option("audio_player_encodeSource");
 	$playerOptions["initialvolume"] = get_option("audio_player_initialvolume");
@@ -172,16 +104,62 @@ function ap_setGlobals() {
 	$playerOptions["noinfo"] = get_option("audio_player_noinfo");
 
 	$ap_globals["playerOptions"] = $playerOptions;
-	
-	// Declare instances global variable
-	$ap_globals["instances"] = array();
-
-	// Initialise playerID (each instance gets unique ID)
-	$ap_globals["playerID"] = 0;
-
-	// Flag for dealing with excerpts
-	$ap_globals["in_excerpt"] = false;
 }
+
+// ------------------------------------------------------------------------------
+// Options setup
+// ------------------------------------------------------------------------------
+
+// Option defaults
+
+add_option('audio_player_web_path', '/audio');
+add_option('audio_player_width', '290');
+add_option('audio_player_enableAnimation', 'yes');
+add_option('audio_player_showRemaining', 'no');
+add_option('audio_player_encodeSource', 'yes');
+add_option('audio_player_embedmethod', 'ufo');
+add_option('audio_player_includeembedfile', 'yes');
+add_option('audio_player_behaviour', 'default');
+add_option('audio_player_rssalternate', 'nothing');
+add_option('audio_player_rsscustomalternate', '[Audio clip: view full post to listen]');
+add_option('audio_player_excerptalternate', '[Audio clip: view full post to listen]');
+add_option('audio_player_prefixaudio', '');
+add_option('audio_player_postfixaudio', '');
+add_option('audio_player_initialvolume', '60');
+add_option('audio_player_noinfo', 'no');
+
+// Color options
+
+// Update old color options (remove '0x')
+if (get_option('audio_player_version') == '' && get_option('audio_player_bgcolor') != '') {
+	foreach ( $ap_globals["colorkeys"] as $value ) {
+		$colorOptionValue = get_option("audio_player_" . $value . "color");
+		if ($colorOptionValue != '') update_option("audio_player_" . $value . "color", str_replace("0x", "", $colorOptionValue));
+	}
+	update_option('audio_player_pagebgcolor', str_replace("#", "", get_option('audio_player_pagebgcolor')));
+}
+
+add_option('audio_player_version', $ap_globals["version"]);
+
+// Default color options
+add_option('audio_player_bgcolor', 'E5E5E5');
+add_option('audio_player_textcolor', '333333');
+add_option('audio_player_leftbgcolor', 'CCCCCC');
+add_option('audio_player_lefticoncolor', '333333');
+add_option('audio_player_volslidercolor', '666666');
+add_option('audio_player_voltrackcolor', 'FFFFFF');
+add_option('audio_player_rightbgcolor', 'B4B4B4');
+add_option('audio_player_rightbghovercolor', '999999');
+add_option('audio_player_righticoncolor', '333333');
+add_option('audio_player_righticonhovercolor', 'FFFFFF');
+add_option('audio_player_trackcolor', 'FFFFFF');
+add_option('audio_player_loadercolor', '009900');
+add_option('audio_player_bordercolor', 'CCCCCC');
+add_option('audio_player_trackercolor', 'DDDDDD');
+add_option('audio_player_skipcolor', '666666');
+
+add_option('audio_player_transparentpagebgcolor', 'yes');
+add_option('audio_player_pagebgcolor', 'FFFFFF');
 
 // Set globals
 ap_setGlobals();
@@ -242,7 +220,7 @@ function ap_replace($matches) {
 	
 	// Alternate content for excerpts (don't do this for feeds)
 	if($ap_globals["in_excerpt"] && !is_feed()) {
-		return "Audio Player excerpt";
+		return $ap_globals["excerptAlternate"];
 	}
 	
 	if (!is_feed()) {
@@ -332,7 +310,7 @@ function ap_getplayer($source, $options = array()) {
 	} else {
 		// Not in a feed so return player widget
 		$playerElementID = "audioplayer_" . $ap_globals["playerID"];
-		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '"><em><a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio sample. You also need to have JavaScript enabled on your browser.</em></p>';
+		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">Audio clip: <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.</p>';
 		$playerCode .= '<script type="text/javascript"><!--';
 		$playerCode .= "\n";
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
@@ -436,12 +414,12 @@ function ap_options_subpanel() {
 		foreach ( $ap_globals["colorkeys"] as $colorkey ) {
 			// Ignore missing or invalid color values
 			if( isset( $_POST["ap_" . $colorkey . "color"] ) && preg_match( "/#[0-9A-Fa-f]{6}/", $_POST["ap_" . $colorkey . "color"] ) == 1 ) {
-				update_option( "audio_player_" . $colorkey . "color", str_replace( "#", "0x", $_POST["ap_" . $colorkey . "color"] ) );
+				update_option( "audio_player_" . $colorkey . "color", str_replace( "#", "", $_POST["ap_" . $colorkey . "color"] ) );
 			}
 		}
 
-		if(isset( $_POST["ap_pagebgcolor"] )) {
-			update_option('audio_player_pagebgcolor', $_POST['ap_pagebgcolor']);
+		if ( isset( $_POST["ap_pagebgcolor"] ) && preg_match( "/#[0-9A-Fa-f]{6}/", $_POST["ap_pagebgcolor"] ) == 1 ) {
+			update_option('audio_player_pagebgcolor', str_replace( "#", "", $_POST['ap_pagebgcolor']));
 		}
 		if(isset( $_POST["ap_transparentpagebg"] )) {
 			update_option('audio_player_transparentpagebgcolor', "yes");

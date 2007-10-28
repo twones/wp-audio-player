@@ -91,21 +91,21 @@
 		<h3>Colour scheme</h3>
 		<div id="ap-colorscheme">
 			<div id="ap-colorselector">
-				<input type="hidden" name="ap_bgcolor" id="ap_bgcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["bg"] ) ); ?>" />
-				<input type="hidden" name="ap_leftbgcolor" id="ap_leftbgcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["leftbg"] ) ); ?>" />
-				<input type="hidden" name="ap_rightbgcolor" id="ap_rightbgcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["rightbg"] ) ); ?>" />
-				<input type="hidden" name="ap_rightbghovercolor" id="ap_rightbghovercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["rightbghover"] ) ); ?>" />
-				<input type="hidden" name="ap_lefticoncolor" id="ap_lefticoncolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["lefticon"] ) ); ?>" />
-				<input type="hidden" name="ap_righticoncolor" id="ap_righticoncolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["righticon"] ) ); ?>" />
-				<input type="hidden" name="ap_righticonhovercolor" id="ap_righticonhovercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["righticonhover"] ) ); ?>" />
-				<input type="hidden" name="ap_skipcolor" id="ap_skipcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["skip"] ) ); ?>" />
-				<input type="hidden" name="ap_textcolor" id="ap_textcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["text"] ) ); ?>" />
-				<input type="hidden" name="ap_loadercolor" id="ap_loadercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["loader"] ) ); ?>" />
-				<input type="hidden" name="ap_trackcolor" id="ap_trackcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["track"] ) ); ?>" />
-				<input type="hidden" name="ap_bordercolor" id="ap_bordercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["border"] ) ); ?>" />
-				<input type="hidden" name="ap_trackercolor" id="ap_trackercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["tracker"] ) ); ?>" />
-				<input type="hidden" name="ap_voltrackcolor" id="ap_voltrackcolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["voltrack"] ) ); ?>" />
-				<input type="hidden" name="ap_volslidercolor" id="ap_volslidercolor" value="<?php echo( str_replace( "0x", "#", $ap_globals["playerOptions"]["volslider"] ) ); ?>" />
+				<input type="hidden" name="ap_bgcolor" id="ap_bgcolor" value="#<?php echo( $ap_globals["playerOptions"]["bg"] ) ?>" />
+				<input type="hidden" name="ap_leftbgcolor" id="ap_leftbgcolor" value="#<?php echo( $ap_globals["playerOptions"]["leftbg"] ) ?>" />
+				<input type="hidden" name="ap_rightbgcolor" id="ap_rightbgcolor" value="#<?php echo( $ap_globals["playerOptions"]["rightbg"] ) ?>" />
+				<input type="hidden" name="ap_rightbghovercolor" id="ap_rightbghovercolor" value="#<?php echo( $ap_globals["playerOptions"]["rightbghover"] ) ?>" />
+				<input type="hidden" name="ap_lefticoncolor" id="ap_lefticoncolor" value="#<?php echo( $ap_globals["playerOptions"]["lefticon"] ) ?>" />
+				<input type="hidden" name="ap_righticoncolor" id="ap_righticoncolor" value="#<?php echo( $ap_globals["playerOptions"]["righticon"] ) ?>" />
+				<input type="hidden" name="ap_righticonhovercolor" id="ap_righticonhovercolor" value="#<?php echo( $ap_globals["playerOptions"]["righticonhover"] ) ?>" />
+				<input type="hidden" name="ap_skipcolor" id="ap_skipcolor" value="#<?php echo( $ap_globals["playerOptions"]["skip"] ) ?>" />
+				<input type="hidden" name="ap_textcolor" id="ap_textcolor" value="#<?php echo( $ap_globals["playerOptions"]["text"] ) ?>" />
+				<input type="hidden" name="ap_loadercolor" id="ap_loadercolor" value="#<?php echo( $ap_globals["playerOptions"]["loader"] ) ?>" />
+				<input type="hidden" name="ap_trackcolor" id="ap_trackcolor" value="#<?php echo( $ap_globals["playerOptions"]["track"] ) ?>" />
+				<input type="hidden" name="ap_bordercolor" id="ap_bordercolor" value="#<?php echo( $ap_globals["playerOptions"]["border"] ) ?>" />
+				<input type="hidden" name="ap_trackercolor" id="ap_trackercolor" value="#<?php echo( $ap_globals["playerOptions"]["tracker"] ) ?>" />
+				<input type="hidden" name="ap_voltrackcolor" id="ap_voltrackcolor" value="#<?php echo( $ap_globals["playerOptions"]["voltrack"] ) ?>" />
+				<input type="hidden" name="ap_volslidercolor" id="ap_volslidercolor" value="#<?php echo( $ap_globals["playerOptions"]["volslider"] ) ?>" />
 				<select id="ap-fieldselector">
 				  <option value="bg" selected>Background</option>
 				  <option value="leftbg">Left background</option>
@@ -135,7 +135,7 @@
 					</ul>
 				</div>
 			</div>
-			<div id="ap-audioplayer-wrapper"<?php if (!$ap_globals["transparentPageBg"]) echo ' style="background-color:' . $ap_globals["pageBgColor"] . '"' ?>>
+			<div id="ap-audioplayer-wrapper"<?php if (!$ap_globals["transparentPageBg"]) echo ' style="background-color:#' . $ap_globals["pageBgColor"] . '"' ?>>
 				<div id="ap-audioplayer">
 					Audio Player
 				</div>
@@ -154,7 +154,7 @@
 		</p>
 		<p>
 			<label for="ap_pagebgcolor"><strong>Page background color:</strong></label>
-			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBg"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
+			<input type="text" id="ap_pagebgcolor" name="ap_pagebgcolor" size="20" value="#<?php echo $ap_globals["pageBgColor"]; ?>"<?php if( $ap_globals["transparentPageBg"] ) echo ' disabled="disabled" style="color:#999999"'; ?> />
 			<label for="ap_transparentpagebg">
 				<input type="checkbox" name="ap_transparentpagebg" id="ap_transparentpagebg" value="true"<?php if( $ap_globals["transparentPageBg"] ) echo ' checked="checked"'; ?> />
 				Transparent
