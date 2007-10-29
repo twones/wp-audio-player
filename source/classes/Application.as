@@ -60,6 +60,7 @@ class Application
 		remaining:false,
 		noinfo:false,
 		demomode:false,
+		bufferTime:5,
 		volume:60
 	};
 
@@ -78,6 +79,7 @@ class Application
 			var playerParams:Object = new Object();
 	
 			playerParams.initialVolume = _options.volume;
+			playerParams.bufferTime = _options.bufferTime;
 			playerParams.enableCycling = _options.loop;
 
 			// Create audio player instance and load playlist

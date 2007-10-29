@@ -173,7 +173,7 @@ var AP_Admin = new Class({
         if (this.player) {
         	hiddenColorFields = $("ap-colorselector").getElements("input[type=hidden]");
         	for (i = 0;i < hiddenColorFields.length; i++) {
-	            this.player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", "0x"));
+	            this.player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", ""));
         	}
             this.player.SetVariable("setcolors", 1);
         }

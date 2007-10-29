@@ -60,7 +60,8 @@ class net.onepixelout.audio.Player
 		initialVolume:60,
 		enableCycling:true,
 		syncVolumes:true,
-		killDownloads:true
+		killDownloads:true,
+		bufferTime:5
 	};
 	
 	/**
@@ -410,7 +411,7 @@ class net.onepixelout.audio.Player
 	}
 
 	/**
-	* Sets the buffer time to a maximum of 5 seconds.
+	* Sets the buffer time to a maximum of 5 seconds (or whatever the bufferTime option is set to).
 	* 
 	* @param newPosition Position of playhead
 	*/
@@ -426,8 +427,8 @@ class net.onepixelout.audio.Player
 		// Otherwise, look at how much audio is playable and set buffer accordingly
 		var currentBuffer:Number = Math.round(((_loaded * _duration) - newPosition) / 1000);
 		
-		if(currentBuffer >= 5) _root._soundbuftime = 0;
-		else _root._soundbuftime = 5 - currentBuffer;
+		if(currentBuffer >= _options.bufferTime) _root._soundbuftime = 0;
+		else _root._soundbuftime = _options.bufferTime - currentBuffer;
 	}
 	
 	/**

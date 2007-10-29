@@ -51,6 +51,8 @@ $ap_globals["playerID"] = 0;
 // Flag for dealing with excerpts
 $ap_globals["in_excerpt"] = false;
 
+//load_plugin_textdomain('audio-player', 'wp-content/plugins/audio-player');
+
 function ap_setGlobals() {
 	global $ap_globals;
 

@@ -3,14 +3,14 @@
 <?php } ?>
 
 <div class="wrap">
-	<h2>Audio Player options</h2>
+	<h2><?php echo _e('Audio Player options', 'audio-player'); ?></h2>
 
 	<div id="ap-intro">
 		<p>
 			Settings for the Audio Player plugin. Visit <a href="<?php echo $ap_globals["docURL"]; ?>">1 Pixel Out</a>
 			for usage information and project news.
 		</p>
-		<p>Current version: <strong><?php echo $ap_globals["version"]; ?></strong></p>
+		<p><?php echo _e('Current version', 'audio-player'); ?>: <strong><?php echo $ap_globals["version"]; ?></strong></p>
 	</div>
 
 	<form method="post">
@@ -22,7 +22,7 @@
 		<input name="Submit" value="Update Options &raquo;" type="submit" />
 	</p>
 	<ul id="ap-tabs">
-		<li id="ap-tab-general"><a href="#ap-panel-general">General</a></li>
+		<li id="ap-tab-general"><a href="#ap-panel-general"><?php echo _e('General', 'audio-player'); ?></a></li>
 		<li id="ap-tab-colour"><a href="#ap-panel-colour">Display</a></li>
 		<li id="ap-tab-feed"><a href="#ap-panel-feed">Feed options</a></li>
 		<li id="ap-tab-podcasting"><a href="#ap-panel-podcasting">Podcasting</a></li>
