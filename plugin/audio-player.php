@@ -41,6 +41,9 @@ $ap_globals["docURL"] = "http://www.1pixelout.net/code/audio-player-wordpress-pl
 $ap_globals["colorkeys"] = array("bg","leftbg","lefticon","voltrack","volslider","rightbg","rightbghover","righticon","righticonhover","text","track","border","loader","tracker","skip");
 $ap_globals["pluginRoot"] = get_settings('siteurl') . '/wp-content/plugins/audio-player/';
 $ap_globals["playerURL"] = $ap_globals["pluginRoot"] . 'player.swf';
+$ap_globals["textDomain"] = "audio-player";
+
+$ap_globals["setupDone"] = false;
 
 // Declare instances global variable
 $ap_globals["instances"] = array();
@@ -50,8 +53,6 @@ $ap_globals["playerID"] = 0;
 
 // Flag for dealing with excerpts
 $ap_globals["in_excerpt"] = false;
-
-//load_plugin_textdomain('audio-player', 'wp-content/plugins/audio-player');
 
 function ap_setGlobals() {
 	global $ap_globals;
@@ -166,6 +167,20 @@ add_option('audio_player_pagebgcolor', 'FFFFFF');
 // Set globals
 ap_setGlobals();
 
+// Setup function for loading translation file
+function ap_setup() {
+	global $ap_globals;
+	
+	if ($ap_globals["setupDone"]) {
+		return;
+	}
+
+	// Load translation file
+	load_plugin_textdomain($ap_globals["textDomain"], 'wp-content/plugins/audio-player');
+	
+	$ap_globals["setupDone"] = true;
+}
+
 // ------------------------------------------------------------------------------
 // Player widget functions
 // ------------------------------------------------------------------------------
@@ -274,6 +289,8 @@ function ap_replace($matches) {
 // Generic player instance function (returns object tag code)
 function ap_getplayer($source, $options = array()) {
 	global $ap_globals;
+
+	ap_setup();
 	
 	// Get next player ID
 	$ap_globals["playerID"]++;
@@ -295,7 +312,7 @@ function ap_getplayer($source, $options = array()) {
 			for ($i = 0; $i < count($files); $i++) {
 				$fileparts = explode("/", $files[$i]);
 				$fileName = $fileparts[count($fileparts)-1];
-				$links .= '<a href="' . $files[$i] . '">Download audio file (' . $fileName . ')</a><br />';
+				$links .= '<a href="' . $files[$i] . '">' . __('Download audio file', $ap_globals["textDomain"]) . ' (' . $fileName . ')</a><br />';
 			}
 			return $links;
 			break;
@@ -312,7 +329,7 @@ function ap_getplayer($source, $options = array()) {
 	} else {
 		// Not in a feed so return player widget
 		$playerElementID = "audioplayer_" . $ap_globals["playerID"];
-		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">Audio clip: <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.</p>';
+		$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.'), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</p>';
 		$playerCode .= '<script type="text/javascript"><!--';
 		$playerCode .= "\n";
 		$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . ap_php2js($options) . ');';
@@ -352,6 +369,8 @@ function ap_outof_excerpt($text = '') {
 
 function ap_options_subpanel() {
 	global $ap_globals;
+	
+	ap_setup();
 	
 	$ap_updated = false;
 	
