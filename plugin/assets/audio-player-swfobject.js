@@ -28,7 +28,7 @@ var AudioPlayer = {
         for (key in instanceOptions) {
             so.addVariable(key, instanceOptions[key]);
         }
-
+		
         so.write(elementID);
     }
 };
