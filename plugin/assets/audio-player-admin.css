@@ -63,7 +63,7 @@ ul.ap-optionlist {
 }
 ul.ap-optionlist li { margin-bottom:15px; }
 #ap_transparentpagebg,
-ul.ap-optionlist input { border:none; background:none; }
+ul.ap-optionlist label input { border:none; background:none; }
 
 #ap-colorscheme {
 	float:left;
