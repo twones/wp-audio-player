@@ -37,7 +37,10 @@ if (!class_exists('AudioPlayer')) {
 
 		var $version = "2.0b1";
 		var $docURL = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
-		var $textDomain = "audio-player"; // For language files
+		
+		// Internationalisation
+		var $textDomain = "audio-player";
+		var $languageFileLoaded = false;
 
 		// Various path variables
 		var $pluginRoot = "";
@@ -103,11 +106,13 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("get_the_excerpt", array(&$this, "outOfExcerpt"), 12);
 			add_filter("the_excerpt", array(&$this, "processContent"));
 			add_filter("the_excerpt_rss", array(&$this, "processContent"));
-	
-			// These lines allow the plugin to be translated into different languages
-			$theLocale = get_locale();
-			$moFile = dirname(__FILE__) . "/languages/" . $this->textDomain . "-" . $theLocale . ".mo";
-			load_textdomain($this->textDomain, $moFile);
+		}
+		
+		function loadLanguageFile() {
+			if(!$this->languageFileLoaded) {
+				load_plugin_textdomain($this->textDomain, "wp-content/plugins/audio-player/languages");
+				$this->languageFileLoaded = true;
+			}
 		}
 		
 		/**
@@ -248,6 +253,8 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function processContent($content = '') {
 			global $comment;
+			
+			$this->loadLanguageFile();
 			
 			// Reset instance array (this is so we don't insert duplicate players)
 			$this->instances = array();
@@ -392,7 +399,7 @@ if (!class_exists('AudioPlayer')) {
 			} else {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
-				$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.'), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW', $this->textDomain) . '</p>';
+				$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</p>';
 				$playerCode .= '<script type="text/javascript"><!--';
 				$playerCode .= "\n";
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
@@ -413,6 +420,8 @@ if (!class_exists('AudioPlayer')) {
 		 * Outputs the options sub panel
 		 */
 		function outputOptionsSubpanel() {
+			$this->loadLanguageFile();
+			
 			// Include options panel
 			include( "options-panel.php" );
 		}
