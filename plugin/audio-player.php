@@ -45,7 +45,7 @@ if (!class_exists('AudioPlayer')) {
 		var $audioRoot = "";
 		var $audioAbsPath = "";
 		var $isCustomAudioRoot = false;
-
+		
 		// Colour scheme keys
 		var $colorKeys = array(
 			"bg",
@@ -373,7 +373,7 @@ if (!class_exists('AudioPlayer')) {
 					for ($i = 0; $i < count($files); $i++) {
 						$fileparts = explode("/", $files[$i]);
 						$fileName = $fileparts[count($fileparts)-1];
-						$links .= '<a href="' . $files[$i] . '">' . __('Download audio file') . ' (' . $fileName . ')</a><br />';
+						$links .= '<a href="' . $files[$i] . '">' . __('Download audio file', $this->textDomain) . ' (' . $fileName . ')</a><br />';
 					}
 					return $links;
 					break;
@@ -390,7 +390,7 @@ if (!class_exists('AudioPlayer')) {
 			} else {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
-				$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.'), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</p>';
+				$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.'), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW', $this->textDomain) . '</p>';
 				$playerCode .= '<script type="text/javascript"><!--';
 				$playerCode .= "\n";
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
