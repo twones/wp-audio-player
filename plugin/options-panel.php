@@ -25,24 +25,24 @@
 	</ul>
 	
 	<div class="ap-panel" id="ap-panel-general">
-		<h3><?php _e('Audio file location', $this->textDomain) ?></h3>
+		<h3><?php _e('Audio folder location', $this->textDomain) ?></h3>
 		<p>
-			<?php _e('If you use the [audio] syntax, the plugin will assume that all your audio files are located in this folder. By default the path is relative to your blog root. However, you can enter a custom path such as "http://anotherdomain.com/mp3files" if your mp3 files are hosted outside of your blog root. This option does not affect your RSS enclosures or audio files with absolute URLs.', $this->textDomain); ?>
+			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter an absolute URL to that location.', $this->textDomain); ?>
 		</p>
-		<?php /*if ($ap_globals["audioAbsPath"] != "" && !file_exists($ap_globals["audioAbsPath"])) { ?>
-		<p class="ap_warning">
-			<strong>Warning</strong>: the audio file folder was not found (<?php echo $ap_globals["audioAbsPath"] ?>). Check that the folder exists and is in the correct location.
-		</p>
-		<?php } */ ?>
 		<p>
 			<select name="ap_audiowebpath_iscustom">
-				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?></option>
+				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?> </option>
 				<option value="true"<?php if ($this->isCustomAudioRoot) echo(' selected="selected"') ?>>Custom</option>
 			</select>
-			<input type="text" name="ap_audiowebpath" size="80" value="<?php echo $this->options["audioFolder"] ?>" />
+			<input type="text" id="ap_audiowebpath" name="ap_audiowebpath" size="40" value="<?php echo $this->options["audioFolder"] ?>" />
 		</p>
-		<p><?php _e('Important note about track information (ID3 tags)', $this->textDomain) ?>:<br />
-		</p>
+
+		<div id="ap_audiofolder-check" class="submit">
+			<input type="button" id="ap_check_button" class="submit" value="Check audio folder location" />
+			<span id="ap_checking-message">Checking...</span>
+			<span id="ap_success-message">Audio folder location verified</span>
+			<span id="ap_failure-message">Audio folder location not found. Please check that the following folder exists on your server: <strong>&nbsp;</strong></span>
+		</div>
 
 		<h3><?php _e('How do you want to use the audio player?', $this->textDomain) ?></h3>
 		<p><?php _e('This set of options allows you to customize when your audio players appear.', $this->textDomain) ?></p>

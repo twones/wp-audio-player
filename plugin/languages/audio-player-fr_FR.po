@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-10 17:12-0000\n"
+"PO-Revision-Date: 2007-11-10 19:17-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../audio-player.php:378
+#: ../audio-player.php:385
 msgid "Download audio file"
 msgstr "Télécharger fichier audio"
 
-#: ../audio-player.php:395
+#: ../audio-player.php:402
 #, php-format
 msgid "Audio clip: <a href=\"%s\" title=\"Download Adobe Flash Player\">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
 msgstr "Clip audio: <a href=\"%s\" title=\"Télécharger Adobe Flash Player\">Adobe Flash Player</a> (version 6 ou supérieure) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
@@ -64,15 +64,12 @@ msgid "Advanced"
 msgstr "Avancé"
 
 #: ../options-panel.php:28
-msgid "Audio file location"
-msgstr ""
+#, fuzzy
+msgid "Audio folder location"
+msgstr "Options Audio Player"
 
 #: ../options-panel.php:30
-msgid "If you use the [audio] syntax, the plugin will assume that all your audio files are located in this folder. By default the path is relative to your blog root. However, you can enter a custom path such as \"http://anotherdomain.com/mp3files\" if your mp3 files are hosted outside of your blog root. This option does not affect your RSS enclosures or audio files with absolute URLs."
-msgstr ""
-
-#: ../options-panel.php:44
-msgid "Important note about track information (ID3 tags)"
+msgid "This is the default location for your audio files. When you use the [audio] syntax and don't provide an absolute URL for the mp3 file (the full URL including \"http://\") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose \"Custom\" from the drop down and enter an absolute URL to that location."
 msgstr ""
 
 #: ../options-panel.php:47

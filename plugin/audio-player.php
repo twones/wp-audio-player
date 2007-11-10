@@ -542,6 +542,20 @@ if (!class_exists('AudioPlayer')) {
 			echo '</script>';
 			echo "\n";
 		}
+		
+		function checkAudioFolder() {
+			$audioRoot = $_POST["audioFolder"];
+
+			$sysDelimiter = '/';
+			if (strpos(ABSPATH, '\\') !== false) $sysDelimiter = '\\';
+			$audioAbsPath = preg_replace('/[\\\\\/]+/', $sysDelimiter, ABSPATH . $audioRoot);
+
+			if (!file_exists($audioAbsPath)) {
+				echo $audioAbsPath;
+			} else {
+				echo "ok";
+			}
+		}
 
 		/**
 		 * Parses theme style sheet

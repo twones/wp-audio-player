@@ -10,6 +10,8 @@
 	
 }
 
+.wrap form { width:100%; }
+
 #ap-top-submit {
 	float:right;
 	margin:-10px 0 0 0;
@@ -50,6 +52,7 @@ div.ap-panel {
 }
 div.ap-active { display:block; }
 div.ap-panel h3 {
+	clear:left;
 	margin-top:0;
 	font-size:1.4em;
 	font-weight:normal;
@@ -64,6 +67,30 @@ ul.ap-optionlist {
 ul.ap-optionlist li { margin-bottom:15px; }
 #ap_transparentpagebg,
 ul.ap-optionlist label input { border:none; background:none; }
+
+#ap_audiofolder-check {
+	float:left;
+	width:100%;
+}
+#ap_audiofolder-check input {
+	float:left;
+	margin-bottom:20px;
+	overflow:visible;
+}
+#ap_audiofolder-check span {
+	float:left;
+	margin-left:10px;
+	margin-top:8px;
+	text-align:left;
+}
+#ap_audiofolder-check span#ap_success-message {
+	background:url(tick.png) no-repeat left top;
+	padding-left:20px;
+}
+#ap_audiofolder-check span#ap_failure-message {
+	background:url(error.png) no-repeat left top;
+	padding-left:20px;
+}
 
 #ap-colorscheme {
 	float:left;

@@ -66,6 +66,12 @@ var AP_Admin = new Class({
         this.selectColorField();
         
         this.player = null;
+		
+		//$("ap_audiofolder-check").setStyle("display", "block");
+		$("ap_check_button").addEvent("click", this.checkAudioFolder.bind(this));
+		$("ap_checking-message").setStyle("display", "none");
+		$("ap_success-message").setStyle("display", "none");
+		$("ap_failure-message").setStyle("display", "none");
     },
     
     selectColorField : function () {
@@ -212,7 +218,31 @@ var AP_Admin = new Class({
 	        	$clear(this.timer);
 	        }
         }
-    }
+    },
+	
+	checkAudioFolder: function() {
+		$("ap_checking-message").setStyle("display", "block");
+		$("ap_success-message").setStyle("display", "none");
+		$("ap_failure-message").setStyle("display", "none");
+
+		var options = {
+			method: "post",
+			data: {
+				audioFolder: $("ap_audiowebpath").getValue()
+			},
+			onComplete: function(response) {
+				$("ap_checking-message").setStyle("display", "none");
+				if (response == "ok") {
+					$("ap_success-message").setStyle("display", "block");
+
+				} else {
+					$("ap_failure-message").getElement("strong").setText(response);
+					$("ap_failure-message").setStyle("display", "block");
+				}
+			}
+		}
+		var request = new Ajax("/wp-content/plugins/audio-player/check_audio_folder.php", options).request();
+	}
 
 });
 
