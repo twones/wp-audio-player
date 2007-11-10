@@ -1,7 +1,3 @@
-<?php if ($audioPlayerOptionsUpdated) { ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Options saved.') ?></strong></p></div>
-<?php } ?>
-
 <div class="wrap">
 	<h2><?php _e('Audio Player options', $this->textDomain) ?></h2>
 
@@ -18,7 +14,7 @@
 		wp_nonce_field('audio-player-action');
 	?>
 	<p class="submit" id="ap-top-submit">
-		<input name="Submit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
+		<input name="AudioPlayerSubmit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
 	</p>
 	<ul id="ap-tabs">
 		<li id="ap-tab-general"><a href="#ap-panel-general"><?php _e('General', $this->textDomain) ?></a></li>
@@ -137,7 +133,7 @@
 				<div id="ap-themecolor">
 					<span><?php _e('Theme colors', $this->textDomain) ?></span>
 					<ul>
-						<?php foreach($audioPlayerThemeColors as $themeColor) { ?>
+						<?php foreach($this->getThemeColors() as $themeColor) { ?>
 						<li style="background:#<?php echo $themeColor ?>" title="#<?php echo $themeColor ?>">#<?php echo $themeColor ?></li>
 						<?php } ?>
 					</ul>
@@ -149,7 +145,6 @@
 				</div>
 			</div>
 			<script type="text/javascript">
-			<?php echo( 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');' ) ?>
 			AudioPlayer.embed("ap-audioplayer", {demomode:"yes"});
 			</script>
 		</div>
@@ -280,7 +275,7 @@
 	</div>
 
 	<p class="submit">
-		<input name="Submit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
+		<input name="AudioPlayerSubmit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
 	</p>
 	</form>
 </div>

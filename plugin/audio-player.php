@@ -89,6 +89,8 @@ if (!class_exists('AudioPlayer')) {
 			
 			// Add action and filter hooks to WordPress
 
+			add_action("init", array(&$this, "optionsPanelAction"));
+
 			add_action("admin_menu", array(&$this, "addAdminPages"));
 			add_action("wp_head", array(&$this, "wpHeadIntercept"));
 			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"));
@@ -408,13 +410,19 @@ if (!class_exists('AudioPlayer')) {
 		}
 
 		/**
-		 * 
+		 * Outputs the options sub panel
 		 */
 		function outputOptionsSubpanel() {
-			$audioPlayerOptionsUpdated = false;
-			
+			// Include options panel
+			include( "options-panel.php" );
+		}
+		
+		/**
+		 * Handles submitted options (validates and saves modified options)
+		 */
+		function optionsPanelAction() {
 			// Update plugin options
-			if( $_POST['Submit'] ) {
+			if( $_POST['AudioPlayerSubmit'] ) {
 				check_admin_referer('audio-player-action');
 			
 				// Set audio web path
@@ -468,31 +476,17 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["colorScheme"]["transparentpagebg"] = isset( $_POST["ap_transparentpagebg"] );
 				
 				$this->saveOptions();
-				$this->setAudioRoot();
 
-				// Print confirmation message
-				$audioPlayerOptionsUpdated = true;
+				$goback = add_query_arg("updated", "true", wp_get_referer());
+				wp_redirect($goback);
+				exit();
 			}
-		
-			// Get the current theme colors for the theme color picker
-			$audioPlayerThemeColors = $this->getThemeColors();
-		
-			// Include options panel
-			include( "options-panel.php" );
 		}
 
 		/**
 		 * Output necessary stuff to WP head section
 		 */
 		function wpHeadIntercept() {
-			if ( $this->options["transparentpagebg"] ) {
-				$wmode = "transparent";
-				$bgcolor = "transparent";
-			} else {
-				$wmode = "opaque";
-				$bgcolor = $this->options["pagebg"];
-			}
-			
 			if ($this->options["includeEmbedFile"]) {
 				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'lib/' . $this->options["embedMethod"] . '.js"></script>';
 				echo "\n";
@@ -532,19 +526,14 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-' . $this->options["embedMethod"] . '.js"></script>';
 			echo "\n";
+			echo '<script type="text/javascript">';
+			echo "\n";
+			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
+			echo "\n";
+			echo '</script>';
+			echo "\n";
 		}
 
-		function wp_head_intercept(){
-			//this is a sample function that includes additional styles within the head of your template.
-			echo '<style type="text/css" media="all">p, h1, h2, h3 {color:#372637; font-weight:bold; font-style:italic}</style>';
-		}
-		
-		function the_content_intercept($content){
-		//this is a sample function which adds styles to unstyled paragraph tags
-			$content = '<p><strong>If you can read this the_content_intercept is working.</strong></p>'.$content;
-			return $content;
-		}
-		
 		/**
 		 * Parses theme style sheet
 		 * @return array of colors from current theme
