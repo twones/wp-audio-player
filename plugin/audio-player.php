@@ -502,7 +502,7 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
-			echo 'AudioPlayer.setup("' . $this->playerURL . '", "' . $this->options["playerWidth"] . '", "' . $wmode . '", "' . $bgcolor . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
+			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo "\n";
 			echo '</script>';
 			echo "\n";

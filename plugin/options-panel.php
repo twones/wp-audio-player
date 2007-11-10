@@ -149,8 +149,7 @@
 				</div>
 			</div>
 			<script type="text/javascript">
-			AudioPlayer.setup("<?php echo $this->playerURL ?>", "<?php echo $this->options['playerWidth'] ?>", "<?php echo $this->options['colorScheme']['transparentpagebg']?'transparent':'opaque' ?>", "<?php echo $this->options['colorScheme']['pagebg'] ?>");
-			// echo ap_php2js($ap_globals["playerOptions"])
+			<?php echo( 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');' ) ?>
 			AudioPlayer.embed("ap-audioplayer", {demomode:"yes"});
 			</script>
 		</div>
