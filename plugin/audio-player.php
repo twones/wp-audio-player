@@ -261,7 +261,7 @@ if (!class_exists('AudioPlayer')) {
 		
 			// Replace mp3 links (don't do this in feeds and excerpts)
 			if ( !is_feed() && !$this->inExcerpt && in_array( "links", $this->options["behaviour"] ) ) {
-				$pattern = "/<a ([^=]+=\"[^\"]+\" )*href=\"(([^\"]+\.mp3))\"( [^=]+=\"[^\"]+\")*>[^<]+<\/a>/i";
+				$pattern = "/<a ([^=]+=['\"][^\"']+['\"] )*href=['\"](([^\"']+\.mp3))['\"]( [^=]+=['\"][^\"']+['\"])*>[^<]+<\/a>/i";
 				$content = preg_replace_callback( $pattern, array(&$this, "insertPlayer"), $content );
 			}
 			
