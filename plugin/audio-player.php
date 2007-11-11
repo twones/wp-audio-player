@@ -537,6 +537,8 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
+			echo 'var ap_ajaxRootURL = "' . $this->pluginRoot . '";';
+			echo "\n";
 			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo "\n";
 			echo '</script>';

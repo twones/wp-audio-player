@@ -1,7 +1,7 @@
 <div class="wrap">
 	<h2><?php _e('Audio Player options', $this->textDomain) ?></h2>
 
-	<div id="ap-intro">
+	<div id="ap_intro">
 		<p>
 			<?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
 		</p>
@@ -13,24 +13,24 @@
 	if ( function_exists('wp_nonce_field') )
 		wp_nonce_field('audio-player-action');
 	?>
-	<p class="submit" id="ap-top-submit">
+	<p class="submit" id="ap_top-submit">
 		<input name="AudioPlayerSubmit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
 	</p>
-	<ul id="ap-tabs">
-		<li id="ap-tab-general"><a href="#ap-panel-general"><?php _e('General', $this->textDomain) ?></a></li>
-		<li id="ap-tab-colour"><a href="#ap-panel-colour"><?php _e('Display', $this->textDomain) ?></a></li>
-		<li id="ap-tab-feed"><a href="#ap-panel-feed"><?php _e('Feed options', $this->textDomain) ?></a></li>
-		<li id="ap-tab-podcasting"><a href="#ap-panel-podcasting"><?php _e('Podcasting', $this->textDomain) ?></a></li>
-		<li id="ap-tab-advanced" class="last"><a href="#ap-panel-advanced"><?php _e('Advanced', $this->textDomain) ?></a></li>
+	<ul id="ap_tabs">
+		<li id="ap_tab-general"><a href="#ap_panel-general"><?php _e('General', $this->textDomain) ?></a></li>
+		<li id="ap_tab-colour"><a href="#ap_panel-colour"><?php _e('Display', $this->textDomain) ?></a></li>
+		<li id="ap_tab-feed"><a href="#ap_panel-feed"><?php _e('Feed options', $this->textDomain) ?></a></li>
+		<li id="ap_tab-podcasting"><a href="#ap_panel-podcasting"><?php _e('Podcasting', $this->textDomain) ?></a></li>
+		<li id="ap_tab-advanced" class="last"><a href="#ap_panel-advanced"><?php _e('Advanced', $this->textDomain) ?></a></li>
 	</ul>
 	
-	<div class="ap-panel" id="ap-panel-general">
+	<div class="ap_panel" id="ap_panel-general">
 		<h3><?php _e('Audio folder location', $this->textDomain) ?></h3>
 		<p>
-			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter an absolute URL to that location.', $this->textDomain); ?>
+			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter the absolute URL to that location.', $this->textDomain); ?>
 		</p>
 		<p>
-			<select name="ap_audiowebpath_iscustom">
+			<select name="ap_audiowebpath_iscustom" id="ap_audiowebpath_iscustom">
 				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?> </option>
 				<option value="true"<?php if ($this->isCustomAudioRoot) echo(' selected="selected"') ?>>Custom</option>
 			</select>
@@ -38,37 +38,39 @@
 		</p>
 
 		<div id="ap_audiofolder-check" class="submit">
-			<input type="button" id="ap_check_button" class="submit" value="Check audio folder location" />
-			<span id="ap_checking-message">Checking...</span>
-			<span id="ap_success-message">Audio folder location verified</span>
-			<span id="ap_failure-message">Audio folder location not found. Please check that the following folder exists on your server: <strong>&nbsp;</strong></span>
+			<input type="button" id="ap_check-button" class="submit" value="<?php _e('Verify', $this->textDomain) ?>" />
+			<span id="ap_info-message"><?php _e('Click this button to verify that the audio folder is correctly configured', $this->textDomain) ?></span>
+			<span id="ap_disabled-message"><?php _e('Custom audio folder locations cannot be verified', $this->textDomain) ?></span>
+			<span id="ap_checking-message"><?php _e('Checking...', $this->textDomain) ?></span>
+			<span id="ap_success-message"><?php _e('Audio folder location verified', $this->textDomain) ?></span>
+			<span id="ap_failure-message"><?php _e('Audio folder location not found. Please check that the following folder exists on your server:', $this->textDomain) ?> <strong>&nbsp;</strong></span>
 		</div>
 
 		<h3><?php _e('How do you want to use the audio player?', $this->textDomain) ?></h3>
 		<p><?php _e('This set of options allows you to customize when your audio players appear.', $this->textDomain) ?></p>
-		<ul class="ap-optionlist">
+		<ul class="ap_optionlist">
 			<li>
-				<label for="ap_behaviour_default">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour_default" value="default"<?php if(in_array("default", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<label for="ap_behaviour-default">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-default" value="default"<?php if(in_array("default", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 
 				<strong><?php _e('Replace [audio] syntax', $this->textDomain) ?></strong></label><br />
 				<?php _e('This is the default behaviour and is the only way to apply runtime options to a player instance. Use this option if you want to have more than one audio player per posting.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour_enclosure">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour_enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<label for="ap_behaviour-enclosure">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Enclosure integration', $this->textDomain) ?></strong></label><br />
 				<?php _e('Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour_links">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour_links" value="links"<?php if(in_array("links", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<label for="ap_behaviour-links">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-links" value="links"<?php if(in_array("links", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Replace all links to mp3 files', $this->textDomain) ?></strong></label><br />
 				<?php _e('When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour_comments">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour_comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<label for="ap_behaviour-comments">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Enable in comments', $this->textDomain) ?></strong></label><br />
 				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
 			</li>
@@ -84,7 +86,7 @@
 		</p>
 	</div>
 	
-	<div class="ap-panel" id="ap-panel-colour">
+	<div class="ap_panel" id="ap_panel-colour">
 		<h3><?php _e('Player width', $this->textDomain) ?></h3>
 		<p>
 			<label for="ap_player_width"><?php _e('Player width', $this->textDomain) ?></label>
@@ -92,8 +94,8 @@
 			<?php _e('You can enter a value in pixels (e.g. 200) or as a percentage (e.g. 100%)', $this->textDomain) ?>
 		</p>
 		<h3><?php _e('Colour scheme', $this->textDomain) ?></h3>
-		<div id="ap-colorscheme">
-			<div id="ap-colorselector">
+		<div id="ap_colorscheme">
+			<div id="ap_colorselector">
 				<input type="hidden" name="ap_bgcolor" id="ap_bgcolor" value="#<?php echo( $this->options["colorScheme"]["bg"] ) ?>" />
 				<input type="hidden" name="ap_leftbgcolor" id="ap_leftbgcolor" value="#<?php echo( $this->options["colorScheme"]["leftbg"] ) ?>" />
 				<input type="hidden" name="ap_rightbgcolor" id="ap_rightbgcolor" value="#<?php echo( $this->options["colorScheme"]["rightbg"] ) ?>" />
@@ -109,8 +111,8 @@
 				<input type="hidden" name="ap_trackercolor" id="ap_trackercolor" value="#<?php echo( $this->options["colorScheme"]["tracker"] ) ?>" />
 				<input type="hidden" name="ap_voltrackcolor" id="ap_voltrackcolor" value="#<?php echo( $this->options["colorScheme"]["voltrack"] ) ?>" />
 				<input type="hidden" name="ap_volslidercolor" id="ap_volslidercolor" value="#<?php echo( $this->options["colorScheme"]["volslider"] ) ?>" />
-				<select id="ap-fieldselector">
-				  <option value="bg" selected><?php _e('Background', $this->textDomain) ?></option>
+				<select id="ap_fieldselector">
+				  <option value="bg" selected="selected"><?php _e('Background', $this->textDomain) ?></option>
 				  <option value="leftbg"><?php _e('Left background', $this->textDomain) ?></option>
 				  <option value="lefticon"><?php _e('Left icon', $this->textDomain) ?></option>
 				  <option value="voltrack"><?php _e('Volume control track', $this->textDomain) ?></option>
@@ -126,11 +128,11 @@
 				  <option value="loader"><?php _e('Loading bar', $this->textDomain) ?></option>
 				  <option value="skip"><?php _e('Next/Previous buttons', $this->textDomain) ?></option>
 				</select>
-				<input name="ap_colorvalue" type="text" id="ap-colorvalue" size="15" maxlength="7" />
-				<span id="ap-colorsample"></span>
-				<span id="ap-picker_btn"><?php _e('Pick') ?></span>
-				<span id="ap-themecolor_btn"><?php _e('From your theme', $this->textDomain) ?></span>
-				<div id="ap-themecolor">
+				<input name="ap_colorvalue" type="text" id="ap_colorvalue" size="15" maxlength="7" />
+				<span id="ap_colorsample"></span>
+				<span id="ap_picker-btn"><?php _e('Pick') ?></span>
+				<span id="ap_themecolor-btn"><?php _e('From your theme', $this->textDomain) ?></span>
+				<div id="ap_themecolor">
 					<span><?php _e('Theme colors', $this->textDomain) ?></span>
 					<ul>
 						<?php foreach($this->getThemeColors() as $themeColor) { ?>
@@ -139,13 +141,13 @@
 					</ul>
 				</div>
 			</div>
-			<div id="ap-audioplayer-wrapper"<?php if (!$this->options["colorScheme"]["transparentpagebg"]) echo ' style="background-color:#' . $this->options["colorScheme"]["pagebg"] . '"' ?>>
-				<div id="ap-audioplayer">
+			<div id="ap_audioplayer-wrapper"<?php if (!$this->options["colorScheme"]["transparentpagebg"]) echo ' style="background-color:#' . $this->options["colorScheme"]["pagebg"] . '"' ?>>
+				<div id="ap_audioplayer">
 					Audio Player
 				</div>
 			</div>
 			<script type="text/javascript">
-			AudioPlayer.embed("ap-audioplayer", {demomode:"yes"});
+			AudioPlayer.embed("ap_audioplayer", {demomode:"yes"});
 			</script>
 		</div>
 		
@@ -162,7 +164,7 @@
 		</p>
 		
 		<h3><?php _e('Options', $this->textDomain) ?></h3>
-		<ul class="ap-optionlist">
+		<ul class="ap_optionlist">
 			<li>
 				<label for="ap_disableAnimation">
 				<input type="checkbox" name="ap_disableAnimation" id="ap_disableAnimation" value="true"<?php if(!$this->options["enableAnimation"]) echo ' checked="checked"'; ?> />
@@ -184,7 +186,7 @@
 		</ul>
 	</div>
 	
-	<div class="ap-panel" id="ap-panel-feed">
+	<div class="ap_panel" id="ap_panel-feed">
 		<h3><?php _e('Feed options', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('The following options determine what is included in your feeds. The plugin doesn\'t place a player instance in the feed. Instead, you can choose what the plugin inserts. You have three choices:', $this->textDomain) ?>
@@ -208,7 +210,7 @@
 		</p>
 	</div>
 	
-	<div class="ap-panel" id="ap-panel-podcasting">
+	<div class="ap_panel" id="ap_panel-podcasting">
 		<h3><?php _e('Pre and Post appended audio clips', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('You may wish to pre-append or post-append audio clips into your players. The pre-appended audio will be played before the main audio, and the post-appended will come after. A typical podcasting use-case for this feature is adding a sponsorship message or simple instructions that help casual listeners become subscribers. <strong>This will apply to all audio players on your site</strong>. Your chosen audio clips should be substantially shorter than your main feature.', $this->textDomain) ?>
@@ -225,7 +227,7 @@
 		</p>
 	</div>
 	
-	<div class="ap-panel" id="ap-panel-advanced">
+	<div class="ap_panel" id="ap_panel-advanced">
 		<h3><?php _e('Initial volume', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('This is the volume at which the player defaults to (0 is off, 100 is full volume)', $this->textDomain) ?>
@@ -238,7 +240,7 @@
 		<p>
 			<?php _e('Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.', $this->textDomain) ?>
 		</p>
-		<ul class="ap-optionlist">
+		<ul class="ap_optionlist">
 			<li>
 				<label for="ap_encodeSource">
 				<input type="checkbox" name="ap_encodeSource" id="ap_encodeSource" value="true"<?php if ($this->options["encodeSource"]) echo ' checked="checked"'; ?> />
@@ -249,7 +251,7 @@
 		<p>
 			<?php printf(__('Audio Player allows you to use one of two popular methods for embedding the Flash players: <a href="%s" target="_blank" title="Learn more about the SWFObject method">SWFObject</a> or <a href="%s" target="_blank" title="Learn more about the UFO method">UFO</a>.'), 'http://blog.deconcept.com/swfobject/', 'http://www.bobbyvandersluis.com/ufo/') ?>
 		</p>
-		<ul class="ap-optionlist">
+		<ul class="ap_optionlist">
 			<li>
 				<label for="ap_embed_ufo">
 				<input type="radio" name="ap_embedmethod" id="ap_embed_ufo" value="ufo"<?php if ($this->options["embedMethod"] == "ufo") echo ' checked="checked"'; ?> />
@@ -265,7 +267,7 @@
 		<p>
 			<?php _e('Only disable this if you know that you have a plugin that includes it already or if you are including it yourself.', $this->textDomain) ?>
 		</p>
-		<ul class="ap-optionlist">
+		<ul class="ap_optionlist">
 			<li>
 				<label for="ap_includeembedfile">
 				<input type="checkbox" name="ap_includeembedfile" id="ap_includeembedfile" value="true"<?php if ($this->options["includeEmbedFile"]) echo ' checked="checked"'; ?> />

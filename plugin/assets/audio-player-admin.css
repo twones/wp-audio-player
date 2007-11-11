@@ -1,4 +1,4 @@
-#ap-intro {
+#ap_intro {
 	width:100%;
 	margin-bottom:20px;
 }
@@ -12,26 +12,27 @@
 
 .wrap form { width:100%; }
 
-#ap-top-submit {
+#ap_top-submit {
 	float:right;
 	margin:-10px 0 0 0;
+	position:relative;
 }
 
-ul#ap-tabs {
+ul#ap_tabs {
 	list-style-type:none;
 	margin:0;
 	padding:0;
 	height:1%;
 }
-ul#ap-tabs li {
+ul#ap_tabs li {
 	float:left;
 	border-top:1px solid #DDDDDD;
 	border-left:1px solid #DDDDDD;
 	margin:0;
 	padding:0;
 }
-ul#ap-tabs li.last { border-right:1px solid #DDDDDD; }
-ul#ap-tabs li a {
+ul#ap_tabs li.last { border-right:1px solid #DDDDDD; }
+ul#ap_tabs li a {
 	font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana;
 	font-weight:bold;
 	font-size:1.1em;
@@ -42,88 +43,102 @@ ul#ap-tabs li a {
 	outline:none;
 	-moz-outline:none;
 }
-ul#ap-tabs li a:hover { background:#F8F8F8; }
-ul#ap-tabs li.ap-active a { background:#E5F3FF; }
+ul#ap_tabs li a:hover { background:#F8F8F8; }
+ul#ap_tabs li.ap_active a { background:#E5F3FF; }
 
-div.ap-panel {
+div.ap_panel {
 	clear:both;
 	border:1px solid #DDDDDD;
 	padding:10px;
 }
-div.ap-active { display:block; }
-div.ap-panel h3 {
+div.ap_active { display:block; }
+div.ap_panel h3 {
 	clear:left;
 	margin-top:0;
 	font-size:1.4em;
 	font-weight:normal;
 }
-div.ap-panel p { margin-bottom:20px; }
+div.ap_panel p { margin-bottom:20px; }
 
-ul.ap-optionlist {
+ul.ap_optionlist {
 	padding-left:2px;
 	margin-left:0;
 	list-style-type:none;
 }
-ul.ap-optionlist li { margin-bottom:15px; }
+ul.ap_optionlist li { margin-bottom:15px; }
 #ap_transparentpagebg,
-ul.ap-optionlist label input { border:none; background:none; }
+ul.ap_optionlist label input { border:none; background:none; }
 
 #ap_audiofolder-check {
+	display:none;
 	float:left;
 	width:100%;
+	margin-bottom:20px;
 }
 #ap_audiofolder-check input {
 	float:left;
-	margin-bottom:20px;
 	overflow:visible;
 }
 #ap_audiofolder-check span {
 	float:left;
 	margin-left:10px;
 	margin-top:8px;
+	padding-bottom:1px;
+	padding-left:20px;
 	text-align:left;
+	width:80%;
+}
+#ap_audiofolder-check span#ap_info-message {
+	background:url(arrow.png) no-repeat 0 1px;
+}
+#ap_audiofolder-check span#ap_disabled-message {
+	background:url(error.png) no-repeat 0 1px;
+}
+#ap_audiofolder-check span#ap_checking-message {
+	background:url(loader.gif) no-repeat 0 1px;
 }
 #ap_audiofolder-check span#ap_success-message {
-	background:url(tick.png) no-repeat left top;
-	padding-left:20px;
+	background:url(tick.png) no-repeat 0 1px;
 }
 #ap_audiofolder-check span#ap_failure-message {
-	background:url(error.png) no-repeat left top;
-	padding-left:20px;
+	background:url(error.png) no-repeat 0 1px;
+}
+#ap_audiofolder-check span strong {
+	display:block;
 }
 
-#ap-colorscheme {
+#ap_colorscheme {
 	float:left;
 	margin-bottom:20px;
 	background:#e5e5e5;
 	border:1px solid #CCCCCC;
 }
-#ap-audioplayer-wrapper {
+#ap_audioplayer-wrapper {
 	clear:both;
 	width:650px;
 	background:#FFFFFF;
 	padding:30px 15px;
 	border-top:1px solid #CCCCCC;
 }
-#ap-colorselector {
+#ap_colorselector {
 	float:left;
 	padding:5px 10px;
 }
-#ap-colorselector select,
-#ap-colorselector input {
+#ap_colorselector select,
+#ap_colorselector input {
 	float:left;
 	margin:0 5px 0 0;
 	padding:2px;
 }
-#ap-colorselector input { padding:2px; }
-#ap-colorsample {
+#ap_colorselector input { padding:2px; }
+#ap_colorsample {
 	float:left;
 	width:19px;
 	height:19px;
 	border:1px solid #000000;
 	background:#FFFFFF;
 }
-#ap-picker_btn {
+#ap_picker-btn {
 	display:block;
 	float:left;
 	height:21px;
@@ -136,7 +151,7 @@ ul.ap-optionlist label input { border:none; background:none; }
 	color:#0000FF;
 	text-decoration:underline;
 }
-#ap-themecolor_btn {
+#ap_themecolor-btn {
 	display:block;
 	float:left;
 	height:21px;
@@ -149,7 +164,7 @@ ul.ap-optionlist label input { border:none; background:none; }
 	color:#0000FF;
 	text-decoration:underline;
 }
-#ap-themecolor {
+#ap_themecolor {
 	position:absolute;
 	display:none;
 	width:134px;
@@ -157,7 +172,7 @@ ul.ap-optionlist label input { border:none; background:none; }
 	float:left;
 	background:url(thcpck-bottom.png) no-repeat left bottom;
 }
-#ap-themecolor span {
+#ap_themecolor span {
 	display:block;
 	text-indent:-9999px;
 	height:11px;
@@ -165,14 +180,14 @@ ul.ap-optionlist label input { border:none; background:none; }
 	font-size:0;
 	background:url(thcpck-top.png) no-repeat left top;
 }
-#ap-themecolor ul {
+#ap_themecolor ul {
 	background:url(thcpck-slice.png) repeat-y left top;
 	padding:2px 14px 4px 15px;
 	float:left;
 	width:105px;
 	margin:0;
 }
-#ap-themecolor li {
+#ap_themecolor li {
 	cursor:pointer;
 	display:block;
 	text-indent:-9999px;

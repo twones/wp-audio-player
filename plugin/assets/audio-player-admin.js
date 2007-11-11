@@ -4,7 +4,7 @@ var AP_Admin = new Class({
     initialize : function () {
         var i;
         
-        this.tabBar = $("ap-tabs");
+        this.tabBar = $("ap_tabs");
         if (!this.tabBar) {
             return;
         }
@@ -16,11 +16,11 @@ var AP_Admin = new Class({
         for (i = 0;i < this.tabs.length;i++) {
             this.tabs[i].getElement("a").addEvent("click", this.tabClick.bindWithEvent(this));
             if (i === 0) {
-                this.tabs[i].addClass("ap-active");
+                this.tabs[i].addClass("ap_active");
             }
         }
         
-        this.panels = document.getElements("div.ap-panel");
+        this.panels = document.getElements("div.ap_panel");
         for (i = 1;i < this.panels.length;i++) {
             this.panels[i].setStyle("display", "none");
         }
@@ -38,8 +38,8 @@ var AP_Admin = new Class({
         
         this.colorPicker = new MooColorPicker({panelMode : true});
         this.colorPicker.hide();
-        this.colorPicker.attach("ap-colorsample", "background-color");
-        $("ap-picker_btn").addEvent("click", (function () {
+        this.colorPicker.attach("ap_colorsample", "background-color");
+        $("ap_picker-btn").addEvent("click", (function () {
             this.colorPicker.show();
         }).bind(this));
         this.colorPicker.addEvent("selectColor", (function (color) {
@@ -48,16 +48,16 @@ var AP_Admin = new Class({
             this.updatePlayer();
         }).bind(this));
         
-        this.fieldSelector = $("ap-fieldselector");
-        this.colorField = $("ap-colorvalue");
+        this.fieldSelector = $("ap_fieldselector");
+        this.colorField = $("ap_colorvalue");
         
         this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
         this.colorField.addEvent("keyup", this.updateColor.bind(this));
         
-        this.themeColorPicker = $("ap-themecolor");
+        this.themeColorPicker = $("ap_themecolor");
         this.themeColorPicker.setStyle("display", "none");
         this.reorderThemeColors();
-        this.themeColorPickerBtn = $("ap-themecolor_btn");
+        this.themeColorPickerBtn = $("ap_themecolor-btn");
         this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
         document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
         document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
@@ -67,24 +67,23 @@ var AP_Admin = new Class({
         
         this.player = null;
 		
-		//$("ap_audiofolder-check").setStyle("display", "block");
-		$("ap_check_button").addEvent("click", this.checkAudioFolder.bind(this));
-		$("ap_checking-message").setStyle("display", "none");
-		$("ap_success-message").setStyle("display", "none");
-		$("ap_failure-message").setStyle("display", "none");
+		$("ap_audiofolder-check").setStyle("display", "block");
+		$("ap_check-button").addEvent("click", this.checkAudioFolder.bind(this));
+		$("ap_audiowebpath_iscustom").addEvent("change", this.setAudioCheckButton.bind(this));
+		this.setAudioCheckButton();
     },
     
     selectColorField : function () {
         var color = this.getCurrentColorField().getValue();
         this.colorField.value = color;
         this.colorPicker.setColor(color);
-        $("ap-colorsample").setStyle("background-color", color);
+        $("ap_colorsample").setStyle("background-color", color);
     },
     
     hideColorPicker : function (evt) {
         var el = $(evt.target);
         while (el.getTag() != "body") {
-            if (el.getProperty("id") == "ap-picker_btn" || el.hasClass("moocp_color-picker")) {
+            if (el.getProperty("id") == "ap_picker-btn" || el.hasClass("moocp_color-picker")) {
                 return;
             }
             el = el.getParent();
@@ -95,11 +94,11 @@ var AP_Admin = new Class({
     showHideThemeColors : function (evt) {
         var el = $(evt.target);
         while (el.getTag() != "body") {
-            if (el.getProperty("id") == "ap-themecolor") {
+            if (el.getProperty("id") == "ap_themecolor") {
                 evt.stop();
                 return;
             }
-            if (el.getProperty("id") == "ap-themecolor_btn") {
+            if (el.getProperty("id") == "ap_themecolor-btn") {
                 var displayProp = this.themeColorPicker.getStyle("display");
                 var coords = this.themeColorPickerBtn.getCoordinates();
                 this.themeColorPicker.setStyles({
@@ -149,7 +148,7 @@ var AP_Admin = new Class({
         this.getCurrentColorField().value = color;
         this.updatePlayer();
         this.colorPicker.setColor(color);
-        $("ap-colorsample").setStyle("background-color", color);
+        $("ap_colorsample").setStyle("background-color", color);
         this.themeColorPicker.setStyle("display", "none");
     },
 
@@ -159,7 +158,7 @@ var AP_Admin = new Class({
         {
             this.getCurrentColorField().value = color;
             this.colorPicker.setColor(color);
-            $("ap-colorsample").setStyle("background-color", color);
+            $("ap_colorsample").setStyle("background-color", color);
             this.updatePlayer();
         }
     },
@@ -177,7 +176,7 @@ var AP_Admin = new Class({
     	}
 
         if (this.player) {
-        	hiddenColorFields = $("ap-colorselector").getElements("input[type=hidden]");
+        	hiddenColorFields = $("ap_colorselector").getElements("input[type=hidden]");
         	for (i = 0;i < hiddenColorFields.length; i++) {
 	            this.player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", ""));
         	}
@@ -197,13 +196,13 @@ var AP_Admin = new Class({
         
         evt.stop();
         
-        if (tab.hasClass("ap-active")) {
+        if (tab.hasClass("ap_active")) {
             return;
         }
         for (i = 0;i < this.tabs.length;i++) {
-            this.tabs[i].removeClass("ap-active");
+            this.tabs[i].removeClass("ap_active");
         }
-        tab.addClass("ap-active");
+        tab.addClass("ap_active");
         
         for (i = 0;i < this.panels.length;i++) {
             this.panels[i].setStyle("display", "none");
@@ -212,7 +211,7 @@ var AP_Admin = new Class({
         activeTabID = target.getProperty("href").replace(/[^#]*#/, "");
         $(activeTabID).setStyle("display", "block");
         if (window.gecko || window.webkit) {
-	        if (activeTabID == "ap-panel-colour") {
+	        if (activeTabID == "ap_panel-colour") {
 	        	this.timer = this.updatePlayer.delay(500, this);
 	        } else if (this.timer) {
 	        	$clear(this.timer);
@@ -221,27 +220,47 @@ var AP_Admin = new Class({
     },
 	
 	checkAudioFolder: function() {
-		$("ap_checking-message").setStyle("display", "block");
-		$("ap_success-message").setStyle("display", "none");
-		$("ap_failure-message").setStyle("display", "none");
+		this.showMessage("checking");
 
 		var options = {
 			method: "post",
 			data: {
 				audioFolder: $("ap_audiowebpath").getValue()
 			},
-			onComplete: function(response) {
-				$("ap_checking-message").setStyle("display", "none");
-				if (response == "ok") {
-					$("ap_success-message").setStyle("display", "block");
-
-				} else {
-					$("ap_failure-message").getElement("strong").setText(response);
-					$("ap_failure-message").setStyle("display", "block");
-				}
-			}
+			onComplete: this.audioFolderCheckResponse.bind(this)
 		}
-		var request = new Ajax("/wp-content/plugins/audio-player/check_audio_folder.php", options).request();
+		
+		var request = new Ajax(ap_ajaxRootURL + "check_audio_folder.php", options).request();
+	},
+	
+	audioFolderCheckResponse: function(response) {
+		$("ap_checking-message").setStyle("display", "none");
+		if (response == "ok") {
+			this.showMessage("success");
+		} else {
+			$("ap_failure-message").getElement("strong").setText(response);
+			this.showMessage("failure");
+		}
+	},
+	
+	showMessage: function(message) {
+		$("ap_info-message").setStyle("display", "none");
+		$("ap_disabled-message").setStyle("display", "none");
+		$("ap_checking-message").setStyle("display", "none");
+		$("ap_success-message").setStyle("display", "none");
+		$("ap_failure-message").setStyle("display", "none");
+		
+		if (message != "none") $("ap_" + message + "-message").setStyle("display", "block");
+	},
+	
+	setAudioCheckButton: function() {
+		if ($("ap_audiowebpath_iscustom").getValue() == "false") {
+			$("ap_check-button").disabled = false;
+			this.showMessage("info");
+		} else {
+			$("ap_check-button").disabled = true;
+			this.showMessage("disabled");
+		}
 	}
 
 });
