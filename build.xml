@@ -2,6 +2,17 @@
 <project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
 	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${ant.library.dir}/jsmin.0.2.2.jar"/>
 	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${ant.library.dir}/ant-contrib-1.0b3.jar"/>
+
+	<path id="svnant.lib.path">
+		<fileset dir="${ant.library.dir}">
+			<include name="svnant.jar"/>
+			<include name="svnjavahl.jar"/>
+			<include name="svnClientAdapter.jar"/>
+			<include name="javasvn.jar"/>
+		</fileset>
+	</path>	
+	
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.lib.path"/>
 	
 	<property name="build" value="build"/>
 	<property name="dist" value="dist"/>
@@ -91,6 +102,16 @@
 	    <exec executable="${flash.exe}">
 	        <arg line="'${swfcompile.jsfl}'"/>
 	    </exec>
+	</target>
+	
+	<target name="release" depends="build" description="Release to WP plugins repository">
+		<svn javasvn="true" username="${svn.username}" password="${svn.password}">
+			<delete url="http://svn.wp-plugins.org/audio-player/branches/release" message="Deleted release"/>
+			<import url="http://svn.wp-plugins.org/audio-player/branches/release" path="${build}" message="TEST: Imported new version"/>
+			<copy srcUrl="http://svn.wp-plugins.org/audio-player/branches/release" destUrl="http://svn.wp-plugins.org/audio-player/branches/${version.tag}" message="Tagged version ${version.tag}"/>
+		</svn>
+		
+		<antcall target="clean"/>
 	</target>
 	
 </project>
