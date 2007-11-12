@@ -60,7 +60,7 @@
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<move file="${build}/lib/mootools-compressed.js" tofile="${build}/lib/mootools.js"/>
+		<move file="${build}/assets/lib/mootools-compressed.js" tofile="${build}/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
 	    	<available file="source/player.swf"/>
@@ -68,7 +68,7 @@
 		
 		<antcall target="compileIfMissing"/>
 		
-		<copy todir="${build}" file="source/player.swf"/>
+		<copy todir="${build}/assets" file="source/player.swf"/>
 		
 		<!-- Minify JavaScript files (except mootools) -->
 		<jsmin force="true">

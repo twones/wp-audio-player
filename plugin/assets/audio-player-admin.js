@@ -230,7 +230,7 @@ var AP_Admin = new Class({
 			onComplete: this.audioFolderCheckResponse.bind(this)
 		}
 		
-		var request = new Ajax(ap_ajaxRootURL + "check_audio_folder.php", options).request();
+		var request = new Ajax(ap_ajaxRootURL + "check-audio-folder.php", options).request();
 	},
 	
 	audioFolderCheckResponse: function(response) {

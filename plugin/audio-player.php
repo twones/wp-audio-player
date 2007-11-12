@@ -104,7 +104,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function AudioPlayer() {
 			$this->pluginRoot = get_settings("siteurl") . "/wp-content/plugins/audio-player/";
-			$this->playerURL = $this->pluginRoot . "player.swf";
+			$this->playerURL = $this->pluginRoot . "assets/player.swf";
 
 			// Load options
 			$this->options = $this->getOptions();
@@ -466,7 +466,7 @@ if (!class_exists('AudioPlayer')) {
 			$this->loadLanguageFile();
 			
 			// Include options panel
-			include( "options-panel.php" );
+			include("php/options-panel.php");
 		}
 		
 		/**
@@ -486,10 +486,17 @@ if (!class_exists('AudioPlayer')) {
 			
 				// Set audio web path
 				$_POST['ap_audiowebpath'] = trim($_POST['ap_audiowebpath']);
-				if ( substr( $_POST['ap_audiowebpath'], -1 ) == "/" ) {
-					$_POST['ap_audiowebpath'] = substr( $_POST['ap_audiowebpath'], 0, strlen( $_POST['ap_audiowebpath'] ) - 1 );
+				if ($_POST["ap_audiowebpath_iscustom"] != "true") {
+					if ( substr( $_POST['ap_audiowebpath'], -1, 1 ) == "/" ) {
+						$_POST['ap_audiowebpath'] = substr( $_POST['ap_audiowebpath'], 0, strlen( $_POST['ap_audiowebpath'] ) - 1 );
+					}
+					if ( substr( $_POST['ap_audiowebpath'], 0, 1 ) != "/" ) {
+						$_POST['ap_audiowebpath'] = "/" . $_POST['ap_audiowebpath'];
+					}
+					$this->options["audioFolder"] = $_POST['ap_audiowebpath'];
+				} else if ($this->isAbsoluteURL($_POST['ap_audiowebpath'])) {
+					$this->options["audioFolder"] = $_POST['ap_audiowebpath'];
 				}
-				$this->options["audioFolder"] = $_POST['ap_audiowebpath'];
 		
 				// Update behaviour and rss alternate content options
 				$this->options["embedMethod"] = $_POST['ap_embedmethod'];
@@ -555,7 +562,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function wpHeadIntercept() {
 			if ($this->options["includeEmbedFile"]) {
-				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'lib/' . $this->options["embedMethod"] . '.js"></script>';
+				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/' . $this->options["embedMethod"] . '.js"></script>';
 				echo "\n";
 			}
 			
@@ -580,21 +587,21 @@ if (!class_exists('AudioPlayer')) {
 			
 			echo '<link href="' . $this->pluginRoot . 'assets/audio-player-admin.css" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<link href="' . $this->pluginRoot . 'colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginRoot . 'assets/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'lib/mootools.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/mootools.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'colorpicker/moocolorpicker.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/colorpicker/moocolorpicker.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-admin.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'lib/' . $this->options["embedMethod"] . '.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/' . $this->options["embedMethod"] . '.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-' . $this->options["embedMethod"] . '.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
-			echo 'var ap_ajaxRootURL = "' . $this->pluginRoot . '";';
+			echo 'var ap_ajaxRootURL = "' . $this->pluginRoot . 'php/";';
 			echo "\n";
 			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo "\n";
