@@ -1,8 +1,8 @@
 === Audio Player ===
-Contributors: markjaquith, mdawaffe
+
 Donate link: http://example.com/
 Tags: media, audio
-Requires at least: 1.5
+Requires at least: 2.0
 Tested up to: 2.3
 
 Highly configurable single track mp3 player.
