@@ -169,6 +169,7 @@ if (!class_exists('AudioPlayer')) {
 				"introClip" => "",
 				"outroClip" => "",
 				"initialVolume" => "60",
+				"bufferTime" => "5",
 				"noInfo" => false,
 
 				"colorScheme" => $this->defaultColorScheme
@@ -262,6 +263,7 @@ if (!class_exists('AudioPlayer')) {
 			$playerOptions["initialvolume"] = $this->options["initialVolume"];
 			$playerOptions["remaining"] = $this->options["showRemaining"];
 			$playerOptions["noinfo"] = $this->options["noInfo"];
+			$playerOptions["buffer"] = $this->options["bufferTime"];
 			
 			return array_merge($playerOptions, $this->options["colorScheme"]);
 		}
@@ -519,6 +521,14 @@ if (!class_exists('AudioPlayer')) {
 					}
 				}
 				
+				$_POST['ap_buffertime'] = trim($_POST['ap_buffertime']);
+				if ( preg_match("/^[0-9]+$/", $_POST['ap_buffertime']) == 1 ) {
+					$_POST['ap_buffertime'] = intval($_POST['ap_buffertime']);
+					if ($_POST['ap_buffertime'] > 0) {
+						$this->options["bufferTime"] = $_POST['ap_buffertime'];
+					}
+				}
+
 				// Update colour options
 				foreach ( $this->colorKeys as $colorKey ) {
 					// Ignore missing or invalid color values

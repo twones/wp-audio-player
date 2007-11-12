@@ -240,6 +240,16 @@
 			<label for="ap_volume"><?php _e('Initial volume', $this->textDomain) ?></label>
 			<input type="text" id="ap_volume" name="ap_initial_volume" value="<?php echo $this->options["initialVolume"]; ?>" size="5" />
 		</p>
+
+		<h3><?php _e('Buffer time', $this->textDomain) ?></h3>
+		<p>
+			<?php _e('If you think your target audience is likely to have a slow internet connection, you can increase the player\'s buffering time (for standard broadband connections, 5 seconds is enough)', $this->textDomain) ?>
+		</p>
+		<p>
+			<label for="ap_buffertime"><?php _e('Buffer time (in seconds)', $this->textDomain) ?></label>
+			<input type="text" id="ap_buffertime" name="ap_buffertime" value="<?php echo $this->options["bufferTime"]; ?>" size="5" />
+		</p>
+
 		<h3><?php _e('Encoding', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.', $this->textDomain) ?>
@@ -251,6 +261,7 @@
 				<strong><?php _e('Encode mp3 URLs', $this->textDomain) ?></strong></label>
 			</li>
 		</ul>
+
 		<h3><?php _e('Which embed method do you wish to use?', $this->textDomain) ?></h3>
 		<p>
 			<?php printf(__('Audio Player allows you to use one of two popular methods for embedding the Flash players: <a href="%s" target="_blank" title="Learn more about the SWFObject method">SWFObject</a> or <a href="%s" target="_blank" title="Learn more about the UFO method">UFO</a>.'), 'http://blog.deconcept.com/swfobject/', 'http://www.bobbyvandersluis.com/ufo/') ?>
@@ -267,6 +278,7 @@
 				<strong><?php _e('use SWFObject', $this->textDomain) ?></strong></label>
 			</li>
 		</ul>
+
 		<h4><?php _e('Include embed method JavaScript file', $this->textDomain) ?></h4>
 		<p>
 			<?php _e('Only disable this if you know that you have a plugin that includes it already or if you are including it yourself.', $this->textDomain) ?>

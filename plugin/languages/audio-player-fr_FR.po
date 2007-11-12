@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-12 00:13-0000\n"
+"PO-Revision-Date: 2007-11-12 00:41-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../audio-player.php:433
+#: ../audio-player.php:435
 msgid "Download audio file"
 msgstr "Télécharger fichier audio"
 
-#: ../audio-player.php:450
+#: ../audio-player.php:452
 #, php-format
 msgid "Audio clip: <a href=\"%s\" title=\"Download Adobe Flash Player\">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
 msgstr "Clip audio: <a href=\"%s\" title=\"Télécharger Adobe Flash Player\">Adobe Flash Player</a> (version 6 ou supérieure) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
@@ -38,7 +38,7 @@ msgid "Current version"
 msgstr "Version actuelle"
 
 #: ../options-panel.php:17
-#: ../options-panel.php:284
+#: ../options-panel.php:296
 msgid "Update Options &raquo;"
 msgstr ""
 
@@ -347,44 +347,56 @@ msgstr "Volume initial"
 msgid "This is the volume at which the player defaults to (0 is off, 100 is full volume)"
 msgstr ""
 
-#: ../options-panel.php:243
+#: ../options-panel.php:244
+msgid "Buffer time"
+msgstr ""
+
+#: ../options-panel.php:246
+msgid "If you think your target audience is likely to have a slow internet connection, you can increase the player's buffering time (for standard broadband connections, 5 seconds is enough)"
+msgstr ""
+
+#: ../options-panel.php:249
+msgid "Buffer time (in seconds)"
+msgstr ""
+
+#: ../options-panel.php:253
 msgid "Encoding"
 msgstr ""
 
-#: ../options-panel.php:245
+#: ../options-panel.php:255
 msgid "Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers."
 msgstr ""
 
-#: ../options-panel.php:251
+#: ../options-panel.php:261
 msgid "Encode mp3 URLs"
 msgstr ""
 
-#: ../options-panel.php:254
+#: ../options-panel.php:265
 msgid "Which embed method do you wish to use?"
 msgstr ""
 
-#: ../options-panel.php:256
+#: ../options-panel.php:267
 #, php-format
 msgid "Audio Player allows you to use one of two popular methods for embedding the Flash players: <a href=\"%s\" target=\"_blank\" title=\"Learn more about the SWFObject method\">SWFObject</a> or <a href=\"%s\" target=\"_blank\" title=\"Learn more about the UFO method\">UFO</a>."
 msgstr ""
 
-#: ../options-panel.php:262
+#: ../options-panel.php:273
 msgid "use UFO"
 msgstr "utiliser UFO"
 
-#: ../options-panel.php:267
+#: ../options-panel.php:278
 msgid "use SWFObject"
 msgstr "utiliser SWFObject"
 
-#: ../options-panel.php:270
+#: ../options-panel.php:282
 msgid "Include embed method JavaScript file"
 msgstr ""
 
-#: ../options-panel.php:272
+#: ../options-panel.php:284
 msgid "Only disable this if you know that you have a plugin that includes it already or if you are including it yourself."
 msgstr ""
 
-#: ../options-panel.php:278
+#: ../options-panel.php:290
 msgid "Include Flash embed file (UFO.js or SWFObject.js)"
 msgstr ""
 
