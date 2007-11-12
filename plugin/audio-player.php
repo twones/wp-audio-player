@@ -3,7 +3,7 @@
 Plugin Name: Audio player
 Plugin URI: http://www.1pixelout.net/code/audio-player-wordpress-plugin/
 Description: Highly configurable single track mp3 player.
-Version: 2.0b
+Version: 2.0b1
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
 
@@ -36,6 +36,7 @@ if (!class_exists('AudioPlayer')) {
 		var $optionsName = "AudioPlayer_options";
 
 		var $version = "2.0b1";
+		
 		var $docURL = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
 		
 		// Internationalisation
@@ -66,6 +67,27 @@ if (!class_exists('AudioPlayer')) {
 			"loader",
 			"tracker",
 			"skip"
+		);
+		
+		// Default colour scheme
+		var $defaultColorScheme = array(
+			"bg" => "E5E5E5",
+			"text" => "333333",
+			"leftbg" => "CCCCCC",
+			"lefticon" => "333333",
+			"volslider" => "666666",
+			"voltrack" => "FFFFFF",
+			"rightbg" => "B4B4B4",
+			"rightbghover" => "999999",
+			"righticon" => "333333",
+			"righticonhover" => "FFFFFF",
+			"track" => "FFFFFF",
+			"loader" => "009900",
+			"border" => "CCCCCC",
+			"tracker" => "DDDDDD",
+			"skip" => "666666",
+			"pagebg" => "FFFFFF",
+			"transparentpagebg" => true
 		);
 		
 		// Declare instances global variable
@@ -108,6 +130,16 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("the_excerpt_rss", array(&$this, "processContent"));
 		}
 		
+		/**
+		 * Adds Audio Player options tab to admin menu
+		 */
+		function addAdminPages() {
+			add_options_page("Audio player options", "Audio Player", 8, "audio-player-options", array(&$this, "outputOptionsSubpanel"));
+		}
+
+		/**
+		 * Loads language files according to locale (only does this once per request)
+		 */
 		function loadLanguageFile() {
 			if(!$this->languageFileLoaded) {
 				load_plugin_textdomain($this->textDomain, "wp-content/plugins/audio-player/languages");
@@ -123,8 +155,6 @@ if (!class_exists('AudioPlayer')) {
 			// Set default options array to make sure all the necessary options
 			// are available when called
 			$options = array(
-				"version" => $this->version,
-			
 				"audioFolder" => "/audio",
 				"playerWidth" => "290",
 				"enableAnimation" => true,
@@ -141,25 +171,7 @@ if (!class_exists('AudioPlayer')) {
 				"initialVolume" => "60",
 				"noInfo" => false,
 
-				"colorScheme" => array(
-					"bg" => "E5E5E5",
-					"text" => "333333",
-					"leftbg" => "CCCCCC",
-					"lefticon" => "333333",
-					"volslider" => "666666",
-					"voltrack" => "FFFFFF",
-					"rightbg" => "B4B4B4",
-					"rightbghover" => "999999",
-					"righticon" => "333333",
-					"righticonhover" => "FFFFFF",
-					"track" => "FFFFFF",
-					"loader" => "009900",
-					"border" => "CCCCCC",
-					"tracker" => "DDDDDD",
-					"skip" => "666666",
-					"pagebg" => "FFFFFF",
-					"transparentpagebg" => true
-				)
+				"colorScheme" => $this->defaultColorScheme
 			);
 
 			$savedOptions = get_option($this->optionsName);
@@ -168,7 +180,43 @@ if (!class_exists('AudioPlayer')) {
 					$options[$key] = $option;
 				}
 			}
+			
+			// 1.x version upgrade
+			if (!array_key_exists("version", $options)) {
+				if (get_option("audio_player_web_path")) $options["audioFolder"] = get_option("audio_player_web_path");
+				if (get_option("audio_player_behaviour")) $options["behaviour"] = explode(",", get_option("audio_player_behaviour"));
+				if (get_option("audio_player_rssalternate")) $options["rssAlternate"] = get_option("audio_player_rssalternate");
+				if (get_option("audio_player_rsscustomalternate")) $options["rssCustomAlternate"] = get_option("audio_player_rsscustomalternate");
+				if (get_option("audio_player_prefixaudio")) $options["introClip"] = get_option("audio_player_prefixaudio");
+				if (get_option("audio_player_postfixaudio")) $options["outroClip"] = get_option("audio_player_postfixaudio");
 
+				if (get_option("audio_player_transparentpagebgcolor")) {
+					$options["colorScheme"]["bg"] = str_replace("0x", "", get_option("audio_player_bgcolor"));
+					$options["colorScheme"]["text"] = str_replace("0x", "", get_option("audio_player_textcolor"));
+					$options["colorScheme"]["skip"] = str_replace("0x", "", get_option("audio_player_textcolor"));
+					$options["colorScheme"]["leftbg"] = str_replace("0x", "", get_option("audio_player_leftbgcolor"));
+					$options["colorScheme"]["lefticon"] = str_replace("0x", "", get_option("audio_player_lefticoncolor"));
+					$options["colorScheme"]["volslider"] = str_replace("0x", "", get_option("audio_player_lefticoncolor"));
+					$options["colorScheme"]["rightbg"] = str_replace("0x", "", get_option("audio_player_rightbgcolor"));
+					$options["colorScheme"]["rightbghover"] = str_replace("0x", "", get_option("audio_player_rightbghovercolor"));
+					$options["colorScheme"]["righticon"] = str_replace("0x", "", get_option("audio_player_righticoncolor"));
+					$options["colorScheme"]["righticonhover"] = str_replace("0x", "", get_option("audio_player_righticonhovercolor"));
+					$options["colorScheme"]["track"] = str_replace("0x", "", get_option("audio_player_trackcolor"));
+					$options["colorScheme"]["loader"] = str_replace("0x", "", get_option("audio_player_loadercolor"));
+					$options["colorScheme"]["border"] = str_replace("0x", "", get_option("audio_player_bordercolor"));
+					$options["colorScheme"]["transparentpagebg"] = get_option("audio_player_transparentpagebgcolor");
+					$options["colorScheme"]["pagebg"] = str_replace("#", "", get_option("audio_player_pagebgcolor"));
+				}
+				
+				// TODO: maybe delete old options but not while in beta so easy to revert to old version
+			} else if (version_compare($options["version"], $this->version) == -1) {
+				// TODO: Upgrade code
+			}
+			
+			// Record current version in DB
+			$options["version"] = $this->version;
+
+			// Update DB if necessary
 			update_option($this->optionsName, $options);
 			
 			return $options;
@@ -410,13 +458,6 @@ if (!class_exists('AudioPlayer')) {
 		}
 
 		/**
-		 * 
-		 */
-		function addAdminPages() {
-			add_options_page("Audio player options", "Audio Player", 8, "audio-player-options", array(&$this, "outputOptionsSubpanel"));
-		}
-
-		/**
 		 * Outputs the options sub panel
 		 */
 		function outputOptionsSubpanel() {
@@ -430,8 +471,15 @@ if (!class_exists('AudioPlayer')) {
 		 * Handles submitted options (validates and saves modified options)
 		 */
 		function optionsPanelAction() {
-			// Update plugin options
-			if( $_POST['AudioPlayerSubmit'] ) {
+			if( $_POST['AudioPlayerReset'] ) {
+				// Reset colour scheme back to default values
+				$this->options["colorScheme"] = $this->defaultColorScheme;
+				$this->saveOptions();
+
+				$goback = add_query_arg("updated", "true", wp_get_referer());
+				wp_redirect($goback);
+				exit();
+			} else 	if( $_POST['AudioPlayerSubmit'] ) {
 				check_admin_referer('audio-player-action');
 			
 				// Set audio web path
@@ -513,7 +561,6 @@ if (!class_exists('AudioPlayer')) {
 
 		/**
 		 * Output necessary stuff to WP admin head section
-		 * @return 
 		 */
 		function wpAdminHeadIntercept() {
 			// Do nothing if not on Audio Player options page
@@ -545,6 +592,9 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 		}
 		
+		/**
+		 * Verifies that the given audio folder exists on the server (Ajax call)
+		 */
 		function checkAudioFolder() {
 			$audioRoot = $_POST["audioFolder"];
 
@@ -633,9 +683,19 @@ if (!class_exists('AudioPlayer')) {
 	}
 }
 
-//instantiate the class
+// Instantiate the class
 if (class_exists('AudioPlayer')) {
 	$AudioPlayer = new AudioPlayer();
+}
+
+/**
+ * Experimental "tag" function for inserting players anywhere (yuk)
+ * @return 
+ * @param $source Object
+ */
+function insert_audio_player($source) {
+	global $AudioPlayer;
+	echo $AudioPlayer->processContent($source);
 }
 
 ?>

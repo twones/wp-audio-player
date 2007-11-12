@@ -163,6 +163,10 @@
 			</label>
 		</p>
 		
+		<p class="submit">
+			<input type="submit" name="AudioPlayerReset" value="<?php _e('Reset colour scheme', $this->textDomain) ?>" />
+		</p>
+		
 		<h3><?php _e('Options', $this->textDomain) ?></h3>
 		<ul class="ap_optionlist">
 			<li>

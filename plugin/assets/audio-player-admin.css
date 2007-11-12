@@ -198,3 +198,7 @@ ul.ap_optionlist label input { border:none; background:none; }
 	line-height:0;
 	font-size:0;
 }
+
+#ap_panel-colour .submit {
+	text-align:left;
+}
