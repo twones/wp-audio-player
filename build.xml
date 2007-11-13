@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
-	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${ant.library.dir}/jsmin.0.2.2.jar"/>
-	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${ant.library.dir}/ant-contrib-1.0b3.jar"/>
-
-	<path id="svnant.lib.path">
-		<fileset dir="${ant.library.dir}">
+	<path id="tasks.classpath">
+		<fileset dir="lib">
+			<include name="ant-contrib-1.0b3.jar"/>
+			<include name="jsmin.0.2.2.jar"/>
 			<include name="svnant.jar"/>
-			<include name="svnjavahl.jar"/>
 			<include name="svnClientAdapter.jar"/>
 			<include name="javasvn.jar"/>
 		</fileset>
 	</path>	
 	
-	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.lib.path"/>
+	<taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
+	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpathref="tasks.classpath"/>
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="tasks.classpath"/>
+	
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="tasks.classpath"/>
 	
 	<property name="build" value="build"/>
 	<property name="dist" value="dist"/>
@@ -21,7 +23,7 @@
 
 	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
 	
-	<target name="init" depends="clean">
+	<target name="-init" depends="clean">
 		<mkdir dir="${build}"/>
 		<mkdir dir="${dist}"/>
 	</target>
@@ -33,7 +35,7 @@
 	</target>
 
 	<target name="deploy.to.all" depends="build" description="Deploy to all local test sites">
-		<foreach target="deploy" param="deploy.dir">
+		<foreach target="-deploy" param="deploy.dir">
 			<path>
 				<dirset dir="${deploy.path}" includes="wp*"/>
 			</path>
@@ -43,7 +45,7 @@
 
 	<target name="deploy.to" depends="build" description="Deploy to one local test site">
 		<input message="Please select test site to deploy to:" addproperty="wp.version" defaultvalue="wp23"/>
-		<antcall target="deploy">
+		<antcall target="-deploy">
 			<param name="deploy.dir" value="${deploy.path}/${wp.version}"/>
 		</antcall>
 		<antcall target="clean"/>
@@ -56,12 +58,12 @@
 		<antcall target="clean"/>
 	</target>
 
-	<target name="deploy">
+	<target name="-deploy">
 		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
 		<unzip src="${dist}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
 	</target>
 
-	<target name="build" depends="init" description="Build plugin archive">
+	<target name="build" depends="-init" description="Build plugin archive">
 		<copy todir="${build}">
 			<fileset dir="./plugin">
 				<include name="**/*.*"/>
@@ -78,7 +80,7 @@
 	    	<available file="source/player.swf"/>
 	    </condition>
 		
-		<antcall target="compileIfMissing"/>
+		<antcall target="-compileIfMissing"/>
 		
 		<copy todir="${build}/assets" file="source/player.swf"/>
 		
@@ -90,7 +92,7 @@
 		<zip destfile="${dist}/audio-player.zip" basedir="${build}"/>
 	</target>
 	
-	<target name="compileIfMissing" unless="swfExists">
+	<target name="-compileIfMissing" unless="swfExists">
 		<antcall target="compile"/>
 	</target>
 		
@@ -104,11 +106,19 @@
 	    </exec>
 	</target>
 	
-	<target name="release" depends="build" description="Release to WP plugins repository">
-		<svn javasvn="true" username="${svn.username}" password="${svn.password}">
-			<delete url="http://svn.wp-plugins.org/audio-player/branches/release" message="Deleted release"/>
-			<import url="http://svn.wp-plugins.org/audio-player/branches/release" path="${build}" message="TEST: Imported new version"/>
-			<copy srcUrl="http://svn.wp-plugins.org/audio-player/branches/release" destUrl="http://svn.wp-plugins.org/audio-player/branches/${version.tag}" message="Tagged version ${version.tag}"/>
+	<target name="release" depends="build" description="Release and deploy new version">
+		<!--<input message="New version number:" addproperty="version.tag"/>-->
+		
+		<!-- Release to 1pixelout.net -->
+		<ftp server="${ftp.server}" action="put" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}">
+			<fileset dir="dist" includes="audio-player.zip"/>
+		</ftp>
+		
+		<!-- Release to WP plugins repository -->
+		<svn javasvn="true" javahl="false" username="${svn.username}" password="${svn.password}">
+			<delete url="${svn.url}/trunk" message="Deleted current trunk"/>
+			<import url="${svn.url}/trunk" path="${build}" message="Imported new release to trunk"/>
+			<copy srcUrl="${svn.url}/trunk" destUrl="${svn.url}/tags/${version.tag}" message="Tagged version ${version.tag}"/>
 		</svn>
 		
 		<antcall target="clean"/>
