@@ -371,7 +371,8 @@ if (!class_exists('AudioPlayer')) {
 			}
 		
 			// Create an array of files to load in player
-			foreach ( explode( ",", $data[0] ) as $afile ) {
+			foreach ( explode( ",", trim($data[0]) ) as $afile ) {
+				$afile = trim($afile);
 				// Get absolute URLs for relative ones
 				if (!$this->isAbsoluteURL($afile)) {
 					$afile = $this->audioRoot . "/" . $afile;
@@ -398,7 +399,7 @@ if (!class_exists('AudioPlayer')) {
 			$playerOptions = array();
 			for ($i = 1; $i < count($data); $i++) {
 				$pair = explode("=", $data[$i]);
-				$playerOptions[$pair[0]] = $pair[1]; 
+				$playerOptions[trim($pair[0])] = trim($pair[1]);
 			}
 			
 			// Return player instance code
@@ -482,7 +483,9 @@ if (!class_exists('AudioPlayer')) {
 				wp_redirect($goback);
 				exit();
 			} else 	if( $_POST['AudioPlayerSubmit'] ) {
-				check_admin_referer('audio-player-action');
+				if ( function_exists('check_admin_referer') ) {
+					check_admin_referer('audio-player-action');
+				}
 			
 				// Set audio web path
 				$_POST['ap_audiowebpath'] = trim($_POST['ap_audiowebpath']);

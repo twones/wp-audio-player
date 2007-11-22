@@ -52,7 +52,7 @@
 	</target>
 
 	<target name="deploy.default" depends="build" description="Deploy to default local test site">
-		<antcall target="deploy">
+		<antcall target="-deploy">
 			<param name="deploy.dir" value="${deploy.path}/${default.deploy.version}"/>
 		</antcall>
 		<antcall target="clean"/>
