@@ -69,7 +69,6 @@
 				<include name="**/*.*"/>
 				<exclude name="**/graphics-source.png"/>
 				<exclude name="**/mootools.js"/>
-				<exclude name="**/*.txt"/>
 				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
