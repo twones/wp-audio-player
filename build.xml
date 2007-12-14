@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
-	<taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
-	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
-	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml"/>
+	<!-- Define all 3rd party tasks -->
+	<taskdef file="tasks.properties"/>
 	
+	<!-- Load properties -->
 	<property file="build.properties"/>
 
 	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
