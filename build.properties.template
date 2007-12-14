@@ -1,3 +1,9 @@
+plugin.src.dir=plugin
+player.src.dir=source
+build.dir=build
+dist.dir=dist
+lib.dir=lib
+
 deploy.path=C:/Webroot/wordpress
 default.deploy.version=wp23
 flash.exe=C:/Program Files/Adobe/Adobe Flash CS3/Flash.exe
