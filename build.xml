@@ -1,36 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
-	<path id="tasks.classpath">
-		<fileset dir="lib">
-			<include name="ant-contrib-1.0b3.jar"/>
-			<include name="jsmin.0.2.2.jar"/>
-			<include name="svnant.jar"/>
-			<include name="svnClientAdapter.jar"/>
-			<include name="javasvn.jar"/>
-		</fileset>
-	</path>	
-	
 	<taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
-	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpathref="tasks.classpath"/>
-	<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="tasks.classpath"/>
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml"/>
 	
-	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="tasks.classpath"/>
-	
-	<property name="build" value="build"/>
-	<property name="dist" value="dist"/>
-
 	<property file="build.properties"/>
 
 	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
 	
 	<target name="-init" depends="clean">
-		<mkdir dir="${build}"/>
-		<mkdir dir="${dist}"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${dist.dir}"/>
 	</target>
 
 	<target name="clean" description="Clean up">
-		<delete dir="${build}"/>
-		<delete dir="${dist}"/>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
 		<delete file="swfcompile.jsfl"/>
 	</target>
 
@@ -60,35 +45,44 @@
 
 	<target name="-deploy">
 		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
-		<unzip src="${dist}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
+		<unzip src="${dist.dir}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
 	</target>
 
 	<target name="build" depends="-init" description="Build plugin archive">
-		<copy todir="${build}">
-			<fileset dir="./plugin">
+		<copy todir="${build.dir}" includeemptydirs="true">
+			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.*"/>
 				<exclude name="**/graphics-source.png"/>
-				<exclude name="**/mootools.js"/>
+				<exclude name="**/*.js"/>
 				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<move file="${build}/assets/lib/mootools-compressed.js" tofile="${build}/assets/lib/mootools.js"/>
+		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
-	    	<available file="source/player.swf"/>
+	    	<available file="${player.src.dir}/player.swf"/>
 	    </condition>
 		
 		<antcall target="-compileIfMissing"/>
 		
-		<copy todir="${build}/assets" file="source/player.swf"/>
+		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
 		
 		<!-- Minify JavaScript files (except mootools) -->
-		<jsmin force="true">
-			<fileset dir="${build}" includes="**/*.js" excludes="**/mootools*"/>
-		</jsmin>
+		<apply executable="java" parallel="false" dest="${build.dir}">
+			<fileset dir="${plugin.src.dir}">
+				<include name="**/*.js"/>
+				<exclude name="**/mootools*"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
 		
-		<zip destfile="${dist}/audio-player.zip" basedir="${build}"/>
+		<zip destfile="${dist.dir}/audio-player.zip" basedir="${build.dir}"/>
 	</target>
 	
 	<target name="-compileIfMissing" unless="swfExists">
@@ -110,13 +104,13 @@
 		
 		<!-- Release to 1pixelout.net -->
 		<ftp server="${ftp.server}" action="put" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}">
-			<fileset dir="dist" includes="audio-player.zip"/>
+			<fileset dir="${dist.dir}"/>
 		</ftp>
 		
 		<!-- Release to WP plugins repository -->
-		<svn javasvn="true" javahl="false" username="${svn.username}" password="${svn.password}">
+		<svn svnkit="true" username="${svn.username}" password="${svn.password}">
 			<delete url="${svn.url}/trunk" message="Deleted current trunk"/>
-			<import url="${svn.url}/trunk" path="${build}" message="Imported new release to trunk"/>
+			<import url="${svn.url}/trunk" path="${build.dir}" message="Imported new release to trunk"/>
 			<copy srcUrl="${svn.url}/trunk" destUrl="${svn.url}/tags/${version.tag}" message="Tagged version ${version.tag}"/>
 		</svn>
 		
