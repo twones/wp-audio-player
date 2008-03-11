@@ -583,6 +583,8 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP admin head section
 		 */
 		function wpAdminHeadIntercept() {
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/media-upload.js"></script>';
+
 			// Do nothing if not on Audio Player options page
 			if (!($_GET["page"] == "audio-player-options")) {
 				return;
