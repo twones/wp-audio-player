@@ -76,6 +76,7 @@
 			</fileset>
 			<arg line="-jar"/>
 			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="--charset utf-8"/>
 			<arg line="-o"/>
 			<targetfile/>
 			<srcfile/>
@@ -116,5 +117,4 @@
 		
 		<antcall target="clean"/>
 	</target>
-	
 </project>
