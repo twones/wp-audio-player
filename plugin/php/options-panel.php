@@ -256,35 +256,6 @@
 				<strong><?php _e('Encode mp3 URLs', $this->textDomain) ?></strong></label>
 			</li>
 		</ul>
-
-		<h3><?php _e('Which embed method do you wish to use?', $this->textDomain) ?></h3>
-		<p>
-			<?php printf(__('Audio Player allows you to use one of two popular methods for embedding the Flash players: <a href="%s" target="_blank" title="Learn more about the SWFObject method">SWFObject</a> or <a href="%s" target="_blank" title="Learn more about the UFO method">UFO</a>.'), 'http://blog.deconcept.com/swfobject/', 'http://www.bobbyvandersluis.com/ufo/') ?>
-		</p>
-		<ul class="ap_optionlist">
-			<li>
-				<label for="ap_embed_ufo">
-				<input type="radio" name="ap_embedmethod" id="ap_embed_ufo" value="ufo"<?php if ($this->options["embedMethod"] == "ufo") echo ' checked="checked"'; ?> />
-				<strong><?php _e('use UFO', $this->textDomain) ?></strong></label>
-			</li>
-			<li>
-				<label for="ap_embed_swfobject">
-				<input type="radio" name="ap_embedmethod" id="ap_embed_swfobject" value="swfobject"<?php if ($this->options["embedMethod"] == "swfobject") echo ' checked="checked"'; ?> />
-				<strong><?php _e('use SWFObject', $this->textDomain) ?></strong></label>
-			</li>
-		</ul>
-
-		<h4><?php _e('Include embed method JavaScript file', $this->textDomain) ?></h4>
-		<p>
-			<?php _e('Only disable this if you know that you have a plugin that includes it already or if you are including it yourself.', $this->textDomain) ?>
-		</p>
-		<ul class="ap_optionlist">
-			<li>
-				<label for="ap_includeembedfile">
-				<input type="checkbox" name="ap_includeembedfile" id="ap_includeembedfile" value="true"<?php if ($this->options["includeEmbedFile"]) echo ' checked="checked"'; ?> />
-				<strong><?php _e('Include Flash embed file (UFO.js or SWFObject.js)', $this->textDomain) ?></strong></label>
-			</li>
-		</ul>
 	</div>
 
 	<p class="submit">

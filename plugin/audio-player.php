@@ -128,6 +128,8 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("get_the_excerpt", array(&$this, "outOfExcerpt"), 12);
 			add_filter("the_excerpt", array(&$this, "processContent"));
 			add_filter("the_excerpt_rss", array(&$this, "processContent"));
+			
+			//add_filter("attachment_fields_to_edit", array(&$this, "insertAudioPlayerButton"));
 		}
 		
 		/**
@@ -160,8 +162,6 @@ if (!class_exists('AudioPlayer')) {
 				"enableAnimation" => true,
 				"showRemaining" => false,
 				"encodeSource" => true,
-				"embedMethod" => "ufo",
-				"includeEmbedFile" => true,
 				"behaviour" => array("default"),
 				"rssAlternate" => "nothing",
 				"rssCustomAlternate" => "[Audio clip: view full post to listen]",
@@ -450,7 +450,7 @@ if (!class_exists('AudioPlayer')) {
 			} else {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
-				$playerCode = '<p class="audioplayer-container" id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</p>';
+				$playerCode = '<p class="audioplayer-container"><span id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</span></p>';
 				$playerCode .= '<script type="text/javascript"><!--';
 				$playerCode .= "\n";
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
@@ -502,9 +502,6 @@ if (!class_exists('AudioPlayer')) {
 				}
 		
 				// Update behaviour and rss alternate content options
-				$this->options["embedMethod"] = $_POST['ap_embedmethod'];
-		
-				$this->options["includeEmbedFile"] = isset( $_POST["ap_includeembedfile"] );
 				$this->options["encodeSource"] = isset( $_POST["ap_encodeSource"] );
 				$this->options["enableAnimation"] = !isset( $_POST["ap_disableAnimation"] );
 				$this->options["showRemaining"] = isset( $_POST["ap_showRemaining"] );
@@ -559,17 +556,17 @@ if (!class_exists('AudioPlayer')) {
 				exit();
 			}
 		}
+		
+		function insertAudioPlayerButton($form_fields) {
+			print_r($form_fields["url"]["html"]);
+			exit();
+		}
 
 		/**
 		 * Output necessary stuff to WP head section
 		 */
 		function wpHeadIntercept() {
-			if ($this->options["includeEmbedFile"]) {
-				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/' . $this->options["embedMethod"] . '.js"></script>';
-				echo "\n";
-			}
-			
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-' . $this->options["embedMethod"] . '.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
@@ -583,8 +580,6 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP admin head section
 		 */
 		function wpAdminHeadIntercept() {
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/media-upload.js"></script>';
-
 			// Do nothing if not on Audio Player options page
 			if (!($_GET["page"] == "audio-player-options")) {
 				return;
@@ -600,9 +595,7 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-admin.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/' . $this->options["embedMethod"] . '.js"></script>';
-			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-' . $this->options["embedMethod"] . '.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";

@@ -68,11 +68,11 @@
 		
 		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
 		
-		<!-- Minify JavaScript files (except mootools) -->
+		<!-- Minify JavaScript files (except mootools and swfobject) -->
 		<apply executable="java" parallel="false" dest="${build.dir}">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.js"/>
-				<exclude name="**/mootools*"/>
+				<exclude name="**/lib/*.js"/>
 			</fileset>
 			<arg line="-jar"/>
 			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
@@ -82,6 +82,12 @@
 			<srcfile/>
 			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
+		
+		<concat destfile="${build.dir}/assets/audio-player.js" append="true">
+	        <fileset dir="${plugin.src.dir}/assets">
+	        	<include name="lib/swfobject.js"/>
+	        </fileset>
+	    </concat>
 		
 		<zip destfile="${dist.dir}/audio-player.zip" basedir="${build.dir}"/>
 	</target>

@@ -1,5 +1,3 @@
-/*extern SWFObject */
-
 var AudioPlayer = {
     setup : function (playerURL, defaultOptions) {
         this.playerURL = playerURL;
@@ -12,7 +10,11 @@ var AudioPlayer = {
         var so;
 		var bgcolor;
 		var wmode;
-        
+		
+		var flashParams = {};
+		var flashVars = {};
+		var flashAttributes = {};
+
         // Merge default options and instance options
 		for (key in this.defaultOptions) {
             instanceOptions[key] = this.defaultOptions[key];
@@ -22,24 +24,24 @@ var AudioPlayer = {
         }
         
 		if (instanceOptions.transparentpagebg == "yes") {
-			bgcolor = "transparent";
-			wmode = "transparent";
+			flashParams.bgcolor = "transparent";
+			flashParams.wmode = "transparent";
 		} else {
-			bgcolor = "#" + instanceOptions.pagebg;
-			wmode = "opaque";
+			flashParams.bgcolor = "#" + instanceOptions.pagebg;
+			flashParams.wmode = "opaque";
 		}
+
+		flashParams.menu = "false";
 		
-        so = new SWFObject(this.playerURL, elementID.replace("-", "_") + "_player", instanceOptions.width.toString(), "24", "6", bgcolor);
-        so.addParam("wmode", wmode);
-        so.addParam("menu", false);
-        
         for (key in instanceOptions) {
-			if (["pagebg","width","transparentpagebg"].indexOf(key) > -1) {
+			if (key == "pagebg" || key == "width" || key == "transparentpagebg") {
 				continue;
 			}
-            so.addVariable(key, instanceOptions[key]);
+            flashVars[key] = instanceOptions[key];
         }
-		
-        so.write(elementID);
+
+		flashAttributes.id = elementID.replace("-", "_") + "_player";
+
+        swfobject.embedSWF(this.playerURL, elementID, instanceOptions.width.toString(), "24", "6.0.0", false, flashVars, flashParams, flashAttributes);
     }
 };
