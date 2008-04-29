@@ -1,21 +1,16 @@
 <div class="wrap">
-	<h2><?php _e('Audio Player options', $this->textDomain) ?></h2>
+	<h2><?php _e('Audio Player', $this->textDomain) ?></h2>
 
-	<div id="ap_intro">
-		<p>
-			<?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
-		</p>
-		<p><?php _e('Current version', $this->textDomain) ?>: <strong><?php echo $this->version ?></strong></p>
-	</div>
+	<p>
+		<?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
+	</p>
+	<p><?php _e('Current version', $this->textDomain) ?>: <strong><?php echo $this->version ?></strong></p>
 
 	<form method="post">
 	<?php
 	if ( function_exists('wp_nonce_field') )
 		wp_nonce_field('audio-player-action');
 	?>
-	<p class="submit" id="ap_top-submit">
-		<input name="AudioPlayerSubmit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
-	</p>
 	<ul id="ap_tabs">
 		<li id="ap_tab-general"><a href="#ap_panel-general"><?php _e('General', $this->textDomain) ?></a></li>
 		<li id="ap_tab-colour"><a href="#ap_panel-colour"><?php _e('Display', $this->textDomain) ?></a></li>
@@ -163,8 +158,8 @@
 			</label>
 		</p>
 		
-		<p class="submit">
-			<input type="submit" name="AudioPlayerReset" value="<?php _e('Reset colour scheme', $this->textDomain) ?>" />
+		<p class="submit" id="ap_reset-color">
+			<input type="submit" class="submit" name="AudioPlayerReset" value="<?php _e('Reset colour scheme', $this->textDomain) ?>" />
 		</p>
 		
 		<h3><?php _e('Options', $this->textDomain) ?></h3>
@@ -293,7 +288,7 @@
 	</div>
 
 	<p class="submit">
-		<input name="AudioPlayerSubmit" value="<?php _e('Update Options &raquo;') ?>" type="submit" />
+		<input name="AudioPlayerSubmit" value="<?php _e('Save changes') ?>" type="submit" />
 	</p>
 	</form>
 </div>
