@@ -9,7 +9,7 @@ Author URI: http://www.1pixelout.net
 
 License:
 
-Copyright (c) 2007 Martin Laine
+Copyright (c) 2008 Martin Laine
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -129,7 +129,7 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("the_excerpt", array(&$this, "processContent"));
 			add_filter("the_excerpt_rss", array(&$this, "processContent"));
 			
-			//add_filter("attachment_fields_to_edit", array(&$this, "insertAudioPlayerButton"));
+			add_filter("attachment_fields_to_edit", array(&$this, "insertAudioPlayerButton"), 10, 2);
 		}
 		
 		/**
@@ -311,7 +311,7 @@ if (!class_exists('AudioPlayer')) {
 		
 			// Replace mp3 links (don't do this in feeds and excerpts)
 			if ( !is_feed() && !$this->inExcerpt && in_array( "links", $this->options["behaviour"] ) ) {
-				$pattern = "/<a ([^=]+=['\"][^\"']+['\"] )*href=['\"](([^\"']+\.mp3))['\"]( [^=]+=['\"][^\"']+['\"])*>[^<]+<\/a>/i";
+				$pattern = "/<a ([^=]+=['\"][^\"']+['\"] )*href=['\"](([^\"']+\.mp3))['\"]( [^=]+=['\"][^\"']+['\"])*>([^<]+)<\/a>/i";
 				$content = preg_replace_callback( $pattern, array(&$this, "insertPlayer"), $content );
 			}
 			
@@ -352,6 +352,7 @@ if (!class_exists('AudioPlayer')) {
 		function insertPlayer($matches) {
 			// Split options
 			$data = preg_split("/[\|]/", $matches[3]);
+			
 			$files = array();
 			
 			// Alternate content for excerpts (don't do this for feeds)
@@ -401,6 +402,11 @@ if (!class_exists('AudioPlayer')) {
 				$pair = explode("=", $data[$i]);
 				$playerOptions[trim($pair[0])] = trim($pair[1]);
 			}
+			
+			// Get title from 
+			/*if (count($matches) == 6) {
+				$playerOptions["titles"] = $matches[5];
+			}*/
 			
 			// Return player instance code
 			return $this->getPlayer( implode( ",", $files ), $playerOptions );
@@ -557,9 +563,24 @@ if (!class_exists('AudioPlayer')) {
 			}
 		}
 		
-		function insertAudioPlayerButton($form_fields) {
-			print_r($form_fields["url"]["html"]);
-			exit();
+		/**
+		 * Inserts Audio Player button into media library popup
+		 * @return the amended form_fields structure
+		 * @param $form_fields Object
+		 * @param $post Object
+		 */
+		function insertAudioPlayerButton($form_fields, $post) {
+			$file = wp_get_attachment_url($post->ID);
+			
+			// Only add the extra button if the attachment is an mp3 file
+			if ($post->post_mime_type == 'audio/mpeg') {
+				$form_fields["url"]["html"] .= "<button type='button' class='button audio-player-" . $post->ID . "' value='[audio:" . attribute_escape($file) . "]'>Audio Player</button>";
+				$form_fields["url"]["html"] .= "<script type='text/javascript'>
+				jQuery('button.audio-player-" . $post->ID . "').bind('click', function(){jQuery(this).siblings('input').val(this.value);});
+				</script>\n";
+			}
+			
+			return $form_fields;
 		}
 
 		/**
@@ -580,6 +601,12 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP admin head section
 		 */
 		function wpAdminHeadIntercept() {
+			global $the_current_page;
+			if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
+				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/media-upload.js"></script>';
+				echo "\n";
+			}
+
 			// Do nothing if not on Audio Player options page
 			if (!($_GET["page"] == "audio-player-options")) {
 				return;

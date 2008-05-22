@@ -52,16 +52,16 @@
 				<?php _e('This is the default behaviour and is the only way to apply runtime options to a player instance. Use this option if you want to have more than one audio player per posting.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour-enclosure">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
-				<strong><?php _e('Enclosure integration', $this->textDomain) ?></strong></label><br />
-				<?php _e('Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting.', $this->textDomain) ?>
-			</li>
-			<li>
 				<label for="ap_behaviour-links">
 				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-links" value="links"<?php if(in_array("links", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Replace all links to mp3 files', $this->textDomain) ?></strong></label><br />
 				<?php _e('When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs.', $this->textDomain) ?>
+			</li>
+			<li>
+				<label for="ap_behaviour-enclosure">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Enclosure integration', $this->textDomain) ?></strong></label><br />
+				<?php _e('Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting.', $this->textDomain) ?>
 			</li>
 			<li>
 				<label for="ap_behaviour-comments">
