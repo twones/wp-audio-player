@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-23 12:03-0000\n"
+"PO-Revision-Date: 2008-05-23 15:19-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgid "Display"
 msgstr "Présentation"
 
 #: ../php/options-panel.php:17
-#: ../php/options-panel.php:189
+#: ../php/options-panel.php:190
 msgid "Feed options"
 msgstr "Options de syndication"
 
@@ -238,135 +238,135 @@ msgstr ""
 msgid "Transparent"
 msgstr "Transparent"
 
-#: ../php/options-panel.php:162
+#: ../php/options-panel.php:163
 msgid "Reset colour scheme"
 msgstr ""
 
-#: ../php/options-panel.php:165
+#: ../php/options-panel.php:166
 msgid "Options"
 msgstr "Options"
 
-#: ../php/options-panel.php:170
+#: ../php/options-panel.php:171
 msgid "Disable animation"
 msgstr ""
 
-#: ../php/options-panel.php:171
+#: ../php/options-panel.php:172
 msgid "If you don't like the open/close animation, you can disable it here."
 msgstr ""
 
-#: ../php/options-panel.php:176
+#: ../php/options-panel.php:177
 msgid "Show remaining time"
 msgstr ""
 
-#: ../php/options-panel.php:177
+#: ../php/options-panel.php:178
 msgid "This will make the time display count down rather than up."
 msgstr ""
 
-#: ../php/options-panel.php:182
+#: ../php/options-panel.php:183
 msgid "Disable track information"
 msgstr ""
 
-#: ../php/options-panel.php:183
+#: ../php/options-panel.php:184
 msgid "Select this if you wish to disable track information display (the player won't show titles or artist names even if they are available)"
 msgstr ""
 
-#: ../php/options-panel.php:191
+#: ../php/options-panel.php:192
 msgid "The following options determine what is included in your feeds. The plugin doesn't place a player instance in the feed. Instead, you can choose what the plugin inserts. You have three choices:"
-msgstr ""
-
-#: ../php/options-panel.php:194
-#: ../php/options-panel.php:201
-msgid "Download link"
-msgstr ""
-
-#: ../php/options-panel.php:194
-msgid "Choose this if you are OK with subscribers downloading the file."
 msgstr ""
 
 #: ../php/options-panel.php:195
 #: ../php/options-panel.php:202
-msgid "Nothing"
+msgid "Download link"
 msgstr ""
 
 #: ../php/options-panel.php:195
-msgid "Choose this if you feel that your feed shouldn't contain any reference to the audio file."
+msgid "Choose this if you are OK with subscribers downloading the file."
 msgstr ""
 
 #: ../php/options-panel.php:196
 #: ../php/options-panel.php:203
-msgid "Custom"
+msgid "Nothing"
 msgstr ""
 
 #: ../php/options-panel.php:196
+msgid "Choose this if you feel that your feed shouldn't contain any reference to the audio file."
+msgstr ""
+
+#: ../php/options-panel.php:197
+#: ../php/options-panel.php:204
+msgid "Custom"
+msgstr ""
+
+#: ../php/options-panel.php:197
 msgid "Choose this to use your own alternative content for all player instances. You can use this option to tell subscribers that they can listen to the audio file if they read the post on your blog."
 msgstr ""
 
-#: ../php/options-panel.php:199
+#: ../php/options-panel.php:200
 msgid "Alternate content for  feeds"
 msgstr ""
 
-#: ../php/options-panel.php:207
+#: ../php/options-panel.php:208
 msgid "Custom  alternate content"
 msgstr ""
 
-#: ../php/options-panel.php:213
+#: ../php/options-panel.php:214
 msgid "Pre and Post appended audio clips"
 msgstr ""
 
-#: ../php/options-panel.php:215
+#: ../php/options-panel.php:216
 msgid "You may wish to pre-append or post-append audio clips into your players. The pre-appended audio will be played before the main audio, and the post-appended will come after. A typical podcasting use-case for this feature is adding a sponsorship message or simple instructions that help casual listeners become subscribers. <strong>This will apply to all audio players on your site</strong>. Your chosen audio clips should be substantially shorter than your main feature."
 msgstr ""
 
-#: ../php/options-panel.php:218
+#: ../php/options-panel.php:219
 msgid "Pre-appended audio clip URL"
 msgstr ""
 
-#: ../php/options-panel.php:220
+#: ../php/options-panel.php:221
 msgid "Leave this value blank for no pre-appended audio"
 msgstr ""
 
-#: ../php/options-panel.php:223
+#: ../php/options-panel.php:224
 msgid "Post-appended audio clip URL"
 msgstr ""
 
-#: ../php/options-panel.php:225
+#: ../php/options-panel.php:226
 msgid "Leave this value blank for no post-appended audio"
 msgstr ""
 
-#: ../php/options-panel.php:230
-#: ../php/options-panel.php:235
+#: ../php/options-panel.php:231
+#: ../php/options-panel.php:236
 msgid "Initial volume"
 msgstr "Volume initial"
 
-#: ../php/options-panel.php:232
+#: ../php/options-panel.php:233
 msgid "This is the volume at which the player defaults to (0 is off, 100 is full volume)"
 msgstr ""
 
-#: ../php/options-panel.php:239
+#: ../php/options-panel.php:240
 msgid "Buffer time"
 msgstr ""
 
-#: ../php/options-panel.php:241
+#: ../php/options-panel.php:242
 msgid "If you think your target audience is likely to have a slow internet connection, you can increase the player's buffering time (for standard broadband connections, 5 seconds is enough)"
 msgstr ""
 
-#: ../php/options-panel.php:244
+#: ../php/options-panel.php:245
 msgid "Buffer time (in seconds)"
 msgstr ""
 
-#: ../php/options-panel.php:248
+#: ../php/options-panel.php:249
 msgid "Encoding"
 msgstr ""
 
-#: ../php/options-panel.php:250
+#: ../php/options-panel.php:251
 msgid "Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers."
 msgstr ""
 
-#: ../php/options-panel.php:256
+#: ../php/options-panel.php:257
 msgid "Encode mp3 URLs"
 msgstr ""
 
-#: ../php/options-panel.php:262
+#: ../php/options-panel.php:263
 msgid "Save changes"
 msgstr ""
 
