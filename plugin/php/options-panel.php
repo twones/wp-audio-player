@@ -28,7 +28,7 @@
 				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-default" value="default"<?php if(in_array("default", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 
 				<strong><?php _e('Replace [audio] syntax', $this->textDomain) ?></strong></label><br />
-				<?php _e('This is the default behaviour and is the only way to apply runtime options to a player instance. Use this option if you want to have more than one audio player per posting.', $this->textDomain) ?>
+				<?php _e('This is the default behaviour and is the only way to apply options to a player instance. Use this option if you want to have more than one audio player per posting.', $this->textDomain) ?>
 			</li>
 			<li>
 				<label for="ap_behaviour-links">
