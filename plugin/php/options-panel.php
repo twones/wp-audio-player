@@ -6,7 +6,7 @@
 	</p>
 	<p><?php _e('Current version', $this->textDomain) ?>: <strong><?php echo $this->version ?></strong></p>
 
-	<form method="post">
+	<form method="post" id="ap_option-form">
 	<?php
 	if ( function_exists('wp_nonce_field') )
 		wp_nonce_field('audio-player-action');
@@ -20,27 +20,6 @@
 	</ul>
 	
 	<div class="ap_panel" id="ap_panel-general">
-		<h3><?php _e('Audio folder location', $this->textDomain) ?></h3>
-		<p>
-			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter the absolute URL to that location.', $this->textDomain); ?>
-		</p>
-		<p>
-			<select name="ap_audiowebpath_iscustom" id="ap_audiowebpath_iscustom">
-				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?> </option>
-				<option value="true"<?php if ($this->isCustomAudioRoot) echo(' selected="selected"') ?>>Custom</option>
-			</select>
-			<input type="text" id="ap_audiowebpath" name="ap_audiowebpath" size="40" value="<?php echo $this->options["audioFolder"] ?>" />
-		</p>
-
-		<div id="ap_audiofolder-check" class="submit">
-			<input type="button" id="ap_check-button" class="submit" value="<?php _e('Verify', $this->textDomain) ?>" />
-			<span id="ap_info-message"><?php _e('Click this button to verify that the audio folder is correctly configured', $this->textDomain) ?></span>
-			<span id="ap_disabled-message"><?php _e('Custom audio folder locations cannot be verified', $this->textDomain) ?></span>
-			<span id="ap_checking-message"><?php _e('Checking...', $this->textDomain) ?></span>
-			<span id="ap_success-message"><?php _e('Audio folder location verified', $this->textDomain) ?></span>
-			<span id="ap_failure-message"><?php _e('Audio folder location not found. Please check that the following folder exists on your server:', $this->textDomain) ?> <strong>&nbsp;</strong></span>
-		</div>
-
 		<h3><?php _e('How do you want to use the audio player?', $this->textDomain) ?></h3>
 		<p><?php _e('This set of options allows you to customize when your audio players appear.', $this->textDomain) ?></p>
 		<ul class="ap_optionlist">
@@ -70,8 +49,29 @@
 				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
 			</li>
 		</ul>
+		
+		<h3><?php _e('Default audio folder location', $this->textDomain) ?></h3>
+		<p>
+			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter the absolute URL to that location.', $this->textDomain); ?>
+		</p>
+		<p>
+			<select name="ap_audiowebpath_iscustom" id="ap_audiowebpath_iscustom">
+				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?> </option>
+				<option value="true"<?php if ($this->isCustomAudioRoot) echo(' selected="selected"') ?>>Custom</option>
+			</select>
+			<input type="text" id="ap_audiowebpath" name="ap_audiowebpath" size="40" value="<?php echo $this->options["audioFolder"] ?>" />
+		</p>
 
-		<h4><?php _e('Alternate content for excerpts', $this->textDomain) ?></h4>
+		<div id="ap_audiofolder-check" class="submit">
+			<input type="button" id="ap_check-button" class="submit" value="<?php _e('Verify', $this->textDomain) ?>" />
+			<span id="ap_info-message"><?php _e('Click this button to verify that the audio folder is correctly configured', $this->textDomain) ?></span>
+			<span id="ap_disabled-message"><?php _e('Custom audio folder locations cannot be verified', $this->textDomain) ?></span>
+			<span id="ap_checking-message"><?php _e('Checking...', $this->textDomain) ?></span>
+			<span id="ap_success-message"><?php _e('Audio folder location verified', $this->textDomain) ?></span>
+			<span id="ap_failure-message"><?php _e('Audio folder location not found. Please check that the following folder exists on your server:', $this->textDomain) ?> <strong>&nbsp;</strong></span>
+		</div>
+		
+		<h3><?php _e('Alternate content for excerpts', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('WordPress automatically creates excerpts (summaries) for your posts. These are used by some themes to show on archive pages instead of the full post. By default, WordPress strips all HTML from these excerpts. Here you can choose what Audio Player inserts in excerpts in place of the player.', $this->textDomain) ?>
 		</p>
@@ -159,7 +159,8 @@
 		</p>
 		
 		<p class="submit" id="ap_reset-color">
-			<input type="submit" class="submit" name="AudioPlayerReset" value="<?php _e('Reset colour scheme', $this->textDomain) ?>" />
+			<input type="hidden" name="AudioPlayerReset" id="ap_reset" value="0" />
+			<input type="button" class="submit" id="ap_resetcolor" value="<?php _e('Reset colour scheme', $this->textDomain) ?>" />
 		</p>
 		
 		<h3><?php _e('Options', $this->textDomain) ?></h3>

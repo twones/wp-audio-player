@@ -71,6 +71,13 @@ var AP_Admin = new Class({
 		$("ap_check-button").addEvent("click", this.checkAudioFolder.bind(this));
 		$("ap_audiowebpath_iscustom").addEvent("change", this.setAudioCheckButton.bind(this));
 		this.setAudioCheckButton();
+		
+		$("ap_reset").setProperty("value", "");
+		
+		$("ap_resetcolor").addEvent("click", function () {
+			$("ap_reset").setProperty("value", "1");
+			$("ap_option-form").submit();
+		});
     },
     
     selectColorField : function () {

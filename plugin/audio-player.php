@@ -480,11 +480,11 @@ if (!class_exists('AudioPlayer')) {
 		 * Handles submitted options (validates and saves modified options)
 		 */
 		function optionsPanelAction() {
-			if( $_POST['AudioPlayerReset'] ) {
+			if( $_POST['AudioPlayerReset'] == "1" ) {
 				// Reset colour scheme back to default values
 				$this->options["colorScheme"] = $this->defaultColorScheme;
 				$this->saveOptions();
-
+				
 				$goback = add_query_arg("updated", "true", wp_get_referer());
 				wp_redirect($goback);
 				exit();
@@ -660,7 +660,7 @@ if (!class_exists('AudioPlayer')) {
 		
 			$theme_css = implode('', file( get_theme_root() . "/" . $current_theme_data["Stylesheet"] . "/style.css"));
 		
-			preg_match_all('/:[^:;}]*#([abcdef1234567890]+)/i', $theme_css, $matches);
+			preg_match_all('/:[^:;}]*#([abcdef1234567890]{3,6})/i', $theme_css, $matches);
 		
 			return array_unique($matches[1]);
 		}
