@@ -664,7 +664,7 @@ if (!class_exists('AudioPlayer')) {
 		
 			$theme_css = implode('', file( get_theme_root() . "/" . $current_theme_data["Stylesheet"] . "/style.css"));
 		
-			preg_match_all('/:[^:;}]*#([abcdef1234567890]{3,6})/i', $theme_css, $matches);
+			preg_match_all('/:[^:,;\{\}].*?#([abcdef1234567890]{3,6})/i', $theme_css, $matches);
 		
 			return array_unique($matches[1]);
 		}

@@ -52,9 +52,6 @@
 		
 		<h3><?php _e('Default audio folder location', $this->textDomain) ?></h3>
 		<p>
-			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter the absolute URL to that location.', $this->textDomain); ?>
-		</p>
-		<p>
 			<select name="ap_audiowebpath_iscustom" id="ap_audiowebpath_iscustom">
 				<option value="false"<?php if (!$this->isCustomAudioRoot) echo(' selected="selected"') ?>><?php echo get_settings('siteurl') ?> </option>
 				<option value="true"<?php if ($this->isCustomAudioRoot) echo(' selected="selected"') ?>>Custom</option>
@@ -70,14 +67,9 @@
 			<span id="ap_success-message"><?php _e('Audio folder location verified', $this->textDomain) ?></span>
 			<span id="ap_failure-message"><?php _e('Audio folder location not found. Please check that the following folder exists on your server:', $this->textDomain) ?> <strong>&nbsp;</strong></span>
 		</div>
-		
-		<h3><?php _e('Alternate content for excerpts', $this->textDomain) ?></h3>
+
 		<p>
-			<?php _e('WordPress automatically creates excerpts (summaries) for your posts. These are used by some themes to show on archive pages instead of the full post. By default, WordPress strips all HTML from these excerpts. Here you can choose what Audio Player inserts in excerpts in place of the player.', $this->textDomain) ?>
-		</p>
-		<p>
-			<label for="ap_excerptalternate"><?php _e('Alternate content for excerpts', $this->textDomain) ?>:</label>
-			<input type="text" id="ap_excerptalternate" name="ap_excerptalternate" size="60" value="<?php echo( $this->options["excerptAlternate"] ) ?>" />
+			<?php _e('This is the default location for your audio files. When you use the [audio] syntax and don\'t provide an absolute URL for the mp3 file (the full URL including "http://") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose "Custom" from the drop down and enter the absolute URL to that location.', $this->textDomain); ?>
 		</p>
 	</div>
 	
@@ -228,6 +220,15 @@
 	</div>
 	
 	<div class="ap_panel" id="ap_panel-advanced">
+		<h3><?php _e('Alternate content for excerpts', $this->textDomain) ?></h3>
+		<p>
+			<?php _e('WordPress automatically creates excerpts (summaries) for your posts. These are used by some themes to show on archive pages instead of the full post. By default, WordPress strips all HTML from these excerpts. Here you can choose what Audio Player inserts in excerpts in place of the player.', $this->textDomain) ?>
+		</p>
+		<p>
+			<label for="ap_excerptalternate"><?php _e('Alternate content for excerpts', $this->textDomain) ?>:</label>
+			<input type="text" id="ap_excerptalternate" name="ap_excerptalternate" size="60" value="<?php echo( $this->options["excerptAlternate"] ) ?>" />
+		</p>
+
 		<h3><?php _e('Initial volume', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('This is the volume at which the player defaults to (0 is off, 100 is full volume)', $this->textDomain) ?>

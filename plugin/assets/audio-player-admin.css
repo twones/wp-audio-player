@@ -30,14 +30,14 @@ ul#ap_tabs {
 
 ul#ap_tabs li {
 	float: left;
-	border-top: 1px solid #DDDDDD;
-	border-left: 1px solid #DDDDDD;
+	border-top: 1px solid #EAF3FA;
+	border-left: 1px solid #EAF3FA;
 	margin: 0;
 	padding: 0;
 }
 
 ul#ap_tabs li.last {
-	border-right: 1px solid #DDDDDD;
+	border-right: 1px solid #EAF3FA;
 }
 
 ul#ap_tabs li a {
@@ -49,20 +49,22 @@ ul#ap_tabs li a {
 	color: #00019B;
 	padding: 5px 10px;
 	outline: none;
+	text-decoration: none;
 	-moz-outline: none;
 }
 
-ul#ap_tabs li a: hover {
+ul#ap_tabs li a:hover {
 	background: #F8F8F8;
+	text-decoration: underline;
 }
 
 ul#ap_tabs li.ap_active a {
-	background: #E5F3FF;
+	background: #EAF3FA;
 }
 
 div.ap_panel {
 	clear: both;
-	border: 1px solid #DDDDDD;
+	background: #EAF3FA;
 	padding: 10px;
 }
 
