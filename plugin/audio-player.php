@@ -174,7 +174,7 @@ if (!class_exists('AudioPlayer')) {
 
 				"colorScheme" => $this->defaultColorScheme
 			);
-
+			
 			$savedOptions = get_option($this->optionsName);
 			if (!empty($savedOptions)) {
 				foreach ($savedOptions as $key => $option) {
@@ -485,7 +485,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["colorScheme"] = $this->defaultColorScheme;
 				$this->saveOptions();
 				
-				$goback = add_query_arg("updated", "true", wp_get_referer());
+				$goback = add_query_arg("updated", "true", "options-general.php?page=audio-player-options");
 				wp_redirect($goback);
 				exit();
 			} else 	if( $_POST['AudioPlayerSubmit'] ) {
@@ -513,7 +513,11 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["showRemaining"] = isset( $_POST["ap_showRemaining"] );
 				$this->options["noInfo"] = isset( $_POST["ap_disableTrackInformation"] );
 				
-				$this->options["behaviour"] = $_POST['ap_behaviour'];
+				if (isset($_POST['ap_behaviour'])) {
+					$this->options["behaviour"] = $_POST['ap_behaviour'];
+				} else {
+					$this->options["behaviour"] = array();
+				}
 		
 				$this->options["excerptAlternate"] = trim(stripslashes($_POST['ap_excerptalternate']));
 				$this->options["rssAlternate"] = $_POST['ap_rssalternate'];
@@ -557,7 +561,7 @@ if (!class_exists('AudioPlayer')) {
 				
 				$this->saveOptions();
 
-				$goback = add_query_arg("updated", "true", wp_get_referer());
+				$goback = add_query_arg("updated", "true", "options-general.php?page=audio-player-options");
 				wp_redirect($goback);
 				exit();
 			}
