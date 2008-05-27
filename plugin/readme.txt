@@ -3,7 +3,7 @@
 Contributors: doryphores
 Donate link: http://www.1pixelout.net/code/audio-player-wordpress-plugin/
 Tags: media, audio, podcast, post
-Requires at least: 1.5
+Requires at least: 2.0
 Tested up to: 2.5.2
 Stable tag: 1.2.3
 
