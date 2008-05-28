@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-27 21:21-0000\n"
+"PO-Revision-Date: 2008-05-28 14:33-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,6 @@ msgstr "Clip audio: <a href=\"%s\" title=\"Télécharger Adobe Flash Player\">Ad
 
 #: ../audio-player.php:581
 #: ../php/options-panel.php:2
-#, fuzzy
 msgid "Audio Player"
 msgstr "Audio Player"
 
@@ -121,9 +120,8 @@ msgid "Checking..."
 msgstr ""
 
 #: ../php/options-panel.php:67
-#, fuzzy
 msgid "Audio folder location verified"
-msgstr "Options Audio Player"
+msgstr ""
 
 #: ../php/options-panel.php:68
 msgid "Audio folder location not found. Please check that the following folder exists on your server:"
