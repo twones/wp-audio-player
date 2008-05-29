@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Audio player
-Plugin URI: http://www.1pixelout.net/code/audio-player-wordpress-plugin/
+Plugin URI: http://www.wpaudioplayer.com
 Description: Highly configurable single track mp3 player.
 Version: 2.0b1
 Author: Martin Laine

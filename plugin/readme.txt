@@ -1,10 +1,10 @@
 === Audio Player ===
 
 Contributors: doryphores
-Donate link: http://www.1pixelout.net/code/audio-player-wordpress-plugin/
+Donate link: http://www.wpaudioplayer.com
 Tags: media, audio, podcast, post
 Requires at least: 2.0
-Tested up to: 2.5.2
+Tested up to: 2.5.1
 Stable tag: 1.2.3
 
 Highly configurable single track mp3 player.
@@ -18,11 +18,12 @@ such as autostart and loop and ID3 tag support.
 
 == Installation ==
 
-1. Extract the contents of the archive (zip file)
-2. Upload the audio-player folder to your 'wp-content/plugins' folder
-3. Log in to your WordPress admin and go to the 'Plugins' section. You should now see Audio Player in the list of available plugins
-4. Activate the plugin by clicking the 'activate' link
-5. Now go to the 'Options' section and select 'Audio Player' where you can configure the plugin
+1. Delete any old version of Audio Player (Important: make sure you delete ALL the files)
+2. Extract the contents of the archive (zip file)
+3. Upload the audio-player folder to your 'wp-content/plugins' folder
+4. Log in to your WordPress admin and go to the 'Plugins' section. You should now see Audio Player in the list of available plugins
+5. Activate the plugin by clicking the 'activate' link
+6. Now go to the 'Settings' section and select 'Audio Player' where you can configure the plugin
 
 == Frequently Asked Questions ==
 
