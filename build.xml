@@ -45,11 +45,12 @@
 
 	<target name="-deploy">
 		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
-		<unzip src="${dist.dir}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins/audio-player" overwrite="true"/>
+		<unzip src="${dist.dir}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins" overwrite="true"/>
 	</target>
 
 	<target name="build" depends="-init" description="Build plugin archive">
-		<copy todir="${build.dir}" includeemptydirs="true">
+		<mkdir dir="${build.dir}/audio-player"/>
+		<copy todir="${build.dir}/audio-player" includeemptydirs="true">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.*"/>
 				<exclude name="**/graphics-source.png"/>
@@ -58,7 +59,7 @@
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
+		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/audio-player/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
 	    	<available file="${player.src.dir}/player.swf"/>
@@ -66,10 +67,10 @@
 		
 		<antcall target="-compileIfMissing"/>
 		
-		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
+		<copy todir="${build.dir}/audio-player/assets" file="${player.src.dir}/player.swf"/>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<apply executable="java" parallel="false" dest="${build.dir}">
+		<apply executable="java" parallel="false" dest="${build.dir}/audio-player">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.js"/>
 				<exclude name="**/lib/*.js"/>
@@ -83,7 +84,7 @@
 			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
 		
-		<concat destfile="${build.dir}/assets/audio-player.js" append="true">
+		<concat destfile="${build.dir}/audio-player/assets/audio-player.js" append="true">
 	        <fileset dir="${plugin.src.dir}/assets">
 	        	<include name="lib/swfobject.js"/>
 	        </fileset>
@@ -117,7 +118,7 @@
 		<!-- Release to WP plugins repository -->
 		<svn svnkit="true" username="${svn.username}" password="${svn.password}">
 			<delete url="${svn.url}/trunk" message="Deleted current trunk"/>
-			<import url="${svn.url}/trunk" path="${build.dir}" message="Imported new release to trunk"/>
+			<import url="${svn.url}/trunk" path="${build.dir}/audio-player" message="Imported new release to trunk"/>
 			<copy srcUrl="${svn.url}/trunk" destUrl="${svn.url}/tags/${version.tag}" message="Tagged version ${version.tag}"/>
 		</svn>
 		
