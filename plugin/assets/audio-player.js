@@ -24,7 +24,7 @@ var AudioPlayer = {
         }
         
 		if (instanceOptions.transparentpagebg == "yes") {
-			flashParams.bgcolor = "transparent";
+			flashParams.bgcolor = "#FFFFFF";
 			flashParams.wmode = "transparent";
 		} else {
 			flashParams.bgcolor = "#" + instanceOptions.pagebg;
