@@ -1,20 +1,8 @@
-plugin.src.dir=plugin
-player.src.dir=source
-build.dir=build
-dist.dir=dist
-lib.dir=lib
-
 deploy.path=C:/Webroot/wordpress
 default.deploy.version=wp23
 flash.exe=C:/Program Files/Adobe/Adobe Flash CS3/Flash.exe
 
 svn.url=http://svn.wp-plugins.org/audio-player/branches/
-svn.username=
-svn.password=
 
 ftp.server=
 ftp.path=
-ftp.username=
-ftp.password=
-
-version.tag=2.0b1

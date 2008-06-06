@@ -18,7 +18,7 @@ such as autostart and loop and ID3 tag support.
 
 == Installation ==
 
-1. Delete any old version of Audio Player (Important: make sure you delete ALL the files)
+1. Delete any old version of Audio Player (VERY IMPORTANT: make sure you delete ALL the files, including audio-player.php)
 2. Extract the contents of the archive (zip file)
 3. Upload the audio-player folder to your 'wp-content/plugins' folder
 4. Log in to your WordPress admin and go to the 'Plugins' section. You should now see Audio Player in the list of available plugins

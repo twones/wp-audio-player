@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
-	<!-- Define all 3rd party tasks -->
-	<taskdef file="tasks.properties"/>
-	
 	<!-- Load properties -->
 	<property file="build.properties"/>
-
+	
+	<property name="plugin.src.dir" value="plugin"/>
+	<property name="player.src.dir" value="source"/>
+	<property name="build.dir" value="build"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="lib.dir" value="lib"/>
+	
+	<!-- Load task definitions -->
+	<path id="class.path">
+		<fileset dir="${lib.dir}" includes="*.jar"/>
+	</path>
+	<taskdef file="tasks.properties" classpathref="class.path"/>
+	
 	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
 	
 	<target name="-init" depends="clean">
@@ -108,12 +117,17 @@
 	</target>
 	
 	<target name="release" depends="build" description="Release and deploy new version">
-		<!--<input message="New version number:" addproperty="version.tag"/>-->
+		<input message="FTP username:" addproperty="ftp.username"/>
+		<input message="FTP password:" addproperty="ftp.password"/>
 		
 		<!-- Release to 1pixelout.net -->
-		<ftp server="${ftp.server}" action="put" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}">
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}">
 			<fileset dir="${dist.dir}"/>
 		</ftp>
+		
+		<input message="WP SVN username:" addproperty="svn.username"/>
+		<input message="WP SVN password:" addproperty="svn.password"/>
+		<input message="New version:" addproperty="version.tag"/>
 		
 		<!-- Release to WP plugins repository -->
 		<svn svnkit="true" username="${svn.username}" password="${svn.password}">
