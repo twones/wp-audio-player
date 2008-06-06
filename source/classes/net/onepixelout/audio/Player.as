@@ -519,7 +519,7 @@ class net.onepixelout.audio.Player
 		{
 			case "pause":
 				// Another player has asked us to stop
-				if(_state == PLAYING)
+				if(_state == PLAYING || _state == NOTFOUND)
 				{
 					// If the track is still loading, stop everything including the download
 					if(_options.killDownloads && _loaded < 1) this.stop(false);

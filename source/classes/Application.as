@@ -474,7 +474,7 @@ class Application
 		volume_mc.update(playerState.volume);
 
 		// Enable / disable control button
-		control_mc.enabled = (playerState.state >= Player.STOPPED);
+		control_mc.enabled = (playerState.state != Player.INITIALISING);
 		
 		// Update progress bar if necessary
 		if(playerState.state != Player.PAUSED) progress_mc.updateProgress(playerState.played);
@@ -503,8 +503,6 @@ class Application
 			case Player.NOTFOUND:
 				if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
 				display_mc.setText(trackNumber + "File not found", 0);
-				// Also toggle control button
-				if(control_mc.state == "pause") control_mc.toggle();
 				display_mc.setTime(0);
 				break;
 			case Player.INITIALISING:
