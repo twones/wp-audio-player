@@ -41,6 +41,7 @@ var AudioPlayer = {
         }
 
 		flashAttributes.id = elementID.replace("-", "_") + "_player";
+		flashAttributes.style = "outline: none";
 
         swfobject.embedSWF(this.playerURL, elementID, instanceOptions.width.toString(), "24", "6.0.0", false, flashVars, flashParams, flashAttributes);
     }
