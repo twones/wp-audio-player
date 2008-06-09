@@ -4,9 +4,10 @@
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.utils.setInterval;
 	import flash.utils.clearInterval;
-	//import net.onepixelout.audio.*;
+	import net.onepixelout.audio.*;
 	
 	[SWF( backgroundColor='0', frameRate='35', height='24', width='290')]
 	
@@ -16,12 +17,12 @@
 		//private static var _player:Player;
 		
 		// UI Elements
-		private var masked_mc:MovieClip;
+		private var masked_mc:Sprite;
 		private var background_mc:Sprite;
 		private var progress_mc:MovieClip;
 		private var loading_mc:MovieClip;
-		private var next_mc:MovieClip;
-		private var previous_mc:MovieClip;
+		private var next_mc:Sprite;
+		private var previous_mc:Sprite;
 		private var mask_mc:Sprite;
 		private var display_mc:MovieClip;
 		private var control_mc:MovieClip;
@@ -80,6 +81,9 @@
 				_state = OPEN;
 			}
 			
+			// TODO: use LoaderInfo to load FlashVars
+			var track:Track = new Track("http://www.1pixelout.net/audio/adbusters.mp3");
+			track.load();
 			_setStage();
 		}
 		
@@ -88,6 +92,7 @@
 		* Adds elements to stage and links up various listeners
 		*/
 		private function _setStage():void {
+			// Stage settings
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
@@ -96,8 +101,9 @@
 	
 			// Add elements to stage
 			
-			// Masked elements
-			masked_mc = new MovieClip();
+			// Masked elements (this elements are hidden when the player is closed)
+			masked_mc = new Sprite();
+			
 			background_mc = new Background();
 			masked_mc.addChild(background_mc);
 			progress_mc = new Progress();
@@ -105,6 +111,32 @@
 			addEventListener(ProgressEvent.PROGRESS_CHANGE, progressChangeHandler);
 			loading_mc = new Loading();
 			masked_mc.addChild(loading_mc);
+			
+			// Next and previous buttons (if needed)
+			//if (_options.demomode || _player.getTrackCount() > 1) {
+			if (_options.demomode) {
+				next_mc = new Toggle();
+				masked_mc.addChild(next_mc);
+				previous_mc = new Toggle();
+				masked_mc.addChild(previous_mc);
+				
+				// Make it point the other way
+				previous_mc.rotation = -180;
+				
+				if(!_options.demomode) {
+					// Add event handlers
+					next_mc.addEventListener(MouseEvent.CLICK, function() {
+						//_player.next();
+						// Reset time display
+						display_mc.setTime(0);
+					});
+					previous_mc.addEventListener(MouseEvent.CLICK, function() {
+						//_player.previous();
+						// Reset time display
+						display_mc.setTime(0);
+					});
+				}
+			}
 			
 			addChild(masked_mc);
 			
@@ -142,7 +174,7 @@
 				loading_mc.update(0.6);
 				display_mc.setText("1 Pixel Out: Demo Mode", 0, true);
 				display_mc.setTime(356560, _options.remaining);
-				//previous_mc._alpha = 50;
+				previous_mc.alpha = 0.5;
 			}
 		}
 		
@@ -169,12 +201,12 @@
 			}
 			loading_mc.y = 20;
 			
-			/*if (_options.demomode || trackCount > 1) {
+			if (_options.demomode || trackCount > 1) {
 				next_mc.x = stage.stageWidth - 43;
 				next_mc.y = 12;
 				previous_mc.x = volume_mc.realWidth + 6;
 				previous_mc.y = 12;
-			}*/
+			}
 			
 			mask_mc.x = volume_mc.realWidth - 7;
 			
@@ -216,7 +248,7 @@
 		/**
 		* onResize event handler
 		*/
-		public function resizeHandler():void {
+		public function resizeHandler(evt:Event):void {
 			_alignAndResize();
 		}
 		
@@ -315,6 +347,134 @@
 			
 			control_mc.x += dx;
 			mask_mc.width += dx;
+		}
+		
+		
+		// ------------------------------------------------------------
+		// Periodical update method
+	
+		/**
+		* General periodical update method. It performs the following:
+		* Updates various UI element states (volume, control, progress bar and loading bar)
+		*/
+		/*private function _update():void {
+			// Set colour scheme at runtime
+			_setColors(false);
+	
+			if (_options.demomode) {
+				return;
+			}
+			
+			// Get player state (head positions, stats etc)
+			var playerState:Object = _player.getState();
+			
+			// Update volume control state
+			volume_mc.update(playerState.volume);
+	
+			// Enable / disable control button
+			control_mc.enabled = (playerState.state != Player.INITIALISING);
+			
+			// Update progress bar if necessary
+			if (playerState.state != Player.PAUSED) {
+				progress_mc.updateProgress(playerState.played);
+			}
+			
+			// Tell progress bar how far it can go
+			progress_mc.setMaxValue(playerState.loaded);
+	
+			// Update loading bar state
+			loading_mc.update(playerState.loaded);
+			
+			if (playerState.trackCount > 1) {
+				next_mc.enabled = playerState.hasNext;
+				previous_mc.enabled = playerState.hasPrevious;
+				
+				if (playerState.hasNext) {
+					next_mc._alpha = 100;
+				} else {
+					next_mc._alpha = 50;
+				}
+				
+				if (playerState.hasPrevious) {
+					previous_mc._alpha = 100;
+				} else {
+					previous_mc._alpha = 50;
+				}
+			}
+			
+			var trackNumber:String = "";
+			
+			// Update text display
+			switch (playerState.state) {
+				case Player.NOTFOUND:
+					if (playerState.trackCount > 1) {
+						trackNumber = (playerState.trackIndex + 1) + " - ";
+					}
+					display_mc.setText(trackNumber + "File not found", 0);
+					display_mc.setTime(0);
+					break;
+					
+				case Player.INITIALISING:
+					display_mc.setText("Initialising...", 0);
+					display_mc.setTime(0);
+					break;
+					
+				default:
+					var message = "";
+					if (playerState.connecting) {
+						message = "Connecting...";
+					} else {
+						if (!_options.noinfo && playerState.trackCount > 1) {
+							message = (playerState.trackIndex + 1) + ": ";
+						}
+						if (playerState.buffering) {
+							message += "Buffering...";
+						} else if (!_options.noinfo) {
+							if (playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songname.length > 0) {
+								message += playerState.trackInfo.artist;
+								if (playerState.trackInfo.artist.length > 0) {
+									message += " - ";
+								}
+								message += playerState.trackInfo.songname;
+							} else {
+								message = "Track #" + (playerState.trackIndex + 1);
+							}
+						}
+					}
+					display_mc.setText(message, 0, true);
+					display_mc.setTime(_options.remaining ? playerState.duration - playerState.position : playerState.position, _options.remaining);
+					break;
+			}
+		}*/
+
+	
+		/**
+		* Decodes a 6-bit encoded string
+		* Thanks to mattiasdh (mattias_d@excite.com) for this
+		* http://modxcms.com/forums/index.php/topic,9340.0.html
+		* @param	source the string to decode
+		* @return	the decoded string
+		*/
+		private function _sixBitDecode(sourceStr) {
+			var ntexto:String = "";
+			var nntexto:String = "";
+			var codeKey:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"
+			var charCode:uint;
+			var charChar:String;
+			var charCodeBin:String;
+			var i:uint;
+			for (i=0; i<sourceStr.length; i++) {
+				charCode = codeKey.indexOf(sourceStr.substr(i,1)); // char index
+				charCodeBin = ("000000" + charCode.toString(2)).substr(-6,6); // char index in binary, 6 bits
+				ntexto += charCodeBin;
+			}
+			for (i=0; i< ntexto.length; i+=8) {
+				charCodeBin = ntexto.substr(i, 8); // char code in binary
+				charCode = parseInt(charCodeBin, 2);
+				charChar = String.fromCharCode(charCode);
+				nntexto += charChar;
+			}
+			return nntexto;
 		}
 
 	}

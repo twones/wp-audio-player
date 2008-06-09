@@ -1,2 +1,21 @@
 ﻿<flash_project name="Audio Player (as 3.0)" version="1">
+    <project_folder name="net" expanded="true">
+        <project_folder name="onepixelout" expanded="true">
+            <project_folder name="audio" expanded="true">
+                <project_file path="./net/onepixelout/audio/Track.as" filetype="as" />
+                <project_file path="./net/onepixelout/audio/Playlist.as" filetype="as" />
+            </project_folder>
+        </project_folder>
+    </project_folder>
+    <project_file path="./VolumeEvent.as" filetype="as" />
+    <project_file path="./Control.as" filetype="as" />
+    <project_file path="./ControlEvent.as" filetype="as" />
+    <project_file path="./Display.as" filetype="as" />
+    <project_file path="./Loading.as" filetype="as" />
+    <project_file path="./Main.as" filetype="as" />
+    <project_file path="./Main.fla" filetype="fla" profile="" def_file="true" />
+    <project_file path="./Progress.as" filetype="as" />
+    <project_file path="./ProgressEvent.as" filetype="as" />
+    <project_file path="./Ticker.as" filetype="as" />
+    <project_file path="./Volume.as" filetype="as" />
 </flash_project>
