@@ -457,11 +457,9 @@ if (!class_exists('AudioPlayer')) {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
 				$playerCode = '<p class="audioplayer-container"><span id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</span></p>';
-				$playerCode .= '<script type="text/javascript"><!--';
-				$playerCode .= "\n";
+				$playerCode .= '<script type="text/javascript">';
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
-				$playerCode .= "\n";
-				$playerCode .= '--></script>';
+				$playerCode .= '</script>';
 				return $playerCode;
 			}
 		}
@@ -594,9 +592,7 @@ if (!class_exists('AudioPlayer')) {
 			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
-			echo "\n";
 			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
-			echo "\n";
 			echo '</script>';
 			echo "\n";
 		}
