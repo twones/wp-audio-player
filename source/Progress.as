@@ -11,36 +11,43 @@
 			bar_mc.width = 0;
 			_movingHead = false;
 			
+			mouseChildren = false;
+			
 			addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent) {
 				_movingHead = true;
-				_moveProgressBar(evt.stageX + x);
-			});
-			addEventListener(MouseEvent.MOUSE_MOVE, function(evt:MouseEvent) {
-				if(_movingHead) _moveProgressBar(evt.stageX + x);
-			});
-			addEventListener(MouseEvent.MOUSE_UP, function(evt:MouseEvent) {
-				var progressEvent:ProgressEvent = new ProgressEvent(bar_mc.width / track_mc.width);
-				parent.dispatchEvent(progressEvent);
-				_movingHead = false;
+				_moveProgressBar(evt.localX);
+				stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 			});
 			
 			setMaxValue(1);
 		}
 		
-		public function updateProgress(played:Number):void
-		{
+		private function mouseUpHandler(evt:MouseEvent):void {
+			var progressEvent:ProgressEvent = new ProgressEvent(bar_mc.width / track_mc.width);
+			dispatchEvent(progressEvent);
+			_movingHead = false;
+			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+		}
+		
+		private function mouseMoveHandler(evt:MouseEvent):void {
+			if(_movingHead) {
+				_moveProgressBar(evt.stageX - x);
+			}
+		}
+		
+		public function updateProgress(played:Number):void {
 			if (!_movingHead) {
 				bar_mc.width = Math.round(played * track_mc.width);
 			}
 		}
 		
-		public function setMaxValue(maxValue:Number):void
-		{
+		public function setMaxValue(maxValue:Number):void {
 			_maxPos = maxValue * track_mc.width;
 		}
 		
-		public function resize(newWidth:Number):void
-		{
+		public function resize(newWidth:Number):void {
 			track_mc.width = newWidth - 2;
 			border_mc.width = newWidth;
 		}

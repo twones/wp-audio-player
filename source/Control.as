@@ -52,7 +52,7 @@
 		public function toggle(broadcast:Boolean = false):void {
 			if (this.state == PLAY_STATE) {
 				if (broadcast) {
-					parent.dispatchEvent(new ControlEvent(ControlEvent.PLAY));
+					dispatchEvent(new ControlEvent(ControlEvent.PLAY));
 				}
 				this.play_mc.visible = false;
 				this.play_mc.hover_mc.visible = false;
@@ -60,7 +60,7 @@
 				this.state = PAUSE_STATE;
 			} else {
 				if (broadcast) {
-					parent.dispatchEvent(new ControlEvent(ControlEvent.PAUSE));
+					dispatchEvent(new ControlEvent(ControlEvent.PAUSE));
 				}
 				this.pause_mc.visible = false;
 				this.pause_mc.hover_mc.visible = false;

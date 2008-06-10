@@ -1,4 +1,5 @@
 ﻿package {
+	
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -11,10 +12,10 @@
 	
 	[SWF( backgroundColor='0', frameRate='35', height='24', width='290')]
 	
-	public class Main extends MovieClip
-	{
+	public class Main extends MovieClip {
+		
 		// Audio Player
-		//private static var _player:Player;
+		private var _player:Player;
 		
 		// UI Elements
 		private var masked_mc:Sprite;
@@ -29,7 +30,7 @@
 		private var volume_mc:MovieClip;
 		
 		// State variables
-		private var _state:int;
+		private var _state:uint;
 		
 		private static const CLOSED:uint = 0;
 		private static const CLOSING:uint = 1;
@@ -71,20 +72,75 @@
 			remaining:false,
 			noinfo:false,
 			demomode:false,
-			bufferTime:5,
-			volume:60
+			buffer:5,
+			initialVolume:60,
+			titles:"",
+			artists:""
 		};
 		
 		public function Main():void {
+			var params:Object = loaderInfo.parameters;
+			
+			var options:Object = {};
+			var soundFile:String = "";
+			
+			for (var key:String in params) {
+				if (key == "soundfile" || key == "soundFile") {
+					soundFile = params[key];
+				} else if (params[key] == "yes") {
+					options[key] = true;
+				} else if (params[key] == "no") {
+					options[key] = false;
+				} else {
+					options[key] = params[key];
+				}
+			}
+			
+			_setOptions(options);
+			
+			if (!_options.demomode && _options.encode) {
+				soundFile = _sixBitDecode(soundFile);
+			}
+			
+			if (!_options.demomode) {
+				var playerParams:Object = {};
+		
+				playerParams.initialVolume = _options.initialVolume;
+				playerParams.bufferTime = _options.buffer;
+				playerParams.enableCycling = _options.loop;
+	
+				// Create audio player instance and load playlist
+				_player = new Player(playerParams);
+				
+				_player.loadPlaylist(soundFile, _options.titles, _options.artists);
+				
+				if (!_options.demomode) {
+					_player.addEventListener(PlayerEvent.TRACK_STOP, stopHandler);
+				}
+			}
+			
 			_state = CLOSED;
 			if (_options.demomode || !_options.animation || _options.autostart) {
 				_state = OPEN;
 			}
 			
-			// TODO: use LoaderInfo to load FlashVars
-			var track:Track = new Track("http://www.1pixelout.net/audio/adbusters.mp3");
-			track.load();
 			_setStage();
+			
+			if (ExternalInterface.available) {
+				ExternalInterface.addCallback("closePlayer", stop);
+			}
+			
+			setInterval(_update, 100);
+		}
+		
+		/**
+		* Writes options object to internal options struct
+		* @param	options
+		*/
+		private function _setOptions(options:Object):void {
+			for (var key:String in options) {
+				_options[key] = options[key];
+			}
 		}
 		
 		/**
@@ -108,13 +164,12 @@
 			masked_mc.addChild(background_mc);
 			progress_mc = new Progress();
 			masked_mc.addChild(progress_mc);
-			addEventListener(ProgressEvent.PROGRESS_CHANGE, progressChangeHandler);
+			progress_mc.addEventListener(ProgressEvent.PROGRESS_CHANGE, progressChangeHandler);
 			loading_mc = new Loading();
 			masked_mc.addChild(loading_mc);
 			
 			// Next and previous buttons (if needed)
-			//if (_options.demomode || _player.getTrackCount() > 1) {
-			if (_options.demomode) {
+			if (_options.demomode || _player.getTrackCount() > 1) {
 				next_mc = new Toggle();
 				masked_mc.addChild(next_mc);
 				previous_mc = new Toggle();
@@ -126,12 +181,12 @@
 				if(!_options.demomode) {
 					// Add event handlers
 					next_mc.addEventListener(MouseEvent.CLICK, function() {
-						//_player.next();
+						_player.next();
 						// Reset time display
 						display_mc.setTime(0);
 					});
 					previous_mc.addEventListener(MouseEvent.CLICK, function() {
-						//_player.previous();
+						_player.previous();
 						// Reset time display
 						display_mc.setTime(0);
 					});
@@ -157,12 +212,12 @@
 			// Volume control
 			volume_mc = new Volume();
 			addChild(volume_mc);
-			addEventListener(VolumeEvent.VOLUME_CHANGE, volumeHandler);
+			volume_mc.addEventListener(VolumeEvent.VOLUME_CHANGE, volumeHandler);
 			
 			control_mc = new Control();
 			addChild(control_mc);
-			addEventListener(ControlEvent.PLAY, playHandler);
-			addEventListener(ControlEvent.PAUSE, pauseHandler);
+			control_mc.addEventListener(ControlEvent.PLAY, playHandler);
+			control_mc.addEventListener(ControlEvent.PAUSE, pauseHandler);
 			
 			_alignAndResize();
 			
@@ -186,8 +241,7 @@
 			// Align elements
 			background_mc.x = volume_mc.realWidth - 7;
 			
-			var trackCount:uint = 1;
-			//var trackCount:uint = _player.getTrackCount();
+			var trackCount:uint = _player.getTrackCount();
 			
 			progress_mc.x = volume_mc.realWidth + 4;
 			if (_options.demomode || trackCount > 1) {
@@ -253,7 +307,7 @@
 		}
 		
 		public function playHandler(evt:Event):void {
-			//_player.play();
+			_player.play();
 			
 			// Show volume control
 			volume_mc.toggleControl(true);
@@ -264,7 +318,7 @@
 			}
 		}
 		
-		public function stopHandler():void {
+		public function stopHandler(evt:Event):void {
 			// If player is open and animation is enabled, close the player
 			if (_options.animation && _state > CLOSING) {
 				closePlayer();
@@ -280,7 +334,7 @@
 		}
 		
 		public function pauseHandler(evt:Event):void {
-			//_player.pause();
+			_player.pause();
 			
 			// Hide volume control
 			volume_mc.toggleControl(false);
@@ -291,13 +345,13 @@
 			}
 		}
 		
-		public function progressChangeHandler(evt:Event):void {
-			//_player.moveHead(evt.newPosition);
+		public function progressChangeHandler(evt:ProgressEvent):void {
+			_player.moveHead(evt.newPosition);
 		}
 		
-		public function volumeHandler(evt:Event):void {
+		public function volumeHandler(evt:VolumeEvent):void {
 			// Set the volume and force a broadcast of the changed volume
-			//_player.setVolume(evt.newVolume, evt.final);
+			_player.setVolume(evt.newVolume, evt.final);
 		}
 		
 		
@@ -357,10 +411,10 @@
 		* General periodical update method. It performs the following:
 		* Updates various UI element states (volume, control, progress bar and loading bar)
 		*/
-		/*private function _update():void {
+		private function _update():void {
 			// Set colour scheme at runtime
-			_setColors(false);
-	
+			//_setColors(false);
+			
 			if (_options.demomode) {
 				return;
 			}
@@ -370,9 +424,9 @@
 			
 			// Update volume control state
 			volume_mc.update(playerState.volume);
-	
+			
 			// Enable / disable control button
-			control_mc.enabled = (playerState.state != Player.INITIALISING);
+			control_mc.mouseEnabled = (playerState.state != Player.INITIALISING);
 			
 			// Update progress bar if necessary
 			if (playerState.state != Player.PAUSED) {
@@ -386,19 +440,19 @@
 			loading_mc.update(playerState.loaded);
 			
 			if (playerState.trackCount > 1) {
-				next_mc.enabled = playerState.hasNext;
-				previous_mc.enabled = playerState.hasPrevious;
+				next_mc.mouseEnabled = playerState.hasNext();
+				previous_mc.mouseEnabled = playerState.hasPrevious();
 				
 				if (playerState.hasNext) {
-					next_mc._alpha = 100;
+					next_mc.alpha = 1;
 				} else {
-					next_mc._alpha = 50;
+					next_mc.alpha = 0.5;
 				}
 				
 				if (playerState.hasPrevious) {
-					previous_mc._alpha = 100;
+					previous_mc.alpha = 1;
 				} else {
-					previous_mc._alpha = 50;
+					previous_mc.alpha = 0.5;
 				}
 			}
 			
@@ -420,7 +474,7 @@
 					break;
 					
 				default:
-					var message = "";
+					var message:String = "";
 					if (playerState.connecting) {
 						message = "Connecting...";
 					} else {
@@ -430,12 +484,12 @@
 						if (playerState.buffering) {
 							message += "Buffering...";
 						} else if (!_options.noinfo) {
-							if (playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songname.length > 0) {
+							if (playerState.trackInfo.artist.length > 0 || playerState.trackInfo.songName.length > 0) {
 								message += playerState.trackInfo.artist;
 								if (playerState.trackInfo.artist.length > 0) {
 									message += " - ";
 								}
-								message += playerState.trackInfo.songname;
+								message += playerState.trackInfo.songName;
 							} else {
 								message = "Track #" + (playerState.trackIndex + 1);
 							}
@@ -445,7 +499,7 @@
 					display_mc.setTime(_options.remaining ? playerState.duration - playerState.position : playerState.position, _options.remaining);
 					break;
 			}
-		}*/
+		}
 
 	
 		/**

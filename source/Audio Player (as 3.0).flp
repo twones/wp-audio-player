@@ -4,6 +4,8 @@
             <project_folder name="audio" expanded="true">
                 <project_file path="./net/onepixelout/audio/Track.as" filetype="as" />
                 <project_file path="./net/onepixelout/audio/Playlist.as" filetype="as" />
+                <project_file path="./net/onepixelout/audio/Player.as" filetype="as" />
+                <project_file path="./net/onepixelout/audio/PlayerEvent.as" filetype="as" />
             </project_folder>
         </project_folder>
     </project_folder>

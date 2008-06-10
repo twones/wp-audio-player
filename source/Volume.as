@@ -1,4 +1,5 @@
 ﻿package {
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.utils.setInterval;
@@ -17,36 +18,45 @@
 		 */
 		public function Volume():void {
 			control_mc.alpha = 0;
+			control_mc.mouseEnabled = false;
+			control_mc.mouseChildren = false;
 			button_mc.visible = false;
-			icon_mc.alpha = 100;
+			icon_mc.alpha = 1;
+			icon_mc.mouseEnabled = false;
 			
 			_settingVolume = false;
 			
-			_initialMaskPos =control_mc.mask_mc.x;
+			_initialMaskPos = control_mc.mask_mc.x;
 			
 			this.realWidth = background_mc.width;
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent) {
+			button_mc.addEventListener(MouseEvent.MOUSE_DOWN, function(evt:MouseEvent):void {
 				_settingVolume = true;
-				_moveVolumeBar(evt.localX + x);
+				_moveVolumeBar(evt.localX - 5);
+				stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			});
-			addEventListener(MouseEvent.MOUSE_MOVE, function(evt:MouseEvent) {
+			button_mc.addEventListener(MouseEvent.MOUSE_MOVE, function(evt:MouseEvent):void {
 				if (_settingVolume) {
-					_moveVolumeBar(evt.localX + x);
+					_moveVolumeBar(evt.localX - 5);
 					var volumeEvent:VolumeEvent = new VolumeEvent();
 					volumeEvent.newVolume = _getValue();
 					volumeEvent.final = false;
-					parent.dispatchEvent(volumeEvent);
+					dispatchEvent(volumeEvent);
 				}
 			});
-			addEventListener(MouseEvent.MOUSE_UP, function(evt:MouseEvent) {
-				_settingVolume = false;
-				_moveVolumeBar(evt.localX + x);
+		}
+		
+		private function mouseUpHandler(evt:MouseEvent):void {
+			_settingVolume = false;
+			if (evt.target == button_mc) {
+				_moveVolumeBar(evt.localX - 5);
 				var volumeEvent:VolumeEvent = new VolumeEvent();
 				volumeEvent.newVolume = _getValue();
 				volumeEvent.final = true;
-				parent.dispatchEvent(volumeEvent);
-			});
+				dispatchEvent(volumeEvent);
+			}
+			
+			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 		}
 		
 		/**
@@ -102,7 +112,7 @@
 				icon_mc.alpha = targetIcon;
 				icon_mc.x = targetIconX;
 				
-				button_mc.visible = (control_mc.alpha == 100);
+				button_mc.visible = (control_mc.alpha == 1);
 				
 				clearInterval(_clearID);
 				return;

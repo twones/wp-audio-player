@@ -25,16 +25,19 @@
 			_notFound = false;
 			
 			_id3Tags = {};
-	
+			
+			_id3Tags.songName = "";
+			_id3Tags.artist = "";
+			
 			if (title != "" && artist != "") {
-				_id3Tags.songname = title;
+				_id3Tags.songName = title;
 				_id3Tags.artist = artist;
 				_id3Loaded = true;
 			}
 		}
 		
 		public function setTitle(title:String):void {
-			_id3Tags.songname = title;
+			_id3Tags.songName = title;
 			_id3Loaded = true;
 		}
 		
@@ -64,10 +67,7 @@
 		* Deletes sound object if not fully loaded (stops download)
 		*/
 		public function unLoad():void {
-			if (!_isFullyLoaded) {
-				_soundObject = new Sound();
-				_isLoaded = false;
-			}
+			_soundObject.close();
 		}
 		
 		public function isFullyLoaded():Boolean {

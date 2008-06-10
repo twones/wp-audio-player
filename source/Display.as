@@ -15,6 +15,9 @@
 			_messages = new Array();
 			_currentSlot = 0;
 			
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			// Initialise and start ticker
 			_ticker = new Ticker(message_txt, {});
 			_ticker.start();
