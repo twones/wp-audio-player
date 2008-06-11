@@ -38,7 +38,9 @@ var AudioPlayer = function () {
 				flashParams.bgcolor = "#FFFFFF";
 				flashParams.wmode = "transparent";
 			} else {
-				flashParams.bgcolor = "#" + instanceOptions.pagebg;
+				if (instanceOptions.pagebg) {
+					flashParams.bgcolor = "#" + instanceOptions.pagebg;
+				}
 				flashParams.wmode = "opaque";
 			}
 			

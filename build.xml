@@ -100,6 +100,11 @@
 	    </concat>
 		
 		<zip destfile="${dist.dir}/audio-player.zip" basedir="${build.dir}"/>
+		
+		<zip destfile="${dist.dir}/audio-player-standalone.zip">
+			<zipfileset dir="${build.dir}/audio-player/assets" includes="audio-player.js"/>
+			<zipfileset dir="${build.dir}/audio-player/assets" includes="player.swf"/>
+		</zip>
 	</target>
 	
 	<target name="-compileIfMissing" unless="swfExists">
@@ -138,4 +143,17 @@
 		
 		<antcall target="clean"/>
 	</target>
+
+	<target name="release.wpap" depends="build" description="Release to wpaudioplayer.com">
+		<input message="FTP username:" addproperty="ftp.username"/>
+		<input message="FTP password:" addproperty="ftp.password"/>
+		
+		<!-- Release to 1pixelout.net -->
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}/wpaudioplayer/assets/downloads">
+			<fileset dir="${dist.dir}"/>
+		</ftp>
+		
+		<antcall target="clean"/>
+	</target>
+
 </project>
