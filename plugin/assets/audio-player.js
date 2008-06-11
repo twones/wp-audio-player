@@ -3,6 +3,11 @@ var AudioPlayer = function () {
 	var activeInstance;
 	var playerURL = "";
 	var defaultOptions = {};
+	var currentVolume = -1;
+	
+	var getMovie = function (name) {
+		return document.all ? window[name] : document[name];
+	};
 	
 	return {
 		setup: function (url, options) {
@@ -36,7 +41,7 @@ var AudioPlayer = function () {
 				flashParams.bgcolor = "#" + instanceOptions.pagebg;
 				flashParams.wmode = "opaque";
 			}
-	
+			
 			flashParams.menu = "false";
 			
 	        for (key in instanceOptions) {
@@ -47,22 +52,37 @@ var AudioPlayer = function () {
 	        }
 	
 			flashAttributes.id = elementID.replace("-", "_") + "_player";
+			flashAttributes.name = flashAttributes.id;
 			flashAttributes.style = "outline: none";
 			
 			flashVars.playerID = flashAttributes.id;
 			
-			swfobject.embedSWF(playerURL, elementID, instanceOptions.width.toString(), "24", "6.0.0", false, flashVars, flashParams, flashAttributes);
+			swfobject.embedSWF(playerURL, elementID, instanceOptions.width.toString(), "24", "8.0.0", false, flashVars, flashParams, flashAttributes);
 			
 			instances.push(flashAttributes.id);
 	    },
+		
+		syncVolumes: function (playerID, volume) {	
+			currentVolume = volume;
+			for (var i = 0; i < instances.length; i++) {
+				if (instances[i] != playerID) {
+					getMovie(instances[i]).setVolume(currentVolume);
+				}
+			}
+		},
 		
 		activate: function (playerID) {
 			if (activeInstance) {
 				activeInstance.closePlayer();
 			}
 			
-			activeInstance = document.getElementById(playerID);
+			activeInstance = getMovie(playerID);
+		},
+		
+		getVolume: function (playerID) {
+			return currentVolume;
 		}
+		
 	}
 	
 }();

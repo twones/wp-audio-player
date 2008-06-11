@@ -1,6 +1,7 @@
 ﻿import net.onepixelout.audio.*;
-import com.freesome.events.LcBroadcast;
+//import com.freesome.events.LcBroadcast;
 import mx.utils.Delegate;
+import flash.external.ExternalInterface;
 
 /**
 * The definitive AS2 mp3 player from 1 Pixel Out
@@ -47,7 +48,7 @@ class net.onepixelout.audio.Player
 	private var _delayID:Number; // For calling a method with a delay
 	
 	// Local connection broadcaster
-	private var _lcBroadcaster:LcBroadcast;
+	//private var _lcBroadcaster:LcBroadcast;
 	
 	private var _playOnInit:Boolean;
 	
@@ -57,6 +58,7 @@ class net.onepixelout.audio.Player
 
 	// Options structure
 	private var _options:Object = {
+		playerID:"",
 		initialVolume:60,
 		enableCycling:true,
 		syncVolumes:true,
@@ -85,7 +87,14 @@ class net.onepixelout.audio.Player
 		// Run watcher every 10ms
 		_clearID = setInterval(this, "_watch", 50);
 		
-		// Create listener for local connection broadcaster
+		if (ExternalInterface.available) {
+			ExternalInterface.addCallback("closePlayer", this, ei_closePlayer);
+			ExternalInterface.addCallback("setVolume", this, ei_setVolume);
+		}
+		
+		_activate();
+		
+		/*// Create listener for local connection broadcaster
 		var listen = new Object();
 		listen.onBroadcast = Delegate.create(this, _receiveMessage);
 		listen.onInit = Delegate.create(this, _activate);
@@ -94,7 +103,7 @@ class net.onepixelout.audio.Player
 		_lcBroadcaster = new LcBroadcast("net.1pixelout.audio.Player");
 		
 		// Add the listener
-		_lcBroadcaster.addListener(listen);
+		_lcBroadcaster.addListener(listen);*/
 	}
 	
 	/**
@@ -158,7 +167,10 @@ class net.onepixelout.audio.Player
 		_updateStats();
 		
 		// Tell any other players to stop playing (don't want no cacophony do we?)
-		_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
+		if (ExternalInterface.available) {
+			ExternalInterface.call("AudioPlayer.activate", _options.playerID);
+		}
+		//_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
 	}
 	
 	/**
@@ -282,7 +294,10 @@ class net.onepixelout.audio.Player
 		if(_state > STOPPED) _playhead.setVolume(_volume);
 		
 		// Tell any other players that the volume has changed
-		if(_options.syncVolumes && broadcast) _lcBroadcaster.broadcast({msg:"volume", volume:_volume, id:_lcBroadcaster.internalID});
+		if (ExternalInterface.available && _options.syncVolumes && broadcast) {
+			ExternalInterface.call("AudioPlayer.syncVolumes", _options.playerID, _volume);
+		}
+		//if(_options.syncVolumes && broadcast) _lcBroadcaster.broadcast({msg:"volume", volume:_volume, id:_lcBroadcaster.internalID});
 	}
 	
 	/**
@@ -497,7 +512,13 @@ class net.onepixelout.audio.Player
 		if(_state == INITIALISING) _state = STOPPED;
 		
 		// Ask any other existing players for the current volume
-		if(_options.syncVolumes) _lcBroadcaster.broadcast({msg:"givemevolume", id:_lcBroadcaster.internalID});
+		if (ExternalInterface.available) {
+			var newVolume:Number = Number(ExternalInterface.call("AudioPlayer.getVolume", _options.playerID));
+			if (newVolume > -1) {
+				this.setVolume(newVolume, true);
+			}
+		}
+		//if(_options.syncVolumes) _lcBroadcaster.broadcast({msg:"givemevolume", id:_lcBroadcaster.internalID});
 		
 		// If the playlist has finished loading and we were to start playing
 		if(_playOnInit && !_loadingPlaylist)
@@ -511,7 +532,7 @@ class net.onepixelout.audio.Player
 	* Receives messages from local connection broadcaster
 	* @param parameters contains id (th broadcaster id and the msg string)
 	*/
-	private function _receiveMessage(parameters:Object):Void
+	/*private function _receiveMessage(parameters:Object):Void
 	{
 		// Ignore messages from this player
 		if(parameters.id == _lcBroadcaster.internalID) return;
@@ -543,5 +564,25 @@ class net.onepixelout.audio.Player
 				if(!_delayID) _delayID = setInterval(this, "setVolume", 200, _volume, true);
 				break;
 		}
+	}*/
+	
+	private function ei_closePlayer():Void
+	{
+		// Another player has asked us to stop
+		if(_state == PLAYING || _state == NOTFOUND)
+		{
+			// If the track is still loading, stop everything including the download
+			if(_options.killDownloads && _loaded < 1) this.stop(false);
+			// Otherwise, just pause the track
+			else this.pause();
+			
+			// Tell anyone interested that the player is now stopped
+			broadcastMessage("onStop");
+		}
+	}
+	
+	private function ei_setVolume(newVolume:Number):Void
+	{
+		if(_options.syncVolumes) this.setVolume(newVolume);
 	}
 }

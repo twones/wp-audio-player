@@ -53,6 +53,7 @@ class Application
 	
 	// Options structure
 	private static var _options:Object = {
+		playerID:"",
 		encode:false,
 		autostart:false,
 		loop:false,
@@ -81,6 +82,7 @@ class Application
 			playerParams.initialVolume = _options.volume;
 			playerParams.bufferTime = _options.bufferTime;
 			playerParams.enableCycling = _options.loop;
+			playerParams.playerID = _options.playerID;
 
 			// Create audio player instance and load playlist
 			_player = new Player(playerParams);
