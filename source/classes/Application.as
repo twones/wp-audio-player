@@ -44,7 +44,6 @@ class Application
 		righticonhover:0xFFFFFF,
 		skip:0x666666,
 		text:0x333333,
-		slider:0xCCCCCC,
 		track:0xFFFFFF,
 		border:0xCCCCCC,
 		loader:0x009900,
