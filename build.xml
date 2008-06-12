@@ -77,6 +77,8 @@
 	</target>
 	
 	<target name="build" depends="-init" description="Build plugin archive">
+		<delete dir="${build.dir}"/>
+		
 		<copy todir="${build.dir}" includeemptydirs="true">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.*"/>
@@ -123,13 +125,15 @@
 	</target>
 	
 	<target name="build.standalone" depends="-init" description="Build standalone">
+		<delete dir="${build.dir}"/>
+		
 		<condition property="swfExists">
 	    	<available file="${player.src.dir}/player.swf"/>
 	    </condition>
 		
 		<antcall target="-compileIfMissing"/>
 		
-		<copy todir="${build.dir}" file="${player.src.dir}/player.swf"/>
+		<copy file="${player.src.dir}/player.swf" todir="${build.dir}"/>
 		
 		<!-- Minify audio-player.js -->
 		<apply executable="java" parallel="false" dest="${build.dir}">
@@ -145,7 +149,7 @@
 			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
 		
-		<copy tofile="${build.dir}/audio-player-noswfobject.js" file="${build.dir}/audio-player.js"/>
+		<copy file="${build.dir}/audio-player.js" tofile="${build.dir}/audio-player-noswfobject.js"/>
 		
 		<concat destfile="${build.dir}/audio-player.js" append="true">
 	        <fileset dir="${plugin.src.dir}/assets">
@@ -153,7 +157,8 @@
 	        </fileset>
 	    </concat>
 		
-		<copy tofile="${build.dir}/audio-player-uncompressed.js" file="${plugin.src.dir}/assets/audio-player.js"/>
+		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/audio-player-uncompressed.js"/>
+		<copy file="${plugin.src.dir}/license.txt" todir="${build.dir}"/>
 		
 		<zip destfile="${dist.dir}/audio-player-standalone.zip">
 			<zipfileset dir="${build.dir}" prefix="audio-player"/>
