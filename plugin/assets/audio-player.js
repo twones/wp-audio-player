@@ -52,16 +52,15 @@ var AudioPlayer = function () {
 				}
 	            flashVars[key] = instanceOptions[key];
 	        }
-	
-			flashAttributes.id = elementID.replace("-", "_") + "_player";
-			flashAttributes.name = flashAttributes.id;
+			
+			flashAttributes.name = elementID;
 			flashAttributes.style = "outline: none";
 			
-			flashVars.playerID = flashAttributes.id;
+			flashVars.playerID = elementID;
 			
 			swfobject.embedSWF(playerURL, elementID, instanceOptions.width.toString(), "24", "8.0.0", false, flashVars, flashParams, flashAttributes);
 			
-			instances.push(flashAttributes.id);
+			instances.push(elementID);
 	    },
 		
 		syncVolumes: function (playerID, volume) {	
