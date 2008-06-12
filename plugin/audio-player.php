@@ -471,7 +471,7 @@ if (!class_exists('AudioPlayer')) {
 			$this->loadLanguageFile();
 			
 			// Include options panel
-			include("php/options-panel.php");
+			include(dirname(__FILE__) . "/php/options-panel.php");
 		}
 		
 		/**
