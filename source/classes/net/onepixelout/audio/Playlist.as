@@ -1,4 +1,4 @@
-import net.onepixelout.audio.Track;
+﻿import net.onepixelout.audio.Track;
 
 class net.onepixelout.audio.Playlist
 {
@@ -30,7 +30,10 @@ class net.onepixelout.audio.Playlist
 		for(var i:Number = 0;i < trackArray.length;i++)
 		{
 			newTrack = new Track(trackArray[i]);
-			if(i < titleArray.length) newTrack.setTitle(titleArray[i]);
+			if(i < titleArray.length) {
+				newTrack.setTitle(titleArray[i]);
+				newTrack.setArtist("");
+			}
 			if(i < artistArray.length) newTrack.setArtist(artistArray[i]);
 			this.addTrack(newTrack);
 		}

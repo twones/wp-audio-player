@@ -49,6 +49,7 @@
 		<antcall target="-deploy">
 			<param name="deploy.dir" value="${deploy.path}/${default.deploy.version}"/>
 		</antcall>
+		
 		<antcall target="clean"/>
 	</target>
 
@@ -57,9 +58,26 @@
 		<unzip src="${dist.dir}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins" overwrite="true"/>
 	</target>
 
+	<target name="deploy.wpap" depends="build,build.standalone" description="Deploy to wpaudioplayer.local">
+		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/www/assets/swf">
+			<patternset>
+				<include name="**/player.swf"/>
+			</patternset>
+			<mapper type="flatten"/>
+		</unzip>
+		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/www/assets/js">
+			<patternset>
+				<include name="**/audio-player.js"/>
+			</patternset>
+			<mapper type="flatten"/>
+		</unzip>
+		<copy todir="${wpap.dir}/www/assets/downloads">
+			<fileset dir="${dist.dir}"/>
+		</copy>
+	</target>
+	
 	<target name="build" depends="-init" description="Build plugin archive">
-		<mkdir dir="${build.dir}/audio-player"/>
-		<copy todir="${build.dir}/audio-player" includeemptydirs="true">
+		<copy todir="${build.dir}" includeemptydirs="true">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.*"/>
 				<exclude name="**/graphics-source.png"/>
@@ -68,7 +86,7 @@
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/audio-player/assets/lib/mootools.js"/>
+		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
 	    	<available file="${player.src.dir}/player.swf"/>
@@ -76,10 +94,10 @@
 		
 		<antcall target="-compileIfMissing"/>
 		
-		<copy todir="${build.dir}/audio-player/assets" file="${player.src.dir}/player.swf"/>
+		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<apply executable="java" parallel="false" dest="${build.dir}/audio-player">
+		<apply executable="java" parallel="false" dest="${build.dir}">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**/*.js"/>
 				<exclude name="**/lib/*.js"/>
@@ -93,17 +111,52 @@
 			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
 		
-		<concat destfile="${build.dir}/audio-player/assets/audio-player.js" append="true">
+		<concat destfile="${build.dir}/assets/audio-player.js" append="true">
 	        <fileset dir="${plugin.src.dir}/assets">
 	        	<include name="lib/swfobject.js"/>
 	        </fileset>
 	    </concat>
 		
-		<zip destfile="${dist.dir}/audio-player.zip" basedir="${build.dir}"/>
+		<zip destfile="${dist.dir}/audio-player.zip">
+			<zipfileset dir="${build.dir}" prefix="audio-player"/>
+		</zip>
+	</target>
+	
+	<target name="build.standalone" depends="-init" description="Build standalone">
+		<condition property="swfExists">
+	    	<available file="${player.src.dir}/player.swf"/>
+	    </condition>
+		
+		<antcall target="-compileIfMissing"/>
+		
+		<copy todir="${build.dir}" file="${player.src.dir}/player.swf"/>
+		
+		<!-- Minify audio-player.js -->
+		<apply executable="java" parallel="false" dest="${build.dir}">
+			<fileset dir="${plugin.src.dir}/assets">
+				<include name="audio-player.js"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<arg line="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
+		
+		<copy tofile="${build.dir}/audio-player-noswfobject.js" file="${build.dir}/audio-player.js"/>
+		
+		<concat destfile="${build.dir}/audio-player.js" append="true">
+	        <fileset dir="${plugin.src.dir}/assets">
+	        	<include name="lib/swfobject.js"/>
+	        </fileset>
+	    </concat>
+		
+		<copy tofile="${build.dir}/audio-player-uncompressed.js" file="${plugin.src.dir}/assets/audio-player.js"/>
 		
 		<zip destfile="${dist.dir}/audio-player-standalone.zip">
-			<zipfileset dir="${build.dir}/audio-player/assets" includes="audio-player.js"/>
-			<zipfileset dir="${build.dir}/audio-player/assets" includes="player.swf"/>
+			<zipfileset dir="${build.dir}" prefix="audio-player"/>
 		</zip>
 	</target>
 	
@@ -144,7 +197,7 @@
 		<antcall target="clean"/>
 	</target>
 
-	<target name="release.wpap" depends="build" description="Release to wpaudioplayer.com">
+	<target name="release.wpap" depends="build.standalone" description="Release to wpaudioplayer.com">
 		<input message="FTP username:" addproperty="ftp.username"/>
 		<input message="FTP password:" addproperty="ftp.password"/>
 		
