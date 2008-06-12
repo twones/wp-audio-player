@@ -1,6 +1,6 @@
 var AudioPlayer = function () {
 	var instances = [];
-	var activeInstance;
+	var activeInstanceID;
 	var playerURL = "";
 	var defaultOptions = {};
 	var currentVolume = -1;
@@ -74,11 +74,11 @@ var AudioPlayer = function () {
 		},
 		
 		activate: function (playerID) {
-			if (activeInstance) {
-				activeInstance.closePlayer();
+			if (activeInstanceID && activeInstanceID != playerID) {
+				getMovie(activeInstanceID).closePlayer();
 			}
 			
-			activeInstance = getMovie(playerID);
+			activeInstanceID = playerID;
 		},
 		
 		getVolume: function (playerID) {
