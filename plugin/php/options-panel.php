@@ -129,12 +129,12 @@
 				</div>
 			</div>
 			<div id="ap_audioplayer-wrapper"<?php if (!$this->options["colorScheme"]["transparentpagebg"]) echo ' style="background-color:#' . $this->options["colorScheme"]["pagebg"] . '"' ?>>
-				<div id="ap_audioplayer">
+				<div id="ap_demoplayer">
 					Audio Player
 				</div>
 			</div>
 			<script type="text/javascript">
-			AudioPlayer.embed("ap_audioplayer", {demomode:"yes"});
+			AudioPlayer.embed("ap_demoplayer", {demomode:"yes"});
 			</script>
 		</div>
 		

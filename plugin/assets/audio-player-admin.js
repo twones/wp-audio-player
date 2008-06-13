@@ -65,9 +65,7 @@ var AP_Admin = new Class({
         
         this.selectColorField();
         
-        this.player = null;
-		
-		$("ap_audiofolder-check").setStyle("display", "block");
+        $("ap_audiofolder-check").setStyle("display", "block");
 		$("ap_check-button").addEvent("click", this.checkAudioFolder.bind(this));
 		$("ap_audiowebpath_iscustom").addEvent("change", this.setAudioCheckButton.bind(this));
 		this.setAudioCheckButton();
@@ -171,23 +169,22 @@ var AP_Admin = new Class({
     },
     
     updatePlayer : function () {
-    	var hiddenColorFields, i, playerElementID;
+    	var hiddenColorFields, i, player;
     	
-    	playerElementID = "ap_audioplayer_player";
-    	if (window.document[playerElementID]) {
-    		this.player = window.document[playerElementID];
-    	} else if (!window.ie && document.embeds && document.embeds[playerElementID]) {
-    		this.player = document.embeds[playerElementID];
+    	if (window.document["ap_demoplayer"]) {
+    		player = window.document["ap_demoplayer"];
+    	} else if (!window.ie && document.embeds && document.embeds["ap_demoplayer"]) {
+    		player = document.embeds["ap_demoplayer"];
     	} else {
-        	this.player = document.getElementById(playerElementID);
+        	player = document.getElementById("ap_demoplayer");
     	}
 
-        if (this.player) {
+        if (player) {
         	hiddenColorFields = $("ap_colorselector").getElements("input[type=hidden]");
         	for (i = 0;i < hiddenColorFields.length; i++) {
-	            this.player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", ""));
+	            player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].getValue().replace("#", ""));
         	}
-            this.player.SetVariable("setcolors", 1);
+            player.SetVariable("setcolors", 1);
         }
     },
     

@@ -1,4 +1,4 @@
-import mx.utils.Delegate;
+﻿import mx.utils.Delegate;
 
 /**
 * Track object. Apart from containing song information such as
