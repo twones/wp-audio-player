@@ -118,7 +118,7 @@ if (!class_exists('AudioPlayer')) {
 
 			add_action("admin_menu", array(&$this, "addAdminPages"));
 			add_action("wp_head", array(&$this, "wpHeadIntercept"));
-			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"));
+			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"), 12);
 
 			add_filter("the_content", array(&$this, "processContent"));
 			if (in_array("comments", $this->options["behaviour"])) {

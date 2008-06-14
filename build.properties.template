@@ -1,10 +1,11 @@
-deploy.path=C:/Webroot/wordpress
-default.deploy.version=wp23
-flash.exe=C:/Program Files/Adobe/Adobe Flash CS3/Flash.exe
+deploy.path=
+default.deploy.version=
+flash.exe=
 
-wpap.dir=../WPAudioPlayer.com
+wpap.dir=
 
 svn.url=http://svn.wp-plugins.org/audio-player/branches/
 
 ftp.server=
 ftp.path=
+ftp.wpap.path=

@@ -207,7 +207,7 @@
 		<input message="FTP password:" addproperty="ftp.password"/>
 		
 		<!-- Release to 1pixelout.net -->
-		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}/wpaudioplayer/assets/downloads">
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}">
 			<fileset dir="${dist.dir}"/>
 		</ftp>
 		
