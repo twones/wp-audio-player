@@ -37,7 +37,7 @@ if (!class_exists('AudioPlayer')) {
 
 		var $version = "2.0b2";
 		
-		var $docURL = "http://www.1pixelout.net/code/audio-player-wordpress-plugin/";
+		var $docURL = "http://wpaudioplayer.com/";
 		
 		// Internationalisation
 		var $textDomain = "audio-player";
