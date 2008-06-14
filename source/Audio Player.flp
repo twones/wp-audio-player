@@ -1,5 +1,5 @@
 ﻿<flash_project name="Audio Player" version="1">
-    <project_folder name="classes" expanded="true">
+    <project_folder name="classes" expanded="false">
         <project_folder name="com" expanded="false">
             <project_folder name="freesome" expanded="true">
                 <project_folder name="events" expanded="true">

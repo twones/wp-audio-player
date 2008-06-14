@@ -62,7 +62,7 @@ class net.onepixelout.audio.Player
 		initialVolume:60,
 		enableCycling:true,
 		syncVolumes:true,
-		killDownloads:true,
+		killDownload:true,
 		bufferTime:5
 	};
 	
@@ -572,7 +572,7 @@ class net.onepixelout.audio.Player
 		if(_state == PLAYING || _state == NOTFOUND)
 		{
 			// If the track is still loading, stop everything including the download
-			if(_options.killDownloads && _loaded < 1) this.stop(false);
+			if(_options.killDownload && _loaded < 1) this.stop(false);
 			// Otherwise, just pause the track
 			else this.pause();
 			

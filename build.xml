@@ -59,19 +59,11 @@
 	</target>
 
 	<target name="deploy.wpap" depends="build,build.standalone" description="Deploy to wpaudioplayer.local">
-		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/www/assets/swf">
-			<patternset>
-				<include name="**/player.swf"/>
-			</patternset>
-			<mapper type="flatten"/>
-		</unzip>
-		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/www/assets/js">
-			<patternset>
-				<include name="**/audio-player.js"/>
-			</patternset>
-			<mapper type="flatten"/>
-		</unzip>
-		<copy todir="${wpap.dir}/www/assets/downloads">
+		<delete dir="${wpap.dir}/wp-content/plugins/audio-player"/>
+		
+		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/wp-content/plugins"/>
+		
+		<copy todir="${wpap.dir}/wp-content/downloads">
 			<fileset dir="${dist.dir}"/>
 		</copy>
 	</target>
