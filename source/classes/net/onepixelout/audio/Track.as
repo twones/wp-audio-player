@@ -47,7 +47,7 @@ class net.onepixelout.audio.Track
 		_id3Loaded = true;
 	}
 	
-	public function load():Sound
+	public function load(checkPolicy:Boolean):Sound
 	{
 		if(!_isLoaded)
 		{
@@ -55,6 +55,7 @@ class net.onepixelout.audio.Track
 				this._notFound = !success;
 				this._isFullyLoaded = success;
 			});
+			_soundObject.checkPolicyFile = checkPolicy;
 			_soundObject.loadSound(_src, true);
 			this._isLoaded = true;
 		}

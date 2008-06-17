@@ -171,6 +171,7 @@ if (!class_exists('AudioPlayer')) {
 				"initialVolume" => "60",
 				"bufferTime" => "5",
 				"noInfo" => false,
+				"checkPolicy" => false,
 
 				"colorScheme" => $this->defaultColorScheme
 			);
@@ -264,6 +265,7 @@ if (!class_exists('AudioPlayer')) {
 			$playerOptions["remaining"] = $this->options["showRemaining"];
 			$playerOptions["noinfo"] = $this->options["noInfo"];
 			$playerOptions["buffer"] = $this->options["bufferTime"];
+			$playerOptions["checkpolicy"] = $this->options["checkPolicy"];
 			
 			return array_merge($playerOptions, $this->options["colorScheme"]);
 		}
@@ -510,6 +512,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["enableAnimation"] = !isset( $_POST["ap_disableAnimation"] );
 				$this->options["showRemaining"] = isset( $_POST["ap_showRemaining"] );
 				$this->options["noInfo"] = isset( $_POST["ap_disableTrackInformation"] );
+				$this->options["checkPolicy"] = isset( $_POST["ap_checkPolicy"] );
 				
 				if (isset($_POST['ap_behaviour'])) {
 					$this->options["behaviour"] = $_POST['ap_behaviour'];

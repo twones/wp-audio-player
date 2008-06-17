@@ -60,6 +60,7 @@ class Application
 		remaining:false,
 		noinfo:false,
 		killdownload:true,
+		checkpolicy:false,
 		demomode:false,
 		bufferTime:5,
 		volume:60
@@ -84,6 +85,7 @@ class Application
 			playerParams.enableCycling = _options.loop;
 			playerParams.playerID = _options.playerID;
 			playerParams.killDownload = _options.killdownload;
+			playerParams.checkPolicy = _options.checkpolicy;
 
 			// Create audio player instance and load playlist
 			_player = new Player(playerParams);

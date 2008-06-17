@@ -247,6 +247,18 @@
 			<input type="text" id="ap_buffertime" name="ap_buffertime" value="<?php echo $this->options["bufferTime"]; ?>" size="5" />
 		</p>
 
+		<h3><?php _e('Check for policy file', $this->textDomain) ?></h3>
+		<p>
+			<?php _e('Enable this to tell Audio Player to check for policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file.', $this->textDomain) ?>
+		</p>
+		<ul class="ap_optionlist">
+			<li>
+				<label for="ap_checkPolicy">
+				<input type="checkbox" name="ap_checkPolicy" id="ap_checkPolicy" value="true"<?php if ($this->options["checkPolicy"]) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Check for policy file', $this->textDomain) ?></strong></label>
+			</li>
+		</ul>
+
 		<h3><?php _e('Encoding', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.', $this->textDomain) ?>

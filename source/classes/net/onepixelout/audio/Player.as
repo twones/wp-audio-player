@@ -63,6 +63,7 @@ class net.onepixelout.audio.Player
 		enableCycling:true,
 		syncVolumes:true,
 		killDownload:true,
+		checkPolicy:false,
 		bufferTime:5
 	};
 	
@@ -151,7 +152,7 @@ class net.onepixelout.audio.Player
 		
 		// Load current track and get reference to the sound object
 		var currentTrack:Track = this.getCurrentTrack();
-		_playhead = currentTrack.load();
+		_playhead = currentTrack.load(_options.checkPolicy);
 		
 		// Setup onSoundComplete event
 		if(_playhead.onSoundComplete == undefined) _playhead.onSoundComplete = Delegate.create(this, next);

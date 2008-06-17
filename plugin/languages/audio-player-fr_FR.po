@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-28 14:33-0000\n"
+"PO-Revision-Date: 2008-06-17 23:57-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,16 +15,16 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../audio-player.php:442
+#: ../audio-player.php:444
 msgid "Download audio file"
 msgstr "Télécharger fichier audio"
 
-#: ../audio-player.php:459
+#: ../audio-player.php:461
 #, php-format
 msgid "Audio clip: <a href=\"%s\" title=\"Download Adobe Flash Player\">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
 msgstr "Clip audio: <a href=\"%s\" title=\"Télécharger Adobe Flash Player\">Adobe Flash Player</a> (version 6 ou supérieure) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
 
-#: ../audio-player.php:581
+#: ../audio-player.php:582
 #: ../php/options-panel.php:2
 msgid "Audio Player"
 msgstr "Audio Player"
@@ -354,18 +354,27 @@ msgid "Buffer time (in seconds)"
 msgstr ""
 
 #: ../php/options-panel.php:250
-msgid "Encoding"
+#: ../php/options-panel.php:258
+msgid "Check for policy file"
 msgstr ""
 
 #: ../php/options-panel.php:252
-msgid "Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers."
+msgid "Enable this to tell Audio Player to check for policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file."
 msgstr ""
 
-#: ../php/options-panel.php:258
-msgid "Encode mp3 URLs"
+#: ../php/options-panel.php:262
+msgid "Encoding"
 msgstr ""
 
 #: ../php/options-panel.php:264
+msgid "Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers."
+msgstr ""
+
+#: ../php/options-panel.php:270
+msgid "Encode mp3 URLs"
+msgstr ""
+
+#: ../php/options-panel.php:276
 msgid "Save changes"
 msgstr ""
 
