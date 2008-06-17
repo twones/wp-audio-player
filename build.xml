@@ -80,7 +80,7 @@
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
+		<copy file="${plugin.src.dir}/assets/lib/mootools.js" tofile="${build.dir}/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
 	    	<available file="${player.src.dir}/player.swf"/>

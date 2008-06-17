@@ -64,7 +64,6 @@ var AP_Admin = new Class({
 	        this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
 	        document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
 		}
-
         
         this.selectColorField();
         

@@ -115,7 +115,8 @@ if (!class_exists('AudioPlayer')) {
 			// Add action and filter hooks to WordPress
 
 			add_action("init", array(&$this, "optionsPanelAction"));
-
+			add_action("init", array(&$this, "removeConflicts"));
+			
 			add_action("admin_menu", array(&$this, "addAdminPages"));
 			add_action("wp_head", array(&$this, "wpHeadIntercept"));
 			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"), 12);
@@ -130,6 +131,16 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("the_excerpt_rss", array(&$this, "processContent"));
 			
 			add_filter("attachment_fields_to_edit", array(&$this, "insertAudioPlayerButton"), 10, 2);
+		}
+		
+		/**
+		 * This is really bad but the only way I can make this work with Defensio
+		 */
+		function removeConflicts() {
+			// Only do this if we are on the Audio Player options page
+			if ($_GET["page"] == "audio-player-options") {
+				remove_action('admin_head', 'defensio_head');
+			}
 		}
 		
 		/**
