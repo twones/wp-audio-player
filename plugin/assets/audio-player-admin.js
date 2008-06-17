@@ -53,15 +53,18 @@ var AP_Admin = new Class({
         
         this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
         this.colorField.addEvent("keyup", this.updateColor.bind(this));
+        document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
         
         this.themeColorPicker = $("ap_themecolor");
-        this.themeColorPicker.setStyle("display", "none");
-        this.reorderThemeColors();
-        this.themeColorPickerBtn = $("ap_themecolor-btn");
-        this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-        document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-        document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
-        this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
+		if (this.themeColorPicker) {
+	        this.themeColorPicker.setStyle("display", "none");
+	        this.reorderThemeColors();
+	        this.themeColorPickerBtn = $("ap_themecolor-btn");
+	        this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
+	        this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
+	        document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
+		}
+
         
         this.selectColorField();
         

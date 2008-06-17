@@ -118,6 +118,7 @@
 				<input name="ap_colorvalue" type="text" id="ap_colorvalue" size="15" maxlength="7" />
 				<span id="ap_colorsample"></span>
 				<span id="ap_picker-btn"><?php _e('Pick') ?></span>
+				<?php if (count($this->getThemeColors())) { ?>
 				<span id="ap_themecolor-btn"><?php _e('From your theme', $this->textDomain) ?></span>
 				<div id="ap_themecolor">
 					<span><?php _e('Theme colors', $this->textDomain) ?></span>
@@ -127,6 +128,7 @@
 						<?php } ?>
 					</ul>
 				</div>
+				<?php } ?>
 			</div>
 			<div id="ap_audioplayer-wrapper"<?php if (!$this->options["colorScheme"]["transparentpagebg"]) echo ' style="background-color:#' . $this->options["colorScheme"]["pagebg"] . '"' ?>>
 				<div id="ap_demoplayer">
