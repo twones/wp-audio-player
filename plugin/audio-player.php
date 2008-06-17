@@ -3,7 +3,7 @@
 Plugin Name: Audio player
 Plugin URI: http://www.wpaudioplayer.com
 Description: Highly configurable single track mp3 player.
-Version: 2.0b2
+Version: 2.0b3
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
 
@@ -35,7 +35,7 @@ if (!class_exists('AudioPlayer')) {
 		// Name for serialized options saved in database
 		var $optionsName = "AudioPlayer_options";
 
-		var $version = "2.0b2";
+		var $version = "2.0b3";
 		
 		var $docURL = "http://wpaudioplayer.com/";
 		
