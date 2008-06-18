@@ -199,8 +199,14 @@
 		<input message="FTP password:" addproperty="ftp.password"/>
 		
 		<!-- Release to 1pixelout.net -->
-		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}">
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}/wp-content/downloads">
 			<fileset dir="${dist.dir}"/>
+		</ftp>
+		
+		<unzip src="${dist.dir}/audio-player.zip" dest="${dist.dir}"/>
+		
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}/wp-content/plugins/audio-player">
+			<fileset dir="${dist.dir}/audio-player"/>
 		</ftp>
 		
 		<antcall target="clean"/>
