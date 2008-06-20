@@ -121,7 +121,7 @@ if (!class_exists('AudioPlayer')) {
 			add_action("wp_head", array(&$this, "wpHeadIntercept"));
 			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"), 12);
 
-			add_filter("the_content", array(&$this, "processContent"));
+			add_filter("the_content", array(&$this, "processContent"), 1);
 			if (in_array("comments", $this->options["behaviour"])) {
 				add_filter("comment_text", array(&$this, "processContent"));
 			}
@@ -469,10 +469,10 @@ if (!class_exists('AudioPlayer')) {
 			} else {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
-				$playerCode = '<p class="audioplayer-container"><span id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 6 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</span></p>';
+				$playerCode = '<p class="audioplayer_container"><span id="' . $playerElementID . '">' . sprintf(__('Audio clip: <a href="%s" title="Download Adobe Flash Player">Adobe Flash Player</a> (version 9 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW');
 				$playerCode .= '<script type="text/javascript">';
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
-				$playerCode .= '</script>';
+				$playerCode .= '</script></span></p>';
 				return $playerCode;
 			}
 		}

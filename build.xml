@@ -90,11 +90,18 @@
 		
 		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
 		
+		<filter token="swfobject" value="audioplayer_swfobject"/>
+		<copy todir="${build.dir}/assets/unc" filtering="true">
+			<fileset dir="${plugin.src.dir}/assets">
+				<include name="audio-player-admin.js"/>
+				<include name="audio-player.js"/>
+			</fileset>
+		</copy>
+		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<apply executable="java" parallel="false" dest="${build.dir}">
-			<fileset dir="${plugin.src.dir}">
-				<include name="**/*.js"/>
-				<exclude name="**/lib/*.js"/>
+		<apply executable="java" parallel="false" dest="${build.dir}/assets">
+			<fileset dir="${build.dir}/assets/unc">
+				<include name="*.js"/>
 			</fileset>
 			<arg line="-jar"/>
 			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
@@ -102,8 +109,10 @@
 			<arg line="-o"/>
 			<targetfile/>
 			<srcfile/>
-			<mapper type="glob" from="*.js" to="*.js"/>
+			<mapper type="flatten" from="*.js" to="*.js"/>
 		</apply>
+		
+		<delete dir="${build.dir}/assets/unc"/>
 		
 		<concat destfile="${build.dir}/assets/audio-player.js" append="true">
 	        <fileset dir="${plugin.src.dir}/assets">
@@ -127,9 +136,15 @@
 		
 		<copy file="${player.src.dir}/player.swf" todir="${build.dir}"/>
 		
+		<filter token="swfobject" value="swfobject"/>
+		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/audio-player-uncompressed.js" filtering="true"/>
+		
+		<filter token="swfobject" value="audioplayer_swfobject"/>
+		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/unc/audio-player.js" filtering="true"/>
+		
 		<!-- Minify audio-player.js -->
 		<apply executable="java" parallel="false" dest="${build.dir}">
-			<fileset dir="${plugin.src.dir}/assets">
+			<fileset dir="${build.dir}/unc">
 				<include name="audio-player.js"/>
 			</fileset>
 			<arg line="-jar"/>
@@ -141,6 +156,8 @@
 			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
 		
+		<delete dir="${build.dir}/unc"/>
+		
 		<copy file="${build.dir}/audio-player.js" tofile="${build.dir}/audio-player-noswfobject.js"/>
 		
 		<concat destfile="${build.dir}/audio-player.js" append="true">
@@ -149,7 +166,6 @@
 	        </fileset>
 	    </concat>
 		
-		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/audio-player-uncompressed.js"/>
 		<copy file="${plugin.src.dir}/license.txt" todir="${build.dir}"/>
 		
 		<zip destfile="${dist.dir}/audio-player-standalone.zip">
