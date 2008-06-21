@@ -66,6 +66,8 @@
 		<copy todir="${wpap.dir}/wp-content/downloads">
 			<fileset dir="${dist.dir}"/>
 		</copy>
+		
+		<antcall target="clean"/>
 	</target>
 	
 	<target name="build" depends="-init" description="Build plugin archive">
@@ -95,13 +97,14 @@
 			<fileset dir="${plugin.src.dir}/assets">
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
+				<include name="colorpicker/*.js"/>
 			</fileset>
 		</copy>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
 		<apply executable="java" parallel="false" dest="${build.dir}/assets">
 			<fileset dir="${build.dir}/assets/unc">
-				<include name="*.js"/>
+				<include name="**/*.js"/>
 			</fileset>
 			<arg line="-jar"/>
 			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
@@ -109,7 +112,7 @@
 			<arg line="-o"/>
 			<targetfile/>
 			<srcfile/>
-			<mapper type="flatten" from="*.js" to="*.js"/>
+			<mapper type="glob" from="*.js" to="*.js"/>
 		</apply>
 		
 		<delete dir="${build.dir}/assets/unc"/>
