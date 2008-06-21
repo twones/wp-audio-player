@@ -47,9 +47,6 @@ class net.onepixelout.audio.Player
 	private var _clearID:Number; // In case we need to stop the periodical function
 	private var _delayID:Number; // For calling a method with a delay
 	
-	// Local connection broadcaster
-	//private var _lcBroadcaster:LcBroadcast;
-	
 	private var _playOnInit:Boolean;
 	
 	private var broadcastMessage:Function;
@@ -94,17 +91,6 @@ class net.onepixelout.audio.Player
 		}
 		
 		_activate();
-		
-		/*// Create listener for local connection broadcaster
-		var listen = new Object();
-		listen.onBroadcast = Delegate.create(this, _receiveMessage);
-		listen.onInit = Delegate.create(this, _activate);
-		
-		// Create local connection broadcaster
-		_lcBroadcaster = new LcBroadcast("net.1pixelout.audio.Player");
-		
-		// Add the listener
-		_lcBroadcaster.addListener(listen);*/
 	}
 	
 	/**
@@ -171,7 +157,6 @@ class net.onepixelout.audio.Player
 		if (ExternalInterface.available) {
 			ExternalInterface.call("AudioPlayer.activate", _options.playerID);
 		}
-		//_lcBroadcaster.broadcast({msg:"pause", id:_lcBroadcaster.internalID});
 	}
 	
 	/**
@@ -298,7 +283,6 @@ class net.onepixelout.audio.Player
 		if (ExternalInterface.available && _options.syncVolumes && broadcast) {
 			ExternalInterface.call("AudioPlayer.syncVolumes", _options.playerID, _volume);
 		}
-		//if(_options.syncVolumes && broadcast) _lcBroadcaster.broadcast({msg:"volume", volume:_volume, id:_lcBroadcaster.internalID});
 	}
 	
 	/**
@@ -476,34 +460,6 @@ class net.onepixelout.audio.Player
 	{
 		return _playlist.getCurrent();
 	}
-
-	/*public function loadXMLPlaylist(xmlURL:String):Void
-	{
-		if(xmlURL == undefined) xmlURL = "playlist.xml";
-		_playlistXML = new XML();
-		_playlistXML.ignoreWhite = true;
-		_playlistXML.onLoad = Delegate.create(this, _receivePlaylistXML);
-		_playlistXML.load(xmlURL);
-		_loadingPlaylist = true;
-	}
-	
-	private function _receivePlaylistXML(success:Boolean):Void
-	{
-		if(!success)
-		{
-			trace("XML not found");
-			_state = NOTFOUND;
-			return;
-		}
-		_playlist = new Playlist(_options.enableCycling);
-		_playlist.loadFromXML(_playlistXML);
-		_loadingPlaylist = false;
-		if(_state != INITIALISING && _playOnInit)
-		{
-			this.play();
-			_playOnInit = false;
-		}
-	}*/
 	
 	/**
 	* Activates player when local connection broadcaster has initialised
@@ -519,7 +475,6 @@ class net.onepixelout.audio.Player
 				this.setVolume(newVolume, true);
 			}
 		}
-		//if(_options.syncVolumes) _lcBroadcaster.broadcast({msg:"givemevolume", id:_lcBroadcaster.internalID});
 		
 		// If the playlist has finished loading and we were to start playing
 		if(_playOnInit && !_loadingPlaylist)
@@ -528,44 +483,6 @@ class net.onepixelout.audio.Player
 			_playOnInit = false;
 		}
 	}
-	
-	/**
-	* Receives messages from local connection broadcaster
-	* @param parameters contains id (th broadcaster id and the msg string)
-	*/
-	/*private function _receiveMessage(parameters:Object):Void
-	{
-		// Ignore messages from this player
-		if(parameters.id == _lcBroadcaster.internalID) return;
-		switch(parameters.msg)
-		{
-			case "pause":
-				// Another player has asked us to stop
-				if(_state == PLAYING || _state == NOTFOUND)
-				{
-					// If the track is still loading, stop everything including the download
-					if(_options.killDownloads && _loaded < 1) this.stop(false);
-					// Otherwise, just pause the track
-					else this.pause();
-					
-					// Tell anyone interested that the player is now stopped
-					broadcastMessage("onStop");
-				}
-				break;
-			
-			case "volume":
-				// Another player has had its volume changed, synchronise the volume to this new value
-				if(_options.syncVolumes) this.setVolume(parameters.volume);
-				break;
-				
-			case "givemevolume":
-				// Another player is asking for the current volume value
-				// Delay the response (didn't work without the delay)
-				// And ignore if already requested
-				if(!_delayID) _delayID = setInterval(this, "setVolume", 200, _volume, true);
-				break;
-		}
-	}*/
 	
 	private function ei_closePlayer():Void
 	{
