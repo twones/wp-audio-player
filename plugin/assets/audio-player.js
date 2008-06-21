@@ -1,19 +1,23 @@
 var AudioPlayer = function () {
 	var instances = [];
-	var activeInstanceID;
+	var activePlayerID;
 	var playerURL = "";
 	var defaultOptions = {};
 	var currentVolume = -1;
 	
-	var getMovie = function (name) {
-		return document.all ? window[name] : document[name];
-	};
+	function getPlayer(playerID) {
+		return document.all ? window[playerID] : document[playerID];
+	}
 	
 	return {
 		setup: function (url, options) {
 	        playerURL = url;
 	        defaultOptions = options;
 	    },
+
+		getPlayer: function (playerID) {
+			return getPlayer(playerID);
+		},
 	    
 	    embed: function (elementID, options) {
 	        var instanceOptions = {};
@@ -67,17 +71,32 @@ var AudioPlayer = function () {
 			currentVolume = volume;
 			for (var i = 0; i < instances.length; i++) {
 				if (instances[i] != playerID) {
-					getMovie(instances[i]).setVolume(currentVolume);
+					getPlayer(instances[i]).setVolume(currentVolume);
 				}
 			}
 		},
 		
 		activate: function (playerID) {
-			if (activeInstanceID && activeInstanceID != playerID) {
-				getMovie(activeInstanceID).closePlayer();
+			if (activePlayerID && activePlayerID != playerID) {
+				getPlayer(activePlayerID).close();
 			}
 			
-			activeInstanceID = playerID;
+			activePlayerID = playerID;
+		},
+		
+		load: function (playerID, soundFile, titles, artists) {
+			getPlayer(playerID).load(soundFile, titles, artists);
+		},
+		
+		close: function (playerID) {
+			getPlayer(playerID).close();
+			if (playerID == activePlayerID) {
+				activePlayerID = null;
+			}
+		},
+		
+		open: function (playerID) {
+			getPlayer(playerID).open();
 		},
 		
 		getVolume: function (playerID) {

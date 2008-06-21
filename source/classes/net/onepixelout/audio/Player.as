@@ -1,7 +1,5 @@
 ﻿import net.onepixelout.audio.*;
-//import com.freesome.events.LcBroadcast;
 import mx.utils.Delegate;
-import flash.external.ExternalInterface;
 
 /**
 * The definitive AS2 mp3 player from 1 Pixel Out
@@ -10,8 +8,7 @@ import flash.external.ExternalInterface;
 class net.onepixelout.audio.Player
 {
 	private var _playlist:Playlist; // Current loaded playlist
-	private var _loadingPlaylist:Boolean;
-
+	
 	private var _playhead:Sound; // The player head
 	private var _volume:Number;
 	
@@ -24,7 +21,6 @@ class net.onepixelout.audio.Player
 
 	// State constants
 	static public var NOTFOUND:Number = -1;
-	static public var INITIALISING:Number = 0;
 	static public var STOPPED:Number = 1;
 	static public var PAUSED:Number = 2;
 	static public var PLAYING:Number = 3;
@@ -46,8 +42,6 @@ class net.onepixelout.audio.Player
 	
 	private var _clearID:Number; // In case we need to stop the periodical function
 	private var _delayID:Number; // For calling a method with a delay
-	
-	private var _playOnInit:Boolean;
 	
 	private var broadcastMessage:Function;
 	public var addListener:Function;
@@ -77,20 +71,11 @@ class net.onepixelout.audio.Player
 		
 		// Initialise properties
 		_volume = _options.initialVolume;
-		_state = INITIALISING;
-		_loadingPlaylist = false;
-		_playOnInit = false;
+		_state = STOPPED;
 		_reset();
 		
 		// Run watcher every 10ms
 		_clearID = setInterval(this, "_watch", 50);
-		
-		if (ExternalInterface.available) {
-			ExternalInterface.addCallback("closePlayer", this, ei_closePlayer);
-			ExternalInterface.addCallback("setVolume", this, ei_setVolume);
-		}
-		
-		_activate();
 	}
 	
 	/**
@@ -127,13 +112,6 @@ class net.onepixelout.audio.Player
 		// If already playing, do nothing
 		if(_state == PLAYING) return;
 		
-		// If player is still initialising, wait for it
-		if(_state == INITIALISING)
-		{
-			_playOnInit = true;
-			return;
-		}
-		
 		_setBufferTime(_recordedPosition);
 		
 		// Load current track and get reference to the sound object
@@ -152,11 +130,6 @@ class net.onepixelout.audio.Player
 		
 		// Update stats now (don't wait for watcher to kick in)
 		_updateStats();
-		
-		// Tell any other players to stop playing (don't want no cacophony do we?)
-		if (ExternalInterface.available) {
-			ExternalInterface.call("AudioPlayer.activate", _options.playerID);
-		}
 	}
 	
 	/**
@@ -231,9 +204,6 @@ class net.onepixelout.audio.Player
 	*/
 	public function next():Void
 	{
-		// Ignore if player is still initialising
-		if(_state == INITIALISING) return;
-		
 		var startPlaying:Boolean = (_state == PLAYING || _state == NOTFOUND);
 
 		if(_playlist.next() != null && startPlaying)
@@ -250,9 +220,6 @@ class net.onepixelout.audio.Player
 	*/
 	public function previous():Void
 	{
-		// Ignore if player is still initialising
-		if(_state == INITIALISING) return;
-		
 		var startPlaying:Boolean = (_state == PLAYING);
 		
 		if(_playlist.previous() != null && startPlaying)
@@ -272,17 +239,12 @@ class net.onepixelout.audio.Player
 	{
 		clearInterval(_delayID);
 		
-		if(broadcast == undefined) broadcast = false;
+		//if(broadcast == undefined) broadcast = false;
 		
 		// If we have a new value for volume, set it
 		if(newVolume != undefined) _volume = newVolume;
 		// Set the player volume
 		if(_state > STOPPED) _playhead.setVolume(_volume);
-		
-		// Tell any other players that the volume has changed
-		if (ExternalInterface.available && _options.syncVolumes && broadcast) {
-			ExternalInterface.call("AudioPlayer.syncVolumes", _options.playerID, _volume);
-		}
 	}
 	
 	/**
@@ -378,7 +340,7 @@ class net.onepixelout.audio.Player
 		var currentTrack:Track = this.getCurrentTrack();
 		
 		// If the mp3 file doesn't exit
-		if(_state > NOTFOUND && !_loadingPlaylist && !currentTrack.exists())
+		if(_state > NOTFOUND && !currentTrack.exists())
 		{
 			// Reset player
 			_reset();
@@ -441,6 +403,7 @@ class net.onepixelout.audio.Player
 		if(artistList == undefined) artistList = "";
 		_playlist = new Playlist(_options.enableCycling);
 		_playlist.loadFromList(trackFileList, titleList, artistList);
+		_reset();
 	}
 	
 	/**
@@ -459,48 +422,5 @@ class net.onepixelout.audio.Player
 	public function getCurrentTrack():Track
 	{
 		return _playlist.getCurrent();
-	}
-	
-	/**
-	* Activates player when local connection broadcaster has initialised
-	*/
-	private function _activate():Void
-	{
-		if(_state == INITIALISING) _state = STOPPED;
-		
-		// Ask any other existing players for the current volume
-		if (ExternalInterface.available) {
-			var newVolume:Number = Number(ExternalInterface.call("AudioPlayer.getVolume", _options.playerID));
-			if (newVolume > -1) {
-				this.setVolume(newVolume, true);
-			}
-		}
-		
-		// If the playlist has finished loading and we were to start playing
-		if(_playOnInit && !_loadingPlaylist)
-		{
-			this.play();
-			_playOnInit = false;
-		}
-	}
-	
-	private function ei_closePlayer():Void
-	{
-		// Another player has asked us to stop
-		if(_state == PLAYING || _state == NOTFOUND)
-		{
-			// If the track is still loading, stop everything including the download
-			if(_options.killDownload && _loaded < 1) this.stop(false);
-			// Otherwise, just pause the track
-			else this.pause();
-			
-			// Tell anyone interested that the player is now stopped
-			broadcastMessage("onStop");
-		}
-	}
-	
-	private function ei_setVolume(newVolume:Number):Void
-	{
-		if(_options.syncVolumes) this.setVolume(newVolume);
 	}
 }

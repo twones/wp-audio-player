@@ -1,4 +1,5 @@
 ﻿import net.onepixelout.audio.*;
+import flash.external.ExternalInterface;
 
 class Application
 {
@@ -104,6 +105,20 @@ class Application
 		_setStage();
 		
 		_setColors(true);
+		
+		if (ExternalInterface.available) {
+			ExternalInterface.addCallback("load", Application, Application.ei_loadFile);
+			ExternalInterface.addCallback("close", Application, Application.ei_closePlayer);
+			ExternalInterface.addCallback("open", Application, Application.ei_openPlayer);
+			ExternalInterface.addCallback("setVolume", Application, Application.ei_setVolume);
+			
+			// Ask any other existing players for the current volume
+			var newVolume:Number = Number(ExternalInterface.call("AudioPlayer.getVolume", _options.playerID));
+			if (newVolume > -1) {
+				_player.setVolume(newVolume, true);
+			}
+		}
+
 
 		// Start player automatically if requested
 		if(!_options.demomode && _options.autostart) onPlay();
@@ -335,6 +350,11 @@ class Application
 	*/
 	public static function onPlay():Void
 	{
+		// Tell any other players to stop playing (don't want no cacophony do we?)
+		if (ExternalInterface.available) {
+			ExternalInterface.call("AudioPlayer.activate", _options.playerID);
+		}
+		
 		_player.play();
 		
 		// Show volume control
@@ -390,6 +410,11 @@ class Application
 		if(final == undefined) final = true;
 		// Set the volume and force a broadcast of the changed volume
 		_player.setVolume(volume, final);
+		
+		// Tell any other players that the volume has changed
+		if (ExternalInterface.available && final) {
+			ExternalInterface.call("AudioPlayer.syncVolumes", _options.playerID, volume);
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -479,7 +504,7 @@ class Application
 		volume_mc.update(playerState.volume);
 
 		// Enable / disable control button
-		control_mc.enabled = (playerState.state != Player.INITIALISING);
+		control_mc.enabled = true;
 		
 		// Update progress bar if necessary
 		if(playerState.state != Player.PAUSED) progress_mc.updateProgress(playerState.played);
@@ -508,10 +533,6 @@ class Application
 			case Player.NOTFOUND:
 				if(playerState.trackCount > 1) trackNumber = (playerState.trackIndex + 1) + " - ";
 				display_mc.setText(trackNumber + "File not found", 0);
-				display_mc.setTime(0);
-				break;
-			case Player.INITIALISING:
-				display_mc.setText("Initialising...", 0);
 				display_mc.setTime(0);
 				break;
 			default:
@@ -563,5 +584,39 @@ class Application
 			nntexto += charChar;
 		}
 		return (nntexto);
+	}
+	
+	private static function ei_closePlayer():Void
+	{
+		var playerState:Object = _player.getState();
+		// Another player has asked us to stop
+		if(playerState.state == Player.PLAYING || playerState.state == Player.NOTFOUND)
+		{
+			// If the track is still loading, stop everything including the download
+			if(playerState.loaded < 1) {
+				_player.stop(false);
+			}
+			// Otherwise, just pause the track
+			else _player.pause();
+			onStop();
+		}
+	}
+	
+	private static function ei_openPlayer():Void
+	{
+		onPlay();
+		control_mc.toggle();
+	}
+	
+	private static function ei_setVolume(newVolume:Number):Void
+	{
+		_player.setVolume(newVolume);
+	}
+	
+	private static function ei_loadFile(sourceFile:String, titles:String, artists:String):Void
+	{
+		_player.stop(false);
+		onStop();
+		_player.loadPlaylist(sourceFile, titles, artists);
 	}
 }
