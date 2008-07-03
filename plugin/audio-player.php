@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Audio player
-Plugin URI: http://www.wpaudioplayer.com
-Description: Highly configurable single track mp3 player.
+Plugin URI: http://wpaudioplayer.com
+Description: Audio Player is a highly configurable but simple mp3 player for all your audio needs. You can customise the player's colour scheme to match your blog theme, have it automatically show track information from the encoded ID3 tags and more. Go to your Settings page to start configuring it.
 Version: 2.0b4
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
@@ -30,6 +30,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// Pre-2.6 compatibility for wp-content folder location
+if (!defined("WP_CONTENT_URL")) {
+	define("WP_CONTENT_URL", get_option("siteurl") . "/wp-content");
+}
+if (!defined("WP_CONTENT_DIR")) {
+	define("WP_CONTENT_DIR", ABSPATH . "wp-content");
+}
+
 if (!class_exists('AudioPlayer')) {
     class AudioPlayer {
 		// Name for serialized options saved in database
@@ -44,11 +52,15 @@ if (!class_exists('AudioPlayer')) {
 		var $languageFileLoaded = false;
 
 		// Various path variables
-		var $pluginRoot = "";
+		var $pluginURL = "";
+		var $pluginPath = "";
 		var $playerURL = "";
 		var $audioRoot = "";
 		var $audioAbsPath = "";
 		var $isCustomAudioRoot = false;
+		
+		// Options page name
+		var $optionsPageName = "audio-player-options";
 		
 		// Colour scheme keys
 		var $colorKeys = array(
@@ -103,9 +115,12 @@ if (!class_exists('AudioPlayer')) {
 		 * Constructor
 		 */
 		function AudioPlayer() {
-			$this->pluginRoot = get_settings("siteurl") . "/wp-content/plugins/audio-player/";
-			$this->playerURL = $this->pluginRoot . "assets/player.swf";
-
+			// Get plugin URL and absolute path
+			$this->pluginPath = WP_CONTENT_DIR . "/plugins/" . plugin_basename(dirname(__FILE__));
+			$this->pluginURL = WP_CONTENT_URL . "/plugins/" . plugin_basename(dirname(__FILE__));
+			
+			$this->playerURL = $this->pluginURL . "/assets/player.swf";
+			
 			// Load options
 			$this->options = $this->getOptions();
 			
@@ -113,14 +128,16 @@ if (!class_exists('AudioPlayer')) {
 			$this->setAudioRoot();
 			
 			// Add action and filter hooks to WordPress
-
+			
 			add_action("init", array(&$this, "optionsPanelAction"));
 			add_action("init", array(&$this, "removeConflicts"));
 			
 			add_action("admin_menu", array(&$this, "addAdminPages"));
-			add_action("wp_head", array(&$this, "wpHeadIntercept"));
-			add_action("admin_head", array(&$this, "wpAdminHeadIntercept"), 12);
-
+			add_filter("plugin_action_links", array(&$this, "addConfigureLink"), 10, 2);
+			
+			add_action("wp_head", array(&$this, "addHeaderCode"));
+			add_action("admin_head", array(&$this, "overrideMediaUpload"));
+			
 			add_filter("the_content", array(&$this, "processContent"), 1);
 			if (in_array("comments", $this->options["behaviour"])) {
 				add_filter("comment_text", array(&$this, "processContent"));
@@ -138,7 +155,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function removeConflicts() {
 			// Only do this if we are on the Audio Player options page
-			if ($_GET["page"] == "audio-player-options") {
+			if ($_GET["page"] == $this->optionsPageName) {
 				remove_action('admin_head', 'defensio_head');
 			}
 		}
@@ -147,7 +164,31 @@ if (!class_exists('AudioPlayer')) {
 		 * Adds Audio Player options tab to admin menu
 		 */
 		function addAdminPages() {
-			add_options_page("Audio player options", "Audio Player", 8, "audio-player-options", array(&$this, "outputOptionsSubpanel"));
+			$pageName = add_options_page("Audio player options", "Audio Player", 8, $this->optionsPageName, array(&$this, "outputOptionsSubpanel"));
+			add_action("admin_head-" . $pageName, array(&$this, "addAdminHeaderCode"), 12);
+		}
+		
+		/**
+		 * Adds a settings link next to Audio Player on the plugins page
+		 */
+		function addConfigureLink($links, $file) {
+			static $this_plugin;
+			if (!$this_plugin) {
+				$this_plugin = plugin_basename(__FILE__);
+			}
+			if ($file == $this_plugin) {
+				$settings_link = '<a href="options-general.php?page=' . $this->optionsPageName . '">' . __('Settings') . '</a>';
+				array_unshift($links, $settings_link);
+				return $links;
+			}
+		}
+		
+		/**
+		 * Adds subtle plugin credits to WP footer
+		 */
+		function addFooterCredits() {
+			$plugin_data = get_plugin_data(__FILE__);
+			printf('%1$s plugin | Version %2$s<br />', $plugin_data['Title'], $plugin_data['Version']);
 		}
 
 		/**
@@ -483,8 +524,10 @@ if (!class_exists('AudioPlayer')) {
 		function outputOptionsSubpanel() {
 			$this->loadLanguageFile();
 			
+			add_action("in_admin_footer", array(&$this, "addFooterCredits"));
+			
 			// Include options panel
-			include(dirname(__FILE__) . "/php/options-panel.php");
+			include($this->pluginPath . "/php/options-panel.php");
 		}
 		
 		/**
@@ -496,7 +539,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["colorScheme"] = $this->defaultColorScheme;
 				$this->saveOptions();
 				
-				$goback = add_query_arg("updated", "true", "options-general.php?page=audio-player-options");
+				$goback = add_query_arg("updated", "true", "options-general.php?page=" . $this->optionsPageName);
 				wp_redirect($goback);
 				exit();
 			} else 	if( $_POST['AudioPlayerSubmit'] ) {
@@ -573,7 +616,7 @@ if (!class_exists('AudioPlayer')) {
 				
 				$this->saveOptions();
 
-				$goback = add_query_arg("updated", "true", "options-general.php?page=audio-player-options");
+				$goback = add_query_arg("updated", "true", "options-general.php?page=" . $this->optionsPageName);
 				wp_redirect($goback);
 				exit();
 			}
@@ -602,45 +645,46 @@ if (!class_exists('AudioPlayer')) {
 		/**
 		 * Output necessary stuff to WP head section
 		 */
-		function wpHeadIntercept() {
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player.js"></script>';
+		function addHeaderCode() {
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo '</script>';
 			echo "\n";
 		}
+		
+		/**
+		 * Override media-upload script to handle Audio Player inserts from media library
+		 */
+		function overrideMediaUpload() {
+			global $the_current_page;
+			if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
+				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js"></script>';
+				echo "\n";
+			}
+		}
 
+		
 		/**
 		 * Output necessary stuff to WP admin head section
 		 */
-		function wpAdminHeadIntercept() {
-			global $the_current_page;
-			if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
-				echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/media-upload.js"></script>';
-				echo "\n";
-			}
-
-			// Do nothing if not on Audio Player options page
-			if (!($_GET["page"] == "audio-player-options")) {
-				return;
-			}
-			
-			echo '<link href="' . $this->pluginRoot . 'assets/audio-player-admin.css" rel="stylesheet" type="text/css" />';
+		function addAdminHeaderCode() {
+			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<link href="' . $this->pluginRoot . 'assets/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/lib/mootools.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/colorpicker/moocolorpicker.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player-admin.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginRoot . 'assets/audio-player.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
-			echo 'var ap_ajaxRootURL = "' . $this->pluginRoot . 'php/";';
+			echo 'var ap_ajaxRootURL = "' . $this->pluginURL . '/php/";';
 			echo "\n";
 			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo "\n";

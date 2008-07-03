@@ -97,6 +97,7 @@
 			<fileset dir="${plugin.src.dir}/assets">
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
+				<include name="media-upload.js"/>
 				<include name="colorpicker/*.js"/>
 			</fileset>
 		</copy>
