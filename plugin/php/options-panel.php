@@ -251,7 +251,7 @@
 
 		<h3><?php _e('Check for policy file', $this->textDomain) ?></h3>
 		<p>
-			<?php _e('Enable this to tell Audio Player to check for policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file.', $this->textDomain) ?>
+			<?php _e('Enable this to tell Audio Player to check for a policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file.', $this->textDomain) ?>
 		</p>
 		<ul class="ap_optionlist">
 			<li>

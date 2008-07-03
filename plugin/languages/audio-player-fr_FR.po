@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-06-20 15:17-0000\n"
+"PO-Revision-Date: 2008-07-03 15:07-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,16 +15,20 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../audio-player.php:455
+#: ../audio-player.php:180
+msgid "Settings"
+msgstr ""
+
+#: ../audio-player.php:496
 msgid "Download audio file"
 msgstr "Télécharger fichier audio"
 
-#: ../audio-player.php:472
+#: ../audio-player.php:513
 #, php-format
-msgid "Audio clip: <a href=\"%s\" title=\"Download Adobe Flash Player\">Adobe Flash Player</a> (version 9 or above) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
-msgstr "Clip audio: <a href=\"%s\" title=\"Télécharger Adobe Flash Player\">Adobe Flash Player</a> (version 9 ou supérieure) is required to play this audio clip. You also need to have JavaScript enabled in your browser."
+msgid "Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href=\"%s\" title=\"Download Adobe Flash Player\">here</a>. You also need to have JavaScript enabled in your browser."
+msgstr ""
 
-#: ../audio-player.php:593
+#: ../audio-player.php:636
 #: ../php/options-panel.php:2
 msgid "Audio Player"
 msgstr "Audio Player"
@@ -359,7 +363,7 @@ msgid "Check for policy file"
 msgstr ""
 
 #: ../php/options-panel.php:254
-msgid "Enable this to tell Audio Player to check for policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file."
+msgid "Enable this to tell Audio Player to check for a policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file."
 msgstr ""
 
 #: ../php/options-panel.php:264
