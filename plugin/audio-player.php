@@ -179,8 +179,8 @@ if (!class_exists('AudioPlayer')) {
 			if ($file == $this_plugin) {
 				$settings_link = '<a href="options-general.php?page=' . $this->optionsPageName . '">' . __('Settings') . '</a>';
 				array_unshift($links, $settings_link);
-				return $links;
 			}
+			return $links;
 		}
 		
 		/**
