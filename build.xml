@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
+<project name="Audio Player" basedir="." default="deploy.default">
 	<!-- Load properties -->
 	<property file="build.properties"/>
 	
