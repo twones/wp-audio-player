@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
+	<!-- Load properties -->
+	<property file="build.properties"/>
+	
+	<property name="plugin.src.dir" value="plugin"/>
+	<property name="player.src.dir" value="source"/>
+	<property name="build.dir" value="build"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="lib.dir" value="lib"/>
+	
+	<!-- Load task definitions -->
+	<path id="class.path">
+		<fileset dir="${lib.dir}" includes="*.jar"/>
+	</path>
+	<taskdef file="tasks.properties" classpathref="class.path"/>
+	
+	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
+	
+	<target name="-init" depends="clean">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+	</target>
+
+	<target name="clean" description="Clean up">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete file="swfcompile.jsfl"/>
+	</target>
+
+	<target name="deploy.to.all" depends="build" description="Deploy to all local test sites">
+		<foreach target="-deploy" param="deploy.dir">
+			<path>
+				<dirset dir="${deploy.path}" includes="wp*"/>
+			</path>
+		</foreach>
+		<antcall target="clean"/>
+	</target>
+
+	<target name="deploy.to" depends="build" description="Deploy to one local test site">
+		<input message="Please select test site to deploy to:" addproperty="wp.version" defaultvalue="wp23"/>
+		<antcall target="-deploy">
+			<param name="deploy.dir" value="${deploy.path}/${wp.version}"/>
+		</antcall>
+		<antcall target="clean"/>
+	</target>
+
+	<target name="deploy.default" depends="build" description="Deploy to default local test site">
+		<antcall target="-deploy">
+			<param name="deploy.dir" value="${deploy.path}/${default.deploy.version}"/>
+		</antcall>
+		
+		<antcall target="clean"/>
+	</target>
+
+	<target name="-deploy">
+		<delete dir="${deploy.dir}/wp-content/plugins/audio-player"/>
+		<unzip src="${dist.dir}/audio-player.zip" dest="${deploy.dir}/wp-content/plugins" overwrite="true"/>
+	</target>
+
+	<target name="deploy.wpap" depends="build,build.standalone" description="Deploy to wpaudioplayer.local">
+		<delete dir="${wpap.dir}/wp-content/plugins/audio-player"/>
+		
+		<unzip src="${dist.dir}/audio-player.zip" dest="${wpap.dir}/wp-content/plugins"/>
+		
+		<copy todir="${wpap.dir}/wp-content/downloads">
+			<fileset dir="${dist.dir}"/>
+		</copy>
+		
+		<antcall target="clean"/>
+	</target>
+	
+	<target name="build" depends="-init" description="Build plugin archive">
+		<delete dir="${build.dir}"/>
+		
+		<copy todir="${build.dir}" includeemptydirs="true">
+			<fileset dir="${plugin.src.dir}">
+				<include name="**/*.*"/>
+				<exclude name="**/graphics-source.png"/>
+				<exclude name="**/*.js"/>
+				<exclude name="**/*.po"/>
+				<exclude name="**/*.back"/>
+			</fileset>
+		</copy>
+		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
+		
+		<condition property="swfExists">
+	    	<available file="${player.src.dir}/player.swf"/>
+	    </condition>
+		
+		<antcall target="-compileIfMissing"/>
+		
+		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
+		
+		<filter token="swfobject" value="audioplayer_swfobject"/>
+		<copy todir="${build.dir}/assets/unc" filtering="true">
+			<fileset dir="${plugin.src.dir}/assets">
+				<include name="audio-player-admin.js"/>
+				<include name="audio-player.js"/>
+				<include name="media-upload.js"/>
+				<include name="colorpicker/*.js"/>
+			</fileset>
+		</copy>
+		
+		<!-- Minify JavaScript files (except mootools and swfobject) -->
+		<apply executable="java" parallel="false" dest="${build.dir}/assets">
+			<fileset dir="${build.dir}/assets/unc">
+				<include name="**/*.js"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<arg line="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
+		
+		<delete dir="${build.dir}/assets/unc"/>
+		
+		<concat destfile="${build.dir}/assets/audio-player.js" append="true">
+	        <fileset dir="${plugin.src.dir}/assets">
+	        	<include name="lib/swfobject.js"/>
+	        </fileset>
+	    </concat>
+		
+		<zip destfile="${dist.dir}/audio-player.zip">
+			<zipfileset dir="${build.dir}" prefix="audio-player"/>
+		</zip>
+	</target>
+	
+	<target name="build.standalone" depends="-init" description="Build standalone">
+		<delete dir="${build.dir}"/>
+		
+		<condition property="swfExists">
+	    	<available file="${player.src.dir}/player.swf"/>
+	    </condition>
+		
+		<antcall target="-compileIfMissing"/>
+		
+		<copy file="${player.src.dir}/player.swf" todir="${build.dir}"/>
+		
+		<filter token="swfobject" value="swfobject"/>
+		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/audio-player-uncompressed.js" filtering="true"/>
+		
+		<filter token="swfobject" value="audioplayer_swfobject"/>
+		<copy file="${plugin.src.dir}/assets/audio-player.js" tofile="${build.dir}/unc/audio-player.js" filtering="true"/>
+		
+		<!-- Minify audio-player.js -->
+		<apply executable="java" parallel="false" dest="${build.dir}">
+			<fileset dir="${build.dir}/unc">
+				<include name="audio-player.js"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<arg line="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
+		
+		<delete dir="${build.dir}/unc"/>
+		
+		<copy file="${build.dir}/audio-player.js" tofile="${build.dir}/audio-player-noswfobject.js"/>
+		
+		<concat destfile="${build.dir}/audio-player.js" append="true">
+	        <fileset dir="${plugin.src.dir}/assets">
+	        	<include name="lib/swfobject.js"/>
+	        </fileset>
+	    </concat>
+		
+		<copy file="${plugin.src.dir}/license.txt" todir="${build.dir}"/>
+		
+		<zip destfile="${dist.dir}/audio-player-standalone.zip">
+			<zipfileset dir="${build.dir}" prefix="audio-player"/>
+		</zip>
+	</target>
+	
+	<target name="-compileIfMissing" unless="swfExists">
+		<antcall target="compile"/>
+	</target>
+		
+	<target name="compile" description="Compile swf player">
+		<filter token="sourceFile" value="file:///${basedir}/source/player.fla"/>
+		<filter token="destFile" value="file:///${basedir}/source/player.swf"/>
+		<copy file="swfcompile.template" tofile="swfcompile.jsfl" filtering="true"/>
+		<replaceregexp file="swfcompile.jsfl" match="\\" replace="/" flags="g"/>
+	    <exec executable="${flash.exe}">
+	        <arg line="'${swfcompile.jsfl}'"/>
+	    </exec>
+	</target>
+	
+	<target name="release" depends="build" description="Release and deploy new version">
+		<input message="FTP username:" addproperty="ftp.username"/>
+		<input message="FTP password:" addproperty="ftp.password"/>
+		
+		<!-- Release to 1pixelout.net -->
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.path}">
+			<fileset dir="${dist.dir}"/>
+		</ftp>
+		
+		<input message="WP SVN username:" addproperty="svn.username"/>
+		<input message="WP SVN password:" addproperty="svn.password"/>
+		<input message="New version:" addproperty="version.tag"/>
+		
+		<!-- Release to WP plugins repository -->
+		<svn svnkit="true" username="${svn.username}" password="${svn.password}">
+			<delete url="${svn.url}/trunk" message="Deleted current trunk"/>
+			<import url="${svn.url}/trunk" path="${build.dir}/audio-player" message="Imported new release to trunk"/>
+			<copy srcUrl="${svn.url}/trunk" destUrl="${svn.url}/tags/${version.tag}" message="Tagged version ${version.tag}"/>
+		</svn>
+		
+		<antcall target="clean"/>
+	</target>
+
+	<target name="release.wpap" depends="build,build.standalone" description="Release to wpaudioplayer.com">
+		<input message="FTP username:" addproperty="ftp.username"/>
+		<input message="FTP password:" addproperty="ftp.password"/>
+		
+		<!-- Release to 1pixelout.net -->
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}/wp-content/downloads">
+			<fileset dir="${dist.dir}"/>
+		</ftp>
+		
+		<unzip src="${dist.dir}/audio-player.zip" dest="${dist.dir}"/>
+		
+		<ftp server="${ftp.server}" binary="true" password="${ftp.password}" userid="${ftp.username}" remotedir="${ftp.wpap.path}/wp-content/plugins/audio-player">
+			<fileset dir="${dist.dir}/audio-player"/>
+		</ftp>
+		
+		<antcall target="clean"/>
+	</target>
+
+</project>

@@ -1,0 +1,11 @@
+deploy.path=
+default.deploy.version=
+flash.exe=
+
+wpap.dir=
+
+svn.url=http://svn.wp-plugins.org/audio-player/branches/
+
+ftp.server=
+ftp.path=
+ftp.wpap.path=
