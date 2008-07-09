@@ -175,7 +175,13 @@
 				<label for="ap_disableTrackInformation">
 				<input type="checkbox" name="ap_disableTrackInformation" id="ap_disableTrackInformation" value="true"<?php if($this->options["noInfo"]) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Disable track information', $this->textDomain) ?></strong></label><br />
-				<?php _e('Select this if you wish to disable track information display (the player won\'t show titles or artist names even if they are available)', $this->textDomain) ?>
+				<?php _e('Select this if you wish to disable track information display (the player won\'t show titles or artist names even if they are available.)', $this->textDomain) ?>
+			</li>
+			<li>
+				<label for="ap_rtlMode">
+				<input type="checkbox" name="ap_rtlMode" id="ap_rtlMode" value="true"<?php if($this->options["rtl"]) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Switch to RTL layout', $this->textDomain) ?></strong></label><br />
+				<?php _e('Select this to switch the player layout to RTL mode (right to left) for Arabic and Hebrew language blogs.', $this->textDomain) ?>
 			</li>
 		</ul>
 	</div>
@@ -260,7 +266,7 @@
 				<strong><?php _e('Check for policy file', $this->textDomain) ?></strong></label>
 			</li>
 		</ul>
-
+		
 		<h3><?php _e('Encoding', $this->textDomain) ?></h3>
 		<p>
 			<?php _e('Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers.', $this->textDomain) ?>

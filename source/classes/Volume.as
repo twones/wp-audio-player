@@ -18,6 +18,8 @@ class Volume extends MovieClip
 
 	private var _clearID:Number;
 	
+	private var _rtl:Boolean = false;
+	
 	/**
 	 * Constructor
 	 */
@@ -80,8 +82,8 @@ class Volume extends MovieClip
 	public function toggleControl(toggle:Boolean, immediate:Boolean):Void
 	{
 		clearInterval(_clearID);
-		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0, 6);
-		else _clearID = setInterval(this, "_animate", 41, 0, 100, 16);
+		if(toggle) _clearID = setInterval(this, "_animate", 41, 100, 0, _rtl ? 11 : 6);
+		else _clearID = setInterval(this, "_animate", 41, 0, 100, _rtl ? 21 : 16);
 	}
 	
 	private function _animate(targetControl:Number, targetIcon:Number, targetIconX:Number):Void
@@ -112,5 +114,16 @@ class Volume extends MovieClip
 		control_mc._alpha += dAlphaControl;
 		icon_mc._alpha += dAlphaIcon;
 		icon_mc._x += dAlphaIconX;
+	}
+	
+	public function flip():Void {
+		_rtl = true;
+		
+		this.background_mc._rotation = 180;
+		this.background_mc._y += this.background_mc._height;
+		this.background_mc._x += this.background_mc._width;
+		this.control_mc._x += 5;
+		this.icon_mc._x += 5;
+		
 	}
 }

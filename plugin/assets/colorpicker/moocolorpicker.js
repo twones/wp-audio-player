@@ -1,5 +1,7 @@
 var MooColorPicker = new Class({
 	
+	Implements: [Events, Options],
+	
 	options: {
 		initialColor:"#000000",
 		classPrefix:"moocp_",
@@ -10,8 +12,7 @@ var MooColorPicker = new Class({
 	/**
 	 * Constructor
 	 */
-	initialize:function(options)
-	{
+	initialize: function (options) {
 		this.setOptions(options);
 		
 		// Timer for delayed operations
@@ -25,19 +26,19 @@ var MooColorPicker = new Class({
 	/**
 	 * PRIVATE: builds the colorpicker HTML element
 	 */
-	_buildColorPicker:function()
-	{
+	_buildColorPicker: function () {
 		// Build color picker
 		this.colorpicker = new Element("div").addClass(this.options.classPrefix + "color-picker");
 
 		// Add to page
 		var container = $(this.options.container);
-		if(!container) container = document.getElementsByTagName("body")[0];
+		if (!container) {
+			container = document.getElementsByTagName("body")[0];
+		}
 		this.colorpicker.injectInside(container);
 		
 		// If in panel mode, add header, make color picker draggable and hide it
-		if(this.options.panelMode)
-		{
+		if (this.options.panelMode) {
 			this.colorpicker.addClass(this.options.classPrefix + "panel-mode");
 			
 			var header = new Element("div").addClass(this.options.classPrefix + "header-panel").injectInside(this.colorpicker);
@@ -45,8 +46,8 @@ var MooColorPicker = new Class({
 			closeButton.addEvent("click", this.hide.bind(this));
 
 			this.colorpicker.makeDraggable({
-				handle:header,
-				onComplete:this._updatePanelCoords.bind(this)
+				handle: header,
+				onComplete: this._updatePanelCoords.bind(this)
 			});
 
 			this.hide();
@@ -54,8 +55,7 @@ var MooColorPicker = new Class({
 		
 		// Build panels and cursors
 		this.svPanel = new Element("div").addClass(this.options.classPrefix + "sv-panel").injectInside(this.colorpicker);
-		if(window.ie6)
-		{
+		if (Browser.Engine.trident4) {
 			this.svPanel.setStyle("background", "transparent");
 			this.ieSvPanel = new Element("div").addClass(this.options.classPrefix + "sv-panel-ie").injectInside(this.colorpicker);
 		}
@@ -67,25 +67,47 @@ var MooColorPicker = new Class({
 		this.draggingSV = false;
 		this.svDragOffset = 5;
 		this.svPanel.addEvents({
-			mousedown:(function() { this.draggingSV = true; }).bind(this),
-			mouseup:(function() { this.draggingSV = false; }).bind(this),
-			click:this._moveSV.bindWithEvent(this)
+			mousedown: (function () {
+				this.draggingSV = true;
+			}).bind(this),
+			mouseup: (function () {
+				this.draggingSV = false;
+			}).bind(this),
+			click: this._moveSV.bindWithEvent(this)
 		});
-		document.addEvent("mousemove", (function(event) { if(this.draggingSV) this._moveSV(event); }).bindWithEvent(this));
-		document.addEvent("mouseup", (function() { this.draggingSV = false; }).bind(this));
+		document.addEvent("mousemove", (function (event) {
+			if (this.draggingSV) {
+				this._moveSV(event);
+			}
+		}).bindWithEvent(this));
+		document.addEvent("mouseup", (function () {
+			this.draggingSV = false;
+		}).bind(this));
 
 		// Setup hue panel
 		this.draggingH = false;
 		this.hDragOffset = 2;
 		this.huePanel.addEvents({
-			mousedown:(function() { this.draggingH = true; }).bind(this),
-			mouseup:(function() { this.draggingH = false; }).bind(this),
-			click:this._moveH.bindWithEvent(this)
+			mousedown: (function () {
+				this.draggingH = true;
+			}).bind(this),
+			mouseup: (function () {
+				this.draggingH = false;
+			}).bind(this),
+			click: this._moveH.bindWithEvent(this)
 		});
-		document.addEvent("mousemove", (function(event) { if(this.draggingH) this._moveH(event); }).bindWithEvent(this));
-		document.addEvent("mouseup", (function() { this.draggingH = false; }).bind(this));
+		document.addEvent("mousemove", (function (event) {
+			if (this.draggingH) {
+				this._moveH(event);
+			}
+		}).bindWithEvent(this));
+		document.addEvent("mouseup", (function () {
+			this.draggingH = false;
+		}).bind(this));
 
-		document.addEvent("mousemove", (function(event) { this._mouse = event.page; }).bindWithEvent(this));
+		document.addEvent("mousemove", (function (event) {
+			this._mouse = event.page;
+		}).bindWithEvent(this));
 
 		this._updatePanelCoords();
 	},
@@ -96,35 +118,42 @@ var MooColorPicker = new Class({
 	 * If the panels are hidden, the methos is run periodically
 	 * until the coordinates are available
 	 */
-	_updatePanelCoords:function()
-	{
+	_updatePanelCoords: function () {
 		this.svPanelCoords = this.svPanel.getCoordinates();
 		this.huePanelCoords = this.huePanel.getCoordinates();
 
 		$clear(this._timer);
 
-		if(this.svPanelCoords.width == 0) this._timer = this._updatePanelCoords.delay(100, this);
+		if (this.svPanelCoords.width == 0) {
+			this._timer = this._updatePanelCoords.delay(100, this);
+		}
 	},
 	
 	/**
 	 * Panel mode only
 	 * PUBLIC: shows color picker
 	 */
-	show:function()
-	{
-		if(!this.options.panelMode || this.state == "open") return;
+	show: function () {
+		if (!this.options.panelMode || this.state == "open") {
+			return;
+		}
 		
-		var pickerCoords = this.colorpicker.getCoordinates();
-		var windowCoords = window.getSize();
+		var pickerSize = this.colorpicker.getSize();
+		var windowSize = window.getSize();
+		var windowScroll = window.getScroll();
 		var left = this._mouse.x + 5;
 		var top = this._mouse.y + 5;
-		if(left + pickerCoords.width > windowCoords.size.x) left -= (pickerCoords.width + 10);
-		if(top + pickerCoords.height > (windowCoords.scroll.y + windowCoords.size.y)) top -= (pickerCoords.height + 10);
+		if (left + pickerSize.x > windowSize.x) {
+			left -= (pickerSize.x + 10);
+		}
+		if (top + pickerSize.y > (windowScroll.y + windowSize.y)) {
+			top -= (pickerSize.y + 10);
+		}
 		
 		this.colorpicker.setStyles({
-			visibility:"visible",
-			top:top + "px",
-			left:left + "px"
+			visibility: "visible",
+			top: top + "px",
+			left: left + "px"
 		});
 		
 		this.state = "open";
@@ -136,14 +165,15 @@ var MooColorPicker = new Class({
 	 * Panel mode only
 	 * PUBLIC: hides color picker
 	 */
-	hide:function()
-	{
-		if(!this.options.panelMode || this.state == "closed") return;
+	hide: function () {
+		if (!this.options.panelMode || this.state == "closed") {
+			return;
+		}
 
 		this.colorpicker.setStyles({
-			visibility:"hidden",
-			top:0,
-			left:0
+			visibility: "hidden",
+			top: 0,
+			left: 0
 		});
 		
 		this.state = "closed";
@@ -153,8 +183,7 @@ var MooColorPicker = new Class({
 	 * PUBLIC: sets the color in the color picker
 	 * @param color a hexadecimal color code to load into the color picker (e.g. "#336699")
 	 */
-	setColor:function(color)
-	{
+	setColor: function (color) {
 		// Update selected color
 		this.selectedColor = new Color($pick(color, "#000000"));
 		
@@ -172,8 +201,8 @@ var MooColorPicker = new Class({
 		var topSV = Math.round((100 - hsv[2]) / 100 * this.svPanelCoords.height);
 		var leftSV = Math.round(hsv[1] / 100 * this.svPanelCoords.width);
 		this.svCursor.setStyles({
-			top:topSV - this.svDragOffset + "px",
-			left:leftSV - this.svDragOffset + "px"
+			top: topSV - this.svDragOffset + "px",
+			left: leftSV - this.svDragOffset + "px"
 		});
 	},
 	
@@ -185,45 +214,47 @@ var MooColorPicker = new Class({
 	 * @param element id or reference to existing HTML element
 	 * @param property (optional) css property to update with color value
 	 */
-	attach:function(element, property)
-	{
+	attach: function (element, property) {
 		element = $(element);
 		
 		// If element doesn't exist, do nothing
-		if(!element) return;
+		if (!element) {
+			return;
+		}
 
 		// Create context
 		var context = {
-			colorPicker:this,
-			element:element,
-			property:property,
-			storedValue:""
+			colorPicker: this,
+			element: element,
+			property: property,
+			storedValue: ""
 		};
 
 		var fn, fn2;
 
-		if(element.getTag() == "input" && element.getProperty("type").toLowerCase() == "text")
-		{
+		if (element.get("tag") == "input" && element.getProperty("type").toLowerCase() == "text") {
 			// The element is an input box, create update function for its value
-			fn = function(color) {
+			fn = function (color) {
 				this.storedValue = this.element.value = color.toUpperCase();
 			};
 			
 			// Also create a function for synching the other way
-			fn2 = function() {
+			fn2 = function () {
 				var newValue = this.element.getValue();
-				if(this.storedValue == newValue || !newValue.test(/#?[0-9a-f]{6}/i)) return;
+				if (this.storedValue == newValue || !newValue.test(/#?[0-9a-f]{6}/i)) {
+					return;
+				}
 				this.colorPicker.setColor(newValue);
 				this.storedValue = newValue;
 			};
 			
 			// Run this function every 500ms
 			fn2.periodical(500, context);
-		}
-		else
-		{
+		} else {
 			// The element is a HTML element, create update function for the given property
-			fn = function(color) { this.element.setStyle(this.property, color); };
+			fn = function (color) {
+				this.element.setStyle(this.property, color);
+			};
 		}
 		
 		// Attach event
@@ -233,8 +264,7 @@ var MooColorPicker = new Class({
 	/**
 	 * PRIVATE: handles the saturation/value panel cursor movements
 	 */
-	_moveSV:function(event)
-	{
+	_moveSV: function (event) {
 		// Get relative mouse position
 		var left = event.page.x - this.svPanelCoords.left;
 		var top = event.page.y - this.svPanelCoords.top;
@@ -255,8 +285,8 @@ var MooColorPicker = new Class({
 
 		// Move cursor
 		this.svCursor.setStyles({
-			top:top + "px",
-			left:left + "px"
+			top: top + "px",
+			left: left + "px"
 		});
 
 		// Update color
@@ -269,8 +299,7 @@ var MooColorPicker = new Class({
 	/**
 	 * PRIVATE: handles the hue panel cursor movements
 	 */
-	_moveH:function(event)
-	{
+	_moveH: function (event) {
 		// Get relative mouse position
 		var left = event.page.x - this.huePanelCoords.left;
 		var top = event.page.y - this.huePanelCoords.top;
@@ -300,8 +329,7 @@ var MooColorPicker = new Class({
 	/**
 	 * PRIVATE: broadcasts the selectColor event
 	 */
-	_broadcastColorChange:function()
-	{
+	_broadcastColorChange: function () {
 		this.fireEvent("selectColor", [this.selectedColor.rgbToHex().toUpperCase()]);
 	},
 	
@@ -311,14 +339,13 @@ var MooColorPicker = new Class({
 	 * @param from lower limit
 	 * @param to higher limit
 	 */
-	_constrain:function(value, from, to)
-	{
-		if(value < from) return from;
-		if(value > to) return to;
+	_constrain: function (value, from, to) {
+		if (value < from) {
+			return from;
+		}
+		if (value > to) {
+			return to;
+		}
 		return value;
 	}
 });
-
-// Implement Events interface
-MooColorPicker.implement(new Events);
-MooColorPicker.implement(new Options);
