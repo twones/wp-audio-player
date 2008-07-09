@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-07 15:15-0000\n"
+"PO-Revision-Date: 2008-07-09 21:52-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: ../audio-player.php:180
 msgid "Settings"
-msgstr ""
+msgstr "Configuration"
 
 #: ../audio-player.php:498
 msgid "Download audio file"
@@ -36,7 +36,7 @@ msgstr "Audio Player"
 #: ../php/options-panel.php:5
 #, php-format
 msgid "Settings for the Audio Player plugin. Visit <a href=\"%s\">1 Pixel Out</a> for usage information and project news."
-msgstr "Configuration pour le plugin Audio Player. Visitez <a href=\"%s\">1 Pixel Out</a> pour plus d'information."
+msgstr "Réglages pour l'extension Audio Player. Visitez <a href=\"%s\">1 Pixel Out</a> pour plus d'information."
 
 #: ../php/options-panel.php:7
 msgid "Current version"
@@ -48,7 +48,7 @@ msgstr "Général"
 
 #: ../php/options-panel.php:16
 msgid "Display"
-msgstr "Présentation"
+msgstr "Apparence"
 
 #: ../php/options-panel.php:17
 #: ../php/options-panel.php:190
@@ -57,7 +57,7 @@ msgstr "Options de syndication"
 
 #: ../php/options-panel.php:18
 msgid "Podcasting"
-msgstr ""
+msgstr "Podcasting"
 
 #: ../php/options-panel.php:19
 msgid "Advanced"
@@ -65,7 +65,7 @@ msgstr "Avancé"
 
 #: ../php/options-panel.php:23
 msgid "How do you want to use the audio player?"
-msgstr ""
+msgstr "Comment voulez-vous utliser Audio Player?"
 
 #: ../php/options-panel.php:24
 msgid "This set of options allows you to customize when your audio players appear."
@@ -81,7 +81,7 @@ msgstr ""
 
 #: ../php/options-panel.php:36
 msgid "Replace all links to mp3 files"
-msgstr ""
+msgstr "Remplacer tous les liens mp3"
 
 #: ../php/options-panel.php:37
 msgid "When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs."
@@ -109,11 +109,11 @@ msgstr "Default audio folder location"
 
 #: ../php/options-panel.php:63
 msgid "Verify"
-msgstr ""
+msgstr "Vérifier"
 
 #: ../php/options-panel.php:64
 msgid "Click this button to verify that the audio folder is correctly configured"
-msgstr ""
+msgstr "Cliquer ce bouton pour vérifier que votre répertoire audio et correctement configuré"
 
 #: ../php/options-panel.php:65
 msgid "Custom audio folder locations cannot be verified"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: ../php/options-panel.php:66
 msgid "Checking..."
-msgstr ""
+msgstr "Vérification en cours..."
 
 #: ../php/options-panel.php:67
 msgid "Audio folder location verified"
@@ -142,7 +142,7 @@ msgstr "Taille du player"
 
 #: ../php/options-panel.php:81
 msgid "You can enter a value in pixels (e.g. 200) or as a percentage (e.g. 100%)"
-msgstr ""
+msgstr "Vous pouvez entrer une valeur en pixels (200 par exemple) ou en percentage (100%)"
 
 #: ../php/options-panel.php:83
 msgid "Colour scheme"
@@ -288,7 +288,7 @@ msgstr ""
 #: ../php/options-panel.php:196
 #: ../php/options-panel.php:203
 msgid "Nothing"
-msgstr ""
+msgstr "Rien"
 
 #: ../php/options-panel.php:196
 msgid "Choose this if you feel that your feed shouldn't contain any reference to the audio file."

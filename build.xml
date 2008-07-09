@@ -80,8 +80,16 @@
 		<filter token="buildNumber" value="${timestamp}"/>
 		<copy todir="${build.dir}" includeemptydirs="true" filtering="true">
 			<fileset dir="${plugin.src.dir}">
+				<include name="**/*.php"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${build.dir}" includeemptydirs="true">
+			<fileset dir="${plugin.src.dir}">
 				<include name="**"/>
+				<exclude name="**/*.php"/>
 				<exclude name="**/*.js"/>
+				<exclude name="**/languages/**"/>
 				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
