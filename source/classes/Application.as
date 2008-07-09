@@ -64,7 +64,8 @@ class Application
 		checkpolicy:false,
 		demomode:false,
 		bufferTime:5,
-		volume:60
+		volume:60,
+		rtl:false
 	};
 
 	/**
@@ -251,7 +252,48 @@ class Application
 		// Control element alignment depends on whether player is open or closed
 		if(_state == CLOSED) control_mc._x = volume_mc.realWidth - 6;
 		else control_mc._x = Stage.width - control_mc.realWidth;
-
+		
+		// RTL
+		if(_options.rtl)
+		{
+			control_mc.flip();
+			volume_mc.flip();
+			
+			volume_mc._x = Stage.width - volume_mc.realWidth;
+			
+			background_mc._x = control_mc.realWidth - 7;
+			
+			var trackCount = _player.getTrackCount();
+		
+			progress_mc._x = control_mc.realWidth + 4;
+			if(_options.demomode || trackCount > 1) progress_mc._x += 4;
+			progress_mc._y = 2;
+			
+			loading_mc._x = control_mc.realWidth + 4;
+			if(_options.demomode || trackCount > 1) loading_mc._x += 4;
+			loading_mc._y = 20;
+			
+			if(_options.demomode || trackCount > 1)
+			{
+				next_mc._x = Stage.width - 52;
+				next_mc._y = 12;
+				previous_mc._x = control_mc.realWidth + 2;
+				previous_mc._y = 12;
+			}
+			
+			mask_mc._rotation = 180;
+			mask_mc._y += mask_mc._height;
+			mask_mc._x = volume_mc._x + 7;
+			
+			display_mc._x = control_mc.realWidth + 6;
+			if(_options.demomode || trackCount > 1) display_mc._x += 4;
+			display_mc._y = 2;
+			
+			// Control element alignment depends on whether player is open or closed
+			if(_state == CLOSED) control_mc._x = volume_mc._x - control_mc.realWidth + 6;
+			else control_mc._x = 0;
+		}
+		
 		// ------------------------------------------------------------
 		// Resize elements
 		
@@ -427,7 +469,8 @@ class Application
 	{
 		_state = OPENING;
 		
-		var targetPosition:Number = Stage.width - control_mc.realWidth;
+		var targetPosition:Number = _options.rtl ? 0 : Stage.width - control_mc.realWidth;
+		
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(_animate, 40, targetPosition);
 	}
@@ -442,7 +485,8 @@ class Application
 		// Hide text display (doesn't work under a mask)
 		display_mc._visible = false;
 
-		var targetPosition:Number = volume_mc.realWidth - 6;
+		var targetPosition:Number = _options.rtl ? volume_mc._x - control_mc.realWidth + 6 : volume_mc.realWidth - 6;
+		
 		if(_clearID != null) clearInterval(_clearID);
 		_clearID = setInterval(_animate, 40, targetPosition);
 	}
@@ -463,7 +507,8 @@ class Application
 		{
 			// Position the control element to the exact target position
 			control_mc._x = targetX;
-			mask_mc._width += (dx*2);
+			if(_options.rtl) mask_mc._width -= (dx*2);
+			else mask_mc._width += (dx*2);
 			clearInterval(_clearID);
 			if(_state == OPENING)
 			{
@@ -478,7 +523,8 @@ class Application
 		}
 		
 		control_mc._x += dx;
-		mask_mc._width += dx;
+		if(_options.rtl) mask_mc._width -= dx;
+		else mask_mc._width += dx;
 	}
 	
 	// ------------------------------------------------------------

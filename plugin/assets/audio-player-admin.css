@@ -64,6 +64,7 @@ ul#ap_tabs li.ap_active a {
 
 div.ap_panel {
 	clear: both;
+	height: 1%;
 	background: #EAF3FA;
 	padding: 10px;
 }

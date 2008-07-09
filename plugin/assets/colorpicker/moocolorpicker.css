@@ -1,85 +1,95 @@
 .moocp_color-picker {
-	width:230px;
-	float:left;
-	background:#333333;
-	position:relative;
+	width: 230px;
+	float: left;
+	background: #333333;
+	position: relative;
 }
+
 .moocp_panel-mode {
-	width:230px;
-	padding:3px 5px 7px 5px;
-	background:url(background.png) no-repeat left top;
-	position:absolute;
+	width: 230px;
+	padding: 3px 5px 7px 5px;
+	background: url(background.png) no-repeat left top;
+	position: absolute;
 }
 
 .moocp_header-panel {
-	height:16px;
-	cursor:move;
-	position:relative;
+	height: 16px;
+	cursor: move;
+	position: relative;
 }
+
 .moocp_header-panel span {
-	position:absolute;
-	right:0;
-	top:0;
-	width:16px;
-	height:16px;
-	overflow:hidden;
-	background:url(close.gif) no-repeat center center;
-	cursor:pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+	background: url(close.gif) no-repeat center center;
+	cursor: pointer;
 }
-.moocp_panel-mode .moocp_header-panel span { right:4px; }
+
+.moocp_panel-mode .moocp_header-panel span {
+	right: 4px;
+}
 
 .moocp_sv-panel {
-	float:left;
-	width:180px;
-	height:180px;
-	top:10px;
-	left:10px;
-	background:#FF0000 url(saturation-value.png) no-repeat;
-	position:relative;
-	z-index:2;
+	float: left;
+	width: 180px;
+	height: 180px;
+	top: 10px;
+	left: 10px;
+	background: #FF0000 url(saturation-value.png) no-repeat;
+	position: relative;
+	z-index: 2;
 }
+
 .ie6 .moocp_sv-panel {
-	background:transparent;
+	background: transparent;
 }
+
 .moocp_sv-panel-ie {
-	width:180px;
-	height:180px;
-	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../wp-content/plugins/audio-player/colorpicker/saturation-value.png', sizingMethod='scale');
-	position:absolute;
-	top:10px;
-	left:10px;
-	z-index:1;
+	width: 180px;
+	height: 180px;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../wp-content/plugins/audio-player/assets/colorpicker/saturation-value.png', sizingMethod='scale');
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 1;
 }
+
 .moocp_panel-mode .moocp_sv-panel-ie {
-	left:15px;
-	top:29px;
+	left: 15px;
+	top: 29px;
 }
+
 .moocp_sv-panel span {
-	position:absolute;
-	display:block;
-	width:10px;
-	height:10px;
-	overflow:hidden;
-	background:url(slide.gif) no-repeat;
-	cursor:default;
+	position: absolute;
+	display: block;
+	width: 10px;
+	height: 10px;
+	overflow: hidden;
+	background: url(slide.gif) no-repeat;
+	cursor: default;
 }
 
 .moocp_hue-panel {
-	float:right;
-	width:20px;
-	height:180px;
-	margin:10px 10px 10px 0;
-	display:inline; /* For IE6 */
-	background:url(hue.png) no-repeat left top;
-	position:relative;
+	float: right;
+	width: 20px;
+	height: 180px;
+	margin: 10px 10px 10px 0;
+	display: inline; /* For IE6 */
+	background: url(hue.png) no-repeat left top;
+	position: relative;
 }
+
 .moocp_hue-panel span {
-	position:absolute;
-	left:-5px;
-	display:block;
-	width:30px;
-	height:5px;
-	overflow:hidden;
-	background:url(slide-hue.gif) no-repeat;
-	cursor:default;
+	position: absolute;
+	left: -5px;
+	display: block;
+	width: 30px;
+	height: 5px;
+	overflow: hidden;
+	background: url(slide-hue.gif) no-repeat;
+	cursor: default;
 }

@@ -30,17 +30,17 @@
 	
 	function onRollOver()
 	{
-		_flip(true);
+		_switch(true);
 	}
 
 	function onRollOut()
 	{
-		_flip(false);
+		_switch(false);
 	}
 	
 	function onReleaseOutside()
 	{
-		_flip(false);
+		_switch(false);
 	}
 
 	function onRelease()
@@ -48,7 +48,7 @@
 		this.toggle(true);
 	}
 	
-	private function _flip(toggle:Boolean):Void
+	private function _switch(toggle:Boolean):Void
 	{
 		if(this.state == "play") this.play_mc.hover_mc._visible = toggle;
 		if(this.state == "pause") this.pause_mc.hover_mc._visible = toggle;
@@ -73,5 +73,14 @@
 			this.play_mc._visible = true;
 			this.state = "play";
 		}
+	}
+	
+	public function flip():Void
+	{
+		this.background_mc._rotation = 180;
+		this.background_mc._y += this.background_mc._height;
+		this.background_mc._x += this.background_mc._width;
+		this.play_mc._x = 14;
+		this.pause_mc._x = 13;
 	}
 }

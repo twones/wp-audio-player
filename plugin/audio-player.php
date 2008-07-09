@@ -3,7 +3,7 @@
 Plugin Name: Audio player
 Plugin URI: http://wpaudioplayer.com
 Description: Audio Player is a highly configurable but simple mp3 player for all your audio needs. You can customise the player's colour scheme to match your blog theme, have it automatically show track information from the encoded ID3 tags and more. Go to your Settings page to start configuring it.
-Version: 2.0b4
+Version: 2.0b5
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
 
@@ -43,7 +43,7 @@ if (!class_exists('AudioPlayer')) {
 		// Name for serialized options saved in database
 		var $optionsName = "AudioPlayer_options";
 
-		var $version = "2.0b4";
+		var $version = "2.0b5";
 		
 		var $docURL = "http://wpaudioplayer.com/";
 		
@@ -179,8 +179,8 @@ if (!class_exists('AudioPlayer')) {
 			if ($file == $this_plugin) {
 				$settings_link = '<a href="options-general.php?page=' . $this->optionsPageName . '">' . __('Settings') . '</a>';
 				array_unshift($links, $settings_link);
-				return $links;
 			}
+			return $links;
 		}
 		
 		/**
@@ -224,6 +224,7 @@ if (!class_exists('AudioPlayer')) {
 				"bufferTime" => "5",
 				"noInfo" => false,
 				"checkPolicy" => false,
+				"rtl" => false,
 
 				"colorScheme" => $this->defaultColorScheme
 			);
@@ -318,6 +319,7 @@ if (!class_exists('AudioPlayer')) {
 			$playerOptions["noinfo"] = $this->options["noInfo"];
 			$playerOptions["buffer"] = $this->options["bufferTime"];
 			$playerOptions["checkpolicy"] = $this->options["checkPolicy"];
+			$playerOptions["rtl"] = $this->options["rtl"];
 			
 			return array_merge($playerOptions, $this->options["colorScheme"]);
 		}
@@ -485,7 +487,7 @@ if (!class_exists('AudioPlayer')) {
 			if (is_feed()) {
 				// We are in a feed so use RSS alternate content option
 				switch ( $this->options["rssAlternate"] ) {
-		
+				
 				case "download":
 					// Get filenames from path and output a link for each file in the sequence
 					$files = explode(",", $source);
@@ -567,6 +569,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["showRemaining"] = isset( $_POST["ap_showRemaining"] );
 				$this->options["noInfo"] = isset( $_POST["ap_disableTrackInformation"] );
 				$this->options["checkPolicy"] = isset( $_POST["ap_checkPolicy"] );
+				$this->options["rtl"] = isset( $_POST["ap_rtlMode"] );
 				
 				if (isset($_POST['ap_behaviour'])) {
 					$this->options["behaviour"] = $_POST['ap_behaviour'];

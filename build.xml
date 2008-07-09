@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Audio Player WordPress plugin" basedir="." default="deploy.default">
+<project name="Audio Player" basedir="." default="deploy.default">
 	<!-- Load properties -->
 	<property file="build.properties"/>
 	
@@ -75,14 +75,12 @@
 		
 		<copy todir="${build.dir}" includeemptydirs="true">
 			<fileset dir="${plugin.src.dir}">
-				<include name="**/*.*"/>
-				<exclude name="**/graphics-source.png"/>
+				<include name="**"/>
 				<exclude name="**/*.js"/>
 				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
-		<copy file="${plugin.src.dir}/assets/lib/mootools-compressed.js" tofile="${build.dir}/assets/lib/mootools.js"/>
 		
 		<condition property="swfExists">
 	    	<available file="${player.src.dir}/player.swf"/>
@@ -99,22 +97,12 @@
 				<include name="audio-player.js"/>
 				<include name="media-upload.js"/>
 				<include name="colorpicker/*.js"/>
+				<include name="lib/mootools.js"/>
 			</fileset>
 		</copy>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<apply executable="java" parallel="false" dest="${build.dir}/assets">
-			<fileset dir="${build.dir}/assets/unc">
-				<include name="**/*.js"/>
-			</fileset>
-			<arg line="-jar"/>
-			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
-			<arg line="--charset utf-8"/>
-			<arg line="-o"/>
-			<targetfile/>
-			<srcfile/>
-			<mapper type="glob" from="*.js" to="*.js"/>
-		</apply>
+		<ant target="-minify"/>
 		
 		<delete dir="${build.dir}/assets/unc"/>
 		
@@ -127,6 +115,21 @@
 		<zip destfile="${dist.dir}/audio-player.zip">
 			<zipfileset dir="${build.dir}" prefix="audio-player"/>
 		</zip>
+	</target>
+	
+	<target name="-minify">
+		<apply executable="java" parallel="false" dest="${build.dir}/assets">
+			<fileset dir="${build.dir}/assets/unc">
+				<include name="**/*.js"/>
+			</fileset>
+			<arg line="-jar"/>
+			<arg path="${lib.dir}/yuicompressor-2.2.5.jar"/>
+			<arg line="--charset utf-8"/>
+			<arg line="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<mapper type="glob" from="*.js" to="*.js"/>
+		</apply>
 	</target>
 	
 	<target name="build.standalone" depends="-init" description="Build standalone">
