@@ -15,6 +15,10 @@
 	</path>
 	<taskdef file="tasks.properties" classpathref="class.path"/>
 	
+	<tstamp>
+		<format property="timestamp" pattern="yyyyMMddhhmmss"/>
+	</tstamp>
+	
 	<property name="swfcompile.jsfl" value="${basedir}/swfcompile.jsfl"/>
 	
 	<target name="-init" depends="clean">
@@ -73,7 +77,8 @@
 	<target name="build" depends="-init" description="Build plugin archive">
 		<delete dir="${build.dir}"/>
 		
-		<copy todir="${build.dir}" includeemptydirs="true">
+		<filter token="buildNumber" value="${timestamp}"/>
+		<copy todir="${build.dir}" includeemptydirs="true" filtering="true">
 			<fileset dir="${plugin.src.dir}">
 				<include name="**"/>
 				<exclude name="**/*.js"/>

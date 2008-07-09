@@ -649,10 +649,10 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP head section
 		 */
 		function addHeaderCode() {
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
-			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
+			echo 'AudioPlayer.setup("' . $this->playerURL . '?ver=@buildNumber@", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo '</script>';
 			echo "\n";
 		}
@@ -663,33 +663,32 @@ if (!class_exists('AudioPlayer')) {
 		function overrideMediaUpload() {
 			global $the_current_page;
 			if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
-				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js"></script>';
+				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js?ver=@buildNumber@"></script>';
 				echo "\n";
 			}
 		}
-
 		
 		/**
 		 * Output necessary stuff to WP admin head section
 		 */
 		function addAdminHeaderCode() {
-			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<link href="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.css" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js?ver=@buildNumber@"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.js?ver=@buildNumber@"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js?ver=@buildNumber@"></script>';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js"></script>';
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo "\n";
 			echo 'var ap_ajaxRootURL = "' . $this->pluginURL . '/php/";';
 			echo "\n";
-			echo 'AudioPlayer.setup("' . $this->playerURL . '", ' . $this->php2js($this->getPlayerOptions()) . ');';
+			echo 'AudioPlayer.setup("' . $this->playerURL . '?ver=@buildNumber@", ' . $this->php2js($this->getPlayerOptions()) . ');';
 			echo "\n";
 			echo '</script>';
 			echo "\n";
