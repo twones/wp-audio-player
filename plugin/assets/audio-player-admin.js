@@ -13,11 +13,10 @@
 			var i;
 			var target = $(this);
 			var tab = target.parent();
-			var activeTabID;
 			
 			evt.preventDefault();
 			
-			if (tab.hasClass("ap_active")) {
+			if (tab.attr("class") == "ap_active") {
 				return;
 			}
 			
@@ -25,9 +24,8 @@
 			tab.addClass("ap_active");
 			
 			panels.css("display", "none");
-			activeTabID = target.attr("href").replace(/[^#]*#/, "");
 			
-			$("#" + activeTabID).css("display", "block");
+			$("#" + target.attr("href").replace(/[^#]*#/, "")).css("display", "block");
 			
 			/*
 			if (Browser.Engine.gecko || Browser.Engine.webkit) {

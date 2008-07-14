@@ -130,7 +130,6 @@ if (!class_exists('AudioPlayer')) {
 			// Add action and filter hooks to WordPress
 			
 			add_action("init", array(&$this, "optionsPanelAction"));
-			add_action("init", array(&$this, "removeConflicts"));
 			
 			add_action("admin_menu", array(&$this, "addAdminPages"));
 			add_filter("plugin_action_links", array(&$this, "addConfigureLink"), 10, 2);
@@ -138,7 +137,7 @@ if (!class_exists('AudioPlayer')) {
 			add_action("wp_head", array(&$this, "addHeaderCode"));
 			add_action("admin_head", array(&$this, "overrideMediaUpload"));
 			
-			add_filter("the_content", array(&$this, "processContent"), 1);
+			add_filter("the_content", array(&$this, "processContent"), 2);
 			if (in_array("comments", $this->options["behaviour"])) {
 				add_filter("comment_text", array(&$this, "processContent"));
 			}
@@ -151,21 +150,15 @@ if (!class_exists('AudioPlayer')) {
 		}
 		
 		/**
-		 * This is really bad but the only way I can make this work with Defensio
-		 */
-		function removeConflicts() {
-			// Only do this if we are on the Audio Player options page
-			if ($_GET["page"] == $this->optionsPageName) {
-				remove_action('admin_head', 'defensio_head');
-			}
-		}
-		
-		/**
 		 * Adds Audio Player options tab to admin menu
 		 */
 		function addAdminPages() {
 			$pageName = add_options_page("Audio player options", "Audio Player", 8, $this->optionsPageName, array(&$this, "outputOptionsSubpanel"));
 			add_action("admin_head-" . $pageName, array(&$this, "addAdminHeaderCode"), 12);
+			if (function_exists("wp_enqueue_script")) {
+				wp_register_script("jquery", $this->pluginURL . "/assets/lib/jquery.js", false, "1.2.3");
+				wp_enqueue_script("jquery", false, false, "1.2.3");
+			}
 		}
 		
 		/**
@@ -677,10 +670,10 @@ if (!class_exists('AudioPlayer')) {
 			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
 			
-			wp_enqueue_script("jquery", "1.2.3");
-			
-			//echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js?ver=@buildNumber@"></script>';
-			//echo "\n";
+			if (!function_exists("wp_enqueue_script")) {
+				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/jquery.js?ver=@buildNumber@"></script>';
+				echo "\n";
+			}
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/cpicker/colorpicker.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js?ver=@buildNumber@"></script>';
