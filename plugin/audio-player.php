@@ -674,11 +674,14 @@ if (!class_exists('AudioPlayer')) {
 		function addAdminHeaderCode() {
 			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<link href="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js?ver=@buildNumber@"></script>';
-			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.js?ver=@buildNumber@"></script>';
+			
+			wp_enqueue_script("jquery", "1.2.3");
+			
+			//echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js?ver=@buildNumber@"></script>';
+			//echo "\n";
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/cpicker/colorpicker.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js?ver=@buildNumber@"></script>';
 			echo "\n";

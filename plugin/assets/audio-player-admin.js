@@ -1,126 +1,170 @@
-var AP_Admin = new Class({
-	initialize : function () {
-		var i;
-		
-		this.tabBar = $("ap_tabs");
-		if (!this.tabBar) {
+(function ($) {
+	var init = function () {
+		var tabBar = $("#ap_tabs");
+		if (!tabBar) {
 			return;
 		}
+		var panels = [];
 		
-		this.panels = [];
+		tabs = $("#ap_tabs li");
+		panels = $("div.ap_panel");
 		
-		this.tabs = this.tabBar.getElements("li");
-		
-		for (i = 0;i < this.tabs.length;i++) {
-			this.tabs[i].getElement("a").addEvent("click", this.tabClick.bindWithEvent(this));
-			if (i === 0) {
-				this.tabs[i].addClass("ap_active");
+		$("#ap_tabs li>a").click(function (evt) {
+			var i;
+			var target = $(this);
+			var tab = target.parent();
+			var activeTabID;
+			
+			evt.preventDefault();
+			
+			if (tab.hasClass("ap_active")) {
+				return;
 			}
-		}
+			
+			tabs.removeClass("ap_active");
+			tab.addClass("ap_active");
+			
+			panels.css("display", "none");
+			activeTabID = target.attr("href").replace(/[^#]*#/, "");
+			
+			$("#" + activeTabID).css("display", "block");
+			
+			/*
+			if (Browser.Engine.gecko || Browser.Engine.webkit) {
+				if (activeTabID == "ap_panel-colour") {
+					this.timer = this.updatePlayer.delay(500, this);
+				} else if (this.timer) {
+					$clear(this.timer);
+				}
+			}*/
+		});
+		$("#ap_tabs li:first").addClass("ap_active");
 		
-		this.panels = document.getElements("div.ap_panel");
-		for (i = 1;i < this.panels.length;i++) {
-			this.panels[i].setStyle("display", "none");
-		}
+		panels.css("display", "none");
+		$("div.ap_panel:first").css("display", "block");
 		
-		$("ap_transparentpagebg").addEvent("click", function () {
-			var bgField = $("ap_pagebgcolor");
-			if ($("ap_transparentpagebg").checked) {
-				bgField.disabled = true;
-				bgField.setStyle("color", "#999999");
+		// Add behaviour to transparent checkbox
+		$("#ap_transparentpagebg").click(function () {
+			var bgField = $("#ap_pagebgcolor");
+			if ($("#ap_transparentpagebg").attr("checked")) {
+				bgField.attr("disabled", true);
+				bgField.css("color", "#999999");
 			} else {
-				bgField.disabled = false;
-				bgField.setStyle("color", "#000000");
+				bgField.attr("disabled", false);
+				bgField.css("color", "#000000");
 			}
 		});
 		
-		this.colorPicker = new MooColorPicker({
-			panelMode: true
+		// Verify audio folder button 
+		$("#ap_audiofolder-check").css("display", "block");
+		$("#ap_check-button").click(checkAudioFolder);
+		$("#ap_audiowebpath_iscustom").change(setAudioCheckButton);
+		setAudioCheckButton();
+		
+		$("#ap_reset").val("");
+		
+		$("#ap_resetcolor").click(function () {
+			$("#ap_reset").val("1");
+			$("#ap_option-form").submit();
 		});
-		this.colorPicker.hide();
-		this.colorPicker.attach("ap_colorsample", "background-color");
-		$("ap_picker-btn").addEvent("click", this.colorPicker.show.bind(this.colorPicker));
-		this.colorPicker.addEvent("selectColor", (function (color) {
-			this.colorField.value = color;
-			this.getCurrentColorField().value = color;
-			this.updatePlayer();
-		}).bind(this));
 		
-		this.fieldSelector = $("ap_fieldselector");
-		this.colorField = $("ap_colorvalue");
+		$("#ap_fieldselector").change(selectColorField);
+		$("#ap_colorvalue").keyup(updateColor);
 		
-		this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
-		this.colorField.addEvent("keyup", this.updateColor.bind(this));
-		document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
-		
-		this.themeColorPicker = $("ap_themecolor");
-		if (this.themeColorPicker) {
-			this.themeColorPicker.setStyle("display", "none");
-			this.reorderThemeColors();
-			this.themeColorPickerBtn = $("ap_themecolor-btn");
-			this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-			this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
-			document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-		}
-		
-		this.selectColorField();
-		
-		$("ap_audiofolder-check").setStyle("display", "block");
-		$("ap_check-button").addEvent("click", this.checkAudioFolder.bind(this));
-		$("ap_audiowebpath_iscustom").addEvent("change", this.setAudioCheckButton.bind(this));
-		this.setAudioCheckButton();
-		
-		$("ap_reset").setProperty("value", "");
-		
-		$("ap_resetcolor").addEvent("click", function () {
-			$("ap_reset").setProperty("value", "1");
-			$("ap_option-form").submit();
-		});
-	},
-	
-	selectColorField : function () {
-		var color = this.getCurrentColorField().get("value");
-		this.colorField.value = color;
-		this.colorPicker.setColor(color);
-		$("ap_colorsample").setStyle("background-color", color);
-	},
-	
-	hideColorPicker : function (evt) {
-		var el = $(evt.target);
-		while (el.get("tag") != "body") {
-			if (el.getProperty("id") == "ap_picker-btn" || el.hasClass("moocp_color-picker")) {
-				return;
-			}
-			el = el.getParent();
-		}
-		this.colorPicker.hide();
-	},
-
-	showHideThemeColors : function (evt) {
-		var el = $(evt.target);
-		while (el.get("tag") != "body") {
-			if (el.getProperty("id") == "ap_themecolor") {
-				evt.stop();
-				return;
-			}
-			if (el.getProperty("id") == "ap_themecolor-btn") {
-				var displayProp = this.themeColorPicker.getStyle("display");
-				var coords = this.themeColorPickerBtn.getCoordinates();
-				this.themeColorPicker.setStyles({
-					display : displayProp == "none" ? "block" : "none",
-					top : (coords.top + coords.height - 4) + "px",
-					left : (coords.left + 10) + "px"
+		var themeColorPicker = $("#ap_themecolor");
+		if (themeColorPicker) {
+			themeColorPicker.css("display", "none");
+			//reorderThemeColors();
+			themeColorPickerBtn = $("#ap_themecolor-btn");
+			themeColorPickerBtn.click(function (evt) {
+				themeColorPicker.css({
+					top : themeColorPickerBtn.offset().top + themeColorPickerBtn.height() - 4,
+					left : themeColorPickerBtn.offset().left + 10
 				});
-				this.hideColorPicker(evt);
-				evt.stop();
-				return;
-			}
-			el = el.getParent();
+				themeColorPicker.show();
+				evt.stopPropagation();
+			});
+			$("li", themeColorPicker).click(function (evt) {
+				var color = $(this).attr("title");
+				if (color.length == 4) {
+					color = color.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
+				}
+				$("#ap_colorvalue").val(color);
+				updateColor();
+				$("#ap_themecolor").css("display", "none");
+				evt.stopPropagation();
+			});
+			$(document).click(function () {
+				themeColorPicker.hide();
+			});
 		}
-		this.themeColorPicker.setStyle("display", "none");
-	},
+		
+		$("#ap_picker-btn").ColorPicker({
+			onChange: function (hsb, hex, rgb) {
+				$("#ap_colorvalue").val("#" + hex);
+				updateColor();
+			},
+			
+			onShow: function () {
+				themeColorPicker.hide();
+			}
+		});
+		
+		selectColorField();
+	}
 	
-	reorderThemeColors : function () {
+	var getCurrentColorField = function () {
+		return $("#ap_" + $("#ap_fieldselector").val() + "color");
+	}
+	
+	var selectColorField = function () {
+		var color = getCurrentColorField().val();
+		$("#ap_colorvalue").val(color);
+		$("#ap_picker-btn").ColorPickerSetColor(color);
+		$("#ap_colorsample").css("background-color", color);
+	}
+	
+	var updateColor = function () {
+		var color = $("#ap_colorvalue").val();
+		if (color.match(/#?[0-9a-f]{6}/i))
+		{
+			getCurrentColorField().val(color);
+			$("#ap_picker-btn").ColorPickerSetColor(color);
+			$("#ap_colorsample").css("background-color", color);
+			updatePlayer();
+		}
+	}
+	
+	var updatePlayer = function () {
+		var player;
+		
+		if (window.document["ap_demoplayer"]) {
+			player = window.document["ap_demoplayer"];
+		} else if (!document.all && document.embeds && document.embeds["ap_demoplayer"]) {
+			player = document.embeds["ap_demoplayer"];
+		} else {
+			player = document.getElementById("ap_demoplayer");
+		}
+		
+		if (player) {
+			$("#ap_colorselector input[type=hidden]").each(function (i) {
+				player.SetVariable($(this).attr("name").replace(/ap_(.+)color/, "$1"), $(this).val().replace("#", ""));
+			});
+			player.SetVariable("setcolors", 1);
+		}
+	}
+	
+	var showThemeColors = function (evt) {
+		var displayProp = $("#ap_themecolor").css("display");
+		$("#ap_themecolor").css({
+			display : displayProp == "none" ? "block" : "none",
+			top : $("#ap_themecolor-btn").offset().top + $("#ap_themecolor-btn").height() - 4,
+			left : $("#ap_themecolor-btn").offset().left + 10
+		});
+		evt.stopPropagation();
+	}
+	
+	/*var reorderThemeColors = function () {
 		var swatchList = this.themeColorPicker.getElement("ul");
 		var swatches = swatchList.getElements("li");
 		swatches.sort(function (a, b) {
@@ -139,136 +183,60 @@ var AP_Admin = new Class({
 		swatches.each(function (swatch) {
 			swatch.injectTop(swatchList);
 		});
-	},
+	}*/
 	
-	pickThemeColor : function (evt) {
-		var target = $(evt.target);
-		if (target.get("tag") != "li") {
-			return;
-		}
-		var color = target.getProperty("title");
+	var pickThemeColor = function (evt) {
+		var color = target.attr("title");
 		if (color.length == 4) {
 			color = color.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
 		}
-		this.colorField.value = color;
-		this.getCurrentColorField().value = color;
-		this.updatePlayer();
-		this.colorPicker.setColor(color);
-		$("ap_colorsample").setStyle("background-color", color);
-		this.themeColorPicker.setStyle("display", "none");
-	},
-
-	updateColor : function () {
-		var color = this.colorField.value;
-		if (color.test(/#?[0-9a-f]{6}/i))
-		{
-			this.getCurrentColorField().value = color;
-			this.colorPicker.setColor(color);
-			$("ap_colorsample").setStyle("background-color", color);
-			this.updatePlayer();
-		}
-	},
+		$("#ap_colorvalue").val(color);
+		getCurrentColorField().val(color);
+		updatePlayer();
+		$("#ap_picker-btn").ColorPickerSetColor(color);
+		$("ap_colorsample").css("background-color", color);
+		$("#ap_themecolor").css("display", "none");
+	}
 	
-	updatePlayer : function () {
-		var hiddenColorFields, i, player;
+	var checkAudioFolder = function () {
+		showMessage("checking");
 		
-		if (window.document["ap_demoplayer"]) {
-			player = window.document["ap_demoplayer"];
-		} else if (!Browser.Engine.trident && document.embeds && document.embeds["ap_demoplayer"]) {
-			player = document.embeds["ap_demoplayer"];
+		$.post(ap_ajaxRootURL + "check-audio-folder.php", {
+			audioFolder: $("#ap_audiowebpath").val()
+		}, audioFolderCheckResponse);
+	}
+	
+	var audioFolderCheckResponse = function (data) {
+		$("#ap_checking-message").css("display", "none");
+		if (data == "ok") {
+			showMessage("success");
 		} else {
-			player = document.getElementById("ap_demoplayer");
-		}
-
-		if (player) {
-			hiddenColorFields = $("ap_colorselector").getElements("input[type=hidden]");
-			for (i = 0;i < hiddenColorFields.length; i++) {
-				player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].get("value").replace("#", ""));
-			}
-			player.SetVariable("setcolors", 1);
-		}
-	},
-	
-	getCurrentColorField : function () {
-		return $("ap_" + this.fieldSelector.get("value") + "color");
-	},
-	
-	tabClick : function (evt) {
-		var i;
-		var target = $(evt.target);
-		var tab = target.getParent();
-		var activeTabID;
-		
-		evt.stop();
-		
-		if (tab.hasClass("ap_active")) {
-			return;
-		}
-		for (i = 0;i < this.tabs.length;i++) {
-			this.tabs[i].removeClass("ap_active");
-		}
-		tab.addClass("ap_active");
-		
-		for (i = 0;i < this.panels.length;i++) {
-			this.panels[i].setStyle("display", "none");
-		}
-		
-		activeTabID = target.getProperty("href").replace(/[^#]*#/, "");
-		$(activeTabID).setStyle("display", "block");
-		if (Browser.Engine.gecko || Browser.Engine.webkit) {
-			if (activeTabID == "ap_panel-colour") {
-				this.timer = this.updatePlayer.delay(500, this);
-			} else if (this.timer) {
-				$clear(this.timer);
-			}
-		}
-	},
-	
-	checkAudioFolder: function() {
-		this.showMessage("checking");
-
-		var request = new Request({
-			url: ap_ajaxRootURL + "check-audio-folder.php",
-			method: "post",
-			data: {
-				audioFolder: $("ap_audiowebpath").get("value")
-			},
-			onComplete: this.audioFolderCheckResponse.bind(this)
-		}).send();
-	},
-	
-	audioFolderCheckResponse: function(response) {
-		$("ap_checking-message").setStyle("display", "none");
-		if (response == "ok") {
-			this.showMessage("success");
-		} else {
-			$("ap_failure-message").getElement("strong").set("text", response);
-			this.showMessage("failure");
-		}
-	},
-	
-	showMessage: function(message) {
-		$("ap_info-message").setStyle("display", "none");
-		$("ap_disabled-message").setStyle("display", "none");
-		$("ap_checking-message").setStyle("display", "none");
-		$("ap_success-message").setStyle("display", "none");
-		$("ap_failure-message").setStyle("display", "none");
-		
-		if (message != "none") $("ap_" + message + "-message").setStyle("display", "block");
-	},
-	
-	setAudioCheckButton: function() {
-		if ($("ap_audiowebpath_iscustom").get("value") == "false") {
-			$("ap_check-button").disabled = false;
-			this.showMessage("info");
-		} else {
-			$("ap_check-button").disabled = true;
-			this.showMessage("disabled");
+			$("#ap_failure-message strong").text(data);
+			showMessage("failure");
 		}
 	}
-
-});
-
-window.addEvent("load", function () {
-	var ap_admin = new AP_Admin();
-});
+	
+	var showMessage = function (message) {
+		$("#ap_info-message").css("display", "none");
+		$("#ap_disabled-message").css("display", "none");
+		$("#ap_checking-message").css("display", "none");
+		$("#ap_success-message").css("display", "none");
+		$("#ap_failure-message").css("display", "none");
+		
+		if (message != "none") {
+			$("#ap_" + message + "-message").css("display", "block");
+		}
+	}
+	
+	var setAudioCheckButton = function () {
+		if ($("#ap_audiowebpath_iscustom").val() == "false") {
+			$("#ap_check-button").attr("disabled", false);
+			showMessage("info");
+		} else {
+			$("#ap_check-button").attr("disabled", true);
+			showMessage("disabled");
+		}
+	}
+	
+	$(init);
+})(jQuery);

@@ -109,7 +109,7 @@
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
 				<include name="media-upload.js"/>
-				<include name="colorpicker/*.js"/>
+				<include name="cpicker/*.js"/>
 				<include name="lib/mootools.js"/>
 			</fileset>
 		</copy>
