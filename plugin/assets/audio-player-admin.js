@@ -1,47 +1,26 @@
 (function ($) {
+	var timer,
+		tabs,
+		panels,
+		fieldSelector,
+		colorField,
+		colorPicker,
+		colorSwatch,
+		currentColorField;
+	
 	var init = function () {
-		var tabBar = $("#ap_tabs");
-		if (!tabBar) {
-			return;
-		}
-		var panels = [];
+		// Setup tabs and panels
 		
 		tabs = $("#ap_tabs li");
 		panels = $("div.ap_panel");
 		
-		$("#ap_tabs li>a").click(function (evt) {
-			var i;
-			var target = $(this);
-			var tab = target.parent();
-			
-			evt.preventDefault();
-			
-			if (tab.attr("class") == "ap_active") {
-				return;
-			}
-			
-			tabs.removeClass("ap_active");
-			tab.addClass("ap_active");
-			
-			panels.css("display", "none");
-			
-			$("#" + target.attr("href").replace(/[^#]*#/, "")).css("display", "block");
-			
-			/*
-			if (Browser.Engine.gecko || Browser.Engine.webkit) {
-				if (activeTabID == "ap_panel-colour") {
-					this.timer = this.updatePlayer.delay(500, this);
-				} else if (this.timer) {
-					$clear(this.timer);
-				}
-			}*/
-		});
-		$("#ap_tabs li:first").addClass("ap_active");
-		
+		$("#ap_tabs li>a").click(tabClick);		
+		$("#ap_tabs li:first").addClass("ap_active");		
 		panels.css("display", "none");
 		$("div.ap_panel:first").css("display", "block");
 		
 		// Add behaviour to transparent checkbox
+		
 		$("#ap_transparentpagebg").click(function () {
 			var bgField = $("#ap_pagebgcolor");
 			if ($("#ap_transparentpagebg").attr("checked")) {
@@ -54,10 +33,13 @@
 		});
 		
 		// Verify audio folder button 
+		
 		$("#ap_audiofolder-check").css("display", "block");
 		$("#ap_check-button").click(checkAudioFolder);
 		$("#ap_audiowebpath_iscustom").change(setAudioCheckButton);
 		setAudioCheckButton();
+		
+		// Reset colour scheme button
 		
 		$("#ap_reset").val("");
 		
@@ -66,8 +48,30 @@
 			$("#ap_option-form").submit();
 		});
 		
-		$("#ap_fieldselector").change(selectColorField);
-		$("#ap_colorvalue").keyup(updateColor);
+		// Colour scheme controls
+		
+		fieldSelector = $("#ap_fieldselector");
+		colorField = $("#ap_colorvalue");
+		colorPicker = $("#ap_picker-btn");
+		colorSwatch = $("#ap_colorsample");
+		currentColorField = $("#ap_" + fieldSelector.val() + "color");
+		
+		fieldSelector.change(function () {
+			currentColorField = $("#ap_" + fieldSelector.val() + "color");
+			colorField.val(currentColorField.val());
+			colorPicker.ColorPickerSetColor(currentColorField.val());
+			colorSwatch.css("background-color", currentColorField.val());
+		});
+		
+		colorField.keyup(function () {
+			var color = colorField.val();
+			if (color.match(/#?[0-9a-f]{6}/i)) {
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				colorPicker.ColorPickerSetColor(currentColorField.val());
+				updatePlayer();
+			}
+		});
 		
 		var themeColorPicker = $("#ap_themecolor");
 		if (themeColorPicker) {
@@ -97,10 +101,13 @@
 			});
 		}
 		
-		$("#ap_picker-btn").ColorPicker({
+		colorPicker.ColorPicker({
 			onChange: function (hsb, hex, rgb) {
-				$("#ap_colorvalue").val("#" + hex);
-				updateColor();
+				var color = "#" + hex;
+				colorField.val(color);
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				updatePlayer();
 			},
 			
 			onShow: function () {
@@ -111,26 +118,41 @@
 		selectColorField();
 	}
 	
-	var getCurrentColorField = function () {
-		return $("#ap_" + $("#ap_fieldselector").val() + "color");
+	/**
+	 * Handles tab clicks
+	 */
+	var tabClick = function (evt) {
+		var i;
+		var target = $(this);
+		var tab = target.parent();
+		
+		evt.preventDefault();
+		
+		if (tab.attr("class") == "ap_active") {
+			return;
+		}
+		
+		tabs.removeClass("ap_active");
+		tab.addClass("ap_active");
+		
+		panels.css("display", "none");
+		
+		var activeTabID = target.attr("href").replace(/[^#]*#/, "");
+		
+		$("#" + activeTabID).css("display", "block");
+		
+		/*if (activeTabID == "ap_panel-colour") {
+			timer = setTimeout(updatePlayer, 500);
+		} else if (timer) {
+			clearTimeout(timer);
+		}*/
 	}
 	
 	var selectColorField = function () {
-		var color = getCurrentColorField().val();
-		$("#ap_colorvalue").val(color);
-		$("#ap_picker-btn").ColorPickerSetColor(color);
-		$("#ap_colorsample").css("background-color", color);
-	}
-	
-	var updateColor = function () {
-		var color = $("#ap_colorvalue").val();
-		if (color.match(/#?[0-9a-f]{6}/i))
-		{
-			getCurrentColorField().val(color);
-			$("#ap_picker-btn").ColorPickerSetColor(color);
-			$("#ap_colorsample").css("background-color", color);
-			updatePlayer();
-		}
+		currentColorField = $("#ap_" + fieldSelector.val() + "color");
+		colorField.val(currentColorField.val());
+		colorPicker.ColorPickerSetColor(currentColorField.val());
+		colorSwatch.css("background-color", currentColorField.val());
 	}
 	
 	var updatePlayer = function () {

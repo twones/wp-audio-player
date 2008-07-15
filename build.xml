@@ -105,7 +105,7 @@
 		<copy tofile="${build.dir}/assets/lib/jquery.js" file="${plugin.src.dir}/assets/lib/jquery.js"/>
 		
 		<filter token="swfobject" value="audioplayer_swfobject"/>
-		<copy todir="${build.dir}/assets/unc" filtering="true">
+		<copy todir="${build.dir}/assets" filtering="true">
 			<fileset dir="${plugin.src.dir}/assets">
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
@@ -115,7 +115,7 @@
 		</copy>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<ant target="-minify"/>
+		<!--ant target="-minify"/-->
 		
 		<delete dir="${build.dir}/assets/unc"/>
 		
