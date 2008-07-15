@@ -102,20 +102,20 @@
 		<antcall target="-compileIfMissing"/>
 		
 		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
+		<copy tofile="${build.dir}/assets/lib/jquery.js" file="${plugin.src.dir}/assets/lib/jquery.js"/>
 		
 		<filter token="swfobject" value="audioplayer_swfobject"/>
-		<copy todir="${build.dir}/assets" filtering="true">
+		<copy todir="${build.dir}/assets/unc" filtering="true">
 			<fileset dir="${plugin.src.dir}/assets">
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
 				<include name="media-upload.js"/>
 				<include name="cpicker/*.js"/>
-				<include name="lib/jquery.js"/>
 			</fileset>
 		</copy>
 		
 		<!-- Minify JavaScript files (except mootools and swfobject) -->
-		<!--<ant target="-minify"/>-->
+		<ant target="-minify"/>
 		
 		<delete dir="${build.dir}/assets/unc"/>
 		

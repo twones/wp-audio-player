@@ -153,10 +153,11 @@ if (!class_exists('AudioPlayer')) {
 		 * Adds Audio Player options tab to admin menu
 		 */
 		function addAdminPages() {
+			global $wp_version;
 			$pageName = add_options_page("Audio player options", "Audio Player", 8, $this->optionsPageName, array(&$this, "outputOptionsSubpanel"));
 			add_action("admin_head-" . $pageName, array(&$this, "addAdminHeaderCode"), 12);
-			if (function_exists("wp_enqueue_script")) {
-				wp_register_script("jquery", $this->pluginURL . "/assets/lib/jquery.js", false, "1.2.3");
+			// Use the bundled jquery library if we are running WP 2.5 or above
+			if (version_compare($wp_version, "2.5", ">=")) {
 				wp_enqueue_script("jquery", false, false, "1.2.3");
 			}
 		}
@@ -665,15 +666,18 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP admin head section
 		 */
 		function addAdminHeaderCode() {
+			global $wp_version;
 			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
 			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
 			
-			if (!function_exists("wp_enqueue_script")) {
+			// Include jquery library if we are not running WP 2.5 or above
+			if (version_compare($wp_version, "2.5", "<")) {
 				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/jquery.js?ver=@buildNumber@"></script>';
 				echo "\n";
 			}
+
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/cpicker/colorpicker.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js?ver=@buildNumber@"></script>';
