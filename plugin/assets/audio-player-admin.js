@@ -6,7 +6,8 @@
 		colorField,
 		colorPicker,
 		colorSwatch,
-		currentColorField;
+		currentColorField,
+		player;
 	
 	var init = function () {
 		// Setup tabs and panels
@@ -80,8 +81,8 @@
 			themeColorPickerBtn = $("#ap_themecolor-btn");
 			themeColorPickerBtn.click(function (evt) {
 				themeColorPicker.css({
-					top : themeColorPickerBtn.offset().top + themeColorPickerBtn.height() - 4,
-					left : themeColorPickerBtn.offset().left + 10
+					top : themeColorPickerBtn.offset().top + themeColorPickerBtn.height() + 3,
+					left : themeColorPickerBtn.offset().left
 				});
 				themeColorPicker.show();
 				evt.stopPropagation();
@@ -91,8 +92,10 @@
 				if (color.length == 4) {
 					color = color.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
 				}
-				$("#ap_colorvalue").val(color);
-				updateColor();
+				colorField.val(color);
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				updatePlayer();
 				$("#ap_themecolor").css("display", "none");
 				evt.stopPropagation();
 			});
@@ -141,11 +144,11 @@
 		
 		$("#" + activeTabID).css("display", "block");
 		
-		/*if (activeTabID == "ap_panel-colour") {
-			timer = setTimeout(updatePlayer, 500);
+		if (activeTabID == "ap_panel-colour") {
+			timer = setTimeout(updatePlayer, 100);
 		} else if (timer) {
 			clearTimeout(timer);
-		}*/
+		}
 	}
 	
 	var selectColorField = function () {
@@ -156,32 +159,12 @@
 	}
 	
 	var updatePlayer = function () {
-		var player;
+		player = audioplayer_swfobject.getObjectById("ap_demoplayer");
 		
-		if (window.document["ap_demoplayer"]) {
-			player = window.document["ap_demoplayer"];
-		} else if (!document.all && document.embeds && document.embeds["ap_demoplayer"]) {
-			player = document.embeds["ap_demoplayer"];
-		} else {
-			player = document.getElementById("ap_demoplayer");
-		}
-		
-		if (player) {
-			$("#ap_colorselector input[type=hidden]").each(function (i) {
-				player.SetVariable($(this).attr("name").replace(/ap_(.+)color/, "$1"), $(this).val().replace("#", ""));
-			});
-			player.SetVariable("setcolors", 1);
-		}
-	}
-	
-	var showThemeColors = function (evt) {
-		var displayProp = $("#ap_themecolor").css("display");
-		$("#ap_themecolor").css({
-			display : displayProp == "none" ? "block" : "none",
-			top : $("#ap_themecolor-btn").offset().top + $("#ap_themecolor-btn").height() - 4,
-			left : $("#ap_themecolor-btn").offset().left + 10
+		$("#ap_colorselector input[type=hidden]").each(function (i) {
+			player.SetVariable($(this).attr("name").replace(/ap_(.+)color/, "$1"), $(this).val().replace("#", ""));
 		});
-		evt.stopPropagation();
+		player.SetVariable("setcolors", 1);
 	}
 	
 	/*var reorderThemeColors = function () {

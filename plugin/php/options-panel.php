@@ -1,5 +1,5 @@
 <div class="wrap">
-	<h2><?php _e('Audio Player', $this->textDomain) ?></h2>
+	<h2>Audio Player</h2>
 
 	<p>
 		<?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
@@ -117,7 +117,7 @@
 				</select>
 				<input name="ap_colorvalue" type="text" id="ap_colorvalue" size="15" maxlength="7" />
 				<span id="ap_colorsample"></span>
-				<span id="ap_picker-btn"><?php _e('Pick') ?></span>
+				<span id="ap_picker-btn"><?php _e('Pick', $this->textDomain) ?></span>
 				<?php if (count($this->getThemeColors())) { ?>
 				<span id="ap_themecolor-btn"><?php _e('From your theme', $this->textDomain) ?></span>
 				<div id="ap_themecolor">
@@ -281,7 +281,7 @@
 	</div>
 
 	<p class="submit">
-		<input name="AudioPlayerSubmit" value="<?php _e('Save changes') ?>" type="submit" />
+		<input name="AudioPlayerSubmit" value="<?php _e('Save Changes') ?>" type="submit" />
 	</p>
 	</form>
 </div>
