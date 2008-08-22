@@ -89,7 +89,7 @@
 				<include name="**"/>
 				<exclude name="**/*.php"/>
 				<exclude name="**/*.js"/>
-				<exclude name="**/languages/**"/>
+				<!--exclude name="**/languages/**"/-->
 				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
@@ -102,6 +102,7 @@
 		<antcall target="-compileIfMissing"/>
 		
 		<copy todir="${build.dir}/assets" file="${player.src.dir}/player.swf"/>
+		<copy tofile="${build.dir}/assets/lib/jquery.js" file="${plugin.src.dir}/assets/lib/jquery.js"/>
 		
 		<filter token="swfobject" value="audioplayer_swfobject"/>
 		<copy todir="${build.dir}/assets/unc" filtering="true">
@@ -109,8 +110,7 @@
 				<include name="audio-player-admin.js"/>
 				<include name="audio-player.js"/>
 				<include name="media-upload.js"/>
-				<include name="colorpicker/*.js"/>
-				<include name="lib/mootools.js"/>
+				<include name="cpicker/*.js"/>
 			</fileset>
 		</copy>
 		

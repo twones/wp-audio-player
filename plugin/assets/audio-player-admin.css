@@ -224,7 +224,7 @@ ul.ap_optionlist label input {
 #ap_themecolor span {
 	display: block;
 	text-indent: -9999px;
-	height: 11px;
+	height: 13px;
 	line-height: 0;
 	font-size: 0;
 	background: url(thcpck-top.png) no-repeat left top;
@@ -232,7 +232,7 @@ ul.ap_optionlist label input {
 
 #ap_themecolor ul {
 	background: url(thcpck-slice.png) repeat-y left top;
-	padding: 2px 14px 4px 15px;
+	padding: 1px 14px 1px 15px;
 	float: left;
 	width: 105px;
 	margin: 0;

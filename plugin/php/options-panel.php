@@ -1,5 +1,5 @@
 <div class="wrap">
-	<h2><?php _e('Audio Player', $this->textDomain) ?></h2>
+	<h2>Audio Player</h2>
 
 	<p>
 		<?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
@@ -37,16 +37,22 @@
 				<?php _e('When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs.', $this->textDomain) ?>
 			</li>
 			<li>
+				<label for="ap_behaviour-comments">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Enable in comments', $this->textDomain) ?></strong></label><br />
+				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
+			</li>
+			<li>
 				<label for="ap_behaviour-enclosure">
 				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Enclosure integration', $this->textDomain) ?></strong></label><br />
 				<?php _e('Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour-comments">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
-				<strong><?php _e('Enable in comments', $this->textDomain) ?></strong></label><br />
-				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
+				<label for="ap_enclosure-at-top">
+				<input type="checkbox" name="ap_enclosuresAtTop" id="ap_enclosure-at-top" value="true"<?php if(!in_array("enclosure", $this->options["behaviour"])) echo 'disabled="disabled"'; ?><?php if($this->options["enclosuresAtTop"]) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Move enclosures to the beginning of posts', $this->textDomain) ?></strong></label><br />
+				<?php _e('When selected, players will be inserted at the beginning of the post when the enclosure integration option is selected.', $this->textDomain) ?>
 			</li>
 		</ul>
 		
@@ -117,7 +123,7 @@
 				</select>
 				<input name="ap_colorvalue" type="text" id="ap_colorvalue" size="15" maxlength="7" />
 				<span id="ap_colorsample"></span>
-				<span id="ap_picker-btn"><?php _e('Pick') ?></span>
+				<span id="ap_picker-btn"><?php _e('Pick', $this->textDomain) ?></span>
 				<?php if (count($this->getThemeColors())) { ?>
 				<span id="ap_themecolor-btn"><?php _e('From your theme', $this->textDomain) ?></span>
 				<div id="ap_themecolor">
@@ -281,7 +287,7 @@
 	</div>
 
 	<p class="submit">
-		<input name="AudioPlayerSubmit" value="<?php _e('Save changes') ?>" type="submit" />
+		<input name="AudioPlayerSubmit" value="<?php _e('Save Changes') ?>" type="submit" />
 	</p>
 	</form>
 </div>

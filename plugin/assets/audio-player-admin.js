@@ -1,126 +1,179 @@
-var AP_Admin = new Class({
-	initialize : function () {
-		var i;
+(function ($) {
+	var timer,
+		tabs,
+		panels,
+		fieldSelector,
+		colorField,
+		colorPicker,
+		colorSwatch,
+		currentColorField,
+		player;
+	
+	var init = function () {
+		// Setup tabs and panels
 		
-		this.tabBar = $("ap_tabs");
-		if (!this.tabBar) {
+		tabs = $("#ap_tabs li");
+		panels = $("div.ap_panel");
+		
+		$("#ap_tabs li>a").click(tabClick);		
+		$("#ap_tabs li:first").addClass("ap_active");		
+		panels.css("display", "none");
+		$("div.ap_panel:first").css("display", "block");
+		
+		// Add behaviour to enclosure checkbox
+		$("#ap_enclosure-at-top").attr("disabled", !$("#ap_behaviour-enclosure").attr("checked"));
+		$("#ap_behaviour-enclosure").click(function () {
+			$("#ap_enclosure-at-top").attr("disabled", !$(this).attr("checked"));
+		});
+		
+		// Add behaviour to transparent checkbox
+		
+		$("#ap_transparentpagebg").click(function () {
+			var bgField = $("#ap_pagebgcolor");
+			if ($("#ap_transparentpagebg").attr("checked")) {
+				bgField.attr("disabled", true);
+				bgField.css("color", "#999999");
+			} else {
+				bgField.attr("disabled", false);
+				bgField.css("color", "#000000");
+			}
+		});
+		
+		// Verify audio folder button 
+		
+		$("#ap_audiofolder-check").css("display", "block");
+		$("#ap_check-button").click(checkAudioFolder);
+		$("#ap_audiowebpath_iscustom").change(setAudioCheckButton);
+		setAudioCheckButton();
+		
+		// Reset colour scheme button
+		
+		$("#ap_reset").val("");
+		
+		$("#ap_resetcolor").click(function () {
+			$("#ap_reset").val("1");
+			$("#ap_option-form").submit();
+		});
+		
+		// Colour scheme controls
+		
+		fieldSelector = $("#ap_fieldselector");
+		colorField = $("#ap_colorvalue");
+		colorPicker = $("#ap_picker-btn");
+		colorSwatch = $("#ap_colorsample");
+		currentColorField = $("#ap_" + fieldSelector.val() + "color");
+		
+		fieldSelector.change(function () {
+			currentColorField = $("#ap_" + fieldSelector.val() + "color");
+			colorField.val(currentColorField.val());
+			colorPicker.ColorPickerSetColor(currentColorField.val());
+			colorSwatch.css("background-color", currentColorField.val());
+		});
+		
+		colorField.keyup(function () {
+			var color = colorField.val();
+			if (color.match(/#?[0-9a-f]{6}/i)) {
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				colorPicker.ColorPickerSetColor(currentColorField.val());
+				updatePlayer();
+			}
+		});
+		
+		var themeColorPicker = $("#ap_themecolor");
+		if (themeColorPicker) {
+			themeColorPicker.css("display", "none");
+			//reorderThemeColors();
+			themeColorPickerBtn = $("#ap_themecolor-btn");
+			themeColorPickerBtn.click(function (evt) {
+				themeColorPicker.css({
+					top : themeColorPickerBtn.offset().top + themeColorPickerBtn.height() + 3,
+					left : themeColorPickerBtn.offset().left
+				});
+				themeColorPicker.show();
+				evt.stopPropagation();
+			});
+			$("li", themeColorPicker).click(function (evt) {
+				var color = $(this).attr("title");
+				if (color.length == 4) {
+					color = color.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
+				}
+				colorField.val(color);
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				updatePlayer();
+				$("#ap_themecolor").css("display", "none");
+				evt.stopPropagation();
+			});
+			$(document).click(function () {
+				themeColorPicker.hide();
+			});
+		}
+		
+		colorPicker.ColorPicker({
+			onChange: function (hsb, hex, rgb) {
+				var color = "#" + hex;
+				colorField.val(color);
+				currentColorField.val(color);
+				colorSwatch.css("background-color", color);
+				updatePlayer();
+			},
+			
+			onShow: function () {
+				themeColorPicker.hide();
+			}
+		});
+		
+		selectColorField();
+	}
+	
+	/**
+	 * Handles tab clicks
+	 */
+	var tabClick = function (evt) {
+		var i;
+		var target = $(this);
+		var tab = target.parent();
+		
+		evt.preventDefault();
+		
+		if (tab.attr("class") == "ap_active") {
 			return;
 		}
 		
-		this.panels = [];
+		tabs.removeClass("ap_active");
+		tab.addClass("ap_active");
 		
-		this.tabs = this.tabBar.getElements("li");
+		panels.css("display", "none");
 		
-		for (i = 0;i < this.tabs.length;i++) {
-			this.tabs[i].getElement("a").addEvent("click", this.tabClick.bindWithEvent(this));
-			if (i === 0) {
-				this.tabs[i].addClass("ap_active");
-			}
+		var activeTabID = target.attr("href").replace(/[^#]*#/, "");
+		
+		$("#" + activeTabID).css("display", "block");
+		
+		if (activeTabID == "ap_panel-colour") {
+			timer = setTimeout(updatePlayer, 100);
+		} else if (timer) {
+			clearTimeout(timer);
 		}
-		
-		this.panels = document.getElements("div.ap_panel");
-		for (i = 1;i < this.panels.length;i++) {
-			this.panels[i].setStyle("display", "none");
-		}
-		
-		$("ap_transparentpagebg").addEvent("click", function () {
-			var bgField = $("ap_pagebgcolor");
-			if ($("ap_transparentpagebg").checked) {
-				bgField.disabled = true;
-				bgField.setStyle("color", "#999999");
-			} else {
-				bgField.disabled = false;
-				bgField.setStyle("color", "#000000");
-			}
-		});
-		
-		this.colorPicker = new MooColorPicker({
-			panelMode: true
-		});
-		this.colorPicker.hide();
-		this.colorPicker.attach("ap_colorsample", "background-color");
-		$("ap_picker-btn").addEvent("click", this.colorPicker.show.bind(this.colorPicker));
-		this.colorPicker.addEvent("selectColor", (function (color) {
-			this.colorField.value = color;
-			this.getCurrentColorField().value = color;
-			this.updatePlayer();
-		}).bind(this));
-		
-		this.fieldSelector = $("ap_fieldselector");
-		this.colorField = $("ap_colorvalue");
-		
-		this.fieldSelector.addEvent("change", this.selectColorField.bind(this));
-		this.colorField.addEvent("keyup", this.updateColor.bind(this));
-		document.addEvent("click", this.hideColorPicker.bindWithEvent(this));
-		
-		this.themeColorPicker = $("ap_themecolor");
-		if (this.themeColorPicker) {
-			this.themeColorPicker.setStyle("display", "none");
-			this.reorderThemeColors();
-			this.themeColorPickerBtn = $("ap_themecolor-btn");
-			this.themeColorPickerBtn.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-			this.themeColorPicker.addEvent("click", this.pickThemeColor.bindWithEvent(this));
-			document.addEvent("click", this.showHideThemeColors.bindWithEvent(this));
-		}
-		
-		this.selectColorField();
-		
-		$("ap_audiofolder-check").setStyle("display", "block");
-		$("ap_check-button").addEvent("click", this.checkAudioFolder.bind(this));
-		$("ap_audiowebpath_iscustom").addEvent("change", this.setAudioCheckButton.bind(this));
-		this.setAudioCheckButton();
-		
-		$("ap_reset").setProperty("value", "");
-		
-		$("ap_resetcolor").addEvent("click", function () {
-			$("ap_reset").setProperty("value", "1");
-			$("ap_option-form").submit();
-		});
-	},
+	}
 	
-	selectColorField : function () {
-		var color = this.getCurrentColorField().get("value");
-		this.colorField.value = color;
-		this.colorPicker.setColor(color);
-		$("ap_colorsample").setStyle("background-color", color);
-	},
+	var selectColorField = function () {
+		currentColorField = $("#ap_" + fieldSelector.val() + "color");
+		colorField.val(currentColorField.val());
+		colorPicker.ColorPickerSetColor(currentColorField.val());
+		colorSwatch.css("background-color", currentColorField.val());
+	}
 	
-	hideColorPicker : function (evt) {
-		var el = $(evt.target);
-		while (el.get("tag") != "body") {
-			if (el.getProperty("id") == "ap_picker-btn" || el.hasClass("moocp_color-picker")) {
-				return;
-			}
-			el = el.getParent();
-		}
-		this.colorPicker.hide();
-	},
-
-	showHideThemeColors : function (evt) {
-		var el = $(evt.target);
-		while (el.get("tag") != "body") {
-			if (el.getProperty("id") == "ap_themecolor") {
-				evt.stop();
-				return;
-			}
-			if (el.getProperty("id") == "ap_themecolor-btn") {
-				var displayProp = this.themeColorPicker.getStyle("display");
-				var coords = this.themeColorPickerBtn.getCoordinates();
-				this.themeColorPicker.setStyles({
-					display : displayProp == "none" ? "block" : "none",
-					top : (coords.top + coords.height - 4) + "px",
-					left : (coords.left + 10) + "px"
-				});
-				this.hideColorPicker(evt);
-				evt.stop();
-				return;
-			}
-			el = el.getParent();
-		}
-		this.themeColorPicker.setStyle("display", "none");
-	},
+	var updatePlayer = function () {
+		player = audioplayer_swfobject.getObjectById("ap_demoplayer");
+		
+		$("#ap_colorselector input[type=hidden]").each(function (i) {
+			player.SetVariable($(this).attr("name").replace(/ap_(.+)color/, "$1"), $(this).val().replace("#", ""));
+		});
+		player.SetVariable("setcolors", 1);
+	}
 	
-	reorderThemeColors : function () {
+	/*var reorderThemeColors = function () {
 		var swatchList = this.themeColorPicker.getElement("ul");
 		var swatches = swatchList.getElements("li");
 		swatches.sort(function (a, b) {
@@ -139,136 +192,60 @@ var AP_Admin = new Class({
 		swatches.each(function (swatch) {
 			swatch.injectTop(swatchList);
 		});
-	},
+	}*/
 	
-	pickThemeColor : function (evt) {
-		var target = $(evt.target);
-		if (target.get("tag") != "li") {
-			return;
-		}
-		var color = target.getProperty("title");
+	var pickThemeColor = function (evt) {
+		var color = target.attr("title");
 		if (color.length == 4) {
 			color = color.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
 		}
-		this.colorField.value = color;
-		this.getCurrentColorField().value = color;
-		this.updatePlayer();
-		this.colorPicker.setColor(color);
-		$("ap_colorsample").setStyle("background-color", color);
-		this.themeColorPicker.setStyle("display", "none");
-	},
-
-	updateColor : function () {
-		var color = this.colorField.value;
-		if (color.test(/#?[0-9a-f]{6}/i))
-		{
-			this.getCurrentColorField().value = color;
-			this.colorPicker.setColor(color);
-			$("ap_colorsample").setStyle("background-color", color);
-			this.updatePlayer();
-		}
-	},
+		$("#ap_colorvalue").val(color);
+		getCurrentColorField().val(color);
+		updatePlayer();
+		$("#ap_picker-btn").ColorPickerSetColor(color);
+		$("ap_colorsample").css("background-color", color);
+		$("#ap_themecolor").css("display", "none");
+	}
 	
-	updatePlayer : function () {
-		var hiddenColorFields, i, player;
+	var checkAudioFolder = function () {
+		showMessage("checking");
 		
-		if (window.document["ap_demoplayer"]) {
-			player = window.document["ap_demoplayer"];
-		} else if (!Browser.Engine.trident && document.embeds && document.embeds["ap_demoplayer"]) {
-			player = document.embeds["ap_demoplayer"];
+		$.post(ap_ajaxRootURL + "check-audio-folder.php", {
+			audioFolder: $("#ap_audiowebpath").val()
+		}, audioFolderCheckResponse);
+	}
+	
+	var audioFolderCheckResponse = function (data) {
+		$("#ap_checking-message").css("display", "none");
+		if (data == "ok") {
+			showMessage("success");
 		} else {
-			player = document.getElementById("ap_demoplayer");
-		}
-
-		if (player) {
-			hiddenColorFields = $("ap_colorselector").getElements("input[type=hidden]");
-			for (i = 0;i < hiddenColorFields.length; i++) {
-				player.SetVariable(hiddenColorFields[i].getProperty("name").replace(/ap_(.+)color/, "$1"), hiddenColorFields[i].get("value").replace("#", ""));
-			}
-			player.SetVariable("setcolors", 1);
-		}
-	},
-	
-	getCurrentColorField : function () {
-		return $("ap_" + this.fieldSelector.get("value") + "color");
-	},
-	
-	tabClick : function (evt) {
-		var i;
-		var target = $(evt.target);
-		var tab = target.getParent();
-		var activeTabID;
-		
-		evt.stop();
-		
-		if (tab.hasClass("ap_active")) {
-			return;
-		}
-		for (i = 0;i < this.tabs.length;i++) {
-			this.tabs[i].removeClass("ap_active");
-		}
-		tab.addClass("ap_active");
-		
-		for (i = 0;i < this.panels.length;i++) {
-			this.panels[i].setStyle("display", "none");
-		}
-		
-		activeTabID = target.getProperty("href").replace(/[^#]*#/, "");
-		$(activeTabID).setStyle("display", "block");
-		if (Browser.Engine.gecko || Browser.Engine.webkit) {
-			if (activeTabID == "ap_panel-colour") {
-				this.timer = this.updatePlayer.delay(500, this);
-			} else if (this.timer) {
-				$clear(this.timer);
-			}
-		}
-	},
-	
-	checkAudioFolder: function() {
-		this.showMessage("checking");
-
-		var request = new Request({
-			url: ap_ajaxRootURL + "check-audio-folder.php",
-			method: "post",
-			data: {
-				audioFolder: $("ap_audiowebpath").get("value")
-			},
-			onComplete: this.audioFolderCheckResponse.bind(this)
-		}).send();
-	},
-	
-	audioFolderCheckResponse: function(response) {
-		$("ap_checking-message").setStyle("display", "none");
-		if (response == "ok") {
-			this.showMessage("success");
-		} else {
-			$("ap_failure-message").getElement("strong").set("text", response);
-			this.showMessage("failure");
-		}
-	},
-	
-	showMessage: function(message) {
-		$("ap_info-message").setStyle("display", "none");
-		$("ap_disabled-message").setStyle("display", "none");
-		$("ap_checking-message").setStyle("display", "none");
-		$("ap_success-message").setStyle("display", "none");
-		$("ap_failure-message").setStyle("display", "none");
-		
-		if (message != "none") $("ap_" + message + "-message").setStyle("display", "block");
-	},
-	
-	setAudioCheckButton: function() {
-		if ($("ap_audiowebpath_iscustom").get("value") == "false") {
-			$("ap_check-button").disabled = false;
-			this.showMessage("info");
-		} else {
-			$("ap_check-button").disabled = true;
-			this.showMessage("disabled");
+			$("#ap_failure-message strong").text(data);
+			showMessage("failure");
 		}
 	}
-
-});
-
-window.addEvent("load", function () {
-	var ap_admin = new AP_Admin();
-});
+	
+	var showMessage = function (message) {
+		$("#ap_info-message").css("display", "none");
+		$("#ap_disabled-message").css("display", "none");
+		$("#ap_checking-message").css("display", "none");
+		$("#ap_success-message").css("display", "none");
+		$("#ap_failure-message").css("display", "none");
+		
+		if (message != "none") {
+			$("#ap_" + message + "-message").css("display", "block");
+		}
+	}
+	
+	var setAudioCheckButton = function () {
+		if ($("#ap_audiowebpath_iscustom").val() == "false") {
+			$("#ap_check-button").attr("disabled", false);
+			showMessage("info");
+		} else {
+			$("#ap_check-button").attr("disabled", true);
+			showMessage("disabled");
+		}
+	}
+	
+	$(init);
+})(jQuery);

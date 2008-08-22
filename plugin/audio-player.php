@@ -3,7 +3,7 @@
 Plugin Name: Audio player
 Plugin URI: http://wpaudioplayer.com
 Description: Audio Player is a highly configurable but simple mp3 player for all your audio needs. You can customise the player's colour scheme to match your blog theme, have it automatically show track information from the encoded ID3 tags and more. Go to your Settings page to start configuring it.
-Version: 2.0b5
+Version: 2.0b6
 Author: Martin Laine
 Author URI: http://www.1pixelout.net
 
@@ -43,7 +43,7 @@ if (!class_exists('AudioPlayer')) {
 		// Name for serialized options saved in database
 		var $optionsName = "AudioPlayer_options";
 
-		var $version = "2.0b5";
+		var $version = "2.0b6";
 		
 		var $docURL = "http://wpaudioplayer.com/";
 		
@@ -130,7 +130,6 @@ if (!class_exists('AudioPlayer')) {
 			// Add action and filter hooks to WordPress
 			
 			add_action("init", array(&$this, "optionsPanelAction"));
-			add_action("init", array(&$this, "removeConflicts"));
 			
 			add_action("admin_menu", array(&$this, "addAdminPages"));
 			add_filter("plugin_action_links", array(&$this, "addConfigureLink"), 10, 2);
@@ -138,7 +137,7 @@ if (!class_exists('AudioPlayer')) {
 			add_action("wp_head", array(&$this, "addHeaderCode"));
 			add_action("admin_head", array(&$this, "overrideMediaUpload"));
 			
-			add_filter("the_content", array(&$this, "processContent"), 1);
+			add_filter("the_content", array(&$this, "processContent"), 2);
 			if (in_array("comments", $this->options["behaviour"])) {
 				add_filter("comment_text", array(&$this, "processContent"));
 			}
@@ -151,21 +150,16 @@ if (!class_exists('AudioPlayer')) {
 		}
 		
 		/**
-		 * This is really bad but the only way I can make this work with Defensio
-		 */
-		function removeConflicts() {
-			// Only do this if we are on the Audio Player options page
-			if ($_GET["page"] == $this->optionsPageName) {
-				remove_action('admin_head', 'defensio_head');
-			}
-		}
-		
-		/**
 		 * Adds Audio Player options tab to admin menu
 		 */
 		function addAdminPages() {
+			global $wp_version;
 			$pageName = add_options_page("Audio player options", "Audio Player", 8, $this->optionsPageName, array(&$this, "outputOptionsSubpanel"));
 			add_action("admin_head-" . $pageName, array(&$this, "addAdminHeaderCode"), 12);
+			// Use the bundled jquery library if we are running WP 2.5 or above
+			if (version_compare($wp_version, "2.5", ">=")) {
+				wp_enqueue_script("jquery", false, false, "1.2.3");
+			}
 		}
 		
 		/**
@@ -215,6 +209,7 @@ if (!class_exists('AudioPlayer')) {
 				"showRemaining" => false,
 				"encodeSource" => true,
 				"behaviour" => array("default"),
+				"enclosuresAtTop" => false,
 				"rssAlternate" => "nothing",
 				"rssCustomAlternate" => "[Audio clip: view full post to listen]",
 				"excerptAlternate" => "[Audio clip: view full post to listen]",
@@ -391,7 +386,11 @@ if (!class_exists('AudioPlayer')) {
 					for($i = 0;$i < count($enclosure);$i++) {
 						// Make sure the enclosure is an mp3 file and it hasn't been inserted into the post yet
 						if( preg_match( "/.*\.mp3$/", $enclosure[$i] ) == 1 && !in_array( $enclosure[$i], $this->instances ) ) {
-							$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip );
+							if ($this->options["enclosuresAtTop"]) {
+								$content = $this->getPlayer( $introClip . $enclosure[$i] . $outroClip ) . "\n\n" . $content;
+							} else {
+								$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip );
+							}
 						}
 					}
 				}
@@ -513,9 +512,9 @@ if (!class_exists('AudioPlayer')) {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
 				$playerCode = '<p class="audioplayer_container"><span style="display:block;padding:5px;border:1px solid #dddddd;background:#f8f8f8" id="' . $playerElementID . '">' . sprintf(__('Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href="%s" title="Download Adobe Flash Player">here</a>. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW');
-				$playerCode .= '<script type="text/javascript">';
+				$playerCode .= '</span><script type="text/javascript">';
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
-				$playerCode .= '</script></span></p>';
+				$playerCode .= '</script></p>';
 				return $playerCode;
 			}
 		}
@@ -537,6 +536,10 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function optionsPanelAction() {
 			if( $_POST['AudioPlayerReset'] == "1" ) {
+				if( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+					wp_die(__('Cheatin&#8217; uh?'));
+				}
+				
 				// Reset colour scheme back to default values
 				$this->options["colorScheme"] = $this->defaultColorScheme;
 				$this->saveOptions();
@@ -545,6 +548,10 @@ if (!class_exists('AudioPlayer')) {
 				wp_redirect($goback);
 				exit();
 			} else 	if( $_POST['AudioPlayerSubmit'] ) {
+				if( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+					wp_die(__('Cheatin&#8217; uh?'));
+				}
+				
 				if ( function_exists('check_admin_referer') ) {
 					check_admin_referer('audio-player-action');
 				}
@@ -570,6 +577,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["noInfo"] = isset( $_POST["ap_disableTrackInformation"] );
 				$this->options["checkPolicy"] = isset( $_POST["ap_checkPolicy"] );
 				$this->options["rtl"] = isset( $_POST["ap_rtlMode"] );
+				$this->options["enclosuresAtTop"] = isset( $_POST["ap_enclosuresAtTop"] );
 				
 				if (isset($_POST['ap_behaviour'])) {
 					$this->options["behaviour"] = $_POST['ap_behaviour'];
@@ -672,13 +680,19 @@ if (!class_exists('AudioPlayer')) {
 		 * Output necessary stuff to WP admin head section
 		 */
 		function addAdminHeaderCode() {
+			global $wp_version;
 			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<link href="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/mootools.js?ver=@buildNumber@"></script>';
-			echo "\n";
-			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/colorpicker/moocolorpicker.js?ver=@buildNumber@"></script>';
+			
+			// Include jquery library if we are not running WP 2.5 or above
+			if (version_compare($wp_version, "2.5", "<")) {
+				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/lib/jquery.js?ver=@buildNumber@"></script>';
+				echo "\n";
+			}
+
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/cpicker/colorpicker.js?ver=@buildNumber@"></script>';
 			echo "\n";
 			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/audio-player-admin.js?ver=@buildNumber@"></script>';
 			echo "\n";
