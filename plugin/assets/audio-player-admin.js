@@ -20,6 +20,12 @@
 		panels.css("display", "none");
 		$("div.ap_panel:first").css("display", "block");
 		
+		// Add behaviour to enclosure checkbox
+		$("#ap_enclosure-at-top").attr("disabled", !$("#ap_behaviour-enclosure").attr("checked"));
+		$("#ap_behaviour-enclosure").click(function () {
+			$("#ap_enclosure-at-top").attr("disabled", !$(this).attr("checked"));
+		});
+		
 		// Add behaviour to transparent checkbox
 		
 		$("#ap_transparentpagebg").click(function () {

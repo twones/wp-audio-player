@@ -37,16 +37,22 @@
 				<?php _e('When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs.', $this->textDomain) ?>
 			</li>
 			<li>
+				<label for="ap_behaviour-comments">
+				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Enable in comments', $this->textDomain) ?></strong></label><br />
+				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
+			</li>
+			<li>
 				<label for="ap_behaviour-enclosure">
 				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-enclosure" value="enclosure"<?php if(in_array("enclosure", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
 				<strong><?php _e('Enclosure integration', $this->textDomain) ?></strong></label><br />
 				<?php _e('Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting.', $this->textDomain) ?>
 			</li>
 			<li>
-				<label for="ap_behaviour-comments">
-				<input type="checkbox" name="ap_behaviour[]" id="ap_behaviour-comments" value="comments"<?php if(in_array("comments", $this->options["behaviour"])) echo ' checked="checked"'; ?> />
-				<strong><?php _e('Enable in comments', $this->textDomain) ?></strong></label><br />
-				<?php _e('When selected, Audio Player will be enabled for all comments on your blog.', $this->textDomain) ?>
+				<label for="ap_enclosure-at-top">
+				<input type="checkbox" name="ap_enclosuresAtTop" id="ap_enclosure-at-top" value="true"<?php if(!in_array("enclosure", $this->options["behaviour"])) echo 'disabled="disabled"'; ?><?php if($this->options["enclosuresAtTop"]) echo ' checked="checked"'; ?> />
+				<strong><?php _e('Move enclosures to the beginning of posts', $this->textDomain) ?></strong></label><br />
+				<?php _e('When selected, players will be inserted at the beginning of the post when the enclosure integration option is selected.', $this->textDomain) ?>
 			</li>
 		</ul>
 		

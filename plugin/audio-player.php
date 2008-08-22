@@ -209,6 +209,7 @@ if (!class_exists('AudioPlayer')) {
 				"showRemaining" => false,
 				"encodeSource" => true,
 				"behaviour" => array("default"),
+				"enclosuresAtTop" => false,
 				"rssAlternate" => "nothing",
 				"rssCustomAlternate" => "[Audio clip: view full post to listen]",
 				"excerptAlternate" => "[Audio clip: view full post to listen]",
@@ -385,7 +386,11 @@ if (!class_exists('AudioPlayer')) {
 					for($i = 0;$i < count($enclosure);$i++) {
 						// Make sure the enclosure is an mp3 file and it hasn't been inserted into the post yet
 						if( preg_match( "/.*\.mp3$/", $enclosure[$i] ) == 1 && !in_array( $enclosure[$i], $this->instances ) ) {
-							$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip );
+							if ($this->options["enclosuresAtTop"]) {
+								$content = $this->getPlayer( $introClip . $enclosure[$i] . $outroClip ) . "\n\n" . $content;
+							} else {
+								$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip );
+							}
 						}
 					}
 				}
@@ -572,6 +577,7 @@ if (!class_exists('AudioPlayer')) {
 				$this->options["noInfo"] = isset( $_POST["ap_disableTrackInformation"] );
 				$this->options["checkPolicy"] = isset( $_POST["ap_checkPolicy"] );
 				$this->options["rtl"] = isset( $_POST["ap_rtlMode"] );
+				$this->options["enclosuresAtTop"] = isset( $_POST["ap_enclosuresAtTop"] );
 				
 				if (isset($_POST['ap_behaviour'])) {
 					$this->options["behaviour"] = $_POST['ap_behaviour'];
