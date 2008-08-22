@@ -507,9 +507,9 @@ if (!class_exists('AudioPlayer')) {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
 				$playerCode = '<p class="audioplayer_container"><span style="display:block;padding:5px;border:1px solid #dddddd;background:#f8f8f8" id="' . $playerElementID . '">' . sprintf(__('Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href="%s" title="Download Adobe Flash Player">here</a>. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW');
-				$playerCode .= '<script type="text/javascript">';
+				$playerCode .= '</span><script type="text/javascript">';
 				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
-				$playerCode .= '</script></span></p>';
+				$playerCode .= '</script></p>';
 				return $playerCode;
 			}
 		}

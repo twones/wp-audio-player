@@ -20,7 +20,7 @@ var AudioPlayer = function () {
 		},
 	    
 	    embed: function (elementID, options) {
-	        var instanceOptions = {};
+			var instanceOptions = {};
 	        var key;
 	        var so;
 			var bgcolor;
@@ -62,7 +62,8 @@ var AudioPlayer = function () {
 			
 			flashVars.playerID = elementID;
 			
-			@swfobject@.embedSWF(playerURL, elementID, instanceOptions.width.toString(), "24", "9.0.0", false, flashVars, flashParams, flashAttributes);
+			@swfobject@.embedSWF(playerURL, elementID, instanceOptions.width.toString(), "24", "9", false, flashVars, flashParams, flashAttributes);
+			
 			
 			instances.push(elementID);
 	    },
