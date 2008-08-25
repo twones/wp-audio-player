@@ -1,463 +1,287 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Audio Player\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/audio-player\n"
-"POT-Creation-Date: 2008-08-03 03:05+0200\n"
-"PO-Revision-Date: 2008-08-04 13:26+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-08-25 15:41-0000\n"
 "Last-Translator: Martin Laine <martin@1pixelout.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-22 11:28+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
-"X-Poedit-Country: FRANCE\n"
-"X-Poedit-Language: French\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: C:\\Documents and Settings\\Martin Laine.THEPC\\My Documents\\workspace\\Audio Player\n"
 
-#: audio-player.php:180
 msgid "Settings"
 msgstr ""
 
-#: audio-player.php:498
 msgid "Download audio file"
 msgstr ""
 
-#: audio-player.php:515
-#, php-format
-msgid ""
-"Audio clip: Adobe Flash Player (version 9 or above) is required to play this "
-"audio clip. Download the latest version <a href=\"%s\" title=\"Download "
-"Adobe Flash Player\">here</a>. You also need to have JavaScript enabled in "
-"your browser."
+msgid "Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href=\"%s\" title=\"Download Adobe Flash Player\">here</a>. You also need to have JavaScript enabled in your browser."
 msgstr ""
 
-#: audio-player.php:639
-#: php/options-panel.php:2
-msgid "Audio Player"
+msgid "Settings for the Audio Player plugin. Visit <a href=\"%s\">1 Pixel Out</a> for usage information and project news."
 msgstr ""
 
-#: php/options-panel.php:5
-#, php-format
-msgid ""
-"Settings for the Audio Player plugin. Visit <a href=\"%s\">1 Pixel Out</a> "
-"for usage information and project news."
-msgstr ""
-
-#: php/options-panel.php:7
 msgid "Current version"
 msgstr ""
 
-#: php/options-panel.php:15
 msgid "General"
 msgstr ""
 
-#: php/options-panel.php:16
 msgid "Display"
 msgstr ""
 
-#: php/options-panel.php:17
-#: php/options-panel.php:190
 msgid "Feed options"
 msgstr ""
 
-#: php/options-panel.php:18
 msgid "Podcasting"
 msgstr ""
 
-#: php/options-panel.php:19
 msgid "Advanced"
 msgstr ""
 
-#: php/options-panel.php:23
 msgid "How do you want to use the audio player?"
 msgstr ""
 
-#: php/options-panel.php:24
-msgid ""
-"This set of options allows you to customize when your audio players appear."
+msgid "This set of options allows you to customize when your audio players appear."
 msgstr ""
 
-#: php/options-panel.php:30
 msgid "Replace [audio] syntax"
 msgstr ""
 
-#: php/options-panel.php:31
-msgid ""
-"This is the default behaviour and is the only way to apply options to a "
-"player instance. Use this option if you want to have more than one audio "
-"player per posting."
+msgid "This is the default behaviour and is the only way to apply options to a player instance. Use this option if you want to have more than one audio player per posting."
 msgstr ""
 
-#: php/options-panel.php:36
 msgid "Replace all links to mp3 files"
 msgstr ""
 
-#: php/options-panel.php:37
-msgid ""
-"When selected, this option will replace all your links to mp3 files with a "
-"player instance. Be aware that this could produce odd results when links are "
-"in the middle of paragraphs."
+msgid "When selected, this option will replace all your links to mp3 files with a player instance. Be aware that this could produce odd results when links are in the middle of paragraphs."
 msgstr ""
 
-#: php/options-panel.php:42
-msgid "Enclosure integration"
-msgstr ""
-
-#: php/options-panel.php:43
-msgid ""
-"Ideal for podcasting. If you set your enclosures manually, this option will "
-"automatically insert a player at the end of posts with an mp3 enclosure. The "
-"player will appear at the bottom of your posting."
-msgstr ""
-
-#: php/options-panel.php:48
 msgid "Enable in comments"
 msgstr ""
 
-#: php/options-panel.php:49
-msgid ""
-"When selected, Audio Player will be enabled for all comments on your blog."
+msgid "When selected, Audio Player will be enabled for all comments on your blog."
 msgstr ""
 
-#: php/options-panel.php:53
+msgid "Enclosure integration"
+msgstr ""
+
+msgid "Ideal for podcasting. If you set your enclosures manually, this option will automatically insert a player at the end of posts with an mp3 enclosure. The player will appear at the bottom of your posting."
+msgstr ""
+
+msgid "Move enclosures to the beginning of posts"
+msgstr ""
+
+msgid "When selected, players will be inserted at the beginning of the post when the enclosure integration option is selected."
+msgstr ""
+
 msgid "Default audio folder location"
 msgstr ""
 
-#: php/options-panel.php:63
 msgid "Verify"
 msgstr ""
 
-#: php/options-panel.php:64
-msgid ""
-"Click this button to verify that the audio folder is correctly configured"
+msgid "Click this button to verify that the audio folder is correctly configured"
 msgstr ""
 
-#: php/options-panel.php:65
 msgid "Custom audio folder locations cannot be verified"
 msgstr ""
 
-#: php/options-panel.php:66
 msgid "Checking..."
 msgstr ""
 
-#: php/options-panel.php:67
 msgid "Audio folder location verified"
 msgstr ""
 
-#: php/options-panel.php:68
-msgid ""
-"Audio folder location not found. Please check that the following folder "
-"exists on your server:"
+msgid "Audio folder location not found. Please check that the following folder exists on your server:"
 msgstr ""
 
-#: php/options-panel.php:72
-msgid ""
-"This is the default location for your audio files. When you use the [audio] "
-"syntax and don't provide an absolute URL for the mp3 file (the full URL "
-"including \"http://\") Audio Player will automatically look for the file in "
-"this location. You can set this to a folder located inside your blog folder "
-"structure or, alternatively, if you wish to store your audio files outside "
-"your blog (maybe even on a different server), choose \"Custom\" from the "
-"drop down and enter the absolute URL to that location."
+msgid "This is the default location for your audio files. When you use the [audio] syntax and don't provide an absolute URL for the mp3 file (the full URL including \"http://\") Audio Player will automatically look for the file in this location. You can set this to a folder located inside your blog folder structure or, alternatively, if you wish to store your audio files outside your blog (maybe even on a different server), choose \"Custom\" from the drop down and enter the absolute URL to that location."
 msgstr ""
 
-#: php/options-panel.php:77
-#: php/options-panel.php:79
 msgid "Player width"
 msgstr ""
 
-#: php/options-panel.php:81
-msgid ""
-"You can enter a value in pixels (e.g. 200) or as a percentage (e.g. 100%)"
+msgid "You can enter a value in pixels (e.g. 200) or as a percentage (e.g. 100%)"
 msgstr ""
 
-#: php/options-panel.php:83
 msgid "Colour scheme"
 msgstr ""
 
-#: php/options-panel.php:102
 msgid "Background"
 msgstr ""
 
-#: php/options-panel.php:103
 msgid "Left background"
 msgstr ""
 
-#: php/options-panel.php:104
 msgid "Left icon"
 msgstr ""
 
-#: php/options-panel.php:105
 msgid "Volume control track"
 msgstr ""
 
-#: php/options-panel.php:106
 msgid "Volume control slider"
 msgstr ""
 
-#: php/options-panel.php:107
 msgid "Right background"
 msgstr ""
 
-#: php/options-panel.php:108
 msgid "Right background (hover)"
 msgstr ""
 
-#: php/options-panel.php:109
 msgid "Right icon"
 msgstr ""
 
-#: php/options-panel.php:110
 msgid "Right icon (hover)"
 msgstr ""
 
-#: php/options-panel.php:111
 msgid "Text"
 msgstr ""
 
-#: php/options-panel.php:112
 msgid "Progress bar"
 msgstr ""
 
-#: php/options-panel.php:113
 msgid "Progress bar track"
 msgstr ""
 
-#: php/options-panel.php:114
 msgid "Progress bar border"
 msgstr ""
 
-#: php/options-panel.php:115
 msgid "Loading bar"
 msgstr ""
 
-#: php/options-panel.php:116
 msgid "Next/Previous buttons"
 msgstr ""
 
-#: php/options-panel.php:120
 msgid "Pick"
 msgstr ""
 
-#: php/options-panel.php:122
 msgid "From your theme"
 msgstr ""
 
-#: php/options-panel.php:124
 msgid "Theme colors"
 msgstr ""
 
-#: php/options-panel.php:144
-msgid ""
-"Here, you can set the page background of the player. In most cases, simply "
-"select \"transparent\" and it will match the background of your page. In "
-"some rare cases, the player will stop working in Firefox if you use the "
-"transparent option. If this happens, untick the transparent box and enter "
-"the color of your page background in the box below (in the vast majority of "
-"cases, it will be white: #FFFFFF)."
-msgstr ""
+msgid "Here, you can set the page background of the player. In most cases, simply select \"transparent\" and it will match the background of your page. In some rare cases, the player will stop working in Firefox if you use the transparent option. If this happens, untick the transparent box and enter the color of your page background in the box below (in the vast majority of cases, it will be white: msgstr ""
 
-#: php/options-panel.php:147
 msgid "Page background color"
 msgstr ""
 
-#: php/options-panel.php:151
 msgid "Transparent"
 msgstr ""
 
-#: php/options-panel.php:157
 msgid "Reset colour scheme"
 msgstr ""
 
-#: php/options-panel.php:160
 msgid "Options"
 msgstr ""
 
-#: php/options-panel.php:165
 msgid "Disable animation"
 msgstr ""
 
-#: php/options-panel.php:166
 msgid "If you don't like the open/close animation, you can disable it here."
 msgstr ""
 
-#: php/options-panel.php:171
 msgid "Show remaining time"
 msgstr ""
 
-#: php/options-panel.php:172
 msgid "This will make the time display count down rather than up."
 msgstr ""
 
-#: php/options-panel.php:177
 msgid "Disable track information"
 msgstr ""
 
-#: php/options-panel.php:178
-msgid ""
-"Select this if you wish to disable track information display (the player "
-"won't show titles or artist names even if they are available.)"
+msgid "Select this if you wish to disable track information display (the player won't show titles or artist names even if they are available.)"
 msgstr ""
 
-#: php/options-panel.php:183
 msgid "Switch to RTL layout"
 msgstr ""
 
-#: php/options-panel.php:184
-msgid ""
-"Select this to switch the player layout to RTL mode (right to left) for "
-"Arabic and Hebrew language blogs."
+msgid "Select this to switch the player layout to RTL mode (right to left) for Arabic and Hebrew language blogs."
 msgstr ""
 
-#: php/options-panel.php:192
-msgid ""
-"The following options determine what is included in your feeds. The plugin "
-"doesn't place a player instance in the feed. Instead, you can choose what "
-"the plugin inserts. You have three choices:"
+msgid "The following options determine what is included in your feeds. The plugin doesn't place a player instance in the feed. Instead, you can choose what the plugin inserts. You have three choices:"
 msgstr ""
 
-#: php/options-panel.php:195
-#: php/options-panel.php:202
 msgid "Download link"
 msgstr ""
 
-#: php/options-panel.php:195
 msgid "Choose this if you are OK with subscribers downloading the file."
 msgstr ""
 
-#: php/options-panel.php:196
-#: php/options-panel.php:203
 msgid "Nothing"
 msgstr ""
 
-#: php/options-panel.php:196
-msgid ""
-"Choose this if you feel that your feed shouldn't contain any reference to "
-"the audio file."
+msgid "Choose this if you feel that your feed shouldn't contain any reference to the audio file."
 msgstr ""
 
-#: php/options-panel.php:197
-#: php/options-panel.php:204
 msgid "Custom"
 msgstr ""
 
-#: php/options-panel.php:197
-msgid ""
-"Choose this to use your own alternative content for all player instances. "
-"You can use this option to tell subscribers that they can listen to the "
-"audio file if they read the post on your blog."
+msgid "Choose this to use your own alternative content for all player instances. You can use this option to tell subscribers that they can listen to the audio file if they read the post on your blog."
 msgstr ""
 
-#: php/options-panel.php:200
 msgid "Alternate content for  feeds"
 msgstr ""
 
-#: php/options-panel.php:208
 msgid "Custom  alternate content"
 msgstr ""
 
-#: php/options-panel.php:214
 msgid "Pre and Post appended audio clips"
 msgstr ""
 
-#: php/options-panel.php:216
-msgid ""
-"You may wish to pre-append or post-append audio clips into your players. The "
-"pre-appended audio will be played before the main audio, and the post-"
-"appended will come after. A typical podcasting use-case for this feature is "
-"adding a sponsorship message or simple instructions that help casual "
-"listeners become subscribers. <strong>This will apply to all audio players "
-"on your site</strong>. Your chosen audio clips should be substantially "
-"shorter than your main feature."
+msgid "You may wish to pre-append or post-append audio clips into your players. The pre-appended audio will be played before the main audio, and the post-appended will come after. A typical podcasting use-case for this feature is adding a sponsorship message or simple instructions that help casual listeners become subscribers. <strong>This will apply to all audio players on your site</strong>. Your chosen audio clips should be substantially shorter than your main feature."
 msgstr ""
 
-#: php/options-panel.php:219
 msgid "Pre-appended audio clip URL"
 msgstr ""
 
-#: php/options-panel.php:221
 msgid "Leave this value blank for no pre-appended audio"
 msgstr ""
 
-#: php/options-panel.php:224
 msgid "Post-appended audio clip URL"
 msgstr ""
 
-#: php/options-panel.php:226
 msgid "Leave this value blank for no post-appended audio"
 msgstr ""
 
-#: php/options-panel.php:231
-#: php/options-panel.php:236
 msgid "Alternate content for excerpts"
 msgstr ""
 
-#: php/options-panel.php:233
-msgid ""
-"WordPress automatically creates excerpts (summaries) for your posts. These "
-"are used by some themes to show on archive pages instead of the full post. "
-"By default, WordPress strips all HTML from these excerpts. Here you can "
-"choose what Audio Player inserts in excerpts in place of the player."
+msgid "WordPress automatically creates excerpts (summaries) for your posts. These are used by some themes to show on archive pages instead of the full post. By default, WordPress strips all HTML from these excerpts. Here you can choose what Audio Player inserts in excerpts in place of the player."
 msgstr ""
 
-#: php/options-panel.php:240
-#: php/options-panel.php:245
 msgid "Initial volume"
 msgstr ""
 
-#: php/options-panel.php:242
-msgid ""
-"This is the volume at which the player defaults to (0 is off, 100 is full "
-"volume)"
+msgid "This is the volume at which the player defaults to (0 is off, 100 is full volume)"
 msgstr ""
 
-#: php/options-panel.php:249
 msgid "Buffer time"
 msgstr ""
 
-#: php/options-panel.php:251
-msgid ""
-"If you think your target audience is likely to have a slow internet "
-"connection, you can increase the player's buffering time (for standard "
-"broadband connections, 5 seconds is enough)"
+msgid "If you think your target audience is likely to have a slow internet connection, you can increase the player's buffering time (for standard broadband connections, 5 seconds is enough)"
 msgstr ""
 
-#: php/options-panel.php:254
 msgid "Buffer time (in seconds)"
 msgstr ""
 
-#: php/options-panel.php:258
-#: php/options-panel.php:266
 msgid "Check for policy file"
 msgstr ""
 
-#: php/options-panel.php:260
-msgid ""
-"Enable this to tell Audio Player to check for a policy file on the server. "
-"This allows Flash to read ID3 tags on remote servers. Only enable this if "
-"all your mp3 files are located on a server with a policy file."
+msgid "Enable this to tell Audio Player to check for a policy file on the server. This allows Flash to read ID3 tags on remote servers. Only enable this if all your mp3 files are located on a server with a policy file."
 msgstr ""
 
-#: php/options-panel.php:270
 msgid "Encoding"
 msgstr ""
 
-#: php/options-panel.php:272
-msgid ""
-"Enable this to encode the URLs to your mp3 files. This is the only "
-"protection possible against people downloading the mp3 file to their "
-"computers."
+msgid "Enable this to encode the URLs to your mp3 files. This is the only protection possible against people downloading the mp3 file to their computers."
 msgstr ""
 
-#: php/options-panel.php:278
 msgid "Encode mp3 URLs"
 msgstr ""
 
-#: php/options-panel.php:284
-msgid "Save changes"
-msgstr ""
