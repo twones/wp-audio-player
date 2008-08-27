@@ -6,6 +6,14 @@ var AudioPlayer = function () {
 	var currentVolume = -1;
 	
 	function getPlayer(playerID) {
+		if (document.all && !window[playerID]) {
+			for (var i = 0; i < document.forms.length; i++) {
+				if (document.forms[i][playerID]) {
+					return document.forms[i][playerID];
+					break;
+				}
+			}
+		}
 		return document.all ? window[playerID] : document[playerID];
 	}
 	
