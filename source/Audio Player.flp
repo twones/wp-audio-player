@@ -1,6 +1,6 @@
 ﻿<flash_project name="Audio Player" version="1">
     <project_folder name="classes" expanded="true">
-        <project_folder name="net" expanded="false">
+        <project_folder name="net" expanded="true">
             <project_folder name="onepixelout" expanded="true">
                 <project_folder name="audio" expanded="true">
                     <project_file path="./classes/net/onepixelout/audio/Player.as" filetype="as" />

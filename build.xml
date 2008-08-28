@@ -89,8 +89,6 @@
 				<include name="**"/>
 				<exclude name="**/*.php"/>
 				<exclude name="**/*.js"/>
-				<!--exclude name="**/languages/**"/-->
-				<exclude name="**/*.po"/>
 				<exclude name="**/*.back"/>
 			</fileset>
 		</copy>
