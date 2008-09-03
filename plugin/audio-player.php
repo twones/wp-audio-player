@@ -182,7 +182,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function addFooterCredits() {
 			$plugin_data = get_plugin_data(__FILE__);
-			printf('%1$s plugin | Version %2$s<br />', $plugin_data['Title'], $plugin_data['Version']);
+			printf('%1$s plugin | Version %2$s<br />', $plugin_data['Name'], $plugin_data['Version']);
 		}
 
 		/**
