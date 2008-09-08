@@ -16,7 +16,7 @@
 		panels = $("div.ap_panel");
 		
 		$("#ap_tabs li>a").click(tabClick);		
-		$("#ap_tabs li:first").addClass("ap_active");		
+		$("#ap_tabs li:first").addClass("current");		
 		panels.css("display", "none");
 		$("div.ap_panel:first").css("display", "block");
 		
@@ -137,12 +137,12 @@
 		
 		evt.preventDefault();
 		
-		if (tab.attr("class") == "ap_active") {
+		if (tab.attr("class") == "current") {
 			return;
 		}
 		
-		tabs.removeClass("ap_active");
-		tab.addClass("ap_active");
+		tabs.removeClass("current");
+		tab.addClass("current");
 		
 		panels.css("display", "none");
 		

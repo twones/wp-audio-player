@@ -22,44 +22,17 @@
 }
 
 ul#ap_tabs {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	height: 1%;
-}
-
-ul#ap_tabs li {
 	float: left;
-	border-top: 1px solid #EAF3FA;
-	border-left: 1px solid #EAF3FA;
 	margin: 0;
 	padding: 0;
 }
 
-ul#ap_tabs li.last {
-	border-right: 1px solid #EAF3FA;
-}
-
-ul#ap_tabs li a {
-	font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana;
-	font-weight: bold;
+ul.view-switch li {
 	font-size: 1.1em;
-	float: left;
-	border: none;
-	color: #00019B;
-	padding: 5px 10px;
-	outline: none;
-	text-decoration: none;
-	-moz-outline: none;
-}
-
-ul#ap_tabs li a:hover {
-	background: #F8F8F8;
-	text-decoration: underline;
-}
-
-ul#ap_tabs li.ap_active a {
-	background: #EAF3FA;
+	margin-right: 5px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	background: #f8f8f8;
 }
 
 div.ap_panel {

@@ -11,12 +11,12 @@
 	if ( function_exists('wp_nonce_field') )
 		wp_nonce_field('audio-player-action');
 	?>
-	<ul id="ap_tabs">
+	<ul class="view-switch" id="ap_tabs">
 		<li id="ap_tab-general"><a href="#ap_panel-general"><?php _e('General', $this->textDomain) ?></a></li>
 		<li id="ap_tab-colour"><a href="#ap_panel-colour"><?php _e('Display', $this->textDomain) ?></a></li>
 		<li id="ap_tab-feed"><a href="#ap_panel-feed"><?php _e('Feed options', $this->textDomain) ?></a></li>
 		<li id="ap_tab-podcasting"><a href="#ap_panel-podcasting"><?php _e('Podcasting', $this->textDomain) ?></a></li>
-		<li id="ap_tab-advanced" class="last"><a href="#ap_panel-advanced"><?php _e('Advanced', $this->textDomain) ?></a></li>
+		<li id="ap_tab-advanced"><a href="#ap_panel-advanced"><?php _e('Advanced', $this->textDomain) ?></a></li>
 	</ul>
 	
 	<div class="ap_panel" id="ap_panel-general">
