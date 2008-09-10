@@ -105,6 +105,9 @@ if (!class_exists('AudioPlayer')) {
 		// Declare instances global variable
 		var $instances = array();
 		
+		// Used to track what needs to be inserted in the footer
+		var $footerCode = "";
+		
 		// Initialise playerID (each instance gets unique ID)
 		var $playerID = 0;
 		
@@ -135,6 +138,7 @@ if (!class_exists('AudioPlayer')) {
 			add_filter("plugin_action_links", array(&$this, "addConfigureLink"), 10, 2);
 			
 			add_action("wp_head", array(&$this, "addHeaderCode"));
+			add_action("wp_footer", array(&$this, "addFooterCode"));
 			add_action("admin_head", array(&$this, "overrideMediaUpload"));
 			
 			add_filter("the_content", array(&$this, "processContent"), 2);
@@ -210,6 +214,7 @@ if (!class_exists('AudioPlayer')) {
 				"encodeSource" => true,
 				"behaviour" => array("default"),
 				"enclosuresAtTop" => false,
+				"flashAlternate" => "",
 				"rssAlternate" => "nothing",
 				"rssCustomAlternate" => __("[Audio clip: view full post to listen]", $this->textDomain),
 				"excerptAlternate" => __("[Audio clip: view full post to listen]", $this->textDomain),
@@ -387,9 +392,9 @@ if (!class_exists('AudioPlayer')) {
 						// Make sure the enclosure is an mp3 file and it hasn't been inserted into the post yet
 						if( preg_match( "/.*\.mp3$/", $enclosure[$i] ) == 1 && !in_array( $enclosure[$i], $this->instances ) ) {
 							if ($this->options["enclosuresAtTop"]) {
-								$content = $this->getPlayer( $introClip . $enclosure[$i] . $outroClip ) . "\n\n" . $content;
+								$content = $this->getPlayer( $introClip . $enclosure[$i] . $outroClip, null, $enclosure[$i] ) . "\n\n" . $content;
 							} else {
-								$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip );
+								$content .= "\n\n" . $this->getPlayer( $introClip . $enclosure[$i] . $outroClip, null, $enclosure[$i] );
 							}
 						}
 					}
@@ -425,7 +430,10 @@ if (!class_exists('AudioPlayer')) {
 					array_push( $files, $afile );
 				}
 			}
-		
+			
+			$actualFiles = array();
+			$actualFile = "";
+			
 			// Create an array of files to load in player
 			foreach ( explode( ",", trim($data[0]) ) as $afile ) {
 				$afile = trim($afile);
@@ -434,10 +442,16 @@ if (!class_exists('AudioPlayer')) {
 					$afile = $this->audioRoot . "/" . $afile;
 				}
 				
+				array_push( $actualFiles, $afile );
+				
 				array_push( $files, $afile );
 		
 				// Add source file to instances already added to the post
 				array_push( $this->instances, $afile );
+			}
+			
+			if (count($actualFiles) == 1) {
+				$actualFile = $actualFiles[0];
 			}
 		
 			if (!is_feed()) {
@@ -464,16 +478,17 @@ if (!class_exists('AudioPlayer')) {
 			}*/
 			
 			// Return player instance code
-			return $this->getPlayer( implode( ",", $files ), $playerOptions );
+			return $this->getPlayer( implode( ",", $files ), $playerOptions, $actualFile );
 		}
 		
 		/**
 		 * Generic player instance function (returns player widget code to insert)
 		 * @return String the html code to insert
 		 * @param $source String list of mp3 file urls to load in player
-		 * @param $options Object[optional] options to load in player
+		 * @param $playerOptions Object[optional] options to load in player
+		 * @param $actualFile String[optional] url of main single file (empty if multiple files)
 		 */
-		function getPlayer($source, $playerOptions = array()) {
+		function getPlayer($source, $playerOptions = array(), $actualFile = "") {
 			// Get next player ID
 			$this->playerID++;
 			
@@ -486,35 +501,38 @@ if (!class_exists('AudioPlayer')) {
 			if (is_feed()) {
 				// We are in a feed so use RSS alternate content option
 				switch ( $this->options["rssAlternate"] ) {
-				
-				case "download":
-					// Get filenames from path and output a link for each file in the sequence
-					$files = explode(",", $source);
-					$links = "";
-					for ($i = 0; $i < count($files); $i++) {
-						$fileparts = explode("/", $files[$i]);
-						$fileName = $fileparts[count($fileparts)-1];
-						$links .= '<a href="' . $files[$i] . '">' . __('Download audio file', $this->textDomain) . ' (' . $fileName . ')</a><br />';
-					}
-					return $links;
-					break;
-		
-				case "nothing":
-					return "";
-					break;
-		
-				case "custom":
-					return $this->options["rssCustomAlternate"];
-					break;
-		
+					case "download":
+						// Get filenames from path and output a link for each file in the sequence
+						$files = explode(",", $source);
+						$links = "";
+						for ($i = 0; $i < count($files); $i++) {
+							$fileparts = explode("/", $files[$i]);
+							$fileName = $fileparts[count($fileparts)-1];
+							$links .= '<a href="' . $files[$i] . '">' . __('Download audio file', $this->textDomain) . ' (' . $fileName . ')</a><br />';
+						}
+						return $links;
+						break;
+			
+					case "nothing":
+						return "";
+						break;
+			
+					case "custom":
+						return $this->options["rssCustomAlternate"];
+						break;
 				}
 			} else {
 				// Not in a feed so return player widget
 				$playerElementID = "audioplayer_" . $this->playerID;
-				$playerCode = '<p class="audioplayer_container"><span style="display:block;padding:5px;border:1px solid #dddddd;background:#f8f8f8" id="' . $playerElementID . '">' . sprintf(__('Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href="%s" title="Download Adobe Flash Player">here</a>. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW');
-				$playerCode .= '</span><script type="text/javascript">';
-				$playerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
-				$playerCode .= '</script></p>';
+				if (strlen($this->options["flashAlternate"]) > 0) {
+					$playerCode = str_replace(array("%playerID%", "%downloadURL%"), array($playerElementID, $actualFile), $this->options["flashAlternate"]);
+				} else {
+					$playerCode = '<p class="audioplayer_container"><span style="display:block;padding:5px;border:1px solid #dddddd;background:#f8f8f8" id="' . $playerElementID . '">' . sprintf(__('Audio clip: Adobe Flash Player (version 9 or above) is required to play this audio clip. Download the latest version <a href="%s" title="Download Adobe Flash Player">here</a>. You also need to have JavaScript enabled in your browser.', $this->textDomain), 'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&amp;promoid=BIOW') . '</span></p>';
+				}
+				
+				$this->footerCode .= 'AudioPlayer.embed("' . $playerElementID . '", ' . $this->php2js($playerOptions) . ');';
+				$this->footerCode .= "\n";
+
 				return $playerCode;
 			}
 		}
@@ -584,7 +602,8 @@ if (!class_exists('AudioPlayer')) {
 				} else {
 					$this->options["behaviour"] = array();
 				}
-		
+				
+				$this->options["flashAlternate"] = trim(stripslashes($_POST['ap_flashalternate']));
 				$this->options["excerptAlternate"] = trim(stripslashes($_POST['ap_excerptalternate']));
 				$this->options["rssAlternate"] = $_POST['ap_rssalternate'];
 				$this->options["rssCustomAlternate"] = trim(stripslashes($_POST['ap_rsscustomalternate']));
@@ -661,6 +680,17 @@ if (!class_exists('AudioPlayer')) {
 			echo "\n";
 			echo '<script type="text/javascript">';
 			echo 'AudioPlayer.setup("' . $this->playerURL . '?ver=@buildNumber@", ' . $this->php2js($this->getPlayerOptions()) . ');';
+			echo '</script>';
+			echo "\n";
+		}
+		
+		/**
+		 * Output necessary stuff to WP footer section (JS calls to embed players)
+		 */
+		function addFooterCode() {
+			echo '<script type="text/javascript">';
+			echo "\n";
+			echo $this->footerCode;
 			echo '</script>';
 			echo "\n";
 		}

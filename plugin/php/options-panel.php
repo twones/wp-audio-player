@@ -284,6 +284,12 @@
 				<strong><?php _e('Encode mp3 URLs', $this->textDomain) ?></strong></label>
 			</li>
 		</ul>
+		
+		<h3><?php _e('Alternate content if Flash is not supported', $this->textDomain) ?></h3>
+		
+		<p>
+			<textarea name="ap_flashalternate" cols="60" rows="4" style="width: 80%"><?php echo htmlspecialchars($this->options["flashAlternate"]); ?></textarea>
+		</p>
 	</div>
 
 	<p class="submit">
