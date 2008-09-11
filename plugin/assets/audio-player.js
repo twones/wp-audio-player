@@ -85,12 +85,21 @@ var AudioPlayer = function () {
 			}
 		},
 		
-		activate: function (playerID) {
+		activate: function (playerID, info) {
 			if (activePlayerID && activePlayerID != playerID) {
 				getPlayer(activePlayerID).close();
 			}
-			
+
 			activePlayerID = playerID;
+			if (defaultOptions.onStart) {
+				defaultOptions.onStart(playerID, info);
+			}
+		},
+		
+		onStop: function (playerID) {
+			if (_options.onStop) {
+				_options.onStop();
+			}
 		},
 		
 		load: function (playerID, soundFile, titles, artists) {
@@ -104,8 +113,11 @@ var AudioPlayer = function () {
 			}
 		},
 		
-		open: function (playerID) {
-			getPlayer(playerID).open();
+		open: function (playerID, index) {
+			if (index == undefined) {
+				index = 1;
+			}
+			getPlayer(playerID).open(index == undefined ? 0 : index-1);
 		},
 		
 		getVolume: function (playerID) {

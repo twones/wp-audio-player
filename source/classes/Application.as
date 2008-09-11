@@ -60,7 +60,7 @@ class Application
 		animation:true,
 		remaining:false,
 		noinfo:false,
-		killdownload:true,
+		killdownload:false,
 		checkpolicy:false,
 		demomode:false,
 		bufferTime:5,
@@ -86,7 +86,6 @@ class Application
 			playerParams.bufferTime = _options.bufferTime;
 			playerParams.enableCycling = _options.loop;
 			playerParams.playerID = _options.playerID;
-			playerParams.killDownload = _options.killdownload;
 			playerParams.checkPolicy = _options.checkpolicy;
 
 			// Create audio player instance and load playlist
@@ -390,15 +389,15 @@ class Application
 	/**
 	* onPlay event handler
 	*/
-	public static function onPlay():Void
+	public static function onPlay(trackIndex:Number):Void
 	{
+		_player.play(trackIndex);
+
 		// Tell any other players to stop playing (don't want no cacophony do we?)
 		if (ExternalInterface.available) {
-			ExternalInterface.call("AudioPlayer.activate", _options.playerID);
+			ExternalInterface.call("AudioPlayer.activate", _options.playerID, _player.getState());
 		}
-		
-		_player.play();
-		
+
 		// Show volume control
 		volume_mc.toggleControl(true);
 		
@@ -426,6 +425,11 @@ class Application
 	*/
 	public static function onPause():Void
 	{
+		// Tell any other players to stop playing (don't want no cacophony do we?)
+		if (ExternalInterface.available) {
+			ExternalInterface.call("AudioPlayer.onStop", _options.playerID);
+		}
+		
 		_player.pause();
 		
 		// Hide volume control
@@ -639,7 +643,7 @@ class Application
 		if(playerState.state == Player.PLAYING || playerState.state == Player.NOTFOUND)
 		{
 			// If the track is still loading, stop everything including the download
-			if(playerState.loaded < 1) {
+			if(playerState.loaded < 1 || _options.killdownload) {
 				_player.stop(false);
 			}
 			// Otherwise, just pause the track
@@ -648,10 +652,10 @@ class Application
 		}
 	}
 	
-	private static function ei_openPlayer():Void
+	private static function ei_openPlayer(trackIndex:Number):Void
 	{
-		onPlay();
-		control_mc.toggle();
+		if (_state == CLOSED) control_mc.toggle();
+		onPlay(trackIndex);
 	}
 	
 	private static function ei_setVolume(newVolume:Number):Void

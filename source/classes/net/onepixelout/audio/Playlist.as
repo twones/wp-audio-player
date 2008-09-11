@@ -105,7 +105,10 @@ class net.onepixelout.audio.Playlist
 	
 	public function getAtPosition(position:Number):Track
 	{
-		if(position >= 0 && position < length) return _tracks[position];
+		if(position >= 0 && position < length) {
+			_currentTrackIndex = position;
+			return _tracks[position];
+		}
 		else return null;
 	}
 	

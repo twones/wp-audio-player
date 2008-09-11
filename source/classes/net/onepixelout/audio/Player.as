@@ -53,7 +53,6 @@ class net.onepixelout.audio.Player
 		initialVolume:60,
 		enableCycling:true,
 		syncVolumes:true,
-		killDownload:true,
 		checkPolicy:false,
 		bufferTime:5
 	};
@@ -107,16 +106,22 @@ class net.onepixelout.audio.Player
 	/**
 	* Starts the player
 	*/
-	public function play():Void
+	public function play(trackIndex:Number):Void
 	{
 		// If already playing, do nothing
-		if(_state == PLAYING) return;
+		if(_state == PLAYING && _playlist.getCurrentIndex() == trackIndex) return;
 		
-		_setBufferTime(_recordedPosition);
+		if (_playlist.length > 1 && trackIndex != undefined && _playlist.getCurrentIndex() != trackIndex) {
+			this.stop(false);
+			var currentTrack:Track = _playlist.getAtPosition(trackIndex);
+		} else {
+			var currentTrack:Track = _playlist.getCurrent();
+		}
 		
 		// Load current track and get reference to the sound object
-		var currentTrack:Track = this.getCurrentTrack();
 		_playhead = currentTrack.load(_options.checkPolicy);
+		
+		_setBufferTime(_recordedPosition);
 		
 		// Setup onSoundComplete event
 		if(_playhead.onSoundComplete == undefined) _playhead.onSoundComplete = Delegate.create(this, next);
