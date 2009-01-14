@@ -663,7 +663,7 @@ if (!class_exists('AudioPlayer')) {
 			
 			// Only add the extra button if the attachment is an mp3 file
 			if ($post->post_mime_type == 'audio/mpeg') {
-				$form_fields["url"]["html"] .= "<button type='button' class='button audio-player-" . $post->ID . "' value='[audio:" . attribute_escape($file) . "]'>Audio Player</button>";
+				$form_fields["url"]["html"] .= "<button type='button' class='button audio-player-" . $post->ID . "' value='[audio:" . attribute_escape($file) . "]' title='[audio:" . attribute_escape($file) . "]'>Audio Player</button>";
 				$form_fields["url"]["html"] .= "<script type='text/javascript'>
 				jQuery('button.audio-player-" . $post->ID . "').bind('click', function(){jQuery(this).siblings('input').val(this.value);});
 				</script>\n";
@@ -700,10 +700,10 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function overrideMediaUpload() {
 			global $the_current_page;
-			if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
+			//if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
 				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js?ver=@buildNumber@"></script>';
 				echo "\n";
-			}
+			//}
 		}
 		
 		/**
