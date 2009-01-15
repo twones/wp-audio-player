@@ -708,7 +708,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function addAdminHeaderCode() {
 			global $wp_version;
-			//echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
+			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
 			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
