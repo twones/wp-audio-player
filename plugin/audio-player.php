@@ -699,11 +699,8 @@ if (!class_exists('AudioPlayer')) {
 		 * Override media-upload script to handle Audio Player inserts from media library
 		 */
 		function overrideMediaUpload() {
-			global $the_current_page;
-			//if ($the_current_page == "post-new.php" || $the_current_page == "post.php" || $the_current_page == "page-new.php" || $the_current_page == "page.php") {
-				echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js?ver=@buildNumber@"></script>';
-				echo "\n";
-			//}
+			echo '<script type="text/javascript" src="' . $this->pluginURL . '/assets/media-upload.js?ver=@buildNumber@"></script>';
+			echo "\n";
 		}
 		
 		/**
@@ -711,7 +708,7 @@ if (!class_exists('AudioPlayer')) {
 		 */
 		function addAdminHeaderCode() {
 			global $wp_version;
-			echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
+			//echo '<link href="' . $this->pluginURL . '/assets/audio-player-admin.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
 			echo '<link href="' . $this->pluginURL . '/assets/cpicker/colorpicker.css?ver=@buildNumber@" rel="stylesheet" type="text/css" />';
 			echo "\n";
