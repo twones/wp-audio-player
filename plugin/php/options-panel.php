@@ -7,7 +7,7 @@
   <h2>Audio Player</h2>
 
   <p>
-    <?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">1 Pixel Out</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
+    <?php printf(__('Settings for the Audio Player plugin. Visit <a href="%s">WPAudioPlayer.com</a> for usage information and project news.', $this->textDomain), $this->docURL) ?>
   </p>
   <p><?php _e('Current version', $this->textDomain) ?>: <strong><?php echo $this->version ?></strong></p>
 

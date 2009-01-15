@@ -555,7 +555,7 @@ if (!class_exists('AudioPlayer')) {
 		function optionsPanelAction() {
 			if( $_POST['AudioPlayerReset'] == "1" ) {
 				if( function_exists('current_user_can') && !current_user_can('manage_options') ) {
-					wp_die(__('Cheatin&#8217; uh?'));
+					wp_die(__('You do not have sufficient permissions to access this page.'));
 				}
 				
 				// Reset colour scheme back to default values
@@ -567,7 +567,7 @@ if (!class_exists('AudioPlayer')) {
 				exit();
 			} else 	if( $_POST['AudioPlayerSubmit'] ) {
 				if( function_exists('current_user_can') && !current_user_can('manage_options') ) {
-					wp_die(__('Cheatin&#8217; uh?'));
+					wp_die(__('You do not have sufficient permissions to access this page.'));
 				}
 				
 				if ( function_exists('check_admin_referer') ) {
