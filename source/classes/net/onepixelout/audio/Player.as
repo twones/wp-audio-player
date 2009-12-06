@@ -215,6 +215,7 @@ class net.onepixelout.audio.Player
 		{
 			this.stop(false);
 			this.play();
+			Application.onPlay();		
 		}
 		else this.stop(true);
 	}
@@ -231,6 +232,7 @@ class net.onepixelout.audio.Player
 		{
 			this.stop(false);
 			this.play();
+			Application.onPlay();
 		}
 		else this.stop(false);
 	}
@@ -332,7 +334,11 @@ class net.onepixelout.audio.Player
 			}
 			
 			// Update track info if ID3 tags are available
-			if(!currentTrack.isID3Loaded() && _playhead.id3.songname.length > 0) currentTrack.setInfo();
+			if(!currentTrack.isID3Loaded() && _playhead.id3.songname.length > 0) 
+			{ 
+				currentTrack.setInfo();
+				Application.onMetaData();
+			}
 		}
 	}
 	
@@ -404,8 +410,8 @@ class net.onepixelout.audio.Player
 	*/
 	public function loadPlaylist(trackFileList:String, titleList:String, artistList:String):Void
 	{
-		if(titleList == undefined) titleList = "";
-		if(artistList == undefined) artistList = "";
+		//if(titleList == undefined) titleList = "";
+		//if(artistList == undefined) artistList = "";
 		_playlist = new Playlist(_options.enableCycling);
 		_playlist.loadFromList(trackFileList, titleList, artistList);
 		_reset();

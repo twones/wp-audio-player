@@ -32,7 +32,7 @@ class net.onepixelout.audio.Playlist
 			newTrack = new Track(trackArray[i]);
 			if(i < titleArray.length) {
 				newTrack.setTitle(titleArray[i]);
-				newTrack.setArtist("");
+				//newTrack.setArtist("");
 			}
 			if(i < artistArray.length) newTrack.setArtist(artistArray[i]);
 			this.addTrack(newTrack);
